@@ -3,10 +3,13 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
 import httpClient from './../../service/api'
+import { useRouter } from 'next/navigation';
 
 export default function login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const router = useRouter();
 
     const handleLogin = async (e) => {
         try {
@@ -24,7 +27,7 @@ export default function login() {
             });
             console.log(response)
             if (response.status == 200) {
-                toast.success("Login feito com sucesso :)");
+                router.push('/home', { scroll: false });
             }
             else if (response.status == 401)
                 toast.warning("E-mail ou senha inválido :(");
