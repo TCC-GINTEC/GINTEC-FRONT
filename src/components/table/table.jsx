@@ -12,7 +12,7 @@ import {
 import Column from "./column";
 
 
-export default function TableData({ data, children }) {
+export default function TableData({ data, children, pageNumberItens = 10 }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [columns, setColumns] = useState(React.Children.toArray(children).filter(
         (child) => child.type === Column
@@ -22,7 +22,6 @@ export default function TableData({ data, children }) {
     columns.map((filter) => {
         filters[filter.props.field] = ""
     })
-    console.log(filters)
     const [filtros, setFiltros] = useState(filters);
 
     const handleFilterCell = (e) => {
@@ -32,21 +31,19 @@ export default function TableData({ data, children }) {
     let filteredItens = rows.filter(row => {
         let retorno = true;
         columns.forEach((column) => {
-            console.log(!String(row[column.props.field]).includes(String(filtros[column.props.field])))
             if (!String(row[column.props.field]).includes(String(filtros[column.props.field]))) {
                 retorno = false;
-                console.log("false")
                 return;
             }
         })
         return retorno;
     });
-    const itemsPerPage = 10;
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const indexOfLastItem = currentPage * pageNumberItens;
+    const indexOfFirstItem = indexOfLastItem - pageNumberItens;
 
     const currentItems = filteredItens.slice(indexOfFirstItem, indexOfLastItem);
+    console.log(currentItems.length)
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -79,6 +76,7 @@ export default function TableData({ data, children }) {
                 </TableHeader>
                 <TableBody>
                     {currentItems.map((row, index) => {
+                        console.log(index)
                         return (
                             <TableRow key={index}>
                                 {columns.map((column) => {
@@ -93,8 +91,8 @@ export default function TableData({ data, children }) {
                     </TableRow>
                 </TableBody>
             </Table>
-            <div className="flex w-full h-full justify-evenly" colspan="3">
-                {Array.from({ length: Math.ceil(filteredItens.length / itemsPerPage) }, (_, index) => (
+            <div className="flex w-full h-full justify-center gap-6" colspan="3">
+                {Array.from({ length: Math.ceil(filteredItens.length / pageNumberItens) }, (_, index) => (
                     <button key={index} onClick={() => paginate(index + 1)} className="button-paginacao">{index + 1}</button>
                 ))}
             </div>

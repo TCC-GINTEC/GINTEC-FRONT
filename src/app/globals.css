@@ -74,3 +74,29 @@
       @apply bg-background text-foreground;
     }
   }
+  
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.items-col{
+  display: flex;
+  flex-direction: column;
+  gap:50px;
+}
+
+.btn{
+  @apply
+  w-[200px] 
+  font-semibold	
+  tracking-wider	
+  p-2 
+  text-white
+  flex
+  justify-start
+  items-center 
+  gap-2
+  ;
+}
