@@ -100,3 +100,9 @@
   gap-2
   ;
 }
+
+.diasCalendario{
+  @apply flex justify-center items-center p-4 border border-red-500
+}
+
+/* para quando clicar em outros dias : rgb(162, 223, 240) */
