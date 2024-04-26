@@ -8,7 +8,7 @@ export default function HomePage({ children }) {
       <body>
       <div className="flex min-h-screen w-full text-text-color">
         <SideBar className="bg-gray-400" />
-          <main className="flex flex-col items-center w-full py-3 px-5">
+          <main className="flex flex-col items-center w-full py-3 px-3 ">
             {children}
           </main>
         </div>
