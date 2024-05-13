@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const httpClient = axios.create({
     baseURL: 'https://api-faisca.online/Gintec'
-    //baseURL: 'http://192.168.0.1/'
+    // baseURL: 'http://localhost:44397'
 });
 
 httpClient.interceptors.request.use(

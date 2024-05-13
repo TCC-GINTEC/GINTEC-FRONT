@@ -1,3 +1,5 @@
+"use client"
+
 import { MenuAlt1Icon, MenuIcon, SearchIcon, UserIcon, ViewGridIcon } from '@heroicons/react/outline'
 import { useState } from 'react'
 import Search from '@/components/Sidebar/Search'
