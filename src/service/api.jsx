@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const httpClient = axios.create({
     baseURL: 'https://api-faisca.online/Gintec'
-    // baseURL: 'http://localhost:44397'
+     //baseURL: 'https://localhost:44397'
 });
 
 httpClient.interceptors.request.use(
@@ -19,6 +19,7 @@ httpClient.interceptors.request.use(
             return config;
 
         if (!token) {
+            alert("oii")            
             window.location.href = '/login';
         }
         return config;
@@ -30,14 +31,22 @@ httpClient.interceptors.request.use(
 
 httpClient.interceptors.response.use(async (response) => {
     return response
-}, async (error) => {    
+}, async (error) => {
+    console.log(error)
     if (error.config.url.includes('auth'))
         return error.response;
-    if (error.response.status == 401)
+    if(!error.response)
+        return error.response
+    if (error.response.status == 401) {
         window.location.href = '/login';
+        alert("oii")
+    }
 
-    if (error.response.status == 403)
+    if (error.response.status == 403) {
         window.location.href = '/login';
+        alert("oii")
+    }
+
 })
 
 export default httpClient;

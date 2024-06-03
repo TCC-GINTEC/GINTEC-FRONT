@@ -6,7 +6,7 @@ export default function SideBarHead({ active, Action }) {
           `}
                 src="/images/icon.svg" width={100} />
             <button className="p-3 rounded-xl hover:bg-light-green" onClick={Action}>
-                <img className="h-6 w-6" src="/images/menu.png"/>
+                <img className="h-8 w-8" src="https://cdn-icons-png.flaticon.com/512/7216/7216128.png"/>
             </button>
         </div>
     )

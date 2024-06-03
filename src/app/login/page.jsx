@@ -12,7 +12,7 @@ export default function Login() {
     const router = useRouter();
 
     const handleLogin = async (e) => {
-        try {
+        try {            
             if (!email)
                 toast.warning("Por favor, preencha o e-mail.")
             if (!password)
@@ -24,9 +24,12 @@ export default function Login() {
             const response = await httpClient.post("auth", {
                 email: email,
                 password: password
-            });
-            console.log(response)
+            });            
             if (response.status == 200) {
+                console.log(response)
+                alert(response.data.token)
+                localStorage.setItem("user_token", response.data.token)
+                httpClient.defaults.headers.authorization = `Bearer ${response.data.token}`;
                 router.push('/home', { scroll: false });
             }
             else if (response.status == 401)
@@ -53,7 +56,7 @@ export default function Login() {
                         </div>
 
                         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                            <form className="space-y-6" action="#" onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+                            <form className="space-y-6" action="#" method='post' onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">E-mail</label>
                                     <div className="mt-2">
