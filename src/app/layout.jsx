@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-        {children}
+          {children}
         <Toaster position="top-right" richColors expand={true} />
       </body>
     </html>

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 
 export default function Scores({ users }) {
   return (
@@ -12,7 +11,7 @@ export default function Scores({ users }) {
                 {index + 1}º Lugar
               </span>
               }
-              <Image alt="" src={user.img} className='m-auto' height={50} width={50} />
+              <img alt="" src={user.img} className='m-auto' height={50} width={50} />
               <span className='text-2xl font-semibold'>{user.nome}</span>
             </div>
             <div className='flex flex-col gap-3'>
@@ -23,10 +22,10 @@ export default function Scores({ users }) {
               {index != 0 ?
                 <div>
                   <h3 className='font-bold uppercase mb-2'>Diferença pro {index}º lugar</h3>
-                  <span>{users[index - 1].pontos - user.pontos == 1 ?
-                   `${users[index - 1].pontos - user.pontos} ponto` 
+                  <span>{users[index - 1].pontos.pontuacaGeral - user.pontos.pontuacaGeral == 1 ?
+                   `${users[index - 1].pontos.pontuacaGeral - user.pontos.pontuacaGeral} ponto` 
                   :
-                   `${users[index - 1].pontos - user.pontos} pontos`}</span>
+                   `${users[index - 1].pontos.pontuacaGeral - user.pontos.pontuacaGeral} pontos`}</span>
                 </div>
                 :
                 ""
@@ -35,7 +34,7 @@ export default function Scores({ users }) {
               <div className='flex flex-col gap-3'>
                 <div className='flex gap-3'>
                   <h3 className='font-bold uppercase'>Pontuação</h3>
-                  <span>{user.pontos}</span>
+                  <span>{user.pontos.pontuacaGeral}</span>
                 </div>
               </div>
             </div>

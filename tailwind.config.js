@@ -1,3 +1,4 @@
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -9,7 +10,6 @@ module.exports = {
   ],
   prefix: "",
   theme: {
-
     container: {
       center: true,
       padding: "2rem",
@@ -75,5 +75,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),require("daisyui")],
+ 
 }
