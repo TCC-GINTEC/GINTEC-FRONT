@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className='pb-20'>
       <header className="flex justify-center items-center gap-8 p-8">
-        <Image alt="Icon" width={100} height={100} src="/images/icon.svg" />
+        {/* <Image alt="Icon" width={100} height={100} src="/images/icon.svg" /> */}
         <h2 className="roboto-bold text-4xl">Gintec</h2>
         <Link href={"/login"}>
           <button
