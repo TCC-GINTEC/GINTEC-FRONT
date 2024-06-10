@@ -38,37 +38,6 @@ export default function Cadastro() {
   function gerarCards(tipo) {
     let novoCampeonato;
 
-    if (tipo === "jogos") {
-      novoCampeonato = {
-        nomeJogo: nomeJogo,
-        pontuacao: pontuacao,
-        pontucaoExtra: pontucaoExtra,
-        tipo:tipo
-      };
-    } else if (tipo === "campQuadra") {
-       novoCampeonato = {
-        nomeCampeonato: nomeCampeonatoQuadra,
-        data: data,
-        fase: fase,
-        pontuacao: pontuacao,
-        qntJogos: qntJogos,
-        qntFases: qntFases,
-        qntJogadoresPorTime: qntJogadoresPorTime,
-        tipo:tipo
-      };
-    } else if (tipo === "campPatio") {
-        novoCampeonato = {
-        nomeCampeonato: nomeCampeonatoPatio,
-        data: data,
-        fase: fase,
-        pontuacao: pontuacao,
-        qntJogos: qntJogos,
-        qntFases: qntFases,
-        qntJogadoresPorTime: qntJogadoresPorTime,
-        tipo:tipo
-      };
-    }
-
     setListaInformacoes([...listaInformacoes, novoCampeonato]);
   }
   console.log(listaInformacoes)
