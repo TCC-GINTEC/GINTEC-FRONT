@@ -1,6 +1,5 @@
 "use client";
 
-import { toast } from "sonner";
 import Link from "next/link";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
@@ -8,148 +7,91 @@ import "./globals.css";
 
 export default function Home() {
   return (
-    <div className='pb-20'>
-      <header className="flex justify-center items-center gap-8 p-8">
-        {/* <Image alt="Icon" width={100} height={100} src="/images/icon.svg" /> */}
-        <h2 className="roboto-bold text-4xl">Gintec</h2>
-        <Link href={"/login"}>
-          <button
-            className="bg-[#005C6D] absolute right-20 w-[200px] text-xl font-semibold text-white
-          sm:flex justify-center items-center gap-2 p-4 rounded-full hidden "
-          >
-            <Icon
-              icon="ic:baseline-login"
-              className="text-white w-[30px] h-[30px]"
-            />
+    <div className="bg-gray-100">
+      <header className="flex justify-between items-center w-full fixed top-0 left-0 p-8 z-50  bg-black text-white">
+        <h2 className="text-4xl font-bold flex"><Image src={"/images/icon.svg"} width={65} height={65}/></h2>
+        <Link href="/login">
+          <button className="bg-white text-black px-6 py-2 rounded-full text-lg font-semibold flex items-center">
+            <Icon icon="ic:baseline-login" className="mr-2" />
             Login
           </button>
         </Link>
-
-        <Link href={"/login"}>
-          <button className="bg-[#005C6D] sm:hidden absolute right-0 p-4 rounded-2xl text-center">
-            <Icon
-              icon="ic:baseline-login"
-              className="text-white w-[30px] h-[30px]"
-            />
-          </button>
-        </Link>
       </header>
-      <main>
-        <div className="w-3/4 mx-auto">
-          <div className="flex items-center md:justify-evenly">
-            <div className="md:w-2/4 shadow-2xl p-14 rounded-2xl  translate-y-12 border border-[#005C6D]">
-              <h2 className="roboto-bold text-2xl uppercase text-[#005C6D] ">
-                O que é a Gincana ?
-              </h2>
-              <h3 className="roboto-bold text-4xl ">Diversão X Competividade</h3>
-              <p className="mt-4">
-                A gincana é um projeto escolar da ETEC Antônio Furlan que
-                incentiva os alunos a coletividade e trabalho em equipe em
-                campeonatos e jogos elaborados pelos próprios alunos, além de
-                desenvolver suas habilidades interpessoais e intrapessoais.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/etec.jpg"
-                className="max-w-[350px] hidden sm:block rounded-xl -translate-y-3"
-              />
+
+      <main className="text-center text-black mt-12">
+        <section className="h-screen bg-[url('/images/fundoHome.jpg')] bg-cover flex items-center justify-around">
+          <div>
+            <h1 className="text-7xl font-bold text-black">Desafie seus limites, conquiste a vitória, e viva a experiência inesquecível da <span className="text-red-600">Gintec</span>!</h1>
+            <div className="py-4 mx-3 rounded-md bg-slate-500 bg-opacity-60 mt-4">
+              <h3 className="text-xl text-white">
+                Explore novos horizontes com a Gintec: desafie seus limites, conquiste vitórias e mergulhe em uma experiência inesquecível. Seja parte dessa jornada extraordinária!
+              </h3>
             </div>
           </div>
-        </div>
-        <h1 className="text-center text-4xl mt-8 font-bold p-24 text-[#005C6D]">
-          Porém, porque não automatizar?
-        </h1>
-        <div className=" w-3/4 mx-auto mb-4">
-          <div className="flex items-center">
-            <div>
-              <img
-                src="/images/bola.png"
-                className="min-w-[150px] max-w-[500px] hidden sm:block"
-              />
+        </section>
+
+        <section className="px-8 h-screen flex flex-col justify-center bg-gray-200 py-4">
+          <h2 className="text-4xl font-bold mb-8 ">Por que Participar?</h2>
+          <div className="flex flex-wrap justify-around gap-5">
+            <div className="p-8 shadow-lg rounded-xl border flex flex-col items-center w-[600px] hover:bg-gray-300 transition-all duration-200">
+              <Icon icon={"fluent:people-team-16-filled"} height={70} color="red" />
+              <h3 className="text-2xl font-semibold mb-4">Benefícios do Trabalho em Equipe</h3>
+              <p>
+                Participar de uma gincana incentiva o espírito de equipe e a colaboração. Os alunos aprendem a trabalhar juntos
+                para atingir objetivos comuns, desenvolvendo habilidades de comunicação, resolução de problemas e liderança.
+              </p>
             </div>
-            <div className="shadow-2xl p-14 rounded-2xl border border-[#005C6D]">
-              <h2 className="roboto-bold text-2xl uppercase text-[#005C6D]">Gintec</h2>
-              <h3 className="roboto-bold text-4xl">TECNOLOGIA X GINCANA</h3>
-              <p className="mt-4">
-              Para proporcionar o melhor que a tecnologia pode oferecer, desenvolvemos um avançado sistema de
-               gerenciamento web e um aplicativo mobile. Este sistema permite que os alunos verifiquem suas 
-               pontuações e chequem os avisos em tempo real, substituindo as antigas planilhas e fichas manuais
-                de pontos.Através da tecnologia, estamos transformando a forma como a gincana é organizada , 
-                trazendo praticidade e inovação para todos os envolvidos.
+            <div className="p-8 shadow-lg rounded-xl border flex flex-col items-center w-[600px] hover:bg-gray-300 transition-all duration-200">
+              <Icon icon={"icon-park-solid:sport"} height={70} color="red" />
+              <h3 className="text-2xl font-semibold mb-4">Movimentar o Corpo</h3>
+              <p>
+                As atividades físicas são uma parte crucial da gincana. Movimentar o corpo através de jogos e competições ajuda os
+                alunos a manterem-se saudáveis, melhorando a coordenação, resistência e bem-estar geral.
+              </p>
+            </div>
+            <div className="p-8 shadow-lg rounded-xl border flex flex-col items-center w-[600px] hover:bg-gray-300 transition-all duration-200">
+              <Icon icon={"icon-park-solid:play-volleyball"} height={70} color="red" />
+              <h3 className="text-2xl font-semibold mb-4">Atividades Extracurriculares</h3>
+              <p>
+                As atividades extracurriculares, como a gincana, são essenciais para uma educação completa. Elas oferecem oportunidades
+                para que os alunos explorem novos interesses, desenvolvam talentos e construam amizades duradouras fora da sala de aula.
               </p>
             </div>
           </div>
-        </div>
-        <div className="  p-4 m-auto gap-8 md:gap-2 min-w-3/4 flex flex-col md:flex-row items-center justify-evenly">
-          <div className="flex flex-col sm:flex-row items-center ">
-            <div className="shadow-2xl p-4 flex items-center justify-center gap-7 w-full rounded-2xl border border-[#005C6D]">
-              <img src="/images/ficha.png" className="min-w-[120px] max-w-[100px]" />
-              <img src="/images/excel.png" className=" min-w-[120px] max-w-[100px]" />
-            </div>
+        </section>
+
+        <section className="my-20 px-8">
+          <h2 className="text-4xl font-bold mb-8">Galeria de Fotos</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <Image src="/images/gincana1.webp" alt="Foto 1" width={400} height={400} className="rounded-xl" />
+            <Image src="/images/gincana2.webp" alt="Foto 2" width={400} height={400} className="rounded-xl" />
+            <Image src="/images/gincana3.jpeg" alt="Foto 3" width={400} height={400} className="rounded-xl" />
+            <Image src="/images/gincana4.jpeg" alt="Foto 4" width={400} height={400} className="rounded-xl" />
           </div>
-          <img
-            src="/images/seta-direita.png"
-            className="max-w-[90px] rotate-90 md:rotate-0 w-full"
-          />
-          <div className="flex flex-col sm:flex-row items-center">
-            <div className="shadow-2xl p-4 flex items-center justify-center gap-7  rounded-3xl border border-[#005C6D]">
-              <img
-                src="/images/pc.png"
-                className="min-w-[120px] max-w-[100px]"
-              />
-              <img
-                src="/images/celular.png"
-                className="min-w-[120px] max-w-[100px]"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mt-24 flex flex-col gap-20 mx-auto w-3/4">
-          <div>
-            <div className="w-full shadow-2xl p-4 flex flex-col md:flex-row justify-between gap-7  rounded-3xl border border-[#005C6D]">
-              <img
-                src="/images/pc.png"
-                className="min-w-[300px] max-w-[100px] mx-auto"
-              />
+        </section>
+
+        <section className="py-20 px-8 bg-gray-200">
+          <h2 className="text-4xl font-bold mb-8">Depoimentos</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="p-8 shadow-lg rounded-xl border">
               <div>
-                <h3 className='roboto-bold text-center text-3xl uppercase text-[#005C6D]'>Sistema Web</h3>
-                <p className='md:w-2/4 mx-auto mt-4'>
-                Para garantir uma experiência integrada e eficiente, fornecemos um sistema completo de gerenciamento de atividades.
-                Ele é projetado para facilitar a administração de todas as etapas, desde a criação de atividades até o acompanhamento 
-                do desempenho dos participantes,  tudo em uma interface amigável e intuitiva.
-                Sendo assim temos como principais funcionabilidades:
-                </p>
-                <p className='roboto-bold md:w-2/4 mx-auto mt-4'>Criação de Atividades e Jogos,
-                 Gerenciamento de Notificações e
-                 Ranking dos Jogadores.</p>
+                <Image src={"/images/pessoa1.jpg"} width={200} height={200} className="rounded-full size-28 object-cover" />
               </div>
+              <p className="italic">"A gincana foi uma experiência incrível! Aprendi a importância do trabalho em equipe e fiz muitos amigos." - João Silva</p>
             </div>
-          </div>
-          <div>
-            <div className="w-full shadow-2xl p-4 flex flex-col md:flex-row justify-between gap-7  rounded-3xl border border-[#005C6D]">
-              <img
-                src="/images/celular.png"
-                className="min-w-[300px] max-w-[100px] mx-auto"
-              />
+            <div className="p-8 shadow-lg rounded-xl border">
               <div>
-                <h3 className="font-bold text-center text-3xl uppercase text-[#005C6D]">Mobile</h3>
-                <p className="md:w-2/4 mx-auto mt-4">
-                   Nosso sistema de gerenciamento de atividades inclui uma versão mobile especialmente desenvolvida para os alunos.
-                    Através dessa plataforma, os alunos podem facilmente acessar e interagir 
-                   com diversas funcionalidades projetadas para aprimorar sua experiência e participação nas atividades escolares.
-                   Tendo como principais funcionabilidades :
-    
-                </p>
-                <p className='roboto-bold md:w-2/4 mx-auto mt-4'>Qr code , Validação de atividades e fornecimento de informações 
-                sobre oficinas , campeonatos e jogos . 
-                
-                </p>
+                <Image src={"/images/pessoa2.jpg"} width={200} height={200} className="rounded-full size-28 object-cover" />
               </div>
+              <p className="italic">"Participar das atividades físicas me ajudou a melhorar minha saúde e me sinto mais energizado." - Maria Oliveira</p>
             </div>
           </div>
-        </div>
+        </section>
       </main>
+
+      <footer className="text-center p-8 bg-black text-white">
+        <p>&copy; 2024 Gintec. Todos os direitos reservados.</p>
+      </footer>
     </div>
   );
 }
