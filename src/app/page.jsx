@@ -77,13 +77,13 @@ export default function Home() {
               <div>
                 <Image src={"/images/pessoa1.jpg"} width={200} height={200} className="rounded-full size-28 object-cover" />
               </div>
-              <p className="italic">"A gincana foi uma experiência incrível! Aprendi a importância do trabalho em equipe e fiz muitos amigos." - João Silva</p>
+              <p className="italic">{"\""}A gincana foi uma experiência incrível! Aprendi a importância do trabalho em equipe e fiz muitos amigos.{"\""} - João Silva</p> 
             </div>
             <div className="p-8 shadow-lg rounded-xl border">
               <div>
                 <Image src={"/images/pessoa2.jpg"} width={200} height={200} className="rounded-full size-28 object-cover" />
               </div>
-              <p className="italic">"Participar das atividades físicas me ajudou a melhorar minha saúde e me sinto mais energizado." - Maria Oliveira</p>
+              <p className="italic">{"\""}Participar das atividades físicas me ajudou a melhorar minha saúde e me sinto mais energizado.{"\""} - Maria Oliveira</p>
             </div>
           </div>
         </section>
