@@ -90,7 +90,7 @@ export default function Home() {
       </main>
 
       <footer className="text-center p-8 bg-black text-white">
-        <p>&copy; 2024 Gintec. Todos os direitos reservados.</p>
+        <p>2024 Gintec. Todos os direitos reservados.</p>
       </footer>
     </div>
   );
