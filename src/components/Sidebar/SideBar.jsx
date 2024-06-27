@@ -71,11 +71,9 @@ export default function SideBar({ className }) {
           {Itens.map((item, index) => <Link className="w-full  text-[#005261] flex justify-between"  key={index} href={item.link}><SideBarItem  active={active} url={pathname} link={item.link} text={item.text} src={item.img} /></Link>)}
         </SideBarContainerItens>
       </SideBarSection>
-      <div className='w-full pl-10 pb-20 text-[#005261]'>
-        <Link class='flex flex-row gap-2 items-center' href=''><img src="./images/sair-icon.svg" alt />sair</Link>
+      <div className='w-full flex justify-start pl-10 pb-20 text-[#005261]'>
+        <Link class="flex flex-row gap-2 items-center" href=''><img src="./images/sair-icon.svg" alt />{active ?'sair':''}</Link>
       </div>
-
-      {/* <SideBarProfile active={active} src={"/images/icon.svg"} username={"Nathan Silva"} /> */}
     </SideBarContainer>
   )
 }
