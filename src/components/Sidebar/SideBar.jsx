@@ -21,20 +21,41 @@ export default function SideBar({ className }) {
   function handleGetItens() {
     const lst = [
       {
-        text: "Alunos",
-        img: "https://cdn-icons-png.flaticon.com/512/5956/5956845.png",
-        link: "/alunos"
+        text: "Home",
+        img: "./images/home-icon.svg",
+        link: "/home"
       },
       {
-        text: "Prazos",
-        img: "https://cdn-icons-png.flaticon.com/512/149/149322.png",
+        text: "Organização das salas",
+        img: "./images/organizacao-sala-icon.svg",
         link: "/prazos"
       },
       {
-        text: "Ranking",
-        img: "https://cdn-icons-png.flaticon.com/512/4425/4425124.png",
+        text: "Cadastros",
+        img: "./images/cadastros-icon.svg",
+        link: "/organizacao-sala"
+      },
+      {
+        text: "Prazos",
+        img: "./images/prazos-icon.svg",
+        link: "/prazos"
+      },
+      {
+        text: "Pontuacao geral",
+        img: "./images/pontuacao-geral-icon.svg",
         link: "/ranking"
-      }
+      },
+      {
+        text: "Notificação",
+        img: "./images/notificacao-icon.svg",
+        link: "/notificacao"
+      },
+    
+      {
+        text: "Configuração",
+        img: "./images/configuracao-icon.svg",
+        link: "/configuracao"
+      },
     ]
 
     setItens(lst)
@@ -45,10 +66,14 @@ export default function SideBar({ className }) {
         <SideBarHead Action={toggleSidebar} active={active} />
         <Search Action={toggleSidebar} active={active} />
         <SideBarContainerItens>
-          {Itens.map((item, index) => <Link key={index} href={item.link}><SideBarItem active={active} text={item.text} src={item.img} /> </Link>)}
+          {Itens.map((item, index) => <Link class="lign-middle" key={index} href={item.link}><SideBarItem active={active} text={item.text} src={item.img} /> </Link>)}
         </SideBarContainerItens>
       </SideBarSection>
-      <SideBarProfile active={active} src={"/images/icon.svg"} username={"Nathan Silva"} />
+      <div className='w-full pl-10 pb-20 '>
+        <Link class='flex flex-row gap-2 items-center' href=''><img src="./images/sair-icon.svg" alt />sair</Link>
+      </div>
+
+      {/* <SideBarProfile active={active} src={"/images/icon.svg"} username={"Nathan Silva"} /> */}
     </SideBarContainer>
   )
 }
