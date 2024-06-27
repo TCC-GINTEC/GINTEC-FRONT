@@ -66,11 +66,11 @@ export default function SideBar({ className }) {
         <SideBarHead Action={toggleSidebar} active={active} />
         <Search Action={toggleSidebar} active={active} />
         <SideBarContainerItens>
-          {Itens.map((item, index) => <Link key={index} href={item.link}><SideBarItem active={active} text={item.text} src={item.img} /> </Link>)}
+          {Itens.map((item, index) => <Link className="text-[#005261]" key={index} href={item.link}><SideBarItem active={active} text={item.text} src={item.img} /> </Link>)}
         </SideBarContainerItens>
       </SideBarSection>
-      <div className='w-full pl-10 pb-20 '>
-        <Link class='flex flex-row gap-2 items-center text-[#005261]' href=''><img src="./images/sair-icon.svg" alt />sair</Link>
+      <div className='w-full pl-10 pb-20 text-[#005261]'>
+        <Link class='flex flex-row gap-2 items-center' href=''><img src="./images/sair-icon.svg" alt />sair</Link>
       </div>
 
       {/* <SideBarProfile active={active} src={"/images/icon.svg"} username={"Nathan Silva"} /> */}
