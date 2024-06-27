@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import Search from '@/components/Sidebar/Search'
 import SideBarContainerItens from '@/components/Sidebar/SideBarContainerItens'
 import SideBarItem from '@/components/Sidebar/SideBarItem'
 import SideBarContainer from '@/components/Sidebar/SideBarContainer'
@@ -7,10 +6,14 @@ import SideBarHead from '@/components/Sidebar/SideBarHead'
 import SideBarSection from '@/components/Sidebar/SideBarSection'
 import SideBarProfile from '@/components/Sidebar/SideBarProfile'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
 
 export default function SideBar({ className }) {
   const [active, setActive] = useState(false)
   const [Itens, setItens] = useState([])
+  const pathname = usePathname()
+
 
   function toggleSidebar() {
     setActive(!active)
@@ -28,12 +31,12 @@ export default function SideBar({ className }) {
       {
         text: "Organização das salas",
         img: "./images/organizacao-sala-icon.svg",
-        link: "/prazos"
+        link: "/organizacao-sala"
       },
       {
         text: "Cadastros",
         img: "./images/cadastros-icon.svg",
-        link: "/organizacao-sala"
+        link: "/cadastros"
       },
       {
         text: "Prazos",
@@ -64,9 +67,8 @@ export default function SideBar({ className }) {
     <SideBarContainer active={active} className={className}>
       <SideBarSection>
         <SideBarHead Action={toggleSidebar} active={active} />
-        <Search Action={toggleSidebar} active={active} />
         <SideBarContainerItens>
-          {Itens.map((item, index) => <Link className="text-[#005261]" key={index} href={item.link}><SideBarItem active={active} text={item.text} src={item.img} /> </Link>)}
+          {Itens.map((item, index) => <Link className="w-full  text-[#005261] flex justify-between"  key={index} href={item.link}><SideBarItem  active={active} url={pathname} link={item.link} text={item.text} src={item.img} /></Link>)}
         </SideBarContainerItens>
       </SideBarSection>
       <div className='w-full pl-10 pb-20 text-[#005261]'>
