@@ -155,3 +155,62 @@ img {
 
 /* para quando clicar em outros dias : rgb(162, 223, 240) */
 	
+
+/* posicao da retangulo no sidebar */
+.position-active-0{
+  top:-10px;
+}
+
+.position-active-um{
+  top: 41px;
+}
+
+.position-active-dois{
+  top: 94px;
+}
+
+.position-active-tres{
+  top: 144px;
+}
+
+.position-active-quatro{
+  top: 197px;
+}
+
+.position-active-cinco{
+  top: 253px;
+}
+
+.position-active-seis{
+  top: 300px;
+}
+
+/* posicao da retangulo no sidebar quando ele não é ativado */
+
+
+.position-false-0{
+  top:-10px;
+}
+
+.position-false-um{
+  top: 36px;
+}
+
+.position-false-dois{
+  top: 86px;
+}
+
+.position-false-tres{
+  top: 135px;
+}
+
+.position-false-quatro{
+  top: 182px;
+}
+
+.position-false-cinco{
+  top: 230px;
+}
+.position-false-seis{
+  top: 278px;
+}
