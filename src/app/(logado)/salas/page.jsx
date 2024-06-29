@@ -1,8 +1,15 @@
 "use client";
 import { useState } from "react";
+// useRouter
+import { useRouter } from 'next/navigation'
+ 
 
 export default function Salas() {
   const [linhas, setLinhas] = useState([]);
+  const router = useRouter()
+ 
+  // router.push('/salas/sala')
+
   const [retornoApi, setRetornoApi] = useState([
     {
       id: 1,
@@ -68,29 +75,37 @@ export default function Salas() {
   }
 
   const uniqueCursos = [...new Set(retornoApi.map(data => data.curso))];
-
   return (
     <>
-      <select name="" id="" onChange={(e) => handleFiltroCursos(e)}>
+      <select name="" id="" onChange={handleFiltroCursos}>
         <option value="">todos os cursos</option>
         {uniqueCursos.map((curso, index) => (
           <option key={index} value={curso}>{curso}</option>
         ))}
       </select>
 
-      <div className='grid grid-cols-3 gap-20'>
+      <div className="grid grid-cols-3 gap-20">
         {linhas.length > 0 ? (
           linhas.map((data, index) => (
-            <div key={index} className='flex items-center rounded-xl gap-4 p-9 shadow-md'>
-              <div className="w-4 bg-gray-500 rounded-full p-6"></div>
-              <h1 className='text-xl'>{data.serie}º {data.curso}</h1>
+            <div key={index} > 
+              <button 
+                className="rounded-xl shadow-md flex items-center gap-4 p-9"
+              >
+                <div className="w-4 bg-gray-500 rounded-full p-6"></div>
+                <h1 className="text-xl">{data.serie}º {data.curso}</h1>
+              </button>
             </div>
           ))
         ) : (
           retornoApi.map((data, index) => (
-            <div key={index} className='flex items-center rounded-xl gap-4 p-9 shadow-md'>
-              <div className="w-4 bg-gray-500 rounded-full p-6"></div>
-              <span className='text-xl'>{data.serie}º {data.curso}</span>
+            <div key={index} className='w-full'>
+              <button 
+                onClick={()=> router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
+                className="rounded-xl shadow-md flex items-center gap-4 p-9"
+              >
+                <div className="w-4 bg-gray-500 rounded-full p-6"></div>
+                <h1 className="text-xl">{data.serie}º {data.curso}</h1>
+              </button>
             </div>
           ))
         )}

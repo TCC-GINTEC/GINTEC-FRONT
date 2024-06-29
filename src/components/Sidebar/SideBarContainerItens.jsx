@@ -9,7 +9,7 @@ const SideBarContainerItens = ({ children, url,active }) => {
         case "/home":
           positionClass = "position-active-0"; // Pode deixar vazio para posição padrão
           break;
-        case "/sala":
+        case "/salas":
           positionClass = "position-active-um";
           break;
         case "/cadastros":
@@ -37,7 +37,7 @@ const SideBarContainerItens = ({ children, url,active }) => {
             case "/home":
               positionClass = "position-false-0"; // Pode deixar vazio para posição padrão
               break;
-            case "/sala":
+            case "/salas":
               positionClass = "position-false-um";
               break;
             case "/cadastros":

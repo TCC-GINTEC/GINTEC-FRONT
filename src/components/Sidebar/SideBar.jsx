@@ -32,7 +32,7 @@ export default function SideBar({ className }) {
             {
                 text: "Organização das salas",
                 img: "./images/organizacao-sala-icon.svg",
-                link: "/sala"
+                link: "/salas"
             },
             {
                 text: "Cadastros",
