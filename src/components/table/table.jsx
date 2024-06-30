@@ -49,7 +49,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
 
     return (
         <>
-            <Table>                            
+            <Table >                            
                 <TableHeader>
                     <TableRow>
                         {columns.map((column, index) => {
@@ -58,7 +58,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                             )
                         })}
                     </TableRow>
-                    <TableRow>
+                    <TableRow >
                         {columns.map((column, index) => {
                             return (
                                 <TableCell key={index} className="relative mb-3">
