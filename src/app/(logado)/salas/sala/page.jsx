@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
@@ -93,41 +93,61 @@ export default function Sala() {
       </div>
 
       {moveBar === 'principal' && (
-      <div className='md:w-[100%]'>
-        <div className='w-full border bg-[#005261] rounded-l-lg rounded-r-lg overflow-x-auto'>
-          <table className='w-full'>
-            <thead>
-              <tr className='text-white text-center'>
-                <th className='p-3 min-w-[150px]'>Alunos</th>
-                <th className='p-3 min-w-[100px]'>QDP</th>
-                <th className='p-3 min-w-[100px]'>DATA</th>
-                <th className='p-3 min-w-[100px]'>TOTAL GERAL</th>
-                <th className='p-3 rounded-r-lg'>Menção</th>
-              </tr>
-            </thead>
-            <tbody>
-              {retornoApi.map((aluno) => (
-                <tr key={aluno.id} className='text-center'>
-                  <td className='border border-gray-200 min-w-[150px]'>{aluno.nome}</td>
-                  <td className='border border-gray-200 min-w-[100px]'>{aluno.qdp}</td>
-                  <td className='border border-gray-200 min-w-[100px]'>{aluno.dia}</td>
-                  <td className='border border-gray-200 min-w-[100px]'>{aluno.totalPontos}</td>
-                  <td className={`border border-gray-200 ${getColorClass(aluno.mencao)}`}>{aluno.mencao}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className='md:w-[70%]'>
+          <div className='overflow-x-auto rounded-tl-lg'>
+            <div className='flex'>
+              <div className='w-[200px]'>
+                <div className='p-3 font-bold'>Nome Aluno</div>
+                {retornoApi.map((aluno) => (
+                  <div key={aluno.id} className='p-3'>{aluno.nome}</div>
+                ))}
+              </div>
+              <div className='w-3/4 flex overflow-x-auto'>
+                <div className='min-w-[200px]'>
+                  <div className='p-3 font-bold'>PDA</div>
+                  {retornoApi.map((aluno) => (
+                    <div key={aluno.id} className='p-3'>{aluno.qda}</div>
+                  ))}
+                </div>
+                <div className='min-w-[200px]'>
+                  <div className='p-3 font-bold'>QDP</div>
+                  {retornoApi.map((aluno) => (
+                    <div key={aluno.id} className='p-3'>{aluno.qdp}</div>
+                  ))}
+                </div>
+                <div className='min-w-[200px]'>
+                  <div className='p-3 font-bold'>DATA</div>
+                  {retornoApi.map((aluno) => (
+                    <div key={aluno.id} className='p-3'>{aluno.dia}</div>
+                  ))}
+                </div>
+                <div className='min-w-[200px]'>
+                  <div className='p-3 font-bold'>TOTAL GERAL</div>
+                  {retornoApi.map((aluno) => (
+                    <div key={aluno.id} className='p-3'>{aluno.totalPontos}</div>
+                  ))}
+                </div>
+                <div className='min-w-[200px]'>
+                  <div className='p-3 font-bold'>MENÇÕES</div>
+                  {retornoApi.map((aluno) => (
+                    <div key={aluno.id} className={`p-3 ${getColorClass(aluno.mencao)}`}>{aluno.mencao}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
       )}
 
       {moveBar === 'doacoes' && (
-      <div className='md:w-[70%]'>
-        <div className='overflow-x-auto rounded-tl-lg'>
+        <div className='md:w-[70%]'>
+          <div className='overflow-x-auto rounded-tl-lg'>
             <div className='flex'>
               <div className='w-[200px]'>
                 <div className='p-3 font-bold'>Alunos</div>
-                <div className='p-3'>Richard dos Santos</div>
+                {retornoApi.map((aluno) => (
+                  <div key={aluno.id} className='p-3'>{aluno.nome}</div>
+                ))}
                 {/* Adicione mais alunos conforme necessário */}
               </div>
               <div className='w-3/4 flex overflow-x-auto'>
@@ -145,38 +165,17 @@ export default function Sala() {
       )}
 
       {moveBar === 'campeonato' && (
-      <div className='md:w-[70%]'>
-        <div className='grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] border bg-[#005261] rounded-l-lg rounded-r-lg overflow-x-auto'>
-           <div className='shrink-0 '>
-              <div className='text-center p-2'>esporte</div>
-              <div className='text-sm	 bg-white'>
-              Alice Giuly Borges Moreno
+        <div className='md:w-[70%]'>
+          <div className='grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 border bg-[#005261] rounded-l-lg rounded-r-lg overflow-x-auto'>
+            {retornoApi.map((aluno) => (
+              <div key={aluno.id} className='flex flex-col justify-center items-center p-4 bg-white'>
+                <div className='text-center p-2'>Esporte</div>
+                <div className='text-sm bg-white'>{aluno.nome}</div>
               </div>
-              <div className='text-sm	 bg-white'>
-              Alice Giuly Borges Moreno
-              </div>
-            </div>
-            <div className='shrink-0 '>
-              <div className='text-center p-2'>esporte</div>
-              <div className='text-sm bg-white	'>
-                Henrique Douglas Magnun
-              </div>
-            </div>
-            <div className='shrink-0 '>
-              <div className='text-center p-2'>esporte</div>
-              <div className='text-sm	 bg-white'>
-                Peterson Wilhans Santos 
-              </div>
-            </div>
-            <div className='shrink-0 '>
-              <div className='text-center p-2'>esporte</div>
-              <div className='text-sm bg-white'>
-                Kethelin Melo
-              </div>
-            </div>
+            ))}
           </div>
-        </div> 
+        </div>
       )}
-  </>
+    </>
   );
 }
