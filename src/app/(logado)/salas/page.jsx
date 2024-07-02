@@ -1,14 +1,12 @@
 "use client";
 import { useState } from "react";
-// useRouter
-import { useRouter } from 'next/navigation'
- 
+import { useRouter } from 'next/navigation';
+import { Icon } from '@iconify/react';
 
 export default function Salas() {
   const [linhas, setLinhas] = useState([]);
-  const router = useRouter()
- 
-  // router.push('/salas/sala')
+  const [showFilterOptions, setShowFilterOptions] = useState(false); // Estado para controlar a exibição das opções de filtro
+  const router = useRouter();
 
   const [retornoApi, setRetornoApi] = useState([
     {
@@ -72,39 +70,66 @@ export default function Salas() {
   function handleFiltroCursos(e) {
     const filtroCurso = retornoApi.filter(element => element.curso === e.target.value);
     setLinhas(filtroCurso);
+    setShowFilterOptions(false); // Fechar as opções de filtro ao selecionar uma opção
   }
 
   const uniqueCursos = [...new Set(retornoApi.map(data => data.curso))];
+  
   return (
     <>
-      <select name="" id="" onChange={handleFiltroCursos}>
-        <option value="">todos os cursos</option>
-        {uniqueCursos.map((curso, index) => (
-          <option key={index} value={curso}>{curso}</option>
-        ))}
-      </select>
+      <div className="relative left-4 w-[170px] ">
+        <div
+          onClick={() => setShowFilterOptions(!showFilterOptions)} // Alternar estado para exibir/ocultar opções de filtro
+          className="bg-white p-1  rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+        >
+          <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />filtrar
+        </div>
+        {showFilterOptions && (
+          <div className="absolute bg-white shadow-md rounded-lg mt-2 w-48 py-2">
+            <ul>
+              <li className="cursor-pointer hover:bg-gray-100 py-1 px-3" onClick={() => handleFiltroCursos({ target: { value: '' } })}>
+                Todos os cursos
+              </li>
+              {uniqueCursos.map((curso, index) => (
+                <li key={index} className="cursor-pointer hover:bg-gray-100 py-1 px-3" onClick={() => handleFiltroCursos({ target: { value: curso } })}>
+                  {curso}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
 
-      <div className="grid grid-cols-3 gap-20">
+      <div className="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mx-auto text-sm md:text-base">
         {linhas.length > 0 ? (
           linhas.map((data, index) => (
-            <div key={index} > 
+            <div key={index} className="w-full">
               <button 
-                className="rounded-xl shadow-md flex items-center gap-4 p-9"
+                className="h-[100px] w-full rounded-xl shadow-md flex justify-center items-center gap-4 p-4 md:p-9"
+                onClick={() => router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
               >
-                <div className="w-4 bg-gray-500 rounded-full p-6"></div>
-                <h1 className="text-xl">{data.serie}º {data.curso}</h1>
+                <div className="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center">
+                  {/* Conteúdo dentro do círculo */}
+                </div>
+                <h1 className={`${data.curso === 'recursos humanos' ? 'break-words' : ''}`}>
+                  {data.serie}º {data.curso}
+                </h1>
               </button>
             </div>
           ))
         ) : (
           retornoApi.map((data, index) => (
-            <div key={index} className='w-full'>
+            <div key={index} className="w-full">
               <button 
-                onClick={()=> router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
-                className="rounded-xl shadow-md flex items-center gap-4 p-9"
+                onClick={() => router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
+                className="h-[100px] w-full rounded-xl shadow-md flex justify-center items-center gap-4 p-4 md:p-9"
               >
-                <div className="w-4 bg-gray-500 rounded-full p-6"></div>
-                <h1 className="text-xl">{data.serie}º {data.curso}</h1>
+                <div className="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center">
+                  {/* Conteúdo dentro do círculo */}
+                </div>
+                <h1 className={`${data.curso === 'recursos humanos' ? 'break-words' : ''}`}>
+                  {data.serie}º {data.curso}
+                </h1>
               </button>
             </div>
           ))

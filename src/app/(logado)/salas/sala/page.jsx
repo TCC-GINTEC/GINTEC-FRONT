@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from 'next/link'
 
 export default function Sala() {
   const [moveBar, setMoveBar] = useState("principal");
@@ -74,10 +75,17 @@ export default function Sala() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold mb-10 text-center">
-        {urlSerie} º {urlCurso}
-      </h1>
-      <div className="md:w-3/4 flex md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
+      <div className='mx-auto pl-5 md:pl-20 flex flex-col gap-20 m-5'>
+        <button className=''>
+          <Link href={'/salas'}>
+            <img src="../images/sair-navegacao.svg"></img>
+          </Link>
+        </button>
+        <h1 className="text-2xl font-semibold mb-10 ">
+          {urlSerie} º {urlCurso}
+        </h1>
+      </div>
+      <div className="md:w-3/4 flex gap-7 md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
         <div
           onClick={() => setMoveBar("principal")}
           className={`flex items-center gap-2 sm:text-xl cursor-pointer ${moveBar === "principal" ? "text-[#005261]" : "text-[#DADADA]"}`}
@@ -98,7 +106,7 @@ export default function Sala() {
           Campeonatos
         </div>
         <div
-          className={`h-[4px] w-[100px] md:w-[124px] bg-[#005261]  ${
+          className={`hidden sm:block h-[4px] w-[100px] md:w-[124px] bg-[#005261]  ${
             transition ? "duration-700 delay-100" : ""
           } 
               ${moveBar === "principal" ? "left-0" : ""} 
