@@ -51,10 +51,10 @@ export default function Login() {
     return (
         <div className="h-screen">
             <div className='flex h-full bg-[#dfeff2]'>
-                <div className='sm:w-3/4 flex justify-center items-center'>
-                    <img src="/images/icon.svg" className='w-[200px] object-cover  hidden sm:block' />
+                <div className="sm:w-3/4 flex justify-center items-center bg-[url('/images/img-bg-login.svg')] bg-no-repeat bg-contain">
+                    <img src="/images/logo.svg" className='sm:w-[240px] md:w-[280px] object-cover  hidden sm:block' /> 
                 </div>
-                <section className=' bg-white h-full w-full sm:w-3/4 rounded-l-3xl'>
+                <section className=' bg-white h-full w-full md:w-3/4 rounded-l-3xl'>
                     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
 

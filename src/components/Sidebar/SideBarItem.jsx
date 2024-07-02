@@ -1,7 +1,10 @@
-export default function SideBarItem({ active, src, text }) {
+export default function SideBarItem({ active, src, text, url}) {
+   
+    
     return (
-        <button className="flex w-full p-3 rounded-xl hover:bg-light-green">
-            <img className="h-6 w-6" src={src} />
+        <button className={`w-full flex items-center p-2`}
+       >
+            <img className="h-5 w-5" src={src} />
             <span className={`
             ml-3
             ${active ? 'block' : 'hidden'}
