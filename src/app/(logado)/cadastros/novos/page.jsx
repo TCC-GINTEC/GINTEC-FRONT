@@ -31,10 +31,10 @@ export default function Novo() {
         </div>
         <div className='w-3/4 bg-[#E6EFF0] rounded-3xl' style={{ display: show ? 'block' : 'none' }}>
           <ul className='space-y-4 p-6'>
-            <li>Jogos de Pátio</li>
-            <li>Campeonatos de Quadra</li>
-            <li>Campeonatos de Pátio</li>
-            <li>Doações</li>
+            <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white'><Link href='/cadastros/novos/patio'>Jogos de Pátio</Link></li>
+            <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white'><Link href='/cadastros/novos/quadra'>Campeonatos de Quadra</Link></li>
+            <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white'><Link href='/cadastros/novos/patio'>Campeonatos de Pátio</Link></li>
+            <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white'><Link href='/cadastros/novos/doacao'>Doações</Link></li>
           </ul>
         </div>
       </div>
