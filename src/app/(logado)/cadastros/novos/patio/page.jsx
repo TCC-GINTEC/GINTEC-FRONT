@@ -8,7 +8,7 @@ export default function Patio() {
   const [extraClicked, setExtraClicked] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
 
-const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     const target = e.target;
     const nome = target.nomeJogo.value;
@@ -52,7 +52,7 @@ const handleFormSubmit = (e) => {
         </div>
         <form onSubmit={handleFormSubmit} className='mt-10 w-full flex flex-col'>
           <div className='flex sm:flex-row flex-col gap-4'>
-            <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2' : 'w-full'}`}>
+            <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2 transition-all duration-700' : 'w-full duration-700'}`}>
               <label className='flex flex-col gap-3 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
                 Nome do Jogo
                 <input type="text" name="nomeJogo" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
@@ -61,7 +61,7 @@ const handleFormSubmit = (e) => {
                 Pontuação do Jogo
                 <input type="number" name="pontoJogo" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
-              <label className='flex flex-col gap-3 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
+              <label className='flex flex-col gap-3 w-full  px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
                 Data
                 <input type="date" name="dataJogo" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
@@ -74,7 +74,7 @@ const handleFormSubmit = (e) => {
               </label>
             </div>
             {extraClicked && (
-              <div className='flex items-end w-full sm:w-1/2 justify-center mb-10'>
+              <div className={`flex items-end ${extraClicked ? 'w-full sm:w-1/2 transition-all duration-1000' : ''} justify-center mb-10` }>
                 <div className='flex flex-col w-3/4 gap-2'>
                   <label className='flex flex-col gap-2 text-[#DADADA] border-b-4'>
                     Adicionar pontos
@@ -97,9 +97,9 @@ const handleFormSubmit = (e) => {
       </div>
       {isModalOpen && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
           <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="w-[390px] h-[330px] bg-white p-6 rounded-lg shadow-lg relative ">
+            <div className="w-[390px] transition-all delay-1000 h-[330px] bg-white p-6 rounded-lg shadow-lg relative ">
               <img src="../../images/sucess-form.png" className='absolute -top-[43px] left-20' alt="" />
               <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={closeModal}>
                 ✕
