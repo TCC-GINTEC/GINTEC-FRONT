@@ -77,6 +77,7 @@ export default function Patio(params) {
           <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
         </form>
       </div>
+      
     </>
   );
 }
