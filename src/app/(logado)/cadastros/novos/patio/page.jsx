@@ -58,12 +58,12 @@ export default function Patio(params) {
             {extraClicked && (
               <div className='flex items-end w-full sm:w-1/2 justify-center mb-10'>
                 <div className='flex flex-col w-3/4 gap-2'>
-                  <label className='flex flex-col gap-2'>
+                  <label className='flex flex-col gap-2 text-[#DADADA] border-b-4'>
                     Adicionar pontos
-                    <input type="number" />
+                    <input type="number" className='text-[#005261] font-semibold text-lg' />
                   </label>
                   <div className='flex items-center justify-between'>
-                    <button className='bg-[#E6EFF0] p-2 rounded-full'>
+                    <button className='bg-[#E6EFF0] p-2 rounded-full '>
                       <Icon icon="subway:subtraction-1" style={{ color: "#666666" }} width={20} />
                     </button>
                     <button className='bg-[#E6EFF0] p-1 rounded-full'>
