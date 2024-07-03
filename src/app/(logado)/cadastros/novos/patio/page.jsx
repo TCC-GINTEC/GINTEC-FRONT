@@ -1,15 +1,33 @@
-"use client"
+'use client'
 
-import Link from 'next/link'
+import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
-export default function Patio(params) {
+export default function Patio() {
   const [extraClicked, setExtraClicked] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    const nome = target.nomeJogo.value;
+    const ponto = target.pontoJogo.value;
+    const data = target.dataJogo.value;
+    const pontoExtra = extraClicked ? target.pontoExtra.value : '';
+    
+    setTimeout(() => {
+      setModalOpen(true);      
+    }, 4000);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const handleExtraClick = () => {
     setExtraClicked(!extraClicked);
-  }
+  };
 
   return (
     <>
@@ -32,20 +50,20 @@ export default function Patio(params) {
           </div>
           <p className='text-[#005261] font-semibold'>Jogos de Patio</p>
         </div>
-        <form className='mt-10 w-full flex flex-col'>
+        <form onSubmit={handleFormSubmit} className='mt-10 w-full flex flex-col'>
           <div className='flex sm:flex-row flex-col gap-4'>
             <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2' : 'w-full'}`}>
               <label className='flex flex-col gap-3 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
                 Nome do Jogo
-                <input type="text" name="" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                <input type="text" name="nomeJogo" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-2 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
                 Pontuação do Jogo
-                <input type="number" name="" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                <input type="number" name="pontoJogo" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
                 Data
-                <input type="date" name="" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                <input type="date" name="dataJogo" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex justify-between items-center gap-3 w-full px-9 pt-2 h-[70px] pb-2 rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
                 Pontuação do Extra
@@ -60,7 +78,7 @@ export default function Patio(params) {
                 <div className='flex flex-col w-3/4 gap-2'>
                   <label className='flex flex-col gap-2 text-[#DADADA] border-b-4'>
                     Adicionar pontos
-                    <input type="number" className='text-[#005261] font-semibold text-lg' />
+                    <input type="number" name='pontoExtra' className='text-[#005261] font-semibold text-lg' />
                   </label>
                   <div className='flex items-center justify-between'>
                     <button className='bg-[#E6EFF0] p-2 rounded-full '>
@@ -77,7 +95,26 @@ export default function Patio(params) {
           <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
         </form>
       </div>
-      
+      {isModalOpen && (
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="w-[390px] h-[330px] bg-white p-6 rounded-lg shadow-lg relative ">
+              <img src="../../images/sucess-form.png" className='absolute -top-[43px] left-20' alt="" />
+              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={closeModal}>
+                ✕
+              </button>
+              <div className='mt-28 text-center'>
+                <h3 className="font-bold text-lg">Sucesso!</h3>
+                <p className="py-4">Seu jogo de pátio foi cadastrado com sucesso.</p>
+              </div>
+            </div>
+            <div>
+
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
