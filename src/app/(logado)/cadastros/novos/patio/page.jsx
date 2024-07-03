@@ -15,7 +15,7 @@ const handleFormSubmit = (e) => {
     const ponto = target.pontoJogo.value;
     const data = target.dataJogo.value;
     const pontoExtra = extraClicked ? target.pontoExtra.value : '';
-    
+
     setTimeout(() => {
       setModalOpen(true);      
     }, 4000);
@@ -106,7 +106,7 @@ const handleFormSubmit = (e) => {
               </button>
               <div className='mt-28 text-center'>
                 <h3 className="font-bold text-lg">Sucesso!</h3>
-                <p className="py-4">Seu jogo de pátio foi cadastrado com sucesso.</p>
+                <p className="py-4  text-xl">Jogo de pátio foi cadastrado com sucesso.</p>
               </div>
             </div>
             <div>

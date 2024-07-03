@@ -46,9 +46,9 @@ export default function Doacao() {
           <p className='text-[#005261] font-semibold'>Doação</p>
         </div>
         <form onSubmit={handleFormValue} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
-          <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-4 rounded-2xl bg-[#E6EFF0]'>
+          <label className='flex flex-col gap-2 w-full px-9 pt-3  rounded-2xl bg-[#E6EFF0]'>
             Nome da Doação
-            <input type="text" name="nomeDoacao" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg mb-4' />
+            <input type="text" name="nomeDoacao" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg mb-2' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Pontuação da Doação
@@ -72,7 +72,7 @@ export default function Doacao() {
               </button>
               <div className='mt-28 text-center'>
                 <h3 className="font-bold text-lg">Sucesso!</h3>
-                <p className="py-4">Sua doação foi cadastrada com sucesso.</p>
+                <p className="py-4  text-xl">Doação foi cadastrada com sucesso.</p>
               </div>
             </div>
           </div>
