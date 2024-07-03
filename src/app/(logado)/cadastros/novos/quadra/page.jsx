@@ -30,7 +30,7 @@ export default function Quadra(params) {
         </label>
         <label  className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
           Pontuação do campeonato
-          <input type="text" name="" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+          <input type="number" name="" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
         </label>
         <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
           Quantidade de fases
