@@ -1,4 +1,4 @@
-export default function DoacaoForm(handleFormSubmit) {
+export default function DoacaoForm({handleFormSubmit}) {
   return(
   <form onSubmit={handleFormSubmit} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
       <label className='flex flex-col gap-2 w-full px-9 pt-3  rounded-2xl bg-[#E6EFF0]'>
