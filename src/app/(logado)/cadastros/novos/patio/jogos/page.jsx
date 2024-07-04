@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-import PatioForm from '@/components/formCadastro/PatioForm'; 
+import JogosPatioForm from '@/components/formCadastro/JogosPatioForm'; 
+import ContainerJogosPatio from '@/components/formCadastro/ContainerJogosPatio';
+
 
 export default function Patio() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -28,7 +30,7 @@ export default function Patio() {
         </Link>
         <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
       </div>
-      <div className='mx-auto relative flex flex-col items-center justify-center max-w-[720px] p-9 border border-[#DADADA] rounded-3xl shadow-xl'>
+      <ContainerJogosPatio>
         <div>
           <Link href='/cadastros/novos' className='absolute left-3 top-2'>
             <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
@@ -41,8 +43,8 @@ export default function Patio() {
           </div>
           <p className='text-[#005261] font-semibold'>Jogos de Patio</p>
         </div>
-        <PatioForm handleFormSubmit={handleFormSubmit} />
-      </div>
+        <JogosPatioForm handleFormSubmit={handleFormSubmit} />
+      </ContainerJogosPatio>
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
