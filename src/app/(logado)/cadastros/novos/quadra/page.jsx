@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import QuadraForm from '@/components/formCadastro/QuadraForm'; // Renomeie o componente importado para evitar conflitos
 
 export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -43,25 +44,7 @@ export default function Quadra() {
           </div>
           <p className='text-[#005261] font-semibold'>Campeonato de Quadra</p>
         </div>
-        <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
-          <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-            Nome campeonato
-            <input type="text" name="nomeCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-          </label>
-          <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-            Pontuação do campeonato
-            <input type="number" name="pontoCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-          </label>
-          <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-            Quantidade de fases
-            <input type="number" name="qntFases" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-          </label>
-          <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-            Data
-            <input type="date" name="dataCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-          </label>
-          <button type='submit' className='w-1/3 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
-        </form>
+        <QuadraForm handleFormSubmit={handleFormSubmit}/>
       </div>
       {isModalOpen && (
         <>

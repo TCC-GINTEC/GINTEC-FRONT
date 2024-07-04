@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-import PatioForm from '@/components/forms/PatioForm'; // Renomeie o componente importado para evitar conflitos
+import PatioForm from '@/components/formCadastro/PatioForm'; 
 
 export default function Patio() {
   const [isModalOpen, setModalOpen] = useState(false);
