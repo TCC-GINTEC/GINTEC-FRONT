@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import {useRouter} from 'next/navigation'
 import DoacaoForm from '@/components/formCadastro/DoacaoForm'
 import ContainerDoacao from '@/components/formCadastro/ContainerDoacao'
 import Modal from '@/components/formCadastro/modal'
@@ -10,6 +11,12 @@ import Modal from '@/components/formCadastro/modal'
 export default function Doacao() {
   const [isModalOpen, setModalOpen] = useState(false);
   
+  const router = useRouter()
+      
+  const handleCancelar = () => {
+    router.push('/cadastros/novos')
+  }
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const target = e.target;
@@ -45,7 +52,7 @@ export default function Doacao() {
           </div>
           <p className='text-[#005261] font-semibold'>Doação</p>
         </div>
-        <DoacaoForm handleFormSubmit={handleFormSubmit}/>
+        <DoacaoForm handleFormSubmit={handleFormSubmit} handleCloseForm={handleCancelar}/>
       </ContainerDoacao>
       {isModalOpen && (
         <>
