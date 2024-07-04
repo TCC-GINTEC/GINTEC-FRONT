@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
 
-export default function Patio({handleFormSubmit,extraClicked,setExtraClicked}){
+export default function Patio({handleFormSubmit,extraClicked,setExtraClicked,handleCloseForm}){
   const [pontoExtra, setPontoExtra] = useState(50);
 
   const closeModal = () => {
@@ -25,7 +25,7 @@ export default function Patio({handleFormSubmit,extraClicked,setExtraClicked}){
 
 return(
   <>
-  <form onSubmit={handleFormSubmit} className='mt-10 w-full flex flex-col'>
+  <form onSubmit={handleFormSubmit} className='p-4 mt-10 w-full flex flex-col'>
   <div className='flex sm:flex-row flex-col gap-4'>
     <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2 transition-all duration-700' : 'w-full duration-700'}`}>
       <label className='flex flex-col gap-3 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
@@ -67,7 +67,12 @@ return(
       </div>
     )}
   </div>
-  <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
+  <div className='flex sm:flex-row sm:justify-evenly'>
+    <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
+    <button onClick={handleCloseForm} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+    cancelar
+    </button>
+  </div>
 </form>
   
 </>

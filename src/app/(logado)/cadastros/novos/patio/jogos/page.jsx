@@ -53,7 +53,7 @@ export default function Patio() {
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <Modal closeModal={closeModal}/>
+          <Modal closeModal={closeModal} texto={'Jogo de Pátio cadastrado.'}/>
         </>
       )}
     </>

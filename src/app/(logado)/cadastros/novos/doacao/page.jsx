@@ -17,9 +17,6 @@ export default function Doacao() {
     let ponto = target.pontoDoacao.value;
     let data = target.dataDoacao.value;
 
-    // Aqui você pode fazer algo com os valores do formulário, como enviá-los para um servidor
-
-    // Mostrar o modal
     setTimeout(() => {
       setModalOpen(true);      
     }, 4000);
@@ -53,7 +50,7 @@ export default function Doacao() {
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <Modal closeModal={closeModal}/>
+          <Modal closeModal={closeModal}  texto={'Doação cadastrado.'}/>
         </>
       )}
     </>

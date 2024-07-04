@@ -41,9 +41,13 @@ export default function Cadastros(){
           <p>Doações</p>
         </div>
       </section>  
-      <section onClick={() => router.push('cadastros/novos')} className=" hidden sm:block relative w-[240px] h-[150px] border-4 rounded-lg border-dashed border-gray-600*:absolute *:w-full">
+      <section onClick={() => router.push('cadastros/novos')} 
+      className=" hidden sm:block relative w-[240px] h-[150px] border-4 
+      rounded-lg border-dashed border-gray-600*:absolute *:w-full
+      hover:cursor-pointer"
+      >
         <Icon icon={'ph:plus'} className='mt-5' width={50}></Icon>
-        <div className="inset-5 flex  flex-col justify-center text-xl text-center font-semibold">
+        <div className="inset-5 flex  flex-col justify-center text-xl text-center font-semibold ">
           <p>Novo Cadastro</p>
         </div>
       </section> 

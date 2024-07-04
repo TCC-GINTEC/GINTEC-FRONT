@@ -1,4 +1,4 @@
-export default function Modal({closeModal}) {
+export default function Modal({closeModal,texto}) {
   return(
     <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className="w-[390px] h-[330px] bg-white p-6 rounded-lg shadow-lg relative">
@@ -7,8 +7,8 @@ export default function Modal({closeModal}) {
            ✕
           </button>
           <div className='mt-28 text-center'>
-            <h3 className="font-bold text-lg">Sucesso!</h3>
-            <p className="py-4 text-xl">Campeonato de pátio foi cadastrado com sucesso.</p>
+            <h3 className="font-bold text-2xl">Sucesso!</h3>
+            <p className="py-4 text-2xl">{texto}</p>
           </div>
         </div>
     </div>
