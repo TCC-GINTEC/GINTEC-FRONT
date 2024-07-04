@@ -17,7 +17,7 @@ export default function Cadastros(){
       </section> 
       <section class="relative w-[240px] h-[150px] *:absolute *:w-full">
         <img src="/images/bg-patio.png" alt="test image"/>
-        <div className="inset-4 flex items-center  text-white text-xl">
+        <div onClick={() => router.push('cadastros/patio')}  className="inset-4 flex items-center  text-white text-xl">
           Jogos de Pátio
         </div>
       </section>
@@ -35,7 +35,7 @@ export default function Cadastros(){
           <p>de Pátio</p>
         </div>
       </section> 
-      <section class="relative w-[240px] h-[150px] *:absolute *:w-full">
+      <section className="relative w-[240px] h-[150px] *:absolute *:w-full">
         <img src="/images/bg-doacoes.png" alt="test image"/>
         <div className="inset-4 flex  flex-col justify-center text-white text-xl">
           <p>Doações</p>
