@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
 
-export default function Patio(handleFormSubmit){
-  const [extraClicked, setExtraClicked] = useState(false);
+export default function Patio({handleFormSubmit,extraClicked,setExtraClicked}){
   const [pontoExtra, setPontoExtra] = useState(50);
 
   const closeModal = () => {

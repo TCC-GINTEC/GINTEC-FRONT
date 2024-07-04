@@ -9,14 +9,14 @@ import ContainerJogosPatio from '@/components/formCadastro/ContainerJogosPatio';
 
 export default function Patio() {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [extraClicked, setExtraClicked] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const target = e.target;
     const nome = target.nomeJogo.value;
     const data = target.dataJogo.value;
-    const ponto = extraClicked ? (Number(target.pontoJogo.value) + Number(target.pontoExtra.value)) : Number(target.ponto.value);
-
+    const ponto = extraClicked ? (Number(target.pontoJogo.value) + Number(target.pontoExtra.value)) : Number(target.pontoJogo.value);
     setTimeout(() => {
       setModalOpen(true);
     }, 4000);
@@ -43,14 +43,14 @@ export default function Patio() {
           </div>
           <p className='text-[#005261] font-semibold'>Jogos de Patio</p>
         </div>
-        <JogosPatioForm handleFormSubmit={handleFormSubmit} />
+        <JogosPatioForm handleFormSubmit={handleFormSubmit}  extraClicked={extraClicked}  setExtraClicked={setExtraClicked}/>
       </ContainerJogosPatio>
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="w-[390px] transition-all delay-1000 h-[330px] bg-white p-6 rounded-lg shadow-lg relative">
-              <img src="../../images/sucess-form.png" className='absolute -top-[43px] left-20' alt="Success" />
+              <img src="../../../images/sucess-form.png" className='absolute -top-[43px] left-20' alt="Success" />
               <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={() => setModalOpen(false)}>
                 ✕
               </button>

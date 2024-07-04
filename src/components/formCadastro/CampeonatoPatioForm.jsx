@@ -1,4 +1,9 @@
-export default function QuadraForm(handleFormSubmit){
+"use client";
+import { useState } from 'react';
+
+
+export default function QuadraForm({handleFormSubmit}){
+
   return(
     <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
       <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
