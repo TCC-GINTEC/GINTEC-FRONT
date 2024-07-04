@@ -6,11 +6,16 @@ import { Icon } from '@iconify/react';
 import JogosPatioForm from '@/components/formCadastro/JogosPatioForm'; 
 import ContainerJogosPatio from '@/components/formCadastro/ContainerJogosPatio';
 import Modal from '@/components/formCadastro/modal'
-
+import {useRouter} from 'next/navigation'
 
 export default function Patio() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [extraClicked, setExtraClicked] = useState(false);
+  const router = useRouter()
+  
+  const handleCancelar = () => {
+    router.push('/cadastros/novos')
+  }
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +53,7 @@ export default function Patio() {
           </div>
           <p className='text-[#005261] font-semibold'>Jogos de Patio</p>
         </div>
-        <JogosPatioForm handleFormSubmit={handleFormSubmit}  extraClicked={extraClicked}  setExtraClicked={setExtraClicked}/>
+        <JogosPatioForm handleFormSubmit={handleFormSubmit} handleCloseForm={handleCancelar} extraClicked={extraClicked}  setExtraClicked={setExtraClicked}/>
       </ContainerJogosPatio>
       {isModalOpen && (
         <>
