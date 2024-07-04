@@ -27,6 +27,7 @@ export default function Novo() {
         <div className={`w-3/4 bg-[#E6EFF0] rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'max-h-[300px] duration-300 p-6' : 'max-h-0 p-0'}`}>
           <ul className='space-y-4'>
             <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white'><Link href='/cadastros/novos/patio/jogos'>Jogos de Pátio</Link></li>
+            <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white'><Link href='/cadastros/novos/quadra'>Campeonatos de Pátio</Link></li>
             <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white'><Link href='/cadastros/novos/quadra'>Campeonatos de Quadra</Link></li>
             <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white'><Link href='/cadastros/novos/doacao'>Doações</Link></li>
           </ul>
