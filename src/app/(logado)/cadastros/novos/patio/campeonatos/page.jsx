@@ -3,12 +3,19 @@
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import {useRouter} from 'next/navigation'
 import CampeonatoPatioForm from '@/components/formCadastro/CampeonatoPatioForm'; // Renomeie o componente importado para evitar conflitos
 import ContainerCampeonatoPatio from '@/components/formCadastro/ContainerCampeonatoPatio'
 import Modal from '@/components/formCadastro/modal'
 
 export default function Campeonato() {
   const [isModalOpen, setModalOpen] = useState(false);
+  
+  const router = useRouter()
+      
+  const handleCancelar = () => {
+    router.push('/cadastros/novos')
+  }
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +54,7 @@ export default function Campeonato() {
           </div>
           <p className='text-[#005261] font-semibold'>Campeonato de Pátio</p>
         </div>
-        <CampeonatoPatioForm handleFormSubmit={handleFormSubmit}/>
+        <CampeonatoPatioForm handleFormSubmit={handleFormSubmit} handleCloseForm={handleCancelar}/>
       </ContainerCampeonatoPatio>
       {isModalOpen && (
         <>

@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react';
+import {useRouter} from 'next/navigation'
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import JogosPatioForm from '@/components/formCadastro/JogosPatioForm'; 
 import ContainerJogosPatio from '@/components/formCadastro/ContainerJogosPatio';
 import Modal from '@/components/formCadastro/modal'
-import {useRouter} from 'next/navigation'
 
 export default function Patio() {
   const [isModalOpen, setModalOpen] = useState(false);

@@ -75,11 +75,9 @@ export default function Patio({ handleFormSubmit, extraClicked, setExtraClicked,
         </div>
         <div className='flex sm:flex-row sm:justify-evenly'>
           <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
-          { 
           <button onClick={() => handleCloseForm()} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
             cancelar
           </button>
-          }
         </div>
       </form>
     </>

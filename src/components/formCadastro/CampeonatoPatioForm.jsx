@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 
-export default function QuadraForm({handleFormSubmit}){
+export default function QuadraForm({handleFormSubmit,handleCloseForm}){
 
   return(
     <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
@@ -22,7 +22,12 @@ export default function QuadraForm({handleFormSubmit}){
         Data
         <input type="date" name="dataCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
       </label>
-      <button type='submit' className='w-1/3 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
+      <div className='flex sm:flex-row justify-evenly w-full'>
+          <button type='submit' className=' w-1/3  sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
+          <button onClick={() => handleCloseForm()} type='button' className=' w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+            cancelar
+          </button>
+      </div>
     </form>
   )
 }
