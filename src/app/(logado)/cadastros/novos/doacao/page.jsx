@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import DoacaoForm from '@/components/formCadastro/DoacaoForm'
+import ContainerDoacao from '@/components/formCadastro/ContainerDoacao'
 
 export default function Doacao() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -35,7 +36,7 @@ export default function Doacao() {
         </Link>
         <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
       </div>
-      <div className='mx-auto relative flex flex-col items-center justify-center max-w-[525px] px-4 pt-11 pb-4 border border-[#DADADA] rounded-3xl shadow-xl'>
+      <ContainerDoacao>
         <Link href='/cadastros/novos' className='absolute left-4 top-3'>
           <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
         </Link>
@@ -47,7 +48,7 @@ export default function Doacao() {
           <p className='text-[#005261] font-semibold'>Doação</p>
         </div>
         <DoacaoForm handleFormSubmit={handleFormSubmit}/>
-      </div>
+      </ContainerDoacao>
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
