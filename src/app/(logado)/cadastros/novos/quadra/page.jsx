@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import QuadraForm from '@/components/formCadastro/QuadraForm'; // Renomeie o componente importado para evitar conflitos
+import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra'
 
 export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -33,7 +34,7 @@ export default function Quadra() {
         </Link>
         <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
       </div>
-      <div className='mx-auto relative flex flex-col items-center justify-center max-w-[525px] p-x-4 pt-11 pb-4 border border-[#DADADA] rounded-3xl shadow-xl'>
+      <ContainerCampeonatoQuadra>
         <Link href='/cadastros/novos' className='absolute left-4 top-3'>
           <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
         </Link>
@@ -45,7 +46,7 @@ export default function Quadra() {
           <p className='text-[#005261] font-semibold'>Campeonato de Quadra</p>
         </div>
         <QuadraForm handleFormSubmit={handleFormSubmit}/>
-      </div>
+      </ContainerCampeonatoQuadra>
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
