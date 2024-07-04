@@ -3,12 +3,19 @@
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import {useRouter} from 'next/navigation'
 import QuadraForm from '@/components/formCadastro/QuadraForm'; // Renomeie o componente importado para evitar conflitos
 import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra'
 import Modal from '@/components/formCadastro/modal'
 
 export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const router = useRouter()
+      
+  const handleCancelar = () => {
+    router.push('/cadastros/novos')
+  }
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -46,7 +53,7 @@ export default function Quadra() {
           </div>
           <p className='text-[#005261] font-semibold'>Campeonato de Quadra</p>
         </div>
-        <QuadraForm handleFormSubmit={handleFormSubmit}/>
+        <QuadraForm handleFormSubmit={handleFormSubmit}  handleCloseForm={handleCancelar}/>
       </ContainerCampeonatoQuadra>
       {isModalOpen && (
         <>
