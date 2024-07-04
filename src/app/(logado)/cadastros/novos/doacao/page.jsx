@@ -5,11 +5,12 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import DoacaoForm from '@/components/formCadastro/DoacaoForm'
 import ContainerDoacao from '@/components/formCadastro/ContainerDoacao'
+import Modal from '@/components/formCadastro/modal'
 
 export default function Doacao() {
   const [isModalOpen, setModalOpen] = useState(false);
   
-  function handleFormSubmit(e) {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     const target = e.target;
     let nome = target.nomeDoacao.value;
@@ -24,7 +25,7 @@ export default function Doacao() {
     }, 4000);
   }
 
-  function closeModal() {
+  const closeModal = () => {
     setModalOpen(false);
   }
 
@@ -52,18 +53,7 @@ export default function Doacao() {
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="w-[390px] h-[330px] bg-white p-6 rounded-lg shadow-lg relative ">
-              <img src="../../images/sucess-form.png" className='absolute -top-[43px] left-20' alt="" />
-              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={closeModal}>
-                ✕
-              </button>
-              <div className='mt-28 text-center'>
-                <h3 className="font-bold text-lg">Sucesso!</h3>
-                <p className="py-4  text-xl">Doação foi cadastrada com sucesso.</p>
-              </div>
-            </div>
-          </div>
+          <Modal closeModal={closeModal}/>
         </>
       )}
     </>

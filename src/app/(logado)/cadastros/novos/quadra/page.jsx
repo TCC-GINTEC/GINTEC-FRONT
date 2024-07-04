@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import QuadraForm from '@/components/formCadastro/QuadraForm'; // Renomeie o componente importado para evitar conflitos
 import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra'
+import Modal from '@/components/formCadastro/modal'
 
 export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -50,18 +51,7 @@ export default function Quadra() {
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="w-[390px] h-[330px] bg-white p-6 rounded-lg shadow-lg relative">
-            <img src="../../images/sucess-form.png" className='absolute -top-[43px] left-20' alt="" />
-              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={closeModal}>
-                ✕
-              </button>
-              <div className='mt-28 text-center'>
-                <h3 className="font-bold text-lg">Sucesso!</h3>
-                <p className="py-4 text-xl">Campeonato de quadra foi cadastrado com sucesso.</p>
-              </div>
-            </div>
-          </div>
+          <Modal closeModal={closeModal}/>
         </>
       )}
     </>

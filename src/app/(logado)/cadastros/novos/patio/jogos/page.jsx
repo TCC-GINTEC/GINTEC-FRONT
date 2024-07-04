@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import JogosPatioForm from '@/components/formCadastro/JogosPatioForm'; 
 import ContainerJogosPatio from '@/components/formCadastro/ContainerJogosPatio';
+import Modal from '@/components/formCadastro/modal'
 
 
 export default function Patio() {
@@ -21,6 +22,10 @@ export default function Patio() {
       setModalOpen(true);
     }, 4000);
   };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  }
 
   return (
     <>
@@ -48,18 +53,7 @@ export default function Patio() {
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="w-[390px] transition-all delay-1000 h-[330px] bg-white p-6 rounded-lg shadow-lg relative">
-              <img src="../../../images/sucess-form.png" className='absolute -top-[43px] left-20' alt="Success" />
-              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={() => setModalOpen(false)}>
-                ✕
-              </button>
-              <div className='mt-28 text-center'>
-                <h3 className="font-bold text-lg">Sucesso!</h3>
-                <p className="py-4 text-xl">Jogo de pátio foi cadastrado com sucesso.</p>
-              </div>
-            </div>
-          </div>
+          <Modal closeModal={closeModal}/>
         </>
       )}
     </>
