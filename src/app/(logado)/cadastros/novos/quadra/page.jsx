@@ -46,7 +46,7 @@ export default function Quadra() {
         <Link href='/cadastros/novos' className='absolute left-4 top-3'>
           <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
         </Link>
-        <div className='flex flex-col w-3/4 h-[70px] px-6 pt-2 text-lg rounded-2xl bg-[#E6EFF0]'>
+        <div className='flex flex-col w-3/4 sm:h-[70px] px-6 pt-2 text-lg rounded-2xl bg-[#E6EFF0]'>
           <div className='flex text-sm text-[#666666] pt-1'>
             <p className='flex-1'>Tipo de cadastro</p>
             <Icon icon="iconamoon:arrow-down-2-duotone" width={30} style={{ color: "#005261" }} />
@@ -71,8 +71,8 @@ export default function Quadra() {
             <input type="date" name="dataCampeonato" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
           </label>
           <div className='flex sm:flex-row justify-evenly w-full'>
-              <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
-              <button onClick={() => handleBackPageNovos()} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+              <button type='submit' className='sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
+              <button onClick={() => handleBackPageNovos()} type='button' className='sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
                 cancelar
               </button>
           </div>

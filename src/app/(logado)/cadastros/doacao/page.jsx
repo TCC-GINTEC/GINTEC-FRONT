@@ -101,7 +101,7 @@ export default function Doacao() {
     <>
       <div className='grid sm:grid-cols-3 grid-cols-1 gap-4  w-full md:w-1/2 sm:mx-auto text-wrap'>
         {retornoApi.map((jogo) => (
-          <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-8 rounded-xl font-semibold text-wrap'>
+          <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold text-wrap'>
             {jogo.nome}
           </div>
         ))}
@@ -109,7 +109,7 @@ export default function Doacao() {
       {showForm && (
           <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-            <ContainerDoacao alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}>
+            <ContainerDoacao alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'-mt-40 sm:m-auto fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}>
             <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col z-50 bg-white'>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                 Nome Doacao
@@ -123,9 +123,9 @@ export default function Doacao() {
                 Data
                 <input type="text" name="dataCampeonato" value={dataDoacao}  onChange={(e) => setDataDoacao(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
-              <div className='flex sm:flex-row sm:justify-evenly w-full'>
-                  <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
-                  <button onClick={() => handleCloseForm()} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+              <div className='flex sm:flex-row justify-evenly w-full gap-2'>
+                  <button type='submit' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
+                  <button onClick={() => handleCloseForm()} type='button' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
                     cancelar
                   </button>
               </div>

@@ -43,7 +43,7 @@ export default function Cadastros(){
         </div>
       </section> 
       <section 
-       onClick={() => router.push('cadastros/doacoes')} 
+       onClick={() => router.push('cadastros/doacao')} 
       className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
       transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-doacoes.png" alt="test image"/>

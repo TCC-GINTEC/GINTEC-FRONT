@@ -74,8 +74,8 @@ export default function Campeonato() {
               <input type="date" name="dataCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
             </label>
             <div className='flex sm:flex-row justify-evenly w-full'>
-              <button type='submit' className=' w-1/3  sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
-              <button onClick={() => handleBackPageNovos()} type='button' className=' w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+              <button type='submit' className=' sm:w-1/3  sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
+              <button onClick={() => handleBackPageNovos()} type='button' className=' sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
                 cancelar
               </button>
             </div>

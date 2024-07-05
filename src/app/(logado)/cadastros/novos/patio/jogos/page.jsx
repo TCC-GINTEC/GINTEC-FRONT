@@ -65,7 +65,7 @@ export default function Patio() {
             <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
           </Link>
         </div>
-        <div className='flex flex-col w-3/4 h-[70px] px-6 pt-2 text-lg rounded-2xl bg-[#E6EFF0]'>
+        <div className='flex flex-col w-3/4 sm:h-[70px] px-6 pt-2 text-lg rounded-2xl bg-[#E6EFF0]'>
           <div className='flex text-sm text-[#666666]'>
             <p className='flex-1'>Tipo de cadastro</p>
             <Icon icon="iconamoon:arrow-down-2-duotone" width={30} style={{ color: "#005261" }} />
@@ -73,7 +73,7 @@ export default function Patio() {
           <p className='text-[#005261] font-semibold'>Jogos de Patio</p>
         </div>
         
-        <form onSubmit={handleFormSubmit} className='p-4 mt-10 w-full flex flex-col'>
+        <form onSubmit={handleFormSubmit} className='p-4  w-full flex flex-col'>
         <div className='flex sm:flex-row flex-col gap-4'>
           <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2 transition-all duration-700' : 'w-full duration-700'}`}>
             <input type="text" name='id' />
@@ -116,8 +116,8 @@ export default function Patio() {
             </div>
           )}
         </div>
-        <div className='flex sm:flex-row justify-evenly'>
-          <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
+        <div className='flex sm:flex-row justify-evenly mt-10 '>
+          <button type='submit' className='w-1/3 sm:mt-10  rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
           <button onClick={backPageNovos} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
             Cancelar
           </button>
