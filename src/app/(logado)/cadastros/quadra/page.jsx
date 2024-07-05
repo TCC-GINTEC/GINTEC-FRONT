@@ -117,20 +117,30 @@ export default function Quadra() {
         <>
           <div  className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
           <ContainerCampeonatoQuadra alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'fixed inset-0 flex items-center justify-center z-50 p-4'}>
-            <QuadraForm 
-              setNomeCampeonato={setNomeCampeonato}
-              setPontoCampeonato={setPontoCampeonato}
-              setFaseCampeonato={setFaseCampeonato}
-              setDataCampeonato={setDataCampeonato}
-              handleCloseForm={handleCloseForm}
-              handleFormSubmit={handleFormSubmit}
-              extraClicked={extraClicked}
-              setExtraClicked={setExtraClicked}
-              valueNome={nomeCampeonato}
-              valuePonto={pontoCampeonato}
-              valueFase={faseCampeonato}
-              valueData={dataCampeonato}
-            />
+          <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
+            <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+              Nome campeonato
+              <input type="text" name="nomeCampeonato" value={nomeCampeonato} onChange={(e) => setNomeCampeonato(e.target.value)}  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+            </label>
+            <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+              Pontuação do campeonato
+              <input type="number" name="pontoCampeonato" value={pontoCampeonato} onChange={(e) => setPontoCampeonato(Number(e.target.value))}className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+            </label>
+            <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+              Quantidade de fases
+              <input type="number" name="qntFases" value={faseCampeonato} onChange={(e) => setFaseCampeonato(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+            </label>
+            <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+              Data
+              <input type="date" name="dataCampeonato" value={dataCampeonato} value={dataCampeonato} onChange={(e) => setDataCampeonato(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+            </label>
+            <div className='flex sm:flex-row sm:justify-evenly w-full'>
+                <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
+                <button onClick={() => handleCloseForm()} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+                  cancelar
+                </button>
+            </div>
+          </form>
           </ContainerCampeonatoQuadra>
         </>
       )}
