@@ -16,7 +16,7 @@ export default function Cadastros(){
           <p>Novo Cadastro</p>
         </div>
       </section> 
-      <section onClick={() => router.push('cadastros/patio')}  className="relative w-[240px] h-[150px] *:absolute *:w-full  hover:cursor-pointer  duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
+      <section onClick={() => router.push('cadastros/patio_jogos')}  className="relative w-[240px] h-[150px] *:absolute *:w-full  hover:cursor-pointer  duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-patio.png" alt="test image"/>
         <div  className="inset-4 flex items-center  text-white text-xl">
           Jogos de Pátio
@@ -32,7 +32,9 @@ export default function Cadastros(){
         <p>de Quadra</p>
         </div>
       </section>
-      <section class="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
+      <section 
+      onClick={() => router.push('cadastros/patio_campeonatos')} 
+      class="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
       transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-jogos-patio.png" alt="test image"/>
         <div className="inset-4 flex  flex-col justify-center text-white text-xl">
@@ -40,7 +42,9 @@ export default function Cadastros(){
           <p>de Pátio</p>
         </div>
       </section> 
-      <section className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
+      <section 
+       onClick={() => router.push('cadastros/doacoes')} 
+      className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
       transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-doacoes.png" alt="test image"/>
         <div className="inset-4 flex  flex-col justify-center text-white text-xl">

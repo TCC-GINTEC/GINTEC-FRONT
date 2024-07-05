@@ -115,7 +115,7 @@ export default function Patio() {
 
   return (
     <>
-      <div className='grid grid-cols-3 gap-4  w-full md:w-1/2 sm:mx-auto'>
+      <div className='grid sm:grid-cols-3 grid-cols-1 gap-4  w-full md:w-1/2 sm:mx-auto'>
         {retornoApi.map((jogo) => (
           <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-8 rounded-xl font-semibold'>
             {jogo.nome}
@@ -169,7 +169,7 @@ export default function Patio() {
                   </div>
                 )}
               </div>
-              <div className='flex sm:flex-row sm:justify-evenly'>
+              <div className='flex sm:flex-row justify-evenly'>
                 <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
                 <button onClick={handleCloseForm} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
                   Cancelar

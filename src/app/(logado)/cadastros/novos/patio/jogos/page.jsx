@@ -116,7 +116,7 @@ export default function Patio() {
             </div>
           )}
         </div>
-        <div className='flex sm:flex-row sm:justify-evenly'>
+        <div className='flex sm:flex-row justify-evenly'>
           <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
           <button onClick={backPageNovos} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
             Cancelar
