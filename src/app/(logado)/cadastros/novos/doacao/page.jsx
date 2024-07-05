@@ -21,7 +21,7 @@ export default function Doacao() {
     e.preventDefault();
     const target = e.target;
     let nome = target.nomeDoacao.value;
-    let ponto = target.pontoDoacao.value;
+    let ponto = Number(target.pontoDoacao.value);
     let data = target.dataDoacao.value;
 
     setTimeout(() => {
@@ -59,7 +59,7 @@ export default function Doacao() {
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Pontuação da Doação
-            <input type="number" name="pontoDoacao" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+            <input type="text" name="pontoDoacao" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Data para Doar

@@ -22,8 +22,8 @@ export default function Campeonato() {
     console.log(e)
     const target = e.target;
     const nome = target.nomeCampeonato.value;
-    const ponto = target.pontoCampeonato.value;
-    const qntFase = target.qntFases.value;
+    const ponto = Number(target.pontoCampeonato.value);
+    const qntFase = Number(target.qntFases.value);
     const data = target.dataCampeonato.value;
     console.log(data)
     
@@ -63,11 +63,11 @@ export default function Campeonato() {
             </label>
             <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Pontuação do campeonato
-              <input type="number" name="pontoCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="text" name="pontoCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
             </label>
             <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Quantidade de fases
-              <input type="number" name="qntFases" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="text" name="qntFases" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
             </label>
             <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Data
