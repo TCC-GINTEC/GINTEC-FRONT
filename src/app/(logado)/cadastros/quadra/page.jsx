@@ -2,48 +2,53 @@
 
 import { useState } from 'react';
 import Modal from '@/components/formCadastro/modal';
-import ContainerCampeonatoPatio from '@/components/formCadastro/ContainerCampeonatoPatio';
-import JogosPatioForm from '@/components/formCadastro/JogosPatioForm';
+import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra';
+import QuadraForm from '@/components/formCadastro/QuadraForm';
 
-export default function Patio() {
+export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [extraClicked, setExtraClicked] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [nomeJogo, setNomeJogo] = useState('');
-  const [pontoJogo, setPontoJogo] = useState('');
-  const [dataJogo, setDataJogo] = useState('');
-  const [pontoExtra, setPontoExtra] = useState(50);
+  const [nomeCampeonato, setNomeCampeonato] = useState('');
+  const [pontoCampeonato, setPontoCampeonato] = useState('');
+  const [dataCampeonato, setDataCampeonato] = useState('');
+  const [faseCampeonato, setFaseCampeonato] =useState('');
   const [idObjetoSelecionado, setIdObjetoSelecionado] = useState(null);
 
   const [retornoApi, setRetornoApi] = useState([
     {
       id: 1,
-      nome: 'Skate',
+      nome: 'Futsal',
       ponto: 200,
+      fase:3,
       data: new Date('2024-08-01'),
-    },
+    },  
     {
       id: 2,
-      nome: 'Labirinto 3D',
+      nome: 'Futsal Fem',
       ponto: 150,
+      fase:3,
       data: new Date('2024-07-20'),
     },
     {
       id: 3,
-      nome: 'Damas',
+      nome: 'Futsal Masc',
       ponto: 100,
+      fase:3,
       data: new Date('2024-07-15'),
     },
     {
       id: 4,
-      nome: 'Pebolim',
+      nome: 'Volei',
       ponto: 250,
+      fase:3,
       data: new Date('2024-07-25'),
     },
     {
       id: 5,
-      nome: 'Bicicleta',
+      nome: 'Queimada',
       ponto: 180,
+      fase:3,
       data: new Date('2024-07-30'),
     }
   ]);
@@ -51,24 +56,26 @@ export default function Patio() {
   const handleShowForm = (jogo) => {
     setShowForm(true);
     setIdObjetoSelecionado(jogo.id);
-    setNomeJogo(jogo.nome);
-    setPontoJogo(jogo.ponto);
-    setDataJogo(jogo.data.toISOString().split('T')[0]); // format date for input type="date"
+    setNomeCampeonato(jogo.nome);
+    setPontoCampeonato(jogo.ponto);
+    setFaseCampeonato(jogo.fase); // format date for input type="date"
+    setDataCampeonato(jogo.data.toISOString().split('T')[0]); // format date for input type="date"
   }
 
   const handleCloseForm = () => {
     setShowForm(false);
     setIdObjetoSelecionado(null);
-    setNomeJogo('');
-    setPontoJogo('');
-    setDataJogo('');
+    setNomeCampeonato('');
+    setPontoCampeonato('');
+    setDataCampeonato('');
   }
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const nome = nomeJogo;
-    const ponto = extraClicked ? (Number(pontoJogo) + Number(pontoExtra)) : Number(pontoJogo);
-    const data = new Date(dataJogo);
+    const nome = nomeCampeonato;
+    const ponto = Number(pontoCampeonato);
+    const fase = Number(faseCampeonato);
+    const data = new Date(dataCampeonato);
 
     const posicao = retornoApi.findIndex(
       (elemento) => elemento.id === idObjetoSelecionado
@@ -79,6 +86,7 @@ export default function Patio() {
       id: idObjetoSelecionado,
       nome: nome,
       ponto: ponto,
+      fase:fase,
       data: data,
     };
 
@@ -107,22 +115,23 @@ export default function Patio() {
       </div>
       {showForm && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <ContainerCampeonatoPatio alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'fixed inset-0 flex items-center justify-center z-50 p-4'}>
-            <JogosPatioForm
-              setNomeJogo={setNomeJogo}
-              setPontoJogo={setPontoJogo}
-              setPontoExtra={setPontoExtra}
-              pontoExtra={pontoExtra}
+          <div  className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+          <ContainerCampeonatoQuadra alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'fixed inset-0 flex items-center justify-center z-50 p-4'}>
+            <QuadraForm 
+              setNomeCampeonato={setNomeCampeonato}
+              setPontoCampeonato={setPontoCampeonato}
+              setFaseCampeonato={setFaseCampeonato}
+              setDataCampeonato={setDataCampeonato}
               handleCloseForm={handleCloseForm}
               handleFormSubmit={handleFormSubmit}
               extraClicked={extraClicked}
               setExtraClicked={setExtraClicked}
-              valueNome={nomeJogo}
-              valuePonto={pontoJogo}
-              valueData={dataJogo}
+              valueNome={nomeCampeonato}
+              valuePonto={pontoCampeonato}
+              valueFase={faseCampeonato}
+              valueData={dataCampeonato}
             />
-          </ContainerCampeonatoPatio>
+          </ContainerCampeonatoQuadra>
         </>
       )}
       {isModalOpen && (

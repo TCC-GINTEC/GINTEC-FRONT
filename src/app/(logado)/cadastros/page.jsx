@@ -16,27 +16,32 @@ export default function Cadastros(){
           <p>Novo Cadastro</p>
         </div>
       </section> 
-      <section class="relative w-[240px] h-[150px] *:absolute *:w-full">
+      <section onClick={() => router.push('cadastros/patio')}  className="relative w-[240px] h-[150px] *:absolute *:w-full  hover:cursor-pointer  duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-patio.png" alt="test image"/>
-        <div onClick={() => router.push('cadastros/patio')}  className="inset-4 flex items-center  text-white text-xl">
+        <div  className="inset-4 flex items-center  text-white text-xl">
           Jogos de Pátio
         </div>
       </section>
-      <section class="relative w-[240px] h-[150px] *:absolute *:w-full">
+      <section
+      onClick={() => router.push('cadastros/quadra')} 
+      class="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
+      transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-camepeonatos-quadra.png" alt="test image"/>
         <div className="inset-4 flex flex-col justify-center  text-white text-xl">
         <p>Campeonatos </p>
         <p>de Quadra</p>
         </div>
       </section>
-      <section class="relative w-[240px] h-[150px] *:absolute *:w-full">
+      <section class="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
+      transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-jogos-patio.png" alt="test image"/>
         <div className="inset-4 flex  flex-col justify-center text-white text-xl">
           <p>Campeonatos </p>
           <p>de Pátio</p>
         </div>
       </section> 
-      <section className="relative w-[240px] h-[150px] *:absolute *:w-full">
+      <section className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
+      transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-doacoes.png" alt="test image"/>
         <div className="inset-4 flex  flex-col justify-center text-white text-xl">
           <p>Doações</p>
@@ -45,7 +50,7 @@ export default function Cadastros(){
       <section onClick={() => router.push('cadastros/novos')} 
       className=" hidden sm:block relative w-[240px] h-[150px] border-4 
       rounded-lg border-dashed border-gray-600*:absolute *:w-full
-      hover:cursor-pointer"
+      duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 "
       >
         <Icon icon={'ph:plus'} className='mt-5' width={50}></Icon>
         <div className="inset-5 flex  flex-col justify-center text-xl text-center font-semibold ">
