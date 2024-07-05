@@ -85,18 +85,21 @@ export default function Salas() {
           <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />filtrar
         </div>
         {showFilterOptions && (
-          <div className="absolute bg-white shadow-md rounded-lg mt-20 right-0  w-48 py-2">
-            <ul>
-              <li className="cursor-pointer hover:bg-gray-100 py-1 px-3" onClick={() => handleFiltroCursos({ target: { value: '' } })}>
-                Todos os cursos
-              </li>
-              {uniqueCursos.map((curso, index) => (
-                <li key={index} className="cursor-pointer hover:bg-gray-100 py-1 px-3" onClick={() => handleFiltroCursos({ target: { value: curso } })}>
-                  {curso}
+          <>
+            <div  className="fixed inset-0 bg-black bg-opacity-20 z-50 "></div>
+            <div className="absolute bg-white shadow-md rounded-lg mt-20 right-0  w-48 py-2 z-50">
+              <ul>
+                <li className="cursor-pointer hover:bg-gray-100 py-1 px-3" onClick={() => handleFiltroCursos({ target: { value: '' } })}>
+                  Todos os cursos
                 </li>
-              ))}
-            </ul>
-         </div>
+                {uniqueCursos.map((curso, index) => (
+                  <li key={index} className="cursor-pointer hover:bg-gray-100 py-1 px-3" onClick={() => handleFiltroCursos({ target: { value: curso } })}>
+                    {curso}
+                  </li>
+                ))}
+                </ul>
+              </div>
+            </>
          )}
        </div>
 
