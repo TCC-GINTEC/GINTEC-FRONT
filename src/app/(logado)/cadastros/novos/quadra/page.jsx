@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import {useRouter} from 'next/navigation'
-import QuadraForm from '@/components/formCadastro/QuadraForm'; // Renomeie o componente importado para evitar conflitos
 import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra'
 import Modal from '@/components/formCadastro/modal'
 

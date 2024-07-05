@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Modal from '@/components/formCadastro/modal';
 import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra';
-import QuadraForm from '@/components/formCadastro/QuadraForm';
 
 export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);

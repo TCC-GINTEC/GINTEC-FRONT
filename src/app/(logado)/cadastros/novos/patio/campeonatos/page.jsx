@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import {useRouter} from 'next/navigation'
-import CampeonatoPatioForm from '@/components/formCadastro/CampeonatoPatioForm'; // Renomeie o componente importado para evitar conflitos
 import ContainerCampeonatoPatio from '@/components/formCadastro/ContainerCampeonatoPatio'
 import Modal from '@/components/formCadastro/modal'
 

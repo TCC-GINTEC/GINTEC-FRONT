@@ -4,7 +4,6 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import Modal from '@/components/formCadastro/modal';
 import ContainerCampeonatoPatio from '@/components/formCadastro/ContainerCampeonatoPatio';
-import JogosPatioForm from '@/components/formCadastro/JogosPatioForm';
 
 export default function Patio() {
   const [isModalOpen, setModalOpen] = useState(false);
