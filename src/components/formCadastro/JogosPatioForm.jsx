@@ -4,13 +4,8 @@ import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next/navigation';
 
-export default function Patio({ handleFormSubmit, extraClicked, setExtraClicked, handleCloseForm}) {
+export default function JogosPatioForm({ handleFormSubmit, extraClicked, setExtraClicked, handleCloseForm, setNomeJogo, setPontoJogo, setDataJogo, valueNome, valueData, valuePonto, pontoExtra, setPontoExtra}) {
   const router = useRouter();
-  const [pontoExtra, setPontoExtra] = useState(50);
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   const handleExtraClick = () => {
     setExtraClicked(!extraClicked);
@@ -34,17 +29,18 @@ export default function Patio({ handleFormSubmit, extraClicked, setExtraClicked,
       <form onSubmit={handleFormSubmit} className='p-4 mt-10 w-full flex flex-col'>
         <div className='flex sm:flex-row flex-col gap-4'>
           <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2 transition-all duration-700' : 'w-full duration-700'}`}>
+            <input type="text" name='id' />
             <label className='flex flex-col gap-3 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Nome do Jogo
-              <input type="text" name="nomeJogo" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="text" name="nomeJogo" value={valueNome} onChange={(e) => setNomeJogo(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
             </label>
             <label className='flex flex-col gap-2 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Pontuação do Jogo
-              <input type="number" name="pontoJogo" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="number" name="pontoJogo" value={valuePonto} onChange={(e) => setPontoJogo(Number(e.target.value))} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
             </label>
             <label className='flex flex-col gap-3 w-full  px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Data
-              <input type="date" name="dataJogo" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="date" name="dataJogo" value={valueData} onChange={(e) => setDataJogo(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
             </label>
             <label className='flex justify-between items-center gap-3 w-full px-9 pt-2 h-[70px] pb-2 rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Pontuação do Extra
@@ -59,7 +55,7 @@ export default function Patio({ handleFormSubmit, extraClicked, setExtraClicked,
               <div className='flex flex-col w-3/4 gap-2'>
                 <label className='flex flex-col gap-2 text-[#DADADA] border-b-4'>
                   Adicionar pontos
-                  <input type="number" name='pontoExtra' value={pontoExtra} readOnly className='text-[#005261] font-semibold text-lg' />
+                  <input type="number" name='pontoExtra' value={pontoExtra} onChange={(e) => setPontoExtraJogo(Number(e.target.value))} className='text-[#005261] font-semibold text-lg' />
                 </label>
                 <div className='flex items-center justify-between'>
                   <button type='button' onClick={() => handlePontoExtra(0)} className='bg-[#E6EFF0] p-2 rounded-full'>
@@ -75,8 +71,8 @@ export default function Patio({ handleFormSubmit, extraClicked, setExtraClicked,
         </div>
         <div className='flex sm:flex-row sm:justify-evenly'>
           <button type='submit' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
-          <button onClick={() => handleCloseForm()} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
-            cancelar
+          <button onClick={handleCloseForm} type='button' className='w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+            Cancelar
           </button>
         </div>
       </form>

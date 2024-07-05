@@ -11,6 +11,7 @@ import Modal from '@/components/formCadastro/modal'
 export default function Patio() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [extraClicked, setExtraClicked] = useState(false);
+  const [pontoExtra, setPontoExtra] = useState(50);
   const router = useRouter()
   
   const handleCancelar = () => {
@@ -23,6 +24,8 @@ export default function Patio() {
     const nome = target.nomeJogo.value;
     const data = target.dataJogo.value;
     const ponto = extraClicked ? (Number(target.pontoJogo.value) + Number(target.pontoExtra.value)) : Number(target.pontoJogo.value);
+    console.log(ponto)
+    
     setTimeout(() => {
       setModalOpen(true);
     }, 4000);
@@ -53,7 +56,14 @@ export default function Patio() {
           </div>
           <p className='text-[#005261] font-semibold'>Jogos de Patio</p>
         </div>
-        <JogosPatioForm handleFormSubmit={handleFormSubmit} handleCloseForm={handleCancelar} extraClicked={extraClicked}  setExtraClicked={setExtraClicked}/>
+        <JogosPatioForm 
+          handleFormSubmit={handleFormSubmit}
+           handleCloseForm={handleCancelar}
+           extraClicked={extraClicked}
+           setExtraClicked={setExtraClicked}
+           pontoExtra={pontoExtra}
+           setPontoExtra={setPontoExtra}
+           />
       </ContainerJogosPatio>
       {isModalOpen && (
         <>

@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 
 export default function Cadastros(){
   const router = useRouter()
+
   return(
     <div className='xl:w-2/4 flex flex-col justify-start m-auto'>
     <h1 className='text-3xl mb-10'>Cadastros</h1>
