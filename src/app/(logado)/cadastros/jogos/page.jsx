@@ -126,7 +126,7 @@ export default function Patio() {
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
           <ContainerCampeonatoPatio alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'fixed inset-0 flex items-center justify-center z-50 p-4'}>
-            <form onSubmit={handleFormSubmit} className='p-4 mt-10 w-full flex flex-col'>
+            <form onSubmit={handleFormSubmit} className='p-4 w-full flex flex-col'>
               <div className='flex sm:flex-row flex-col gap-4'>
                 <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2 transition-all duration-700' : 'w-full duration-700'}`}>
                   <input type="text" name='id' />
