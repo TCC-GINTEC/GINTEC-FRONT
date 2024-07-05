@@ -129,7 +129,7 @@ export default function Salas() {
                 onClick={() => router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
                 className="h-[100px] w-full rounded-xl shadow-md flex justify-evenly items-center gap-4 p-4 md:p-9"
               >
-                <div className='flex justify-center border border-red-500 w-1/3'>
+                <div className='flex justify-center w-1/3'>
                   <div className="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center">
                     {/* Conteúdo dentro do círculo */}
                   </div>

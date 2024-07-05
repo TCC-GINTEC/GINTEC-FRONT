@@ -74,7 +74,7 @@ export default function Sala() {
   ];
 
   return (
-    <>
+    <div className='pl-[90px]'>
       <div className='mx-auto pl-5 md:pl-20 flex flex-col gap-20 m-5'>
         <button className=''>
           <Link href={'/salas'}>
@@ -117,7 +117,7 @@ export default function Sala() {
       </div>
 
       {moveBar === "principal" && (
-        <div className="md:w-[90%] mx-auto">
+        <div className="md:w-[85%] mx-auto">
           <div className="overflow-x-auto rounded-lg bg-[#005261]">
             <div className="flex">
               <div className="w-[300px]">
@@ -237,6 +237,6 @@ export default function Sala() {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
