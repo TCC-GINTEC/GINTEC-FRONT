@@ -12,6 +12,8 @@ export default function Ranking() {
   const [seachDate, setSeachDate] = useState("");
   const [data, setData] = useState([]);
   const [showFilterOptions, setShowFilterOptions] = useState(false);
+  const [showFilterOptions2, setShowFilterOptions2] = useState(false);
+
   const [showOtherInfo, setShowOtherInfo] = useState(false);
 
   const handleToggleOtherInfo = () => {
@@ -57,6 +59,24 @@ export default function Ranking() {
                  <div className="bg-white shadow-md rounded-lg sm:w-[192px] py-2 z-50">
                     <ul className='z-50'>
                       <li className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
+                        data 1
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/*opções filtro */}
+            <div className='mt-4 flex items-end flex-col '>
+              
+              <div  onClick={() => setShowFilterOptions2(!showFilterOptions2)} className='h-[44px] w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'>
+                <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
+              </div>
+              {showFilterOptions2 && (
+                <div className='z-50'>
+                  <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2 z-50">
+                    <ul>
+                      <li className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Todas as salas <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
                       </li>
                     </ul>
@@ -66,37 +86,13 @@ export default function Ranking() {
                       <li className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Todas as salas 
                       </li>
-                        <li className="pl-6  mt-5 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                        <li className="pl-  mt-5 cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Melhores Padrinhos 
                       </li>
-                      </ul>
-                   </div>
+                    </ul>
+                </div>
                 </div>
               )}
-            </div>
-            {/*opções filtro */}
-            <div className='mt-4 flex items-end flex-col '>
-              
-              <div className='h-[44px] w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'>
-                <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
-              </div>
-              <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2 z-50">
-                <ul>
-                  <li className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
-                    Todas as salas <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow-md rounded-lg mt-5 sm:w-[192px] py-2 z-50">
-                <ul>
-                  <li className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
-                    Todas as salas 
-                  </li>
-                    <li className="pl-  mt-5 cursor-pointer hover:bg-gray-100 py-1 px-3">
-                    Melhores Padrinhos 
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>
@@ -196,7 +192,7 @@ export default function Ranking() {
           </div>
           {/*divs do 4 colocaod rpa baixo*/}
           <div className='flex flex-col  mt-2 w-full rounded-xl shadow-lg'>
-            <div className={`w-full flex   z-50 ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
+             <div className={`w-full flex   z-50 ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
                 <div className='flex z-50 w-full'>
                   <div className={`w-full flex sm:pl-6 items-center gap-2 sm:gap-2 xl:gap-3  bg-[#005261]xl:w-1/2 border border-orange-500 ${showOtherInfo?'bg-[#005261]': ' bg-white'}`}>
                     <div className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${showOtherInfo?'text-[#005261] bg-white':'text-[#005261] bg-[#E6EFF0]'}  text-4xl`}>
@@ -276,7 +272,9 @@ export default function Ranking() {
                 )}
              </div>
            </div>
-          </div> 
+           
+          </div>
+           
           <div className="border w-full">
             {/*codigo do nathan*/}
             <Scores users={data} />
