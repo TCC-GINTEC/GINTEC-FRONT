@@ -7,19 +7,7 @@ import httpClient from "@/service/api"
 import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 
-const alunos = [
-  { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17902 },
-  { "nome": "André", "curso": "administracao", "serie": "3º", "pontuacao": 17512 },
-  { "nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11297 },
-  { "nome": "Felipe", "curso": "contabilidade", "serie": "3º", "pontuacao": 13656 },
-  { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17437 },
-  { "nome": "Paula", "curso": "administracao", "serie": "3º", "pontuacao": 13236 },
-
-];
-
 export default function Ranking() {
-  const [data, setData] = useState([]); // os dados de alunos filtrados são jogados aqui
-
   const [selectRanking, setSelectRanking] = useState("");
   const [seachDate, setSeachDate] = useState("");
   
@@ -32,8 +20,24 @@ export default function Ranking() {
     setShowOtherInfo(!showOtherInfo);
   };
 
+  const [data, setData] = useState([
+    { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17902 },
+    { "nome": "André", "curso": "administracao", "serie": "3º", "pontuacao": 17512 },
+    { "nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11297 },
+    { "nome": "Felipe", "curso": "contabilidade", "serie": "3º", "pontuacao": 13656 },
+    { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17437 },
+    { "nome": "Paula", "curso": "administracao", "serie": "3º", "pontuacao": 13236 },
+  ]);
+
+  const [selectedPodium, setSelectedPodium] = useState(null);
+
+  const handlePodiumClick = (index) => {
+    // Se o mesmo pódio estiver selecionado, desselecione-o
+    setSelectedPodium(selectedPodium === index ? null : index);
+  };
+
   useEffect(() => { 
-    setData(alunos.sort((a, b) => b.pontuacao - a.pontuacao)); // dados dos alunos organizados aqui
+    setData(data.sort((a, b) => b.pontuacao - a.pontuacao)); // dados dos alunos organizados aqui
   }, []);
 
   //codigo do nathan
@@ -135,6 +139,7 @@ export default function Ranking() {
                 <p className='font-medium'>{aluno.nome} </p>
                 <p className='text-center'>{aluno.serie} {aluno.curso}</p>
                 <p className='text-[#FFC24C] font-semibold'>{aluno.pontuacao}</p>
+                <div className="cursor-pointer" onClick={() => handlePodiumClick(index)}>Ver detalhes</div>
               </div>
             ))}
           </div>
@@ -142,33 +147,33 @@ export default function Ranking() {
  
         <div className="bg-slate-100 rounded-xl  mb-5 sm:p-3 flex-col flex items-center ">
           {/* Três primeiros lugares */}
-          {data.slice(0, 3).map((aluno, index) => (
-            <div key={index} className='bg-[#005261] flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
+          {selectedPodium !== null && (
+            <div className='bg-[#005261] flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
               <div className='flex items-center gap-2 sm:gap-2 xl:gap-3 w-1/2 xl:w-1/2 border border-orange-500'>
-                <div className='flex justify-center items-center w-[40px]  h-[65px] sm:p-2 rounded-xl text-[#005261] bg-white text-4xl'>
-                  {index + 1}
+                <div className='flex justify-center items-center w-[40px] h-[65px] sm:p-2 rounded-xl text-[#005261] bg-white text-4xl'>
+                  {selectedPodium + 1}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
                   <img src="images/bolinha.png" className='hidden sm:block' alt="" />
-                  <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{aluno.nome}</h2>
+                  <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{data[selectedPodium].nome}</h2>
                 </div>
               </div>
               <div className='flex justify-end w-1/2 border border-yellow-500'>
                 <div className='w-full border-x-2 sm:border-x-4'>
-                  <p className='text-white text-center'>serie</p>
-                  <p className='text-[#FFC24C] text-center'>{aluno.serie} {aluno.curso}</p>
+                  <p className='text-white text-center'>Série</p>
+                  <p className='text-[#FFC24C] text-center'>{data[selectedPodium].serie} {data[selectedPodium].curso}</p>
                 </div>
-                <div className='w-full '>
-                  <p className='text-white text-center'>diferença pro 1º lugar</p>
-                  <p className='text-[#FFC24C] text-center'>{data[0].pontuacao - aluno.pontuacao}</p>
+                <div className='w-full'>
+                  <p className='text-white text-center'>Diferença para o 1º lugar</p>
+                  <p className='text-[#FFC24C] text-center'>{data[0].pontuacao - data[selectedPodium].pontuacao}</p>
                 </div>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-white text-center'>Pontuação final</p>
-                  <p className='text-[#FFC24C] text-center'>{aluno.pontuacao}</p>
+                  <p className='text-[#FFC24C] text-center'>{data[selectedPodium].pontuacao}</p>
                 </div>
               </div>
             </div>
-          ))}
+          )}
           {/*Demais alunos*/}
           {data.slice(3).map((aluno, index) => (
             <div key={index + 3} className='bg-white flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
@@ -278,32 +283,8 @@ export default function Ranking() {
                   </div>    
                 )}
              </div>
-           </div>
-           
-          </div>
-           
-          <div className="border w-full">
-             {/* <div className='mx-auto flex sm:justify-between flex-col sm:flex-row gap-4 w-3/4 p-4'> 
-            <input
-              className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
-              value={seachDate}
-              onChange={(evt) => setSeachDate(evt.target.value)}
-              placeholder="ranking por data..."
-            />
-            <select
-              className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
-              value={selectRanking}
-              onChange={(evt) => setSelectRanking(evt.target.value)}
-            >
-              <option value="todos jogadores">todos jogadores</option>
-              <option value="melhores jogadores">Melhores jogadores</option>
-              <option value="melhores padrinhos">Melhores padrinhos</option>
-            </select>
-         </div> */}
-
-            {/*codigo do nathan*/}
-            {/* <Scores users={data} /> */}
-          </div>
+           </div>  
+          </div> 
         </div>
      </div> 
 );
