@@ -21,7 +21,7 @@ export default function Ranking() {
   };
 
   const [data, setData] = useState([
-    { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17902 },
+    { "nome": "Richard dos Santos Paiva", "curso": "informatica", "serie": "3º", "pontuacao": 17902 },
     { "nome": "André", "curso": "administracao", "serie": "3º", "pontuacao": 17512 },
     { "nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11297 },
     { "nome": "Felipe", "curso": "contabilidade", "serie": "3º", "pontuacao": 13656 },
@@ -142,7 +142,7 @@ export default function Ranking() {
                    />
                 </p>
                 <img src="images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} />
-                <p className='font-medium'>{aluno.nome} </p>
+                <p className='font-medium text-center'>{aluno.nome} </p>
                 <p className='text-center'>{aluno.serie} {aluno.curso}</p>
                 <p className='text-[#FFC24C] font-semibold'>{aluno.pontuacao}</p>
               </div>
@@ -207,7 +207,7 @@ export default function Ranking() {
               </div>
             </div>
           ))}
-          {/*divs do 4 colocaod rpa baixo*/}
+          {/*div especial para os CURSOS */}
           <div className='flex flex-col  mt-2 w-full rounded-xl shadow-lg'>
              <div className={`w-full flex z-30   ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
                 <div className='flex  w-full'>
