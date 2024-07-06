@@ -20,19 +20,64 @@ export default function Ranking() {
     setShowOtherInfo(!showOtherInfo);
   };
   
-  useEffect(() => {
-    handleGetPlayers();
-  },[])
-
+  [
+    {"nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17902},
+    {"nome": "André", "curso": "administracao", "serie": "3º", "pontuacao": 17512},
+    {"nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11297},
+    {"nome": "Felipe", "curso": "contabilidade", "serie": "3º", "pontuacao": 13656},
+    {"nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17437},
+    {"nome": "Paula", "curso": "administracao", "serie": "3º", "pontuacao": 13236},
+    {"nome": "Tiago", "curso": "informatica", "serie": "3º", "pontuacao": 11282},
+    {"nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 14521},
+    {"nome": "Wagner", "curso": "contabilidade", "serie": "3º", "pontuacao": 15584},
+    {"nome": "Gustavo", "curso": "informatica", "serie": "3º", "pontuacao": 17735},
+    {"nome": "Tiago", "curso": "administracao", "serie": "3º", "pontuacao": 12125},
+    {"nome": "Karen", "curso": "informatica", "serie": "3º", "pontuacao": 17679},
+    {"nome": "Sofia", "curso": "informatica", "serie": "3º", "pontuacao": 16318},
+    {"nome": "Zeca", "curso": "contabilidade", "serie": "3º", "pontuacao": 16408},
+    {"nome": "Sofia", "curso": "recursos humanos", "serie": "3º", "pontuacao": 16918},
+    {"nome": "Wagner", "curso": "informatica", "serie": "3º", "pontuacao": 15691},
+    {"nome": "Vinícius", "curso": "administracao", "serie": "3º", "pontuacao": 12529},
+    {"nome": "Juliana", "curso": "informatica", "serie": "3º", "pontuacao": 17310},
+    {"nome": "Helena", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11122},
+    {"nome": "Leonardo", "curso": "informatica", "serie": "3º", "pontuacao": 12824},
+    {"nome": "Eduardo", "curso": "contabilidade", "serie": "3º", "pontuacao": 12444},
+    {"nome": "Gustavo", "curso": "informatica", "serie": "3º", "pontuacao": 15929},
+    {"nome": "Xavier", "curso": "recursos humanos", "serie": "3º", "pontuacao": 15720},
+    {"nome": "Leonardo", "curso": "informatica", "serie": "3º", "pontuacao": 11682},
+    {"nome": "Diana", "curso": "administracao", "serie": "3º", "pontuacao": 13835},
+    {"nome": "Rafael", "curso": "informatica", "serie": "3º", "pontuacao": 14717},
+    {"nome": "Bruno", "curso": "recursos humanos", "serie": "3º", "pontuacao": 13665},
+    {"nome": "Otávio", "curso": "contabilidade", "serie": "3º", "pontuacao": 15109},
+    {"nome": "Larissa", "curso": "informatica", "serie": "3º", "pontuacao": 12394},
+    {"nome": "Fernanda", "curso": "administracao", "serie": "3º", "pontuacao": 13755},
+    {"nome": "Gabriel", "curso": "informatica", "serie": "3º", "pontuacao": 13306},
+    {"nome": "Nina", "curso": "recursos humanos", "serie": "3º", "pontuacao": 17345},
+    {"nome": "Gustavo", "curso": "informatica", "serie": "3º", "pontuacao": 13816},
+    {"nome": "Elisa", "curso": "contabilidade", "serie": "3º", "pontuacao": 13014},
+    {"nome": "Marcos", "curso": "informatica", "serie": "3º", "pontuacao": 13547},
+    {"nome": "Isabela", "curso": "administracao", "serie": "3º", "pontuacao": 16739},
+    {"nome": "Rafael", "curso": "informatica", "serie": "3º", "pontuacao": 12919},
+    {"nome": "João", "curso": "recursos humanos", "serie": "3º", "pontuacao": 16977},
+    {"nome": "Igor", "curso": "contabilidade", "serie": "3º", "pontuacao": 15679},
+    {"nome": "João", "curso": "informatica", "serie": "3º", "pontuacao": 17481}
+  ]
   
-  const handleGetPlayers = async () => {
-    try {
-      const response = await httpClient.get("/Usuario/ObterPontuacaoGeral");
-      setData(response.data);
-    } catch (error) {
-      toast.error("Algo deu errado!");
-    }
-  };
+  //codigo do nathan
+  // 
+  //useEffect(() => {
+  //   handleGetPlayers();
+  // },[])
+  //
+  //
+  // const handleGetPlayers = async () => {
+  //   try {
+  //     const response = await httpClient.get("/Usuario/ObterPontuacaoGeral");
+  //     setData(response.data);
+  //   } catch (error) {
+  //     toast.error("Algo deu errado!");
+  //   }
+  // };
 
   return (
     <div className='pl-[79px] sm:pl-[100px]'>
@@ -129,23 +174,6 @@ export default function Ranking() {
           </div>
         </div>
 
-         {/* <div className='mx-auto flex sm:justify-between flex-col sm:flex-row gap-4 w-3/4 p-4'> 
-            <input
-              className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
-              value={seachDate}
-              onChange={(evt) => setSeachDate(evt.target.value)}
-              placeholder="ranking por data..."
-            />
-            <select
-              className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
-              value={selectRanking}
-              onChange={(evt) => setSelectRanking(evt.target.value)}
-            >
-              <option value="todos jogadores">todos jogadores</option>
-              <option value="melhores jogadores">Melhores jogadores</option>
-              <option value="melhores padrinhos">Melhores padrinhos</option>
-            </select>
-         </div> */}
         
         <div className="bg-slate-100 rounded-xl  mb-5 sm:p-3 flex-col flex items-center ">
          {/*codigo do nathan para filtragem*/}
@@ -288,6 +316,24 @@ export default function Ranking() {
           </div>
            
           <div className="border w-full">
+             {/* <div className='mx-auto flex sm:justify-between flex-col sm:flex-row gap-4 w-3/4 p-4'> 
+            <input
+              className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
+              value={seachDate}
+              onChange={(evt) => setSeachDate(evt.target.value)}
+              placeholder="ranking por data..."
+            />
+            <select
+              className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
+              value={selectRanking}
+              onChange={(evt) => setSelectRanking(evt.target.value)}
+            >
+              <option value="todos jogadores">todos jogadores</option>
+              <option value="melhores jogadores">Melhores jogadores</option>
+              <option value="melhores padrinhos">Melhores padrinhos</option>
+            </select>
+         </div> */}
+
             {/*codigo do nathan*/}
             {/* <Scores users={data} /> */}
           </div>
