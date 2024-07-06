@@ -58,29 +58,35 @@ export default function Ranking() {
 
   return (
       <>
-        <div className='relative flex justify-center mb-10'>
+        <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4 space-y-4 sm:space-y-0 bg-url('/images/bg-ranking.svg')">
+          <div className="h-32 w-full sm:w-1/3 bg-red-500"></div>
+          <div className="h-48 w-full sm:w-1/3 bg-green-500"></div>
+          <div className="h-24 w-full sm:w-1/3 bg-blue-500"></div>
+        </div>
+        <div className='relative inline justify-center mb-10'>
           {/*pódio do 1 2 3 lugar */}
-          <div className='relative inline-block '>
-            <img src="images/bg-ranking.png" alt="" className='z-4 w-[800px]'/>
-            {/* Renderização dinâmica dos pódios */}
-            {data.slice(0, 3).map((aluno, index) => (
-              <div key={index} className={`absolute bottom-0 ${index === 0 ? 'left-[40%] w-[196px] h-[280px]' : index === 1 ? 'left-[10%] h-[190px] w-[180px] ' : 'right-[10%] w-[120px] h-[220px]'} bg-[#4C8690] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center`}>
-                <p className='flex items-center gap-4 font-bold'>
-                  {index + 1} º lugar 
-                  <Icon
-                  width={30} 
-                   icon="solar:alt-arrow-down-line-duotone"                  
-                   className={`" text-black duration-300 transform ${selectedPodium === index ? 'rotate-180' : 'rotate-0'}`}
-                   onClick={() => handlePodiumClick(index)} 
-                   />
-                </p>
-                <img src="images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} />
-                <p className='font-medium text-center'>{aluno.nome} </p>
-                <p className='text-center'>{aluno.serie} {aluno.curso}</p>
-                <p className='text-[#FFC24C] font-semibold'>{aluno.pontuacao}</p>
-              </div>
-            ))}
-          </div>
+          <div className='grid md:grid-cols-3 grid-cols-1 justify-center sm:max-w-[900px] relative mx-auto'>
+            {/* <img src="images/bg-ranking.svg" alt="" className='mx-auto z-4  h-[500px] w-full object-cover'/> */}
+            {/* Renderização dinâmica dos pódios  1COLOCADO:left-[40%] w-[196px] h-[280px] / 2COLOCADO:left-[10%] h-[190px] w-[180px] / 3COLOCADO: right-[10%] w-[120px] h-[220px] */}
+              {data.slice(0, 3).map((aluno, index) => (
+                 // <div key={index} className={`w-3/4 flex sm:flex-col items-center gap-1 justify-center absolute  ${index === 0 ? 'top-0 sm:top-[44%] sm:bottom-0 rigth-0 sm:left-[38%] w-full sm:w-[170px] sm:h-[280px]' : index === 1 ? 'top-20  sm:top-[62%] sm:bottom-0 w-full sm:max-w-[170px] sm:h-[190px] ' : 'top-40 sm:top-[56%] sm:right-[5%] sm:bottom-0  w-full sm:max-w-[170px] sm:h-[220px]'} bg-[#4C8690] rounded-t-lg p-2 `}>
+                  <div key={index} className='w-full md:w-[200px] bg-[#4C8690] rounded-t-lg p-2 '>
+                    <p className='flex items-center gap-4 font-bold'>
+                      {index + 1} º lugar 
+                      <Icon
+                      width={30} 
+                      icon="solar:alt-arrow-down-line-duotone"                  
+                      className={`" text-black duration-300 transform ${selectedPodium === index ? 'rotate-180' : 'rotate-0'}`}
+                      onClick={() => handlePodiumClick(index)} 
+                      />
+                    </p>
+                    <img src="images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} />
+                    <p className='font-medium text-center'>{aluno.nome} </p>
+                    <p className='text-center'>{aluno.serie} {aluno.curso}</p>
+                    <p className='text-[#FFC24C] font-semibold'>{aluno.pontuacao}</p>
+                  </div>
+              ))}
+          </div> 
         </div>
  
         <div className="bg-slate-100 rounded-xl  mb-5 sm:p-3 flex-col flex items-center ">
