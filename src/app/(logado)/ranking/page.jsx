@@ -100,7 +100,7 @@ export default function Ranking() {
             </div>
           </div>
         </div>
-        <div className='flex justify-center '>
+         <div className='flex justify-center '>
             <img src="images/bg-ranking.png" alt="" className='z-4'/>
             <div className='z-50 bg-[#4C8690] w-[115px] h-[166px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
               <p className='font-semibold'>2 lugar </p>
@@ -120,25 +120,24 @@ export default function Ranking() {
               <p className='font-medium'>nome curso</p>
               <p className='text-[#FFC24C] font-semibold'>00000</p>
             </div>
-        </div>
-        <div className='mx-auto flex sm:justify-between flex-col sm:flex-row gap-4 w-3/4 p-4'>
-        
-          <input
-            className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
-            value={seachDate}
-            onChange={(evt) => setSeachDate(evt.target.value)}
-            placeholder="ranking por data..."
-          />
-          <select
-            className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
-            value={selectRanking}
-            onChange={(evt) => setSelectRanking(evt.target.value)}
-          >
-            <option value="todos jogadores">todos jogadores</option>
-            <option value="melhores jogadores">Melhores jogadores</option>
-            <option value="melhores padrinhos">Melhores padrinhos</option>
-          </select>
-        </div>
+         </div>
+         <div className='mx-auto flex sm:justify-between flex-col sm:flex-row gap-4 w-3/4 p-4'> 
+            <input
+              className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
+              value={seachDate}
+              onChange={(evt) => setSeachDate(evt.target.value)}
+              placeholder="ranking por data..."
+            />
+            <select
+              className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
+              value={selectRanking}
+              onChange={(evt) => setSelectRanking(evt.target.value)}
+            >
+              <option value="todos jogadores">todos jogadores</option>
+              <option value="melhores jogadores">Melhores jogadores</option>
+              <option value="melhores padrinhos">Melhores padrinhos</option>
+            </select>
+         </div>
         
         <div className="bg-slate-100 rounded-xl  mb-5 sm:p-3 flex-col flex items-center ">
          {/*codigo do nathan para filtragem*/}
@@ -195,93 +194,94 @@ export default function Ranking() {
                 </div>
               </div>
           </div>
-          
-          {/*divs do 4 pra baixo colocado*/}
+          {/*divs do 4 colocaod rpa baixo*/}
           <div className='flex flex-col  mt-2 w-full rounded-xl shadow-lg'>
-            <div className={`w-full flex z-50 ${ showOtherInfo?'bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
-                <div className='flex sm:pl-6 items-center gap-2 sm:gap-2 xl:gap-3 w-1/2 xl:w-1/2 border border-orange-500'>
-                  <div className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${showOtherInfo?'text-[#005261] bg-white':'text-[#005261] bg-[#E6EFF0]'}  text-4xl`}>
-                    1
+            <div className={`w-full flex   z-50 ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
+                <div className='flex z-50 w-full'>
+                  <div className={`w-full flex sm:pl-6 items-center gap-2 sm:gap-2 xl:gap-3  bg-[#005261]xl:w-1/2 border border-orange-500 ${showOtherInfo?'bg-[#005261]': ' bg-white'}`}>
+                    <div className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${showOtherInfo?'text-[#005261] bg-white':'text-[#005261] bg-[#E6EFF0]'}  text-4xl`}>
+                      1
+                    </div>
+                    <div className={`flex sm:items-center sm:gap-4 sm:justify-center`}>
+                      <img src="images/bolinha.png" className='hidden sm:block' alt="" />
+                      <h2 className={`w-3/4 sm:w-full text-left   sm:text-base md:text-xl xl:text-2xl ${showOtherInfo?'text-white':'text-[#005261]'}`}>2 º Informática</h2>
+                    </div>
                   </div>
-                  <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
-                    <img src="images/bolinha.png" className='hidden sm:block' alt="" />
-                    <h2 className={`w-3/4 sm:w-full text-left   sm:text-base md:text-xl xl:text-2xl ${showOtherInfo?'text-white':'text-[#005261]'}`}>2 º Informática</h2>
+                  <div className={`flex justify-end w-1/2 border border-yellow-500 ${showOtherInfo?'bg-[#005261]': ' bg-white'}`}>
+                    <div className={`w-full border-x-2 sm:border-x-4 ${showOtherInfo?'bg-[#005261]': ' bg-white'}`}>
+                      <p className={` ${showOtherInfo?'text-white':'text-[#005261]'} text-center`}>diferença pro 1º lugar</p>
+                      <p className='text-[#FFC24C] text-center'>000000</p>
+                    </div>
+                    <div className={`w-full `}>
+                      <p className={ `${showOtherInfo?'text-white':'text-[#005261]'} text-center`}>Pontuação final</p>
+                      <p className='text-[#FFC24C] text-center'>000000</p>
+                    </div>
+                    <div>
+                     <Icon icon="solar:alt-arrow-down-line-duotone" className={`${showOtherInfo?'text-white rotate-180 duration-300':'text-[#005261] rotate-0 duration-300'}`} width={40} onClick={handleToggleOtherInfo}  />
+                    </div>
                   </div>
                 </div>
-                <div className='flex justify-end w-1/2 border border-yellow-500 '>
-                  <div className='w-full border-x-2 sm:border-x-4'>
-                    <p className={` ${showOtherInfo?'text-white':'text-[#005261]'} text-center`}>diferença pro 1º lugar</p>
-                    <p className='text-[#FFC24C] text-center'>000000</p>
-                  </div>
-                  <div className='w-full '>
-                    <p className={ `${showOtherInfo?'text-white':'text-[#005261]'} text-center`}>Pontuação final</p>
-                    <p className='text-[#FFC24C] text-center'>000000</p>
-                  </div>
-                  <div>
-                   <Icon icon="solar:alt-arrow-down-line-duotone" className={`${showOtherInfo?'text-white rotate-180 duration-300':'text-[#005261] rotate-0 duration-300'}`} width={40} onClick={handleToggleOtherInfo}  />
-                  </div>
-                </div>
+                {/*informações abaixo da informação */}
+                {showOtherInfo &&(
+                  <div className='z-10 flex-col bg-white border-2 border-[#005261] flex  pt-8 pb-3 -mt-6 w-full rounded-xl shadow-lg'>
+                    <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-2 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
+                        <div className='w-full text-center border-r-4  border-[#005261]'>
+                          <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>
+                            Soma das Fichas
+                          </div>
+                          <div className='h-[70px] z-50 bg-white'>
+                            0
+                          </div>
+                        </div>
+                        <div className='w-full text-center border-r-4 border-[#005261]'>
+                          <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Alunos ativos</div>
+                          <div className="h-[70px] bg-white">
+                            0
+                          </div>
+                        </div>
+                        <div className='w-full text-center border-r-4 border-[#005261]'>
+                          <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Faltas</div>
+                          <div className="h-[70px]  bg-white">
+                            0
+                          </div>
+                        </div>
+                        <div className='w-full  text-center border-r-4 border-[#005261] '>
+                        <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Fantasmas</div>
+                          <div className="h-[70px]  bg-white">
+                            0
+                          </div>
+                        </div>
+                        <div className='w-full text-center border-r-4 border-[#005261] '>
+                          <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Média Individual</div>
+                          <div className="h-[70px]  bg-white">
+                            0
+                          </div>
+                        </div>
+                        <div className='w-full text-center border-r-4 border-[#005261]'>
+                          <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Atividades Extras</div>
+                          <div className="h-[70px]  bg-white">
+                            0
+                          </div>
+                        </div>
+                        <div className='col-span-2 sm:col-span-1 w-full text-center '>
+                          <div className='h-[50px] bg-[#E6EFF0] flex justify-evenly border-b-4 border-[#005261]'>
+                            Data <Icon icon="solar:alt-arrow-down-line-duotone" className='text-[#005261]' width={30} />
+                          </div>
+                          <div className="h-[70px]  bg-white">
+                            0
+                          </div>
+                        </div>
+                     </div>
+                  </div>    
+                )}
              </div>
-              {/*informações abaixo da informação */}
-              {showOtherInfo &&(
-                <div className='z-10 flex-col bg-white border-2 border-[#005261] flex  pt-8 pb-3 -mt-6 w-full rounded-xl shadow-lg'>
-                  <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-2 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
-                      <div className='w-full text-center border-r-4  border-[#005261]'>
-                        <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>
-                          Soma das Fichas
-                        </div>
-                        <div className='h-[70px] z-50 bg-white'>
-                          0
-                        </div>
-                      </div>
-                      <div className='w-full text-center border-r-4 border-[#005261]'>
-                        <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Alunos ativos</div>
-                        <div className="h-[70px] bg-white">
-                          0
-                        </div>
-                      </div>
-                      <div className='w-full text-center border-r-4 border-[#005261]'>
-                        <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Faltas</div>
-                        <div className="h-[70px]  bg-white">
-                          0
-                        </div>
-                      </div>
-                      <div className='w-full  text-center border-r-4 border-[#005261] '>
-                      <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Fantasmas</div>
-                        <div className="h-[70px]  bg-white">
-                          0
-                        </div>
-                      </div>
-                      <div className='w-full text-center border-r-4 border-[#005261] '>
-                        <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Média Individual</div>
-                        <div className="h-[70px]  bg-white">
-                          0
-                        </div>
-                      </div>
-                      <div className='w-full text-center border-r-4 border-[#005261]'>
-                        <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>Atividades Extras</div>
-                        <div className="h-[70px]  bg-white">
-                          0
-                        </div>
-                      </div>
-                      <div className='col-span-2 sm:col-span-1 w-full text-center '>
-                        <div className='h-[50px] bg-[#E6EFF0] flex justify-evenly border-b-4 border-[#005261]'>
-                          Data <Icon icon="solar:alt-arrow-down-line-duotone" className='text-[#005261]' width={30} />
-                        </div>
-                        <div className="h-[70px]  bg-white">
-                          0
-                        </div>
-                      </div>
-                   </div>
-                </div>    
-               )}
-            </div>
+           </div>
+          </div> 
+          <div className="border w-full">
+            {/*codigo do nathan*/}
+            <Scores users={data} />
           </div>
-        <div className="border w-full">
-          {/*codigo do nathan*/}
-          <Scores users={data} />
         </div>
-      </div>
-    </div>
-  );
+     </div> 
+);
 }
