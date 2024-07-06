@@ -45,7 +45,7 @@ export default function SideBar({ className }) {
                 link: "/prazos"
             },
             {
-                text: "Pontuacao geral",
+                text: "Pontuação geral",
                 img: "./images/pontuacao-geral-icon.svg",
                 link: "/ranking"
             },
