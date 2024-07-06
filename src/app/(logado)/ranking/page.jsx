@@ -133,13 +133,18 @@ export default function Ranking() {
             {data.slice(0, 3).map((aluno, index) => (
               <div key={index} className={`absolute bottom-0 ${index === 0 ? 'left-[40%] h-[280px]' : index === 1 ? 'left-[10%] sm:h-[190px]' : 'right-[10%]  sm:h-[220px]'} bg-[#4C8690] sm:w-[180px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center`}>
                 <p className='flex items-center gap-4 font-bold'>
-                  {index + 1} º lugar <Icon icon="solar:alt-arrow-down-line-duotone" />
+                  {index + 1} º lugar 
+                  <Icon
+                  width={30} 
+                   icon="solar:alt-arrow-down-line-duotone"                  
+                   className={`" text-black duration-300 transform ${selectedPodium === index ? 'rotate-180' : 'rotate-0'}`}
+                   onClick={() => handlePodiumClick(index)} 
+                   />
                 </p>
                 <img src="images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} />
                 <p className='font-medium'>{aluno.nome} </p>
                 <p className='text-center'>{aluno.serie} {aluno.curso}</p>
                 <p className='text-[#FFC24C] font-semibold'>{aluno.pontuacao}</p>
-                <div className="cursor-pointer" onClick={() => handlePodiumClick(index)}>Ver detalhes</div>
               </div>
             ))}
           </div>
