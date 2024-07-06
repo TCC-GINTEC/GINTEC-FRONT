@@ -105,22 +105,22 @@ export default function Ranking() {
         </div>
         <div className='relative flex justify-center'>
           <div className='relative inline-block'>
-            <img src="images/bg-ranking.png" alt="" className='z-4'/>
-            <div className=' absolute bottom-0 left-[10%] bg-[#4C8690] w-[115px] h-[166px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
+            <img src="images/bg-ranking.png" alt="" className='z-4 w-[800px]'/>
+            <div className=' absolute bottom-0 left-[10%] bg-[#4C8690] w-[115px] sm:w-[180px] h-[166px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
               <p className='font-semibold'>2 lugar </p>
               <img src="images/bolinha.png"  alt="" width={69} />
-              <p className='font-medium'>nome curso</p>
+              <p className='font-medium'>nome cursos</p>
               <p className='text-[#FFC24C] font-semibold'>00000</p>
             </div>
             
-            <div className=' absolute bottom-0 left-[40%] bg-[#4C8690] w-[120px] h-[209px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
+            <div className=' absolute bottom-0 left-[40%] bg-[#4C8690] sm:w-[180px] h-[209px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
               <p className='font-semibold'>1 lugar </p>
               <img src="images/bolinha.png" alt="" width={52} />
-              <p className='font-medium'>nome curso</p>
+              <p className='font-medium'>2 ª informatica</p>
               <p className='text-[#FFC24C] font-semibold'>00000</p>
             </div>
             
-            <div className=' absolute bottom-0 right-[10%] bg-[#4C8690] w-[120px] h-[147px] rounded-t-lg  p-2 flex flex-col items-center gap-1 justify-center'>
+            <div className=' absolute bottom-0 right-[10%] bg-[#4C8690] w-[115px] sm:w-[180px] h-[147px] rounded-t-lg  p-2 flex flex-col items-center gap-1 justify-center'>
               <p className='font-bold'>3 lugar </p>
               <img src="images/bolinha.png" alt="" width={49}/>
               <p className='font-medium'>nome curso</p>
