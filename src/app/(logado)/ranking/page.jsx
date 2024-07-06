@@ -55,9 +55,9 @@ export default function Ranking() {
               </div>
               {showFilterOptions && (
                 <>
-                   <div  className="fixed inset-0 bg-black bg-opacity-20 z-50 "></div>
-                  <div className='absolute top-12 w-[170px] flex items-center flex-col z-50'>
-                    <div className="mt-20 bg-white shadow-md rounded-lg sm:w-[192px] py-2">
+                  <div  className="fixed inset-0 bg-black bg-opacity-20 z-50 "></div>
+                  <div className='absolute top-12 w-[170px] flex items-center flex-col z-50 '>
+                    <div className="mt-10 bg-white shadow-md rounded-lg sm:w-[192px] py-2">
                       <ul>
                         <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
                           data 1
@@ -103,7 +103,7 @@ export default function Ranking() {
             </div>
           </div>
         </div>
-        <div className='relative flex justify-center'>
+        <div className='relative flex justify-center mb-10'>
           <div className='relative inline-block'>
             <img src="images/bg-ranking.png" alt="" className='z-4 w-[800px]'/>
             <div className=' absolute bottom-0 left-[10%] bg-[#4C8690] w-[115px] sm:w-[180px] h-[166px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
@@ -129,7 +129,7 @@ export default function Ranking() {
           </div>
         </div>
 
-         <div className='mx-auto flex sm:justify-between flex-col sm:flex-row gap-4 w-3/4 p-4'> 
+         {/* <div className='mx-auto flex sm:justify-between flex-col sm:flex-row gap-4 w-3/4 p-4'> 
             <input
               className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
               value={seachDate}
@@ -145,11 +145,11 @@ export default function Ranking() {
               <option value="melhores jogadores">Melhores jogadores</option>
               <option value="melhores padrinhos">Melhores padrinhos</option>
             </select>
-         </div>
+         </div> */}
         
         <div className="bg-slate-100 rounded-xl  mb-5 sm:p-3 flex-col flex items-center ">
          {/*codigo do nathan para filtragem*/}
-          <Placed users={data.slice(0, 3)} />
+          {/* <Placed users={data.slice(0, 3)} /> */}
          {/*outra div melhores alunos */}
           <div className='bg-[#005261] flex  py-4  sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg'>
               <div className='flex items-center gap-2 sm:gap-2 xl:gap-3 w-1/2 xl:w-1/2 border border-orange-500'>
@@ -289,7 +289,7 @@ export default function Ranking() {
            
           <div className="border w-full">
             {/*codigo do nathan*/}
-            <Scores users={data} />
+            {/* <Scores users={data} /> */}
           </div>
         </div>
      </div> 
