@@ -7,10 +7,22 @@ import httpClient from "@/service/api"
 import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 
+const alunos = [
+  { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17902 },
+  { "nome": "André", "curso": "administracao", "serie": "3º", "pontuacao": 17512 },
+  { "nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11297 },
+  { "nome": "Felipe", "curso": "contabilidade", "serie": "3º", "pontuacao": 13656 },
+  { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17437 },
+  { "nome": "Paula", "curso": "administracao", "serie": "3º", "pontuacao": 13236 },
+
+];
+
 export default function Ranking() {
+  const [data, setData] = useState([]); // os dados de alunos filtrados são jogados aqui
+
   const [selectRanking, setSelectRanking] = useState("");
   const [seachDate, setSeachDate] = useState("");
-  const [data, setData] = useState([]);
+  
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [showFilterOptions2, setShowFilterOptions2] = useState(false);
 
@@ -19,56 +31,17 @@ export default function Ranking() {
   const handleToggleOtherInfo = () => {
     setShowOtherInfo(!showOtherInfo);
   };
-  
-  [
-    {"nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17902},
-    {"nome": "André", "curso": "administracao", "serie": "3º", "pontuacao": 17512},
-    {"nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11297},
-    {"nome": "Felipe", "curso": "contabilidade", "serie": "3º", "pontuacao": 13656},
-    {"nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17437},
-    {"nome": "Paula", "curso": "administracao", "serie": "3º", "pontuacao": 13236},
-    {"nome": "Tiago", "curso": "informatica", "serie": "3º", "pontuacao": 11282},
-    {"nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 14521},
-    {"nome": "Wagner", "curso": "contabilidade", "serie": "3º", "pontuacao": 15584},
-    {"nome": "Gustavo", "curso": "informatica", "serie": "3º", "pontuacao": 17735},
-    {"nome": "Tiago", "curso": "administracao", "serie": "3º", "pontuacao": 12125},
-    {"nome": "Karen", "curso": "informatica", "serie": "3º", "pontuacao": 17679},
-    {"nome": "Sofia", "curso": "informatica", "serie": "3º", "pontuacao": 16318},
-    {"nome": "Zeca", "curso": "contabilidade", "serie": "3º", "pontuacao": 16408},
-    {"nome": "Sofia", "curso": "recursos humanos", "serie": "3º", "pontuacao": 16918},
-    {"nome": "Wagner", "curso": "informatica", "serie": "3º", "pontuacao": 15691},
-    {"nome": "Vinícius", "curso": "administracao", "serie": "3º", "pontuacao": 12529},
-    {"nome": "Juliana", "curso": "informatica", "serie": "3º", "pontuacao": 17310},
-    {"nome": "Helena", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11122},
-    {"nome": "Leonardo", "curso": "informatica", "serie": "3º", "pontuacao": 12824},
-    {"nome": "Eduardo", "curso": "contabilidade", "serie": "3º", "pontuacao": 12444},
-    {"nome": "Gustavo", "curso": "informatica", "serie": "3º", "pontuacao": 15929},
-    {"nome": "Xavier", "curso": "recursos humanos", "serie": "3º", "pontuacao": 15720},
-    {"nome": "Leonardo", "curso": "informatica", "serie": "3º", "pontuacao": 11682},
-    {"nome": "Diana", "curso": "administracao", "serie": "3º", "pontuacao": 13835},
-    {"nome": "Rafael", "curso": "informatica", "serie": "3º", "pontuacao": 14717},
-    {"nome": "Bruno", "curso": "recursos humanos", "serie": "3º", "pontuacao": 13665},
-    {"nome": "Otávio", "curso": "contabilidade", "serie": "3º", "pontuacao": 15109},
-    {"nome": "Larissa", "curso": "informatica", "serie": "3º", "pontuacao": 12394},
-    {"nome": "Fernanda", "curso": "administracao", "serie": "3º", "pontuacao": 13755},
-    {"nome": "Gabriel", "curso": "informatica", "serie": "3º", "pontuacao": 13306},
-    {"nome": "Nina", "curso": "recursos humanos", "serie": "3º", "pontuacao": 17345},
-    {"nome": "Gustavo", "curso": "informatica", "serie": "3º", "pontuacao": 13816},
-    {"nome": "Elisa", "curso": "contabilidade", "serie": "3º", "pontuacao": 13014},
-    {"nome": "Marcos", "curso": "informatica", "serie": "3º", "pontuacao": 13547},
-    {"nome": "Isabela", "curso": "administracao", "serie": "3º", "pontuacao": 16739},
-    {"nome": "Rafael", "curso": "informatica", "serie": "3º", "pontuacao": 12919},
-    {"nome": "João", "curso": "recursos humanos", "serie": "3º", "pontuacao": 16977},
-    {"nome": "Igor", "curso": "contabilidade", "serie": "3º", "pontuacao": 15679},
-    {"nome": "João", "curso": "informatica", "serie": "3º", "pontuacao": 17481}
-  ]
-  
+
+  useEffect(() => { 
+    setData(alunos.sort((a, b) => b.pontuacao - a.pontuacao)); // dados dos alunos organizados aqui
+  }, []);
+
   //codigo do nathan
   // 
   //useEffect(() => {
   //   handleGetPlayers();
   // },[])
-  //
+    //
   //
   // const handleGetPlayers = async () => {
   //   try {
@@ -149,87 +122,81 @@ export default function Ranking() {
           </div>
         </div>
         <div className='relative flex justify-center mb-10'>
-          <div className='relative inline-block'>
+          {/*pódio do 1 2 3 lugar */}
+          <div className='relative inline-block '>
             <img src="images/bg-ranking.png" alt="" className='z-4 w-[800px]'/>
-            <div className=' absolute bottom-0 left-[10%] bg-[#4C8690] w-[115px] sm:w-[180px] h-[166px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
-              <p className='font-semibold'>2 lugar </p>
-              <img src="images/bolinha.png"  alt="" width={69} />
-              <p className='font-medium'>nome cursos</p>
-              <p className='text-[#FFC24C] font-semibold'>00000</p>
-            </div>
-            
-            <div className=' absolute bottom-0 left-[40%] bg-[#4C8690] sm:w-[180px] h-[209px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
-              <p className='font-semibold'>1 lugar </p>
-              <img src="images/bolinha.png" alt="" width={52} />
-              <p className='font-medium'>2 ª informatica</p>
-              <p className='text-[#FFC24C] font-semibold'>00000</p>
-            </div>
-            
-            <div className=' absolute bottom-0 right-[10%] bg-[#4C8690] w-[115px] sm:w-[180px] h-[147px] rounded-t-lg  p-2 flex flex-col items-center gap-1 justify-center'>
-              <p className='font-bold'>3 lugar </p>
-              <img src="images/bolinha.png" alt="" width={49}/>
-              <p className='font-medium'>nome curso</p>
-              <p className='text-[#FFC24C] font-semibold'>00000</p>
-            </div>
+            {/* Renderização dinâmica dos pódios */}
+            {data.slice(0, 3).map((aluno, index) => (
+              <div key={index} className={`absolute bottom-0 ${index === 0 ? 'left-[40%] h-[280px]' : index === 1 ? 'left-[10%] sm:h-[190px]' : 'right-[10%]  sm:h-[220px]'} bg-[#4C8690] sm:w-[180px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center`}>
+                <p className='flex items-center gap-4 font-bold'>
+                  {index + 1} º lugar <Icon icon="solar:alt-arrow-down-line-duotone" />
+                </p>
+                <img src="images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} />
+                <p className='font-medium'>{aluno.nome} </p>
+                <p className='text-center'>{aluno.serie} {aluno.curso}</p>
+                <p className='text-[#FFC24C] font-semibold'>{aluno.pontuacao}</p>
+              </div>
+            ))}
           </div>
         </div>
-
-        
+ 
         <div className="bg-slate-100 rounded-xl  mb-5 sm:p-3 flex-col flex items-center ">
-         {/*codigo do nathan para filtragem*/}
-          {/* <Placed users={data.slice(0, 3)} /> */}
-         {/*outra div melhores alunos */}
-          <div className='bg-[#005261] flex  py-4  sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg'>
+          {/* Três primeiros lugares */}
+          {data.slice(0, 3).map((aluno, index) => (
+            <div key={index} className='bg-[#005261] flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
               <div className='flex items-center gap-2 sm:gap-2 xl:gap-3 w-1/2 xl:w-1/2 border border-orange-500'>
-                <div className='w-[40px] p-2 h-[65px] sm:p-2 rounded-xl  text-[#005261] bg-white text-4xl'>
-                  1
+                <div className='flex justify-center items-center w-[40px]  h-[65px] sm:p-2 rounded-xl text-[#005261] bg-white text-4xl'>
+                  {index + 1}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
                   <img src="images/bolinha.png" className='hidden sm:block' alt="" />
-                  <h2 className='w-3/4 text-left sm:w-full  sm:text-base md:text-xl xl:text-2xl   text-white'>Richard dos Santos Paiva</h2>
+                  <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{aluno.nome}</h2>
                 </div>
               </div>
               <div className='flex justify-end w-1/2 border border-yellow-500'>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-white text-center'>serie</p>
-                  <p className='text-[#FFC24C] text-center'>3 º informatica</p>
+                  <p className='text-[#FFC24C] text-center'>{aluno.serie} {aluno.curso}</p>
                 </div>
                 <div className='w-full '>
                   <p className='text-white text-center'>diferença pro 1º lugar</p>
-                  <p className='text-[#FFC24C] text-center'>000000</p>
+                  <p className='text-[#FFC24C] text-center'>{data[0].pontuacao - aluno.pontuacao}</p>
                 </div>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-white text-center'>Pontuação final</p>
-                  <p className='text-[#FFC24C] text-center'>000000</p>
+                  <p className='text-[#FFC24C] text-center'>{aluno.pontuacao}</p>
                 </div>
               </div>
-          </div>
-          {/*outra div melhores alunos*/}
-          <div className='bg-white flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full  rounded-xl shadow-lg '>
+            </div>
+          ))}
+          {/*Demais alunos*/}
+          {data.slice(3).map((aluno, index) => (
+            <div key={index + 3} className='bg-white flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
               <div className='flex items-center gap-2 sm:gap-2 xl:gap-3 w-1/2 xl:w-1/2 border border-orange-500'>
-                <div className='w-[40px] p-2 h-[65px] sm:p-2 rounded-xl  text-[#005261] bg-[#E6EFF0] text-4xl'>
-                  2
+                <div className='w-[50px] flex justify-center items-center h-[65px] rounded-xl text-[#005261] bg-[#E6EFF0] text-4xl'>
+                  {index + 4}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
                   <img src="images/bolinha.png" className='hidden sm:block' alt="" />
-                  <h2 className='w-3/4 text-left sm:w-full  sm:text-base md:text-xl xl:text-2xl text-[#005261]'>Beatriz Morais</h2>
+                  <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-[#005261]'>{aluno.nome}</h2>
                 </div>
               </div>
               <div className='flex justify-end w-1/2 border border-yellow-500'>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-[#005261] text-center'>serie</p>
-                  <p className='text-[#FFC24C] text-center'>3 º informatica</p>
+                  <p className='text-[#FFC24C] text-center'>{aluno.serie} {aluno.curso}</p>
                 </div>
                 <div className='w-full '>
                   <p className='text-[#005261] text-center'>diferença pro 1º lugar</p>
-                  <p className='text-[#FFC24C] text-center'>000000</p>
+                  <p className='text-[#FFC24C] text-center'>{data[0].pontuacao - aluno.pontuacao}</p>
                 </div>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-[#005261] text-center'>Pontuação final</p>
-                  <p className='text-[#FFC24C] text-center'>000000</p>
+                  <p className='text-[#FFC24C] text-center'>{aluno.pontuacao}</p>
                 </div>
               </div>
-          </div>
+            </div>
+          ))}
           {/*divs do 4 colocaod rpa baixo*/}
           <div className='flex flex-col  mt-2 w-full rounded-xl shadow-lg'>
              <div className={`w-full flex z-30   ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
