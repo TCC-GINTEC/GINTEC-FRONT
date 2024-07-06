@@ -44,9 +44,9 @@ export default function Ranking() {
           </div>
           
            {/* filtro daqui pra baixo */}
-          <div className=' flex  justify-evenly sm:justify-end sm:pr-20 gap-8 w-full border border-orange-500 '>
-            {/*opções filtro */}
-            <div className='flex flex-col '>
+           <div className='flex justify-evenly sm:justify-end sm:pr-20 gap-8 w-full border border-orange-500 relative'>
+            {/* opções filtro */}
+            <div className='flex flex-col relative'>
               <div
                 onClick={() => setShowFilterOptions(!showFilterOptions)}
                 className="w-[170px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
@@ -54,10 +54,9 @@ export default function Ranking() {
                 <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />Data
               </div>
               {showFilterOptions && (
-               <div className=' w-[170px] flex items-center flex-col '>
-
-                 <div className="bg-white shadow-md rounded-lg sm:w-[192px] py-2 z-50">
-                    <ul className='z-50'>
+                <div className='absolute top-12 w-[170px] flex items-center flex-col z-50'>
+                  <div className="mt-20 bg-white shadow-md rounded-lg sm:w-[192px] py-2">
+                    <ul>
                       <li className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
                         data 1
                       </li>
@@ -66,31 +65,33 @@ export default function Ranking() {
                 </div>
               )}
             </div>
-            {/*opções filtro */}
-            <div className='mt-4 flex items-end flex-col '>
-              
-              <div  onClick={() => setShowFilterOptions2(!showFilterOptions2)} className='h-[44px] w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'>
+            {/* opções filtro */}
+            <div className='mt-4 flex items-end flex-col relative'>
+              <div 
+                onClick={() => setShowFilterOptions2(!showFilterOptions2)} 
+                className='h-[44px] w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'
+              >
                 <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
               </div>
               {showFilterOptions2 && (
-                <div className='z-50'>
-                  <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2 z-50">
+                <div className='absolute top-12 z-50'>
+                  <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2">
                     <ul>
                       <li className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Todas as salas <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
                       </li>
                     </ul>
                   </div>
-                  <div className="bg-white shadow-md rounded-lg mt-5 sm:w-[192px] py-2 z-50">
+                  <div className="bg-white shadow-md rounded-lg mt-5 sm:w-[192px] py-2">
                     <ul>
                       <li className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Todas as salas 
                       </li>
-                        <li className="pl-  mt-5 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                      <li className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Melhores Padrinhos 
                       </li>
                     </ul>
-                </div>
+                  </div>
                 </div>
               )}
             </div>
