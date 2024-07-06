@@ -90,7 +90,7 @@ export default function Ranking() {
                   <div className="bg-white shadow-md rounded-lg mt-5 sm:w-[192px] py-2">
                     <ul>
                       <li  onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
-                        Todas as salas 
+                        Melhores Jogadores
                       </li>
                       <li   onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Melhores Padrinhos 
@@ -204,7 +204,7 @@ export default function Ranking() {
           </div>
           {/*divs do 4 colocaod rpa baixo*/}
           <div className='flex flex-col  mt-2 w-full rounded-xl shadow-lg'>
-             <div className={`w-full flex    ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
+             <div className={`w-full flex z-30   ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
                 <div className='flex  w-full'>
                   <div className={`w-full flex sm:pl-6 items-center gap-2 sm:gap-2 xl:gap-3  bg-[#005261]xl:w-1/2 border border-orange-500 ${showOtherInfo?'bg-[#005261]': ' bg-white'}`}>
                     <div className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${showOtherInfo?'text-[#005261] bg-white':'text-[#005261] bg-[#E6EFF0]'}  text-4xl`}>
@@ -231,7 +231,7 @@ export default function Ranking() {
                 </div>
                 {/*informações abaixo da informação */}
                 {showOtherInfo &&(
-                  <div className='z-10 flex-col bg-white border-2 border-[#005261] flex  pt-8 pb-3 -mt-6 w-full rounded-xl shadow-lg'>
+                  <div className='-z-10 flex-col bg-white border-2 border-[#005261] flex  pt-8 pb-3 -mt-6 w-full rounded-xl shadow-lg'>
                     <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-2 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
                         <div className='w-full text-center border-r-4  border-[#005261]'>
                           <div className='h-[50px] bg-[#E6EFF0] border-b-4 border-[#005261]'>
