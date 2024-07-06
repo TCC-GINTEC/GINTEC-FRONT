@@ -49,75 +49,86 @@ export default function Ranking() {
             <div className='flex flex-col relative'>
               <div
                 onClick={() => setShowFilterOptions(!showFilterOptions)}
-                className="w-[170px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+                className="w-[170px]  bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
               >
                 <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />Data
               </div>
               {showFilterOptions && (
-                <div className='absolute top-12 w-[170px] flex items-center flex-col z-50'>
-                  <div className="mt-20 bg-white shadow-md rounded-lg sm:w-[192px] py-2">
-                    <ul>
-                      <li className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
-                        data 1
-                      </li>
-                    </ul>
+                <>
+                   <div  className="fixed inset-0 bg-black bg-opacity-20 z-50 "></div>
+                  <div className='absolute top-12 w-[170px] flex items-center flex-col z-50'>
+                    <div className="mt-20 bg-white shadow-md rounded-lg sm:w-[192px] py-2">
+                      <ul>
+                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          data 1
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
             {/* opções filtro */}
             <div className='mt-4 flex items-end flex-col relative'>
               <div 
                 onClick={() => setShowFilterOptions2(!showFilterOptions2)} 
-                className='h-[44px] w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'
+                className=' h-[44px] z-60   w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'
               >
                 <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
               </div>
               {showFilterOptions2 && (
-                <div className='absolute top-12 z-50'>
-                  <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2">
+                <>
+                <div  className="fixed inset-0 bg-black bg-opacity-20 z-50 "></div>
+                <div className='z-50 absolute top-12 '>
+                  <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2 z-50">
                     <ul>
-                      <li className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
+                      <li onClick={() => setShowFilterOptions2(!showFilterOptions2)}  className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Todas as salas <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
                       </li>
                     </ul>
                   </div>
                   <div className="bg-white shadow-md rounded-lg mt-5 sm:w-[192px] py-2">
                     <ul>
-                      <li className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                      <li  onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Todas as salas 
                       </li>
-                      <li className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                      <li   onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
                         Melhores Padrinhos 
                       </li>
                     </ul>
                   </div>
                 </div>
+                </>
               )}
             </div>
           </div>
         </div>
-         <div className='flex justify-center '>
+        <div className='relative flex justify-center'>
+          <div className='relative inline-block'>
             <img src="images/bg-ranking.png" alt="" className='z-4'/>
-            <div className='z-50 bg-[#4C8690] w-[115px] h-[166px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
+            <div className=' absolute bottom-0 left-[10%] bg-[#4C8690] w-[115px] h-[166px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
               <p className='font-semibold'>2 lugar </p>
               <img src="images/bolinha.png"  alt="" width={69} />
               <p className='font-medium'>nome curso</p>
               <p className='text-[#FFC24C] font-semibold'>00000</p>
             </div>
-            <div className='z-50 bg-[#4C8690] w-[120px] h-[209px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center '>
+            
+            <div className=' absolute bottom-0 left-[40%] bg-[#4C8690] w-[120px] h-[209px] rounded-t-lg p-2 flex flex-col items-center gap-1 justify-center'>
               <p className='font-semibold'>1 lugar </p>
               <img src="images/bolinha.png" alt="" width={52} />
               <p className='font-medium'>nome curso</p>
-             <p className='text-[#FFC24C] font-semibold'>00000</p>
+              <p className='text-[#FFC24C] font-semibold'>00000</p>
             </div>
-            <div className='z-50 bg-[#4C8690] w-[120px] h-[147px] rounded-t-lg  p-2 flex flex-col items-center gap-1 justify-center'>
+            
+            <div className=' absolute bottom-0 right-[10%] bg-[#4C8690] w-[120px] h-[147px] rounded-t-lg  p-2 flex flex-col items-center gap-1 justify-center'>
               <p className='font-bold'>3 lugar </p>
               <img src="images/bolinha.png" alt="" width={49}/>
               <p className='font-medium'>nome curso</p>
               <p className='text-[#FFC24C] font-semibold'>00000</p>
             </div>
-         </div>
+          </div>
+        </div>
+
          <div className='mx-auto flex sm:justify-between flex-col sm:flex-row gap-4 w-3/4 p-4'> 
             <input
               className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2"
@@ -193,8 +204,8 @@ export default function Ranking() {
           </div>
           {/*divs do 4 colocaod rpa baixo*/}
           <div className='flex flex-col  mt-2 w-full rounded-xl shadow-lg'>
-             <div className={`w-full flex   z-50 ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
-                <div className='flex z-50 w-full'>
+             <div className={`w-full flex    ${ showOtherInfo?'w-full flex-col bg-[#005261]':'bg-white' } transition-all  dealay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}>
+                <div className='flex  w-full'>
                   <div className={`w-full flex sm:pl-6 items-center gap-2 sm:gap-2 xl:gap-3  bg-[#005261]xl:w-1/2 border border-orange-500 ${showOtherInfo?'bg-[#005261]': ' bg-white'}`}>
                     <div className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${showOtherInfo?'text-[#005261] bg-white':'text-[#005261] bg-[#E6EFF0]'}  text-4xl`}>
                       1
