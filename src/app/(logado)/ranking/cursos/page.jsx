@@ -4,121 +4,58 @@ import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 
 export default function Ranking() {
-  const [data, setData] = useState([
-    {
-      curso: 'admnistração',
-      serie: '1',
-      alunos: [
-        {
-          nome: 'Richard dos santos paiva',
-          pontuacao: 18902,
-        },
-        {
-          nome: 'joao',
-          pontuacao: 20002,
-        },
-        {
-          nome: 'maria',
-          pontuacao: 16902,
-        },
-      ]
-    },
-    {
-      curso: 'informatica',
-      serie: '2',
-      alunos: [
-        {
-          nome: 'vitor',
-          pontuacao: 17902,
-        },
-        {
-          nome: 'carlos',
-          pontuacao: 16902,
-        },
-        {
-          nome: 'jose',
-          pontuacao: 10902,
-        },
-      ]
-    },
-    {
-      curso: 'informatica',
-      serie: '1',
-      alunos: [
-        {
-          nome: 'andre',
-          pontuacao: 16902,
-        },
-        {
-          nome: 'yasmin',
-          pontuacao: 18030,
-        },
-        {
-          nome: 'douglas',
-          pontuacao: 1500,
-        },
-      ]
-    },
-    {
-      curso: 'admnistração',
-      serie: '3',
-      alunos: [
-        {
-          nome: 'andre',
-          pontuacao: 16902,
-        },
-        {
-          nome: 'yasmin',
-          pontuacao: 18030,
-        },
-        {
-          nome: 'douglas',
-          pontuacao: 1500,
-        },
-      ]
-    },
-    {
-      curso: 'informatica',
-      serie: '3',
-      alunos: [
-        {
-          nome: 'andre',
-          pontuacao: 17902,
-        },
-        {
-          nome: 'yasmin',
-          pontuacao: 17730,
-        },
-        {
-          nome: 'douglas',
-          pontuacao: 2000,
-        },
-      ]
-    },
-  ]);
+  const [data, setData] = useState({
+    '3 informatica': [
+      { nome: 'Richard dos santos paiva', pontuacao: 18902, faltas: 2 },
+      { nome: 'joao', pontuacao: 20002, faltas: 0 },
+      { nome: 'maria', pontuacao: 16902, faltas: 1 },
+    ],
+    '2 informatica': [
+      { nome: 'vitor', pontuacao: 17902, faltas: 0 },
+      { nome: 'carlos', pontuacao: 16902, faltas: 2 },
+      { nome: 'jose', pontuacao: 10902, faltas: 3 },
+    ],
+    '1 informatica': [
+      { nome: 'andre', pontuacao: 16902, faltas: 0 },
+      { nome: 'yasmin', pontuacao: 18030, faltas: 0 },
+      { nome: 'douglas', pontuacao: 1500, faltas: 2 },
+    ],
+    '1 administração': [
+      { nome: 'andre', pontuacao: 16902, serie: 2, faltas: 1 },
+      { nome: 'yasmin', pontuacao: 18030, serie: 2, faltas: 0 },
+      { nome: 'douglas', pontuacao: 1500, serie: 2, faltas: 3 },
+    ],
+    '3 recursosHumanos': [
+      { nome: 'andre', pontuacao: 17902, serie: 1, faltas: 0 },
+      { nome: 'yasmin', pontuacao: 17730, serie: 1, faltas: 1 },
+      { nome: 'douglas', pontuacao: 2000, serie: 1, faltas: 2 },
+    ],
+  });
 
   const [sortedData, setSortedData] = useState([]);
   const [selectedPodium, setSelectedPodium] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [showInfo, setShowInfo] = useState(null);
 
   useEffect(() => {
-    const courseSums = data.map(course => ({
-      curso: course.curso,
-      serie: course.serie,
-      total: course.alunos.reduce((acc, aluno) => acc + aluno.pontuacao, 0)
+    const courseSums = Object.keys(data).map((curso) => ({
+      curso,
+      serie: data[curso][0].serie || null,
+      total: data[curso].reduce((acc, aluno) => acc + aluno.pontuacao, 0),
+      faltas: data[curso].reduce((acc, aluno) => acc + aluno.faltas, 0),
     }));
 
     courseSums.sort((a, b) => b.total - a.total);
     setSortedData(courseSums);
-
   }, [data]);
 
   const handlePodiumClick = (index) => {
     setSelectedPodium(selectedPodium === index ? null : index);
   };
 
-  const handleToggleOtherInfo = (curso) => {
+  const handleToggleOtherInfo = (curso, serie) => {
     setSelectedCourse(selectedCourse === curso ? null : curso);
+    setShowInfo(showInfo === serie ? null : serie);
   };
 
   return (
@@ -157,7 +94,7 @@ export default function Ranking() {
               <div className='w-full sm:flex grid-cols-1 grid-rows-2'>
                 <div className={`w-full xl:w-1/2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] border border-orange-500 ${selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}>
                   <div className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${selectedCourse === course.curso ? 'text-[#005261] bg-white' : 'text-[#005261] bg-[#E6EFF0]'} text-4xl`}>
-                    {index +1}
+                    {index + 1}
                   </div>
                   <div className="flex sm:items-center sm:gap-4 sm:justify-center">
                     <img src="images/bolinha.png" className="hidden sm:block" alt="" />
@@ -169,15 +106,20 @@ export default function Ranking() {
 
                 <div className={`sm:w-1/2 flex justify-end border border-yellow-500 ${selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}>
                   <div className={`w-full border-r-4 sm:border-x-4 ${selectedCourse === course.curso ? 'bg-[#005261] border-white' : 'bg-white border-[#DADADA]'}`}>
-                    <p className={`${selectedCourse === course.curso ? 'text-white border-white' : 'text-[#005261]'} text-center`}>diferença pro 1º lugar</p>
-                    <p className={`${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>000000</p>
+                    <p className={`${selectedCourse === course.curso ? 'text-white border-white' : 'text-[#005261]'} text-center`}>faltas</p>
+                    <p className={`${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>{course.faltas}</p>
                   </div>
                   <div className={`w-full ${selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}>
                     <p className={`${selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'} text-center`}><span>Pontuação</span><span>Final</span></p>
                     <p className={`${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>{course.total}</p>
                   </div>
                   <div className={`${selectedCourse === course.curso ? 'text-white bg-[#005261]' : 'text-[#005261]'} text-center`}>
-                    <Icon icon="solar:alt-arrow-down-line-duotone" className={`${selectedCourse === course.curso ? 'text-white rotate-180 duration-300' : 'text-[#005261] rotate-0 duration-300'}`} width={40} onClick={() => handleToggleOtherInfo(course.curso)} />
+                    <Icon
+                      icon="solar:alt-arrow-down-line-duotone"
+                      className={`${selectedCourse === course.curso ? 'text-white rotate-180 duration-300' : 'text-[#005261] rotate-0 duration-300'}`}
+                      width={40}
+                      onClick={() => handleToggleOtherInfo(course.curso, course.serie)}
+                    />
                   </div>
                 </div>
               </div>
