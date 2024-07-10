@@ -55,15 +55,15 @@ export default function Quadra() {
         <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Nome campeonato
-            <input type="text" name="nomeCampeonato"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+            <input type="text" name="nomeCampeonato"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Pontuação do campeonato
-            <input type="number" name="pontoCampeonato" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+            <input type="number" name="pontoCampeonato" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Quantidade de fases
-            <input type="number" name="qntFases" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+            <input type="number" name="qntFases" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Data

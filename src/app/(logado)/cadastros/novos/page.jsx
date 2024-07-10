@@ -30,6 +30,7 @@ export default function Novo() {
             <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'><Link href='/cadastros/novos/patio/campeonatos'>Campeonatos de Pátio</Link></li>
             <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'><Link href='/cadastros/novos/quadra'>Campeonatos de Quadra</Link></li>
             <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'><Link href='/cadastros/novos/doacao'>Doações</Link></li>
+            <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'><Link href='/cadastros/novos/representantes'>Representantes</Link></li>
           </ul>
         </div>
       </div>

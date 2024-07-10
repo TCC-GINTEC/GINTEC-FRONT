@@ -79,11 +79,11 @@ export default function Patio() {
             <input type="text" name='id' />
             <label className='flex flex-col gap-3 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Nome do Jogo
-              <input type="text" name="nomeJogo"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="text" name="nomeJogo"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui'/>
             </label>
             <label className='flex flex-col gap-2 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Pontuação do Jogo
-              <input type="text" name="pontoJogo"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="text" name="pontoJogo"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'placeholder='digite aqui' />
             </label>
             <label className='flex flex-col gap-3 w-full  px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Data

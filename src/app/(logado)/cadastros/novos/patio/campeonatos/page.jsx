@@ -58,15 +58,15 @@ export default function Campeonato() {
         <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
             <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Nome campeonato
-              <input type="text" name="nomeCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="text" name="nomeCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui'/>
             </label>
             <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Pontuação do campeonato
-              <input type="text" name="pontoCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="text" name="pontoCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui'/>
             </label>
             <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Quantidade de fases
-              <input type="text" name="qntFases" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              <input type="text" name="qntFases" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
             </label>
             <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Data
