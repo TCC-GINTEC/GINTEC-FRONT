@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
+import Link from 'next/link'
 
 export default function Ranking() {
   const [data, setData] = useState({
@@ -41,11 +42,13 @@ export default function Ranking() {
       { nome: 'douglas', pontuacao: 14000, serie: 1 },
     ],
   });
-
+  const [showFilterOptions, setShowFilterOptions] = useState(false);
+  const [showFilterOptions2, setShowFilterOptions2] = useState(false);
   const [sortedData, setSortedData] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showColocado, setShowColocado] =  useState();
 
+  //define a ordem do curso pela pontuacao
   useEffect(() => {
     const courseSums = Object.keys(data).map((curso) => ({
       curso,
@@ -56,6 +59,7 @@ export default function Ranking() {
     setSortedData(courseSums);
   }, []);
 
+  //define o estado da cor e se aquele colocado é exibido ou não
   const handlePodiumClick = (curso) => {
     setSelectedCourse(selectedCourse === curso ? null : curso);
   };
@@ -63,6 +67,82 @@ export default function Ranking() {
 
   return (
     <>
+     <div className='w-full pl-8'>
+            <h1 className='text-3xl mb-3'>Pontuação geral</h1>
+            <p className='text-[#DADADA]'>Todas as Salas</p>
+       </div>
+      {/* Filtro */}
+      <div className='flex justify-evenly sm:justify-end sm:pr-20 gap-8 w-full relative'>
+            {/* Opções filtro 1 */}
+            <div className='flex flex-col relative'>
+              <div
+                onClick={() => setShowFilterOptions(!showFilterOptions)}
+                className="w-[170px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+              >
+                <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />Data
+              </div>
+              {showFilterOptions && (
+                <>
+                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                  <div className='absolute top-12 w-[170px] flex items-center flex-col z-50'>
+                    <div className="mt-10 bg-white shadow-md rounded-lg sm:w-[192px] py-2">
+                      <ul>
+                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          data 1
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            {/* Opções filtro 2 */}
+            <div className='mt-4 flex items-end flex-col relative'>
+              <div 
+                onClick={() => setShowFilterOptions2(!showFilterOptions2)} 
+                className='h-[44px] z-60 w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'
+              >
+                <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
+              </div>
+              {showFilterOptions2 && (
+                <>
+                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                  <div className='z-50 absolute top-12'>
+                    <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2">
+                      <ul>
+                        <li onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking/cursos">
+                            <p className='flex items-center justify-evenly text-[#a8a8a8] '>
+                              Todas as Salas
+                              <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="bg-white shadow-md rounded-lg mt-5 sm:w-[192px] py-2">
+                      <ul>
+                        <li onClick={() => setShowFilterOptions2(!showFilterOptions2)} className=" pl-6 sm:pl-0 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking">
+                            <p className='flex items-center justify-evenly'>
+                              Melhores Alunos
+                            </p>
+                          </Link>
+                        </li>
+                        <li onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking/padrinhos">
+                            <p className='flex items-center justify-evenly'>
+                              Melhores Padrinhos
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div> 
+         </div>
       <div className='relative inline justify-center mb-10'>
         {/* Pódio do 1º, 2º, 3º lugares */}
         <div className='grid gap-8 md:grid-cols-3 md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] h-[280px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
@@ -101,9 +181,9 @@ export default function Ranking() {
                   selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'
                 } transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
               >
-                <div className='w-full sm:flex grid-cols-1 grid-rows-2'>
+                <div className='w-full  sm:flex grid-cols-1 grid-rows-2'>
                   <div
-                    className={`w-full xl:w-1/2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] border border-orange-500 ${
+                    className={`w-full xl:w-1/2  mt-2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] ${
                       selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
                     }`}
                   >
@@ -117,7 +197,7 @@ export default function Ranking() {
                     <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
                       <img src='images/bolinha.png' className='hidden sm:block' alt='' />
                       <h2
-                        className={`w-full sm:w-3/4 flex items-center sm:text-base md:text-xl xl:text-2xl ${
+                        className={`w-full  flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'
                         }`}
                       >
@@ -127,23 +207,23 @@ export default function Ranking() {
                   </div>
 
                   <div
-                    className={`sm:w-1/2 flex justify-end border border-yellow-500 ${
+                    className={`sm:w-1/2  mt-2  flex justify-end   ${
                       selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
                     }`}
                   >
                     <div
-                      className={`w-full border-r-4 sm:border-x-4 ${
+                      className={`w-full  border-r-4 sm:border-x-4 ${
                         selectedCourse === course.curso ? 'bg-[#005261] border-white' : 'bg-white border-[#DADADA]'
                       }`}
                     >
                       <p className={`${selectedCourse === course.curso ? 'text-white border-white' : 'text-[#005261]'} text-center`}>
                         Diferença pro 1º lugar
                       </p>
-                      <p className={`${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
+                      <p className={`pb-2 ${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
                           {index < 3 ? sortedData[0].total - course.total : '---'}
                       </p>
                     </div>
-                    <div
+                    <div  
                       className={`w-full ${
                         selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
                       }`}
@@ -152,7 +232,7 @@ export default function Ranking() {
                         <span>Pontuação</span>
                         <span>Final</span>
                       </p>
-                      <p className={`${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
+                      <p className={`pb-4 ${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
                         {course.total}
                       </p>
                     </div>
@@ -170,8 +250,8 @@ export default function Ranking() {
                 </div>
                 {/* Informações abaixo das informações */}
                 {selectedCourse === course.curso && (
-                  <div className='-z-10 flex-col bg-white border-2 border-[#005261] flex pt-8 pb-3 -mt-6 w-full rounded-xl shadow-lg'>
-                    <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-2 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
+                  <div className='-z-10 mt-5 flex-col bg-white border-t-4 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
+                    <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-1 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
                       {[
                         { label: 'Soma das Fichas', value: '0' },
                         { label: 'Alunos ativos', value: '0' },
@@ -219,7 +299,7 @@ export default function Ranking() {
               >
                 <div className='w-full sm:flex grid-cols-1 grid-rows-2'>
                   <div
-                    className={`w-full xl:w-1/2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] border border-orange-500 ${
+                    className={`w-full xl:w-1/2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] ${
                       selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
                     }`}
                   >
@@ -243,32 +323,32 @@ export default function Ranking() {
                   </div>
 
                   <div
-                    className={`sm:w-1/2 flex justify-end border border-yellow-500 ${
+                    className={`sm:w-1/2 flex justify-end  ${
                       selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
                     }`}
                   >
                     <div
-                      className={`w-full border-r-4 sm:border-x-4 ${
+                      className={`w-full mt-2  border-r-4 sm:border-x-4 ${
                         selectedCourse === course.curso ? 'bg-[#005261] border-white' : 'bg-white border-[#DADADA]'
                       }`}
                     >
                       <p className={`${selectedCourse === course.curso ? 'text-white border-white' : 'text-[#005261]'} text-center`}>
                         Diferença pro 1º lugar
                       </p>
-                      <p className={`${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
+                      <p className={`pb-2   ${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
                           {index >= 3 ? sortedData[0].total - course.total : '---'}
                       </p>
                     </div>
                     <div
-                      className={`w-full ${
+                      className={`w-full mt-2 ${
                         selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
                       }`}
                     >
-                      <p className={`${selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'} text-center`}>
+                      <p className={`  ${selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'} text-center`}>
                         <span>Pontuação</span>
                         <span>Final</span>
                       </p>
-                      <p className={`${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
+                      <p className={`pb-4 ${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
                         {course.total}
                       </p>
                     </div>
@@ -286,7 +366,7 @@ export default function Ranking() {
                 </div>
                 {/* Informações abaixo das informações */}
                 {selectedCourse === course.curso && (
-                  <div className='-z-10 flex-col bg-white border-2 border-[#005261] flex pt-8 pb-3 -mt-6 w-full rounded-xl shadow-lg'>
+                  <div className='-z-10 mt-5 flex-col bg-white border-2 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
                     <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-2 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
                       {[
                         { label: 'Soma das Fichas', value: '0' },

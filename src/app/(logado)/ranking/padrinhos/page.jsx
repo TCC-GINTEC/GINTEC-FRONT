@@ -4,10 +4,13 @@ import Placed from '@/components/Ranking/Placed';
 import Scores from "@/components/Ranking/Scores"
 import { useState, useEffect } from "react";
 import httpClient from "@/service/api"
+import Link from 'next/link'
 import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 
 export default function Ranking() {
+  const [showFilterOptions, setShowFilterOptions] = useState(false);
+  const [showFilterOptions2, setShowFilterOptions2] = useState(false);
   const [selectRanking, setSelectRanking] = useState("");
   const [seachDate, setSeachDate] = useState("");
   
@@ -21,12 +24,12 @@ export default function Ranking() {
   };
 
   const [data, setData] = useState([
-    { "nome": "Richard dos Santos Paiva", "curso": "informatica", "serie": "3º", "pontuacao": 17902 },
-    { "nome": "André", "curso": "administracao", "serie": "3º", "pontuacao": 17512 },
-    { "nome": "Fernanda", "curso": "recursos humanos", "serie": "3º", "pontuacao": 11297 },
-    { "nome": "Felipe", "curso": "contabilidade", "serie": "3º", "pontuacao": 13656 },
-    { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17437 },
-    { "nome": "Paula", "curso": "administracao", "serie": "3º", "pontuacao": 13236 },
+    { "nome": "Debora", "curso": "informatica", "serie": "3º", "pontuacao": 17902 },
+    { "nome": "Mikel", "curso": "administracao", "serie": "3º", "pontuacao": 17512 },
+    { "nome": "Juliana", "curso": "recursos humanos", "serie": "2º", "pontuacao": 11297 },
+    { "nome": "Pedro", "curso": "contabilidade", "serie": "3º", "pontuacao": 13656 },
+    { "nome": "Jacques", "curso": "informatica", "serie": "1º", "pontuacao": 17437 },
+    { "nome": "Admar", "curso": "administracao", "serie": "2º", "pontuacao": 13236 },
   ]);
 
   const [selectedPodium, setSelectedPodium] = useState(null);
@@ -42,12 +45,88 @@ export default function Ranking() {
 
 
   return (
-      <>
+     <>  
+      <div className='w-full pl-8'>
+            <h1 className='text-3xl mb-3'>Pontuação geral</h1>
+            <p className='text-[#DADADA]'>Melhores Padrinhos</p>
+       </div>
+        {/* Filtro */}
+       <div className='flex justify-evenly sm:justify-end sm:pr-20 gap-8 w-fullrelative'>
+            {/* Opções filtro 1 */}
+            <div className='flex flex-col relative'>
+              <div
+                onClick={() => setShowFilterOptions(!showFilterOptions)}
+                className="w-[170px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+              >
+                <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />Data
+              </div>
+              {showFilterOptions && (
+                <>
+                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                  <div className='absolute top-12 w-[170px] flex items-center flex-col z-50'>
+                    <div className="mt-10 bg-white shadow-md rounded-lg sm:w-[192px] py-2">
+                      <ul>
+                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          data 1
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            {/* Opções filtro 2 */}
+            <div className='mt-4 flex items-end flex-col relative'>
+              <div 
+                onClick={() => setShowFilterOptions2(!showFilterOptions2)} 
+                className='h-[44px] z-60 w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'
+              >
+                <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
+              </div>
+              {showFilterOptions2 && (
+                <>
+                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                  <div className='z-50 absolute top-12'>
+                    <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2">
+                      <ul>
+                        <li onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking">
+                            <p className='flex items-center justify-evenly text-[#a8a8a8] '>
+                              Melhores Padrinhos
+                              <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="bg-white shadow-md rounded-lg mt-5 sm:w-[192px] py-2">
+                      <ul>
+                       <li onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="pl-6 sm:pl-7 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking/cursos">
+                            <p >
+                              Todas as Salas
+                            </p>
+                          </Link>
+                        </li>
+                        <li onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking">
+                            <p >
+                              Melhores Alunos
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div> 
+         </div>
         <div className='relative inline justify-center mb-10'>
           {/*pódio do 1 2 3 lugar */}
           <div className='grid gap-8 md:grid-cols-3 md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] h-[280px] rounded-3xl mx-auto' style={{backgroundImage: `url('/images/bg-ranking.svg')`,backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
             {/* Renderização dinâmica dos pódios  1COLOCADO:left-[40%] w-[196px] h-[280px] / 2COLOCADO:left-[10%] h-[190px] w-[180px] / 3COLOCADO: right-[10%] w-[120px] h-[220px] */}
-              {data.slice(0, 3).map((aluno, index) => (
+              {data.slice(0, 3).map((padrinho, index) => (
                  // <div key={index} className={`w-3/4 flex sm:flex-col items-center gap-1 justify-center absolute  ${index === 0 ? 'top-0 sm:top-[44%] sm:bottom-0 rigth-0 sm:left-[38%] w-full sm:w-[170px] sm:h-[280px]' : index === 1 ? 'top-20  sm:top-[62%] sm:bottom-0 w-full sm:max-w-[170px] sm:h-[190px] ' : 'top-40 sm:top-[56%] sm:right-[5%] sm:bottom-0  w-full sm:max-w-[170px] sm:h-[220px]'} bg-[#4C8690] rounded-t-lg p-2 `}>
                   <div key={index} 
                   className={` grid grid-cols-3  justify-items-center md:flex md:flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
@@ -65,9 +144,9 @@ export default function Ranking() {
                       />
                     </p>
                     <img src="/images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} />
-                    <p className='font-medium text-center'>{aluno.nome} </p>
-                    <p className='text-center'>{aluno.serie} {aluno.curso}</p>
-                    <p className='text-[#FFC24C] font-semibold'>{aluno.pontuacao}</p>
+                    <p className='font-medium text-center'>{padrinho.nome} </p>
+                    <p className='text-center'>{padrinho.serie} {padrinho.curso}</p>
+                    <p className='text-[#FFC24C] font-semibold'>{padrinho.pontuacao}</p>
                   </div>
               ))}
           </div> 
@@ -77,7 +156,7 @@ export default function Ranking() {
           {/* Três primeiros lugares */}
           {selectedPodium !== null && (
             <div className='bg-[#005261] grid grid-cols-1  grid-rows-2 sm:flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
-              <div className=' w-full sm:w-1/2 xl:w-1/2 flex justify-center items-center sm:justify-start gap-2 sm:gap-2 xl:gap-3  border border-orange-500'>
+              <div className=' w-full sm:w-1/2 xl:w-1/2 mb-4 flex justify-center items-center sm:justify-start gap-2 sm:gap-2 xl:gap-3'>
                 <div className='flex justify-center items-center w-[40px] h-[65px] sm:p-2 rounded-xl text-[#005261] bg-white text-4xl'>
                   {selectedPodium + 1}
                 </div>
@@ -86,7 +165,7 @@ export default function Ranking() {
                   <h2 className='w-full sm:3/4 md:w-full text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{data[selectedPodium].nome}</h2>
                 </div>
               </div>
-              <div className='row-start-2 w-full grid grid-cols-3 sm:w-1/2 sm:flex sm:justify-end border border-yellow-500'>
+              <div className='row-start-2 w-full grid grid-cols-3 sm:w-1/2 sm:flex sm:justify-end'>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-white text-center'>Série</p>
                   <p className='text-[#FFC24C] text-center'>{data[selectedPodium].serie} {data[selectedPodium].curso}</p>
@@ -102,29 +181,29 @@ export default function Ranking() {
               </div>
             </div>
           )}
-          {data.slice(3).map((aluno, index) => (
+          {data.slice(3).map((padrinho, index) => (
             <div key={index + 3} className='bg-white grid grid-cols-1  grid-rows-2 sm:flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
-              <div className=' w-full sm:w-1/2 xl:w-1/2 flex justify-center items-center sm:justify-start gap-2 sm:gap-2 xl:gap-3  border border-orange-500'>
+              <div className=' w-full sm:w-1/2 xl:w-1/2 mb-4 flex justify-center items-center sm:justify-start gap-2 sm:gap-2 xl:gap-3 '>
                 <div className='w-[50px] flex justify-center items-center  h-[65px] rounded-xl text-[#005261] bg-[#E6EFF0] text-4xl'>
                   {index + 4}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 smjustify-center'>
                   <img src="images/bolinha.png" className='hidden sm:block' alt="" />
-                  <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-[#005261]'>{aluno.nome}</h2>
+                  <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-[#005261]'>{padrinho.nome}</h2>
                 </div>
               </div>
-              <div className='row-start-2 w-full grid grid-cols-3 sm:w-1/2 sm:flex sm:justify-end border border-yellow-500'>
+              <div className='row-start-2 w-full grid grid-cols-3 sm:w-1/2 sm:flex sm:justify-end '>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-[#005261] text-center'>serie</p>
-                  <p className='text-[#FFC24C] text-center'>{aluno.serie} {aluno.curso}</p>
+                  <p className='text-[#FFC24C] text-center'>{padrinho.serie} {padrinho.curso}</p>
                 </div>
                 <div className='w-full '>
                   <p className='text-[#005261] text-center'>diferença pro 1º lugar</p>
-                  <p className='text-[#FFC24C] text-center'>{data[0].pontuacao - aluno.pontuacao}</p>
+                  <p className='text-[#FFC24C] text-center'>{data[0].pontuacao - padrinho.pontuacao}</p>
                 </div>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-[#005261] text-center text-wrap'><span className='block sm:inline'>Pontuação </span><span className='block sm:inline'>Final</span></p>
-                  <p className='text-[#FFC24C] text-center'>{aluno.pontuacao}</p>
+                  <p className='text-[#FFC24C] text-center'>{padrinho.pontuacao}</p>
                 </div>
               </div>
             </div>
