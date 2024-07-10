@@ -70,7 +70,7 @@ export default function Quadra() {
       </div>
     </>
   );
-
+  
   return (
     <>
       <div className="sm:ml-[5%] flex flex-col gap-4">
