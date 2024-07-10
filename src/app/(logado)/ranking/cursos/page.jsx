@@ -150,7 +150,7 @@ export default function Ranking() {
             <div
               key={index}
               className={`grid grid-cols-3 justify-items-center md:flex md:flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
-                index === 0 ? 'col-span-1 row-start-1 md:row-start-1 md:col-start-2 md:w-[196px] md:h-[280px]' : index === 1 ? 'col-span-1 row-start-2 md:col-start-1 md:row-start-1 md:w-[180px] md:h-[190px]' : 'col-span-1 md:col-start-3 row-start-3 md:row-start-1 md:w-[196px] md:h-[220px] '
+                index === 0 ? 'col-span-1 row-start-1 md:row-start-1 md:col-start-2 md:w-[196px] md:h-[280px]' : index === 1 ? 'col-span-1 row-start-2 md:col-start-1 md:row-start-1 md:w-[196px] md:h-[220px]' : 'col-span-1 md:col-start-3 row-start-3 md:row-start-1 md:w-[180px] md:h-[190px]'
               }`}
             >
               <p className='flex items-center md:gap-4 font-bold'>
@@ -229,8 +229,7 @@ export default function Ranking() {
                       }`}
                     >
                       <p className={`${selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'} text-center`}>
-                        <span>Pontuação</span>
-                        <span>Final</span>
+                        Pontuação Final
                       </p>
                       <p className={`pb-4 ${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
                         {course.total}
@@ -345,8 +344,7 @@ export default function Ranking() {
                       }`}
                     >
                       <p className={`  ${selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'} text-center`}>
-                        <span>Pontuação</span>
-                        <span>Final</span>
+                        Pontuação Final
                       </p>
                       <p className={`pb-4 ${selectedCourse === course.curso ? 'text-[#FFC24C] bg-[#005261]' : 'text-[#005261]'} text-center`}>
                         {course.total}
