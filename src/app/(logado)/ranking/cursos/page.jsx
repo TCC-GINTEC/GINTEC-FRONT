@@ -153,7 +153,7 @@ export default function Ranking() {
                 index === 0 ? 'col-span-1 row-start-1 md:row-start-1 md:col-start-2 md:w-[196px] md:h-[280px]' : index === 1 ? 'col-span-1 row-start-2 md:col-start-1 md:row-start-1 md:w-[196px] md:h-[220px]' : 'col-span-1 md:col-start-3 row-start-3 md:row-start-1 md:w-[180px] md:h-[190px]'
               }`}
             >
-              <p className='flex items-center md:gap-4 font-bold'>
+              <p className='flex items-center md:gap-4 font-bold text-center'>
                 {index + 1} º lugar
                 <Icon
                   width={30}
