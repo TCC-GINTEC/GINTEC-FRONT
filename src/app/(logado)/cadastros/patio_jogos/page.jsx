@@ -11,7 +11,6 @@ export default function Patio() {
   const [showForm, setShowForm] = useState(false);
   const [nomeJogo, setNomeJogo] = useState('');
   const [pontoJogo, setPontoJogo] = useState('');
-  const [dataJogo, setDataJogo] = useState('');
   const [pontoExtra, setPontoExtra] = useState(50);
   const [idObjetoSelecionado, setIdObjetoSelecionado] = useState(null);
 
@@ -20,31 +19,26 @@ export default function Patio() {
       id: 1,
       nome: 'Skate',
       ponto: 200,
-      data: new Date('2024-08-01'),
     },
     {
       id: 2,
       nome: 'Labirinto 3D',
       ponto: 150,
-      data: new Date('2024-07-20'),
     },
     {
       id: 3,
       nome: 'Damas',
       ponto: 100,
-      data: new Date('2024-07-15'),
     },
     {
       id: 4,
       nome: 'Pebolim',
       ponto: 250,
-      data: new Date('2024-07-25'),
     },
     {
       id: 5,
       nome: 'Bicicleta',
       ponto: 180,
-      data: new Date('2024-07-30'),
     }
   ]);
 
@@ -53,7 +47,6 @@ export default function Patio() {
     setIdObjetoSelecionado(jogo.id);
     setNomeJogo(jogo.nome);
     setPontoJogo(jogo.ponto);
-    setDataJogo(jogo.data.toISOString().split('T')[0]); // format date for input type="date"
   }
 
   const handleCloseForm = () => {
@@ -61,14 +54,12 @@ export default function Patio() {
     setIdObjetoSelecionado(null);
     setNomeJogo('');
     setPontoJogo('');
-    setDataJogo('');
   }
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const nome = nomeJogo;
     const ponto = extraClicked ? (Number(pontoJogo) + Number(pontoExtra)) : Number(pontoJogo);
-    const data = new Date(dataJogo);
 
     const posicao = retornoApi.findIndex(
       (elemento) => elemento.id === idObjetoSelecionado
@@ -78,8 +69,7 @@ export default function Patio() {
     novosDados[posicao] = {
       id: idObjetoSelecionado,
       nome: nome,
-      ponto: ponto,
-      data: data,
+      ponto: ponto
     };
 
     setRetornoApi(novosDados);
@@ -136,10 +126,6 @@ export default function Patio() {
                   <label className='flex flex-col gap-2 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
                     Pontuação do Jogo
                     <input type="text" name="pontoJogo" value={pontoJogo} onChange={(e) => setPontoJogo(Number(e.target.value))} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-                  </label>
-                  <label className='flex flex-col gap-3 w-full  px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
-                    Data
-                    <input type="date" name="dataJogo" value={dataJogo} onChange={(e) => setDataJogo(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
                   </label>
                   <label className='flex justify-between items-center gap-3 w-full px-9 pt-2 h-[70px] pb-2 rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
                     Pontuação do Extra

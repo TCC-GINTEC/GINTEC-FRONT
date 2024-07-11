@@ -24,6 +24,7 @@ export default function Patio() {
   const handlePontoExtra = (acao) => {
     if (acao === 0) {
       setPontoExtra((prev) => (prev === 0 ? 0 : prev - 50));
+      console.log(pontoExtra)
     }
     if (acao === 1) {
       setPontoExtra((prev) => prev + 50);
@@ -38,9 +39,8 @@ export default function Patio() {
     e.preventDefault();
     const target = e.target;
     const nome = target.nomeJogo.value;
-    const data = target.dataJogo.value;
     const ponto = extraClicked ? (Number(target.pontoJogo.value) + Number(target.pontoExtra.value)) : Number(target.pontoJogo.value);
-    
+
     setTimeout(() => {
       setModalOpen(true);
     }, 4000);
@@ -73,10 +73,9 @@ export default function Patio() {
           <p className='text-[#005261] font-semibold'>Jogos de Patio</p>
         </div>
         
-        <form onSubmit={handleFormSubmit} className='p-4  w-full flex flex-col'>
+        <form onSubmit={handleFormSubmit} className='mt-3 p-4  w-full flex flex-col'>
         <div className='flex sm:flex-row flex-col gap-4'>
           <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2 transition-all duration-700' : 'w-full duration-700'}`}>
-            <input type="text" name='id' />
             <label className='flex flex-col gap-3 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Nome do Jogo
               <input type="text" name="nomeJogo"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui'/>
@@ -84,10 +83,6 @@ export default function Patio() {
             <label className='flex flex-col gap-2 w-full px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Pontuação do Jogo
               <input type="text" name="pontoJogo"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'placeholder='digite aqui' />
-            </label>
-            <label className='flex flex-col gap-3 w-full  px-9 pt-2 h-[73px] rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
-              Data
-              <input type="date" name="dataJogo"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
             </label>
             <label className='flex justify-between items-center gap-3 w-full px-9 pt-2 h-[70px] pb-2 rounded-2xl text-sm text-[#666666] bg-[#E6EFF0]'>
               Pontuação do Extra
@@ -102,7 +97,7 @@ export default function Patio() {
               <div className='flex flex-col w-3/4 gap-2'>
                 <label className='flex flex-col gap-2 text-[#DADADA] border-b-4'>
                   Adicionar pontos
-                  <input type="number" name='pontoExtra' className='text-[#005261] font-semibold text-lg' />
+                  <input type="number" name='pontoExtra' value={pontoExtra} className='text-[#005261] font-semibold text-lg' />
                 </label>
                 <div className='flex items-center justify-between'>
                   <button type='button' onClick={() => handlePontoExtra(0)} className='bg-[#E6EFF0] p-2 rounded-full'>
