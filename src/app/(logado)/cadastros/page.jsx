@@ -50,7 +50,16 @@ export default function Cadastros(){
         <div className="inset-4 flex  flex-col justify-center text-white text-xl">
           <p>Doações</p>
         </div>
-      </section>  
+      </section> 
+      <section 
+       onClick={() => router.push('cadastros/representantes')} 
+      className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
+      transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
+        <img src="/images/bg-representantes.svg" alt="test image"/>
+        <div className="inset-4 flex  flex-col justify-center text-white text-xl">
+          <p>Representantes</p>
+        </div>
+      </section> 
       <section onClick={() => router.push('cadastros/novos')} 
       className=" hidden sm:block relative w-[240px] h-[150px] border-4 
       rounded-lg border-dashed border-gray-600*:absolute *:w-full
