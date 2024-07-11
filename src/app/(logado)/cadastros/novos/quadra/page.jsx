@@ -68,7 +68,7 @@ export default function Quadra() {
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Quantidade de Jogos
-            <input type="text" name="qntFases" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
+            <input type="text" name="qntJogos" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Data
@@ -85,7 +85,7 @@ export default function Quadra() {
       {isModalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <Modal closeModal={closeModal} texto={'Campeonato de Quadra'}/>
+          <Modal closeModal={closeModal} texto={'Campeonato de quadra cadastrado '}/>
         </>
       )}
     </>
