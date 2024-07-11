@@ -112,9 +112,7 @@ export default function Salas() {
                 onClick={() => router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
               >
                 <div className='flex justify-start'>
-                  <div className="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center">
-                    {/* Conteúdo dentro do círculo */}
-                  </div>
+                  <img src="/images/bolinha.png" width={50} />
                 </div>
                 <h1 className={`${data.curso === 'recursos humanos' ? '' : ''}`}>
                   {data.serie}º {data.curso}
@@ -129,10 +127,9 @@ export default function Salas() {
                 onClick={() => router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
                 className="h-[100px] w-full rounded-xl shadow-md flex justify-evenly items-center gap-4 p-4 md:p-9"
               >
+
                 <div className='flex justify-center w-1/3'>
-                  <div className="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center">
-                    {/* Conteúdo dentro do círculo */}
-                  </div>
+                  <img src="/images/bolinha.png" width={50} />
                 </div>
                 <h1 className={`${data.curso === 'recursos humanos' ? '' : ''}`}>
                   {data.serie}º {data.curso}
