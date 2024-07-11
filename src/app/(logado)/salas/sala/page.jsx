@@ -10,7 +10,11 @@ export default function Sala() {
   const [showFilterDataOptions, setShowFilterDataOptions] = useState(false);
   const [moveBar, setMoveBar] = useState("principal");
   const [transition, setTransition] = useState(false); // Estado para controlar a transição
-  const [fase, setFase] = useState(""); // Estado para armazenar a fase selecionada
+  
+  const [faseFilter, setFaseFilter] = useState(""); // Estado para armazenar a fase selecionada
+  const [faseDia,setFaseDia]= useState("");
+  const [dia,setDia]= useState("");
+  
   const searchParams = useSearchParams();
   const urlCurso = searchParams.get("curso");
   const urlSerie = searchParams.get("serie");
@@ -35,7 +39,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 60.7,
       mencao: "MB",
-      doacao: [{ jogos: 700 },{oficina:15000},{PS:500},{ livros: 500 }]
+      doacao: [{ jogos: 700 },{oficina:15000},{PS:500},{ livros: 500 }],
+      dia: new Date("2024-08-28")
     },
     {
       id: 2,
@@ -45,8 +50,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 25.76,
       mencao: "R",
-      doacao: [{ jogos: 700 },{PS:500},{ livros: 500 }]
-
+      doacao: [{ jogos: 700 },{PS:500},{ livros: 500 }],
+      dia: new Date("2024-08-28")
     },
     {
       id: 3,
@@ -56,7 +61,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 48.367,
       mencao: "B",
-      doacao: [{ jogos: 700 },{ livros: 500 }]
+      doacao: [{ jogos: 700 },{ livros: 500 }],
+      dia: new Date("2024-08-28")
     },
     {
       id: 4,
@@ -66,7 +72,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 0,
       mencao: "I",
-      doacao: [{ jogos: 700 },{ livros: 500 }]
+      doacao: [{ jogos: 700 },{ livros: 500 }],
+      dia: new Date("2024-08-28")
     },
     {
       id: 5,
@@ -76,7 +83,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 60.7,
       mencao: "MB",
-      doacao: [{ estagiario: 700 },{ jogos: 700 },{ livros: 500 }]
+      doacao: [{ estagiario: 700 },{ jogos: 700 },{ livros: 500 }],
+      dia: new Date("2024-08-28")
     },
     {
       id: 6,
@@ -86,7 +94,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 48.367,
       mencao: "B",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
+      dia: new Date("2024-08-28")
     },
     {
       id: 7,
@@ -96,7 +105,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 60.7,
       mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
+      dia: new Date("2024-08-28")
     },
     {
       id: 8,
@@ -106,7 +116,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 60.7,
       mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros:500 } ]
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros:500 } ],
+      dia: new Date("2024-08-28")
     },
     {
       id: 9,
@@ -116,7 +127,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 60.7,
       mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
+      dia: new Date("2024-08-28")
     },
     {
       id: 10,
@@ -126,7 +138,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 60.7,
       mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
+      dia: new Date("2024-08-28")
     },
     {
       id: 11,
@@ -136,7 +149,8 @@ export default function Sala() {
       dia: 28,
       totalPontos: 10.345,
       mencao: "I",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 700 } ]
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 700 } ],
+      dia: new Date("2024-08-28")
     },
     {
       id: 12,
@@ -184,9 +198,11 @@ export default function Sala() {
   function handleFase(fase) {
     setShowFilterOptions(false);
     if (fase === 1) {
-      setFase("1 º Fase");
+      setFaseFilter("1 º Fase");
+      setFaseDia(1)
     } else if (fase === 2) {
-      setFase("2 º Fase");
+      setFaseFilter("2 º Fase");
+      setFaseDia(2)
     }
   }
 
@@ -265,7 +281,7 @@ export default function Sala() {
           <h1 className="text-2xl font-semibold">
             {urlSerie} º {urlCurso}
           </h1>
-          <p className='-mt-5 text-[#DADADA]'>{fase}</p>
+          <p className='-mt-5 text-[#DADADA]'>{faseFilter}</p>
        </div>
        {/*fim da <div> */}
      
@@ -344,19 +360,19 @@ export default function Sala() {
                                
                                 className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
                               >
-                                28 ago
+                                {faseDia == 1? "28 ago"  :'28 set'}
                               </li>
                               <li 
                              
                                 className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
                               >
-                                29 ago
+                                {faseDia == 1? "29 ago": '29 set'}
                               </li>
                               <li 
                              
                                 className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
                               >
-                                30 ago
+                                {faseDia == 1? "30 ago": '30 set' }
                               </li>
                             </ul>
                           </div>
@@ -365,7 +381,7 @@ export default function Sala() {
                   </div>
                   {retornoApi.map((aluno) => (
                     <div key={aluno.id} className="text-center pt-[10px]  h-[59px]  Right-to-left bg-white border border-[#DADADA]">
-                      {aluno.dia}
+                          {faseDia === 1 ? "28 ago" : "28 set"}
                     </div>
                   ))}
                 </div>
