@@ -15,6 +15,17 @@ export default function Sala() {
   const urlCurso = searchParams.get("curso");
   const urlSerie = searchParams.get("serie");
 
+  {/*ter ideia do que ela vai inserir de doação */}
+  
+  const [doacoesInseridas, setDoacoesInseridas] = useState([
+    "estagiario",
+    "domino",
+    "PS",
+    "oficina",
+    "jogos",
+    "livros"
+  ]);
+
   const [retornoApi, setRetornoApi] = useState([
     {
       id: 1,
@@ -24,42 +35,48 @@ export default function Sala() {
       dia: 28,
       totalPontos: 60.7,
       mencao: "MB",
+      doacao: [{ jogos: 700 },{oficina:15000},{PS:500},{ livros: 500 }]
     },
     {
       id: 2,
-      nome: "Ana B Almeida SIlva ",
+      nome: "Ana B Almeida Silva",
       qda: 13,
       qdp: 9.896,
       dia: 28,
       totalPontos: 25.76,
       mencao: "R",
+      doacao: [{ jogos: 700 },{PS:500},{ livros: 500 }]
+
     },
     {
       id: 3,
-      nome: "Ana B Buzana Silva ",
+      nome: "Ana B Buzana Silva",
       qda: 19,
       qdp: 18.436,
       dia: 28,
       totalPontos: 48.367,
       mencao: "B",
+      doacao: [{ jogos: 700 },{ livros: 500 }]
     },
     {
       id: 4,
-      nome: "Ana J dos Santos Olidin ",
+      nome: "Ana J dos Santos Olidin",
       qda: 25,
       qdp: 1200,
       dia: 28,
       totalPontos: 0,
       mencao: "I",
+      doacao: [{ jogos: 700 },{ livros: 500 }]
     },
     {
       id: 5,
-      nome: "Andre L Scalise Albanese Junior  ",
+      nome: "Andre L Scalise Albanese Junior",
       qda: 25,
       qdp: 18.436,
       dia: 28,
-      totalPontos: 60.700,
+      totalPontos: 60.7,
       mencao: "MB",
+      doacao: [{ estagiario: 700 },{ jogos: 700 },{ livros: 500 }]
     },
     {
       id: 6,
@@ -69,6 +86,7 @@ export default function Sala() {
       dia: 28,
       totalPontos: 48.367,
       mencao: "B",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
     },
     {
       id: 7,
@@ -76,26 +94,29 @@ export default function Sala() {
       qda: 25,
       qdp: 18.436,
       dia: 28,
-      totalPontos: 60.700,
+      totalPontos: 60.7,
       mencao: "MB",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
     },
     {
       id: 8,
-      nome: "Camila Marques ",
+      nome: "Camila Marques",
       qda: 25,
       qdp: 18.436,
       dia: 28,
-      totalPontos: 60.700,
+      totalPontos: 60.7,
       mencao: "MB",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros:500 } ]
     },
     {
       id: 9,
-      nome: "Carlos Daniel Lima de Abreu ",
+      nome: "Carlos Daniel Lima de Abreu",
       qda: 25,
       qdp: 18.436,
       dia: 28,
-      totalPontos: 60.700,
+      totalPontos: 60.7,
       mencao: "MB",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
     },
     {
       id: 10,
@@ -103,55 +124,62 @@ export default function Sala() {
       qda: 25,
       qdp: 18.436,
       dia: 28,
-      totalPontos: 60.700,
+      totalPontos: 60.7,
       mencao: "MB",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
     },
     {
       id: 11,
-      nome: "Eduardo Lima ",
+      nome: "Eduardo Lima",
       qda: 7,
       qdp: 3.765,
       dia: 28,
       totalPontos: 10.345,
       mencao: "I",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 700 } ]
     },
     {
       id: 12,
-      nome: "Erick henrique Monteiro Lima ",
+      nome: "Erick Henrique Monteiro Lima",
       qda: 7,
       qdp: 3.765,
       dia: 28,
       totalPontos: 10.345,
       mencao: "I",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
     },
     {
       id: 13,
-      nome: "Evely Gusmão de Almeida ",
+      nome: "Evely Gusmão de Almeida",
       qda: 25,
       qdp: 18.436,
       dia: 28,
-      totalPontos: 60.700,
+      totalPontos: 60.7,
       mencao: "MB",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
     },
     {
       id: 14,
-      nome: "Eyshila  Neubert Basseto ",
+      nome: "Eyshila Neubert Basseto",
       qda: 25,
       qdp: 18.436,
       dia: 28,
-      totalPontos: 60.700,
+      totalPontos: 60.7,
       mencao: "MB",
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
     },
     {
       id: 15,
-      nome: "Gabriela Silva de Araujo ",
+      nome: "Gabriela Silva de Araujo",
       qda: 19,
       qdp: 12.098,
       dia: 28,
       totalPontos: 48.367,
       mencao: "B",
-    },
+      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ]
+    }
   ]);
+
 
   function handleFase(fase) {
     setShowFilterOptions(false);
@@ -362,7 +390,6 @@ export default function Sala() {
           </div>
         </div>
       )}
-  
       {moveBar === "doacoes" && (
         <div className="md:w-[80%] mx-auto">
           <div className="overflow-x-auto rounded-lg bg-[#005261]">
@@ -370,24 +397,39 @@ export default function Sala() {
               <div className="w-[300px]">
                 <div className="p-3 font-semibold border border-white border-r-2 text-white">Alunos</div>
                 {retornoApi.map((aluno) => (
-                  <div key={aluno.id} className="pt-[10px] pl-[4px] Right-to-left bg-white border border-[#DADADA]">
+                  <div key={aluno.id} className="h-[55px] pt-[10px] pl-[4px] right-to-left bg-white border border-[#DADADA]">
                     {aluno.nome}
                   </div>
                 ))}
               </div>
               <div className="w-3/4 flex overflow-x-auto">
-                <div className="min-w-[200px]">
-                  <div className="p-3 font-bold border border-white border-r-2 text-white text-center">Doação</div>
-                  <div className="pt-[10px] pl-4 Right-to-left bg-white border border-[#DADADA]">
-                    Pontos doados
+                {doacoesInseridas.map((doacao, index) => (
+                  <div key={index} className="min-w-[200px]">
+                    <div className="p-3 font-bold border border-white border-r-2 text-white text-center">
+                      {doacao}
+                    </div>
+                    {retornoApi.map((aluno) => {
+                      const doacaoValue = aluno.doacao.reduce((acc, current) => {
+                        const key = Object.keys(current)[0];
+                        if (key === doacao) {
+                          acc = current[key];
+                        }
+                        return acc;
+                      }, 0);
+
+                      return (
+                        <div key={aluno.id} className="h-[55px] pt-[10px] pl-4 right-to-left bg-white border border-[#DADADA]">
+                          {doacaoValue}
+                        </div>
+                      );
+                    })}
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       )}
-  
       {moveBar === "campeonato" && (
         <div className="md:w-[90%] mx-auto">
           {esportes.map((esporteGroup, index) => (
