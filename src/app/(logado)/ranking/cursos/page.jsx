@@ -42,11 +42,17 @@ export default function Ranking() {
       { nome: 'douglas', pontuacao: 14000, serie: 1 },
     ],
   });
+  const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [showFilterOptions2, setShowFilterOptions2] = useState(false);
+
   const [sortedData, setSortedData] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showColocado, setShowColocado] =  useState();
+
+  function handleFase() {
+    setShowFilterFasesOptions(false);
+  }
 
   //define a ordem do curso pela pontuacao
   useEffect(() => {
@@ -72,43 +78,65 @@ export default function Ranking() {
             <p className='text-[#DADADA]'>Todas as Salas</p>
        </div>
       {/* Filtro */}
-      <div className='flex justify-evenly sm:justify-end sm:pr-20 gap-8 w-full relative'>
-            {/* Opções filtro 1 */}
-            <div className='flex flex-col relative'>
-              <div
-                onClick={() => setShowFilterOptions(!showFilterOptions)}
-                className="w-[170px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
-              >
-                <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />Data
-              </div>
-              {showFilterOptions && (
-                <>
-                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
-                  <div className='absolute top-12 w-[170px] flex items-center flex-col z-50'>
-                    <div className="mt-10 bg-white shadow-md rounded-lg sm:w-[192px] py-2">
-                      <ul>
-                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="flex items-center justify-evenly cursor-pointer hover:bg-gray-100 py-1 px-3">
-                          data 1
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </>
-              )}
+      <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-8 sm:px-20'>
+          {/* Filtro por fases */}
+          <div className='relative flex justify-center'>
+            <div
+              onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
+              className="w-[113px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+            >
+              <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />
+              Fases
             </div>
-            {/* Opções filtro 2 */}
-            <div className='mt-4 flex items-end flex-col relative'>
-              <div 
-                onClick={() => setShowFilterOptions2(!showFilterOptions2)} 
-                className='h-[44px] z-60 w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex items-center justify-center'
-              >
-                <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
-              </div>
-              {showFilterOptions2 && (
-                <>
-                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
-                  <div className='z-50 absolute top-12'>
-                    <div className="bg-white shadow-md rounded-lg mt-3 sm:w-[192px] py-2">
+            {showFilterFasesOptions && (
+              <>
+                <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
+                <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
+                  <ul>
+                    <li onClick={() => handleFase()} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
+                    <li onClick={() => handleFase()} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
+                  </ul>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Filtro por data */}
+          <div className='relative flex justify-center'>
+            <div
+              onClick={() => setShowFilterOptions(!showFilterOptions)}
+              className="w-[113px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+            >
+              <Icon icon="mynaui:filter" className="ml-2 h-6 w-6" />
+              Data
+            </div>
+            {showFilterOptions && (
+              <>
+                <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterOptions(false)}></div>
+                <div className='absolute  w-[170px] flex items-center mt-10 flex-col z-50'>
+                  <div className="mt-10 bg-white shadow-md rounded-lg w-full py-2">
+                    <ul>
+                      <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">Data 1</li>
+                    </ul>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Filtro de categorias */}
+          <div className='relative flex justify-center items-center'>
+            <div
+              onClick={() => setShowFilterOptions2(!showFilterOptions2)}
+              className='h-[44px] w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex justify-center cursor-pointer items-center'
+            >
+              <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
+            </div>
+            {showFilterOptions2 && (
+              <>
+                <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterOptions2(false)}></div>
+                <div className='z-50 absolute top-12'>
+                    <div className="bg-white shadow-md rounded-lg mt-10 sm:mt-5 mr-40 sm:w-[192px] py-2">
                       <ul>
                         <li onClick={() => setShowFilterOptions2(!showFilterOptions2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">
                           <Link href="/ranking/cursos">
@@ -120,7 +148,7 @@ export default function Ranking() {
                         </li>
                       </ul>
                     </div>
-                    <div className="bg-white shadow-md rounded-lg mt-5 sm:w-[192px] py-2">
+                    <div className="bg-white shadow-md rounded-lg mt-5  mr-40 w-[192px] py-2">
                       <ul>
                         <li onClick={() => setShowFilterOptions2(!showFilterOptions2)} className=" pl-6 sm:pl-0 cursor-pointer hover:bg-gray-100 py-1 px-3">
                           <Link href="/ranking">
@@ -139,10 +167,10 @@ export default function Ranking() {
                       </ul>
                     </div>
                   </div>
-                </>
-              )}
-            </div> 
-         </div>
+              </>
+            )}
+          </div>
+      </div>
       <div className='relative inline justify-center mb-10'>
         {/* Pódio do 1º, 2º, 3º lugares */}
         <div className='grid gap-8 md:grid-cols-3 md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] h-[280px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
