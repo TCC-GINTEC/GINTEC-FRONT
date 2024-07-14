@@ -83,7 +83,7 @@ export default function Ranking() {
           <div className='relative flex justify-center'>
             <div
               onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
-              className="w-[113px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+              className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
             >
               <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />
               Fases
@@ -105,7 +105,7 @@ export default function Ranking() {
           <div className='relative flex justify-center'>
             <div
               onClick={() => setShowFilterOptions(!showFilterOptions)}
-              className="w-[113px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+              className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
             >
               <Icon icon="mynaui:filter" className="ml-2 h-6 w-6" />
               Data
@@ -181,13 +181,13 @@ export default function Ranking() {
                 index === 0 ? 'col-span-1 row-start-1 md:row-start-1 md:col-start-2 md:w-[196px] md:h-[280px]' : index === 1 ? 'col-span-1 row-start-2 md:col-start-1 md:row-start-1 md:w-[196px] md:h-[220px]' : 'col-span-1 md:col-start-3 row-start-3 md:row-start-1 md:w-[180px] md:h-[190px]'
               }`}
             >
-              <p className='flex items-center md:gap-4 font-bold text-center'>
+              <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer'>
                 {index + 1} º lugar
                 <Icon
                   width={30}
                   onClick={() => handlePodiumClick(course.curso)}
                   icon='solar:alt-arrow-down-line-duotone'
-                  className={`hover:cursor-pointer text-black duration-300 transform ${
+                  className={`  hover:cursor-pointer text-black duration-300 transform ${
                     selectedCourse === course.curso ? 'rotate-180' : 'rotate-0'
                   }`}
                 />
@@ -263,11 +263,11 @@ export default function Ranking() {
                         {course.total}
                       </p>
                     </div>
-                    <div className={`${selectedCourse === course.curso ? 'text-white bg-[#005261]' : 'text-[#005261]'} text-center`}>
+                    <div className={`${selectedCourse === course.curso ? 'text-white bg-[#005261]' : 'text-[#005261]'} text-center cursor-pointer`}>
                       <Icon
                         icon='solar:alt-arrow-down-line-duotone'
                         className={`${
-                          selectedCourse === course.curso ? 'text-white rotate-180 duration-300' : 'text-[#005261] rotate-0 duration-300'
+                          selectedCourse === course.curso ? 'text-white rotate-180 duration-300' : 'text-[#005261] rotate-0 duration-300 '
                         }`}
                         width={40}
                         onClick={() => handlePodiumClick(course.curso)}
@@ -299,7 +299,7 @@ export default function Ranking() {
                             {item.icon && (
                               <Icon
                                 icon='solar:alt-arrow-down-line-duotone'
-                                className='text-[#005261]'
+                                className='text-[#005261] cursor-pointer'
                                 width={30}
                               />
                             )}
@@ -381,7 +381,7 @@ export default function Ranking() {
                     <div className={`${selectedCourse === course.curso ? 'text-white bg-[#005261]' : 'text-[#005261]'} text-center`}>
                       <Icon
                         icon='solar:alt-arrow-down-line-duotone'
-                        className={`${
+                        className={`cursor-pointer ${
                           selectedCourse === course.curso ? 'text-white rotate-180 duration-300' : 'text-[#005261] rotate-0 duration-300'
                         }`}
                         width={40}
@@ -414,7 +414,7 @@ export default function Ranking() {
                             {item.icon && (
                               <Icon
                                 icon='solar:alt-arrow-down-line-duotone'
-                                className='text-[#005261]'
+                                className='cursor-pointer text-[#005261]'
                                 width={30}
                               />
                             )}
