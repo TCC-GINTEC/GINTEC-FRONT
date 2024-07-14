@@ -50,7 +50,7 @@ export default function Ranking() {
 
   return (
      <>  
-      <div className='w-full pl-8'>
+      <div className='w-full text-center  sm:text-left pl-8'>
             <h1 className='text-3xl mb-3'>Pontuação geral</h1>
             <p className='text-[#DADADA]'>Melhores Padrinhos</p>
        </div>

@@ -50,7 +50,7 @@ export default function Ranking() {
 
   return (
      <>  
-       <div className='w-full pl-4 text-center sm:pl-8 sm:text-left'>
+       <div className='w-full pl-4 text-center  sm:text-left sm:pl-8'>
             <h1 className='text-3xl mb-3'>Pontuação geral</h1>
             <p className='text-[#DADADA]'>Melhores alunos</p>
         </div>

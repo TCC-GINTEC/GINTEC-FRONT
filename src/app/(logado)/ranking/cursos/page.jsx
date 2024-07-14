@@ -73,7 +73,7 @@ export default function Ranking() {
 
   return (
     <>
-     <div className='w-full pl-8'>
+     <div className='w-full text-center sm:text-left pl-8'>
             <h1 className='text-3xl mb-3'>Pontuação geral</h1>
             <p className='text-[#DADADA]'>Todas as Salas</p>
        </div>
@@ -173,7 +173,7 @@ export default function Ranking() {
       </div>
       <div className='relative inline justify-center mb-10'>
         {/* Pódio do 1º, 2º, 3º lugares */}
-        <div className='grid gap-8 md:grid-cols-3 md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] h-[280px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+        <div className='grid gap-8 md:grid-cols-3 md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
           {sortedData.slice(0, 3).map((course, index) => (
             <div
               key={index}
@@ -187,7 +187,7 @@ export default function Ranking() {
                   width={30}
                   onClick={() => handlePodiumClick(course.curso)}
                   icon='solar:alt-arrow-down-line-duotone'
-                  className={`text-black duration-300 transform ${
+                  className={`hover:cursor-pointer text-black duration-300 transform ${
                     selectedCourse === course.curso ? 'rotate-180' : 'rotate-0'
                   }`}
                 />
