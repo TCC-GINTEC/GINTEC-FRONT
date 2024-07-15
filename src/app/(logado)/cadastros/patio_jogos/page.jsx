@@ -101,7 +101,6 @@ export default function Patio() {
   }
 
 
-
   return (
     <>
       <div className='grid sm:grid-cols-3 grid-cols-1 gap-4  w-full md:w-1/2 sm:mx-auto'>

@@ -60,6 +60,15 @@ export default function Cadastros(){
           <p>Representantes</p>
         </div>
       </section> 
+      <section 
+       onClick={() => router.push('cadastros/calendario')} 
+      className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
+      transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
+        <img src="/images/bg-calendario.svg" alt="test image"/>
+        <div className="inset-4 flex  flex-col justify-center text-white text-xl">
+          <p>Calendário</p>
+        </div>
+      </section> 
       <section onClick={() => router.push('cadastros/novos')} 
       className=" hidden sm:block relative w-[240px] h-[150px] border-4 
       rounded-lg border-dashed border-gray-600*:absolute *:w-full

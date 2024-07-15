@@ -8,9 +8,11 @@ export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [extraClicked, setExtraClicked] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  
   const [nomeCampeonato, setNomeCampeonato] = useState('');
   const [pontoCampeonato, setPontoCampeonato] = useState('');
   const [dataCampeonato, setDataCampeonato] = useState('');
+  
   const [faseCampeonato, setFaseCampeonato] =useState('');
   const [qntJogosCampeonato, setQntJogosCampeonato] =useState('');
   const [idObjetoSelecionado, setIdObjetoSelecionado] = useState(null);
