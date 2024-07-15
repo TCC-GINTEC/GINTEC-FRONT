@@ -25,9 +25,7 @@ export default function Quadra() {
   const [retornoApi, setRetornoApi] = useState([
     {
       id: 1,
-      nome : 'Fase 1 ',
       fases : '1º Fase ' ,
-      mes : 'agosto',
       dia1 :new Date('2024-08-28'),
       dia2 :new Date('2024-08-29'),
       dia3 :new Date('2024-08-30'),
@@ -35,9 +33,7 @@ export default function Quadra() {
     },  
     {
       id: 2,
-      nome : 'Fase 2 ',
       fases: '2º Fase',
-      mes : 'setembro',
       dia1 :new Date('2024-09-28'),
       dia2 :new Date('2024-09-29'),
       dia3 :new Date('2024-09-30'),
@@ -49,57 +45,51 @@ export default function Quadra() {
     setIdObjetoSelecionado(calendario.id);
     setNome(calendario.nome);
     setFases(calendario.fases);
-    setMes(calendario.mes);
-    setDia1(calendario.dia1.toISOString().split('T')[0]); 
-    setDia2(calendario.dia2.toISOString().split('T')[0]);;
-    setDia3(calendario.dia3.toISOString().split('T')[0]); //  setDataCampeonato(jogo.data.toISOString().split('T')[0]); // format date for input type="date"
+    setDia1(calendario.dia1); // Converte para o formato de data do input type="date"
+    setDia2(calendario.dia2);
+    setDia3(calendario.dia3);
   }
+  
 
   const handleCloseForm = () => {
     setShowForm(false);
     setIdObjetoSelecionado(null);
-    setNome('');
     setFases('');
-    setMes('')
     setDia1('')
     setDia2('');
     setDia3('');
   }
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const fases = Number(fases);
-    const nome = nome;
-    const mes = mes;
-    const dia1 = new Date(`$dia1`);
-    const dia2 = Number(dia2);
-    const dia3 = Number(dia3);
-
-    const posicao = retornoApi.findIndex(
-      (elemento) => elemento.id === idObjetoSelecionado
-    );
-
+    
+    // Captura os valores atuais dos estados
+    const fasesGincana = fases;
+    const dia1Gincana = dia1;
+    const dia2Gincana = dia2;
+    const dia3Gincana = dia3;
+  
+    // Encontra a posição do elemento na lista de retornoApi
+    const posicao = retornoApi.findIndex((elemento) => elemento.id === idObjetoSelecionado);
+  
+    // Cria um novo array com os dados atualizados
     const novosDados = [...retornoApi];
     novosDados[posicao] = {
       id: idObjetoSelecionado,
-      nome : nome,
-      fases : fases ,
-      mes: mes,
-      dia1 :dia1,
-      dia2:dia2,
-      dia3 : dia3,
+      fases: fasesGincana,
+      dia1: dia1Gincana,
+      dia2: dia2Gincana,
+      dia3: dia3Gincana,
     };
-
+  
+    // Atualiza o estado retornoApi com os novos dados
     setRetornoApi(novosDados);
-
-    console.log(novosDados);
-
+  
+    // Limpa o formulário e abre o modal após um intervalo de tempo
     setTimeout(() => {
       handleCloseForm();
       setModalOpen(true);
-    }, 4000);
+    }, 4000); // 4000 milissegundos = 4 segundos
   };
-
   const closeModal = () => {
     setModalOpen(false);
   }
@@ -116,7 +106,7 @@ export default function Quadra() {
       <div className=' gap-4  flex justify-center border border-red-500 w-1/2 mx-auto text-wrap'>
         {retornoApi.map((calendario) => (
           <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='w-[252px] text-center border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
-            {calendario.nome}
+            {calendario.fases}
           </div>
         ))}
       </div>
@@ -131,20 +121,16 @@ export default function Quadra() {
                 <input type="text" name="fases" value={fases} onChange={(e) => setFases(e.target.value)}className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                Mês 
-                <input type="text" name="mes" value={mes} onChange={(e) => setMes(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-              </label>
-              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Data 1 dia 
-                <input type="text" name="dia1" value={dia1} onChange={(e) => setDia1(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                <input type="date" name="dia1" value={dia1} onChange={(e) => setDia1(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Data 2 dia 
-                <input type="text" name="dia2" value={dia2}  onChange={(e) => setDia2(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                <input type="date" name="dia2" value={dia2}  onChange={(e) => setDia2(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
               Data 3 dia 
-                <input type="text" name="dia3" value={dia3} value={dia3} onChange={(e) => setDia3(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                <input type="date" name="dia3" value={dia3} value={dia3} onChange={(e) => setDia3(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <div className='flex sm:flex-row justify-evenly gap-2 w-full mt-20'>
                   <button type='submit' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>

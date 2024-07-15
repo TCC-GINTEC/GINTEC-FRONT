@@ -25,11 +25,11 @@ export default function Quadra() {
 
     // Extrair o número da variável 'fases'
     const fase = extractNumber(target.fases.value);
-    const mes =target.meses.value;
+
     const dia1 = target.dia1.value;
     const dia2 = target.dia2.value;
     const dia3 = target.dia3.value;
-    console.log(fase,mes,dia1,dia2,dia3)
+    console.log(fase,dia1,dia2,dia3)
     setTimeout(() => {
       setModalOpen(true);
     }, 4000);
@@ -70,22 +70,17 @@ export default function Quadra() {
              Fases
             <input type="text" value={`${search} º fase`} name="fases" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui'/>
           </label>
-
-          <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-            Mês
-            <input type="text" name="mes"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
-          </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
           Data do 1º dia
-            <input type="number" name="dia1" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
+            <input type="date" name="dia1" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
           Data do 2º dia
-            <input type="number" name="dia2" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
+            <input type="date" name="dia2" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
           Data do 3º dia
-            <input type="text" name="dia3" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
+            <input type="date" name="dia3" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
           </label>
           <div className='flex sm:flex-row justify-evenly w-full'>
               <button type='submit' className='sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
