@@ -18,6 +18,8 @@ export default function Ranking() {
     { "nome": "Diana", "curso": "informatica", "serie": "3º", "pontuacao": 17437 },
     { "nome": "Paula", "curso": "administracao", "serie": "3º", "pontuacao": 13236 },
   ]);
+
+  const [alertShow, setAlertShow] = useState(false) 
   
   const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
   const [showFilterOptions, setShowFilterOptions] = useState(false);
@@ -47,13 +49,54 @@ export default function Ranking() {
     setData(data.sort((a, b) => b.pontuacao - a.pontuacao)); // dados dos alunos organizados aqui
   }, []);
 
+  //exibe o alerta quando a 2 fase não está disponivel
+  function handleFase(fase) {
+    if (fase === 2) {
+      setAlertShow(true);
+    }
+    setShowFilterFasesOptions(false);
+  }
+
+  const handleCloseAlert = () => {
+    setAlertShow(false);
+  };
 
   return (
      <>  
-       <div className='w-full pl-4 text-center  sm:text-left sm:pl-8'>
+
+      {/*Exibe o alerta quando a 2 fase não está disponivel*/}
+      {alertShow && (
+          <>
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+              <div className="mx-auto w-[290px] h-[220px] sm:w-[390px] sm:h-[360px] bg-white p-6 rounded-lg shadow-lg relative">
+                <img
+                  src="../../../images/alert-fase.png"
+                  className="absolute -top-[43px] left-[53px] sm:-top-[43px] sm:left-20 h-[154px] w-[200px] sm:h-[159px] sm:w-[217px]"
+                  alt="Sucesso"
+                />
+                <button
+                  className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                  onClick={handleCloseAlert}
+                >
+                  ✕
+                </button>
+                <div className="mt-28 text-center">
+                  <h3 className="font-bold text-2xl">Atenção!</h3>
+                  <p className="py-4 pb-8 text-xl">
+                    Esta fase não está disponível para visualização
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        <div className='w-full pl-4 text-center  sm:text-left sm:pl-8'>
             <h1 className='text-3xl mb-3'>Pontuação geral</h1>
             <p className='text-[#DADADA]'>Melhores alunos</p>
         </div>
+       
         {/* Filtro */}
         <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-8 sm:px-20'>
           {/* Filtro por fases */}
@@ -70,8 +113,8 @@ export default function Ranking() {
                 <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
                 <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
                   <ul>
-                    <li onClick={() => handleFase()} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
-                    <li onClick={() => handleFase()} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
+                    <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
+                    <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
                   </ul>
                 </div>
               </>

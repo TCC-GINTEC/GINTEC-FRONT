@@ -17,7 +17,8 @@ export default function Ranking() {
     { "nome": "Jacques", "curso": "informatica", "serie": "1º", "pontuacao": 17437 },
     { "nome": "Admar", "curso": "administracao", "serie": "2º", "pontuacao": 13236 },
   ]);
-  
+  const [alertShow, setAlertShow] = useState(false) 
+
   const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [showFilterOptions2, setShowFilterOptions2] = useState(false);
@@ -27,10 +28,6 @@ export default function Ranking() {
 
   const [showOtherInfo, setShowOtherInfo] = useState(false);
   const [selectedPodium, setSelectedPodium] = useState(null);
-
-  function handleFase() {
-    setShowFilterFasesOptions(false);
-  }
 
   const handleToggleOtherInfo = () => {
     setShowOtherInfo(!showOtherInfo);
@@ -47,13 +44,55 @@ export default function Ranking() {
     setData(data.sort((a, b) => b.pontuacao - a.pontuacao)); // dados dos alunos organizados aqui
   }, []);
 
+  
+  //exibe o alerta quando a 2 fase não está disponivel
+   const handleFase = (fase) => {
+    if (fase === 2) {
+      setAlertShow(true);
+    }
+    setShowFilterFasesOptions(false);
+  }
+
+  const handleCloseAlert = () => {
+    setAlertShow(false);
+  };
+
 
   return (
      <>  
-      <div className='w-full text-center  sm:text-left pl-8'>
-            <h1 className='text-3xl mb-3'>Pontuação geral</h1>
-            <p className='text-[#DADADA]'>Melhores Padrinhos</p>
-       </div>
+      {/*Exibe o alerta quando a 2 fase não está disponivel*/}
+      {alertShow && (
+          <>
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+              <div className="mx-auto w-[290px] h-[220px] sm:w-[390px] sm:h-[360px] bg-white p-6 rounded-lg shadow-lg relative">
+                <img
+                  src="../../../images/alert-fase.png"
+                  className="absolute -top-[43px] left-[53px] sm:-top-[43px] sm:left-20 h-[154px] w-[200px] sm:h-[159px] sm:w-[217px]"
+                  alt="Sucesso"
+                />
+                <button
+                  className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                  onClick={handleCloseAlert}
+                >
+                  ✕
+                </button>
+                <div className="mt-28 text-center">
+                  <h3 className="font-bold text-2xl">Atenção!</h3>
+                  <p className="py-4 pb-8 text-xl">
+                    Esta fase não está disponível para visualização
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        <div className='w-full text-center  sm:text-left pl-8'>
+              <h1 className='text-3xl mb-3'>Pontuação geral</h1>
+              <p className='text-[#DADADA]'>Melhores Padrinhos</p>
+        </div>
+       
         {/* Filtro */}
         <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-8 sm:px-20'>
             {/* Filtro por fases */}
@@ -70,8 +109,8 @@ export default function Ranking() {
                   <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
                   <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
                     <ul>
-                      <li onClick={() => handleFase()} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
-                      <li onClick={() => handleFase()} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
+                      <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
+                      <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
                     </ul>
                   </div>
                 </>
@@ -93,7 +132,9 @@ export default function Ranking() {
                   <div className='absolute  w-[170px] flex items-center mt-10 flex-col z-50'>
                     <div className="mt-10 bg-white shadow-md rounded-lg w-full py-2">
                       <ul>
-                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">Data 1</li>
+                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">28</li>
+                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">29</li>
+                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">30</li>
                       </ul>
                     </div>
                   </div>
@@ -153,9 +194,7 @@ export default function Ranking() {
         <div className='relative inline justify-center mb-10'>
           {/*pódio do 1 2 3 lugar */}
           <div className='h-[500px] grid gap-8 md:grid-cols-3 md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] sm:h-[300px] rounded-3xl mx-auto' style={{backgroundImage: `url('/images/bg-ranking.svg')`,backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
-            {/* Renderização dinâmica dos pódios  1COLOCADO:left-[40%] w-[196px] h-[280px] / 2COLOCADO:left-[10%] h-[190px] w-[180px] / 3COLOCADO: right-[10%] w-[120px] h-[220px] */}
-              {data.slice(0, 3).map((padrinho, index) => (
-                 // <div key={index} className={`w-3/4 flex sm:flex-col items-center gap-1 justify-center absolute  ${index === 0 ? 'top-0 sm:top-[44%] sm:bottom-0 rigth-0 sm:left-[38%] w-full sm:w-[170px] sm:h-[280px]' : index === 1 ? 'top-20  sm:top-[62%] sm:bottom-0 w-full sm:max-w-[170px] sm:h-[190px] ' : 'top-40 sm:top-[56%] sm:right-[5%] sm:bottom-0  w-full sm:max-w-[170px] sm:h-[220px]'} bg-[#4C8690] rounded-t-lg p-2 `}>
+              {data.slice(0, 3).map((padrinho, index) => (    
                   <div key={index} 
                   className={` grid grid-cols-3  justify-items-center md:flex md:flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
                     index === 0 ? 'col-span-1 row-start-1 md:row-start-1 md:col-start-2 md:w-[196px] md:h-[280px]' : 
