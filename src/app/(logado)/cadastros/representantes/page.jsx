@@ -1,4 +1,5 @@
 "use client"
+import Link from 'next/link'
 
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
@@ -104,6 +105,12 @@ export default function Patio() {
 
   return (
     <>
+    <div className='sm:ml-[5%] flex flex-col gap-8 '>
+    <Link href='/cadastros'>
+      <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+    </Link>
+    <h1 className='text-2xl font-medium'>Representantes</h1>
+  </div>
       <div className='grid sm:grid-cols-3 grid-cols-1 gap-4  w-full md:w-1/2 sm:mx-auto'>
         {retornoApi.map((curso) => (
           <div key={curso.id} onClick={() => handleShowForm(curso)} className='border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>

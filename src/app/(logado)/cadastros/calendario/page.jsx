@@ -1,5 +1,8 @@
 "use client"
 
+import Link from 'next/link'
+import { Icon } from '@iconify/react';
+
 import { useState } from 'react';
 import Modal from '@/components/formCadastro/modal';
 import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra';
@@ -103,10 +106,16 @@ export default function Quadra() {
 
   return (
     <>
-      
-      <div className='grid sm:grid-cols-3 grid-cols-1 gap-4  w-full md:w-1/2 sm:mx-auto text-wrap'>
+      <div className='sm:ml-[5%] flex flex-col gap-8 '>
+        <Link href='/cadastros'>
+          <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+        </Link>
+        <h1 className='text-2xl font-medium'>Calendário</h1>
+      </div>
+
+      <div className=' gap-4  flex justify-center border border-red-500 w-1/2 mx-auto text-wrap'>
         {retornoApi.map((calendario) => (
-          <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
+          <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='w-[252px] text-center border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
             {calendario.nome}
           </div>
         ))}
