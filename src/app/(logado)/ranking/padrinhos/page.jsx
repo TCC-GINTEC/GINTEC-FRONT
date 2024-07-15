@@ -132,7 +132,7 @@ export default function Ranking() {
                   <div className='absolute  w-[170px] flex items-center mt-10 flex-col z-50'>
                     <div className="mt-10 bg-white shadow-md rounded-lg w-full py-2">
                       <ul>
-                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">28</li>
+                        <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3 ">28</li>
                         <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">29</li>
                         <li onClick={() => setShowFilterOptions(!showFilterOptions)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">30</li>
                       </ul>
