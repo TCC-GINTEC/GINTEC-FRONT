@@ -2,76 +2,70 @@
 
 import Link from 'next/link'
 import { Icon } from '@iconify/react';
-
 import { useState } from 'react';
 import Modal from '@/components/formCadastro/modal';
 import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra';
 
 export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [extraClicked, setExtraClicked] = useState(false);
   const [showForm, setShowForm] = useState(false);
   
-  const [nome, setNome] = useState('');
   const [fases, setFases] = useState('');
-  const [mes, setMes] = useState('');
   const [dia1, setDia1] = useState('');
-  const [dia2, setDia2] =useState('');
-  const [dia3, setDia3] =useState('');
-  
+  const [dia2, setDia2] = useState('');
+  const [dia3, setDia3] = useState('');
   
   const [idObjetoSelecionado, setIdObjetoSelecionado] = useState(null);
 
   const [retornoApi, setRetornoApi] = useState([
     {
       id: 1,
-      fases : '1º Fase ' ,
-      dia1 :new Date('2024-08-28'),
-      dia2 :new Date('2024-08-29'),
-      dia3 :new Date('2024-08-30'),
-      
-    },  
+      fases: '1º Fase',
+      dia1: new Date('2024-08-28'),
+      dia2: new Date('2024-08-29'),
+      dia3: new Date('2024-08-30'),
+    },
     {
       id: 2,
       fases: '2º Fase',
-      dia1 :new Date('2024-09-28'),
-      dia2 :new Date('2024-09-29'),
-      dia3 :new Date('2024-09-30'),
+      dia1: new Date('2024-09-28'),
+      dia2: new Date('2024-09-29'),
+      dia3: new Date('2024-09-30'),
     }
   ]);
+
+  const formatDateToInput = (date) => {
+    return date ? date.toISOString().split('T')[0] : '';
+  };
 
   const handleShowForm = (calendario) => {
     setShowForm(true);
     setIdObjetoSelecionado(calendario.id);
-    setNome(calendario.nome);
     setFases(calendario.fases);
-    setDia1(calendario.dia1); // Converte para o formato de data do input type="date"
-    setDia2(calendario.dia2);
-    setDia3(calendario.dia3);
-  }
-  
+    setDia1(formatDateToInput(calendario.dia1));
+    setDia2(formatDateToInput(calendario.dia2));
+    setDia3(formatDateToInput(calendario.dia3));
+  };
 
   const handleCloseForm = () => {
     setShowForm(false);
     setIdObjetoSelecionado(null);
     setFases('');
-    setDia1('')
+    setDia1('');
     setDia2('');
     setDia3('');
-  }
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     
-    // Captura os valores atuais dos estados
     const fasesGincana = fases;
-    const dia1Gincana = dia1;
-    const dia2Gincana = dia2;
-    const dia3Gincana = dia3;
+    const dia1Gincana = new Date(dia1);
+    const dia2Gincana = new Date(dia2);
+    const dia3Gincana = new Date(dia3);
   
-    // Encontra a posição do elemento na lista de retornoApi
     const posicao = retornoApi.findIndex((elemento) => elemento.id === idObjetoSelecionado);
   
-    // Cria um novo array com os dados atualizados
     const novosDados = [...retornoApi];
     novosDados[posicao] = {
       id: idObjetoSelecionado,
@@ -81,18 +75,17 @@ export default function Quadra() {
       dia3: dia3Gincana,
     };
   
-    // Atualiza o estado retornoApi com os novos dados
     setRetornoApi(novosDados);
   
-    // Limpa o formulário e abre o modal após um intervalo de tempo
     setTimeout(() => {
       handleCloseForm();
       setModalOpen(true);
-    }, 4000); // 4000 milissegundos = 4 segundos
+    }, 4000);
   };
+
   const closeModal = () => {
     setModalOpen(false);
-  }
+  };
 
   return (
     <>
@@ -103,7 +96,7 @@ export default function Quadra() {
         <h1 className='text-2xl font-medium'>Calendário</h1>
       </div>
 
-      <div className=' gap-4  flex justify-center border border-red-500 w-1/2 mx-auto text-wrap'>
+      <div className='gap-4 flex justify-center border border-red-500 w-1/2 mx-auto text-wrap'>
         {retornoApi.map((calendario) => (
           <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='w-[252px] text-center border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
             {calendario.fases}
@@ -112,31 +105,28 @@ export default function Quadra() {
       </div>
       {showForm && (
         <>
-        
-          <div  className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
-          <ContainerCampeonatoQuadra alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'-mt-60 sm:m-auto fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
-            <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col bg-white   '>
-              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
+          <ContainerCampeonatoQuadra alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'sm:m-auto -top-24 fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
+            <form onSubmit={handleFormSubmit} className='space-y-8 mt-10 w-3/4 flex items-center flex-col bg-white'>
+              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0] '>
                 Fases
-                <input type="text" name="fases" value={fases} onChange={(e) => setFases(e.target.value)}className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                <input type="text" name="fases" value={fases} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-              Data 1 dia 
+                Data 1 dia 
                 <input type="date" name="dia1" value={dia1} onChange={(e) => setDia1(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-              Data 2 dia 
-                <input type="date" name="dia2" value={dia2}  onChange={(e) => setDia2(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                Data 2 dia 
+                <input type="date" name="dia2" value={dia2} onChange={(e) => setDia2(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-              Data 3 dia 
-                <input type="date" name="dia3" value={dia3} value={dia3} onChange={(e) => setDia3(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                Data 3 dia 
+                <input type="date" name="dia3" value={dia3} onChange={(e) => setDia3(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <div className='flex sm:flex-row justify-evenly gap-2 w-full mt-20'>
-                  <button type='submit' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
-                  <button onClick={() => handleCloseForm()} type='button' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
-                    cancelar
-                  </button>
+                <button type='submit' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
+                <button onClick={handleCloseForm} type='button' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cancelar</button>
               </div>
             </form>
           </ContainerCampeonatoQuadra>
@@ -149,8 +139,9 @@ export default function Quadra() {
         </>
       )}
     </>
-  )
+  );
 }
+
 
 
 {/*

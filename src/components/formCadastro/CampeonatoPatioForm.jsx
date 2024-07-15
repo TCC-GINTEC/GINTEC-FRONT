@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 
-export default function QuadraForm({handleFormSubmit,handleCloseForm}){
+export default function CampeonatoPatioForm({handleFormSubmit,handleCloseForm}){
 
   return(
     <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
