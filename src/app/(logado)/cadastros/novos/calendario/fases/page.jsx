@@ -54,7 +54,7 @@ export default function Quadra() {
         <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
       </div>
       <ContainerCampeonatoQuadra>
-        <Link href='/cadastros/novos' className='absolute left-4 top-3'>
+        <Link href='/cadastros/novos/calendario' className='absolute left-4 top-3'>
           <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
         </Link>
         <div className='flex flex-col w-3/4 sm:h-[70px] px-6 pt-2 text-lg rounded-2xl bg-[#E6EFF0]'>
