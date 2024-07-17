@@ -6,37 +6,37 @@ import Link from 'next/link'
 
 export default function Ranking() {
   const [data, setData] = useState({
-    '3 informatica': [
+    '3 Informatica': [
       { nome: 'Richard dos santos paiva', pontuacao: 18902 },
       { nome: 'joao', pontuacao: 20002 },
       { nome: 'maria', pontuacao: 16902 },
     ],
-    '2 informatica': [
+    '2 Informatica': [
       { nome: 'vitor', pontuacao: 17902 },
       { nome: 'carlos', pontuacao: 16902 },
       { nome: 'jose', pontuacao: 10902 },
     ],
-    '1 informatica': [
+    '1 Informatica': [
       { nome: 'andre', pontuacao: 16902 },
       { nome: 'yasmin', pontuacao: 18030 },
       { nome: 'douglas', pontuacao: 1500 },
     ],
-    '1 administração': [
+    '1 Administração': [
       { nome: 'andre', pontuacao: 16500, serie: 1 },
       { nome: 'yasmin', pontuacao: 14030, serie: 1 },
       { nome: 'douglas', pontuacao: 16000, serie: 1 },
     ],
-    '2 administração': [
+    '2 Administração': [
       { nome: 'andre', pontuacao: 16902, serie: 2 },
       { nome: 'yasmin', pontuacao: 18030, serie: 2 },
       { nome: 'douglas', pontuacao: 1500, serie: 2 },
     ],
-    '3 administração': [
+    '3 Administração': [
       { nome: 'andre', pontuacao: 20002, serie: 3 },
       { nome: 'yasmin', pontuacao: 18030, serie: 3 },
       { nome: 'douglas', pontuacao: 15400, serie: 3 },
     ],
-    '3 recursosHumanos': [
+    '3 Recursos Humanos': [
       { nome: 'andre', pontuacao: 17902, serie: 1 },
       { nome: 'yasmin', pontuacao: 17730, serie: 1 },
       { nome: 'douglas', pontuacao: 14000, serie: 1 },
@@ -45,7 +45,10 @@ export default function Ranking() {
   const [alertShowDia, setAlertShowDia] = useState(false) 
   const [alertShowFase, setAlertShowFase] = useState(false) 
   
-  const [showFilterDataOptions, setShowFilterDataOptions] = useState(false);
+  const [showFilterDataOptions1, setShowFilterDataOptions1] = useState(false);
+  const [showFilterDataOptions2, setShowFilterDataOptions2] = useState(false);
+  
+  
   const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
   const [showFilterOptionsRanking, setShowFilterOptionsRanking] = useState(false);
 
@@ -76,15 +79,31 @@ export default function Ranking() {
     }
     setShowFilterFasesOptions(false);
   }
+ 
+  function handleData(diaSelecionado,qualFiltroData) {
+    console.log(qualFiltroData)
 
-  function handleData(diaSelecionado) {
-    setShowFilterDataOptions(false);
-    if (diaSelecionado === "29 ago" || diaSelecionado === "30 ago") {
-      setAlertShowDia(true);
-      setShowFilterDataOptions(false);
-    } else {
-      setShowFilterDataOptions(false);
+    if(qualFiltroData == 1){
+      setShowFilterDataOptions1(false);
+
+      if (diaSelecionado === "29 ago" || diaSelecionado === "30 ago") {
+        setAlertShowDia(true);
+        setShowFilterDataOptions1(false);
+      } else {
+        setShowFilterDataOptions1(false);
+      }
     }
+
+    if(qualFiltroData == 2){
+      setShowFilterDataOptions2(false);
+      if (diaSelecionado === "29 ago" || diaSelecionado === "30 ago") {
+        setAlertShowDia(true);
+        setShowFilterDataOptions2(false);
+      } else {
+        setShowFilterDataOptions2(false);
+      }
+    }
+
   }
 
 
@@ -185,13 +204,13 @@ export default function Ranking() {
           {/* Filtro por data */}
           <div className='relative flex justify-center'>
                 <div
-                      onClick={() => setShowFilterDataOptions(!showFilterDataOptions)}
+                      onClick={() => setShowFilterDataOptions1(!showFilterDataOptions1)}
                       className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
                  >
                   <Icon icon="mynaui:filter" className="ml-2 h-6 w-6" />
                   Data
                </div>
-              {showFilterDataOptions && (
+              {showFilterDataOptions1 && (
                   <>
                       <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
                       <div className="text-center absolute  bg-white shadow-md rounded-lg mt-20  right-0 w-48 py-2 z-50">
@@ -203,13 +222,13 @@ export default function Ranking() {
                                 28 ago 
                               </li>
                               <li 
-                                onClick={() => handleData("29 ago")}
+                                onClick={() => handleData("29 ago", 1)}
                                 className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
                               >
                                 29 ago
                               </li>
                               <li 
-                                onClick={() => handleData("30 ago")}
+                                onClick={() => handleData("30 ago", 1)}
                                 className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
                               >
                                30 ago
@@ -267,12 +286,13 @@ export default function Ranking() {
             )}
           </div>
       </div>
-      <div className='relative inline justify-center mb-10'>
+     
+      <div className='relative inline justify-center mb-7'>
         {/* Pódio do 1º, 2º, 3º lugares */}
         <div className='grid gap-8 md:grid-cols-3 h-[306px] md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
           {sortedData.slice(0, 3).map((course, index) => (
            <div  key={index}
-            className={`h-[93px] grid grid-cols-3 justify-items-center md:flex md:flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
+            className={` h-[93px] grid grid-cols-3 justify-items-center md:flex md:flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
               index === 0 ? 'col-span-1 row-start-1 md:row-start-1 md:col-start-2 md:w-[196px] md:h-[280px]' : index === 1 ? 'col-span-1 row-start-2 md:col-start-1 md:row-start-1  md:w-[196px] md:h-[220px]' : 'col-span-1 md:col-start-3 row-start-3 md:row-start-1 md:w-[180px] md:h-[190px] '
             }`}
             >
@@ -288,23 +308,25 @@ export default function Ranking() {
                 />
               </p>
               <img src='/images/bolinha.png' alt='' width={index === 0 ? 69 : index === 1 ? 52 : 49} />
-              <p className='font-medium text-center'>{course.curso}</p>
+              <p className='font-medium text-center'  style={{ wordBreak: 'break-word', hyphens: 'auto' }}>{course.curso}</p>
               <p className='text-[#FFC24C] font-semibold col-span-4'>{course.total}</p>
               {/* Exibe a soma total de pontos */}
             </div>
           ))}
         </div>
       </div>
+
+      <div className="bg-slate-100 rounded-xl mt-5 pt-4 mb-10 sm:p-3 flex-col flex items-center ">
       {/*exibe um ou outro dos 3 colocados */}
       {sortedData.map((course, index) => (
             index < 3 && selectedCourse === course.curso && (
             <div key={index} className='w-full flex flex-col mt-2 rounded-xl shadow-lg'>
               <div
-                className={`w-full sm:flex z-30 ${
+                className={`w-full sm:flex  ${
                   selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'
                 } transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
               >
-                <div className='w-full  sm:flex grid-cols-1 grid-rows-2'>
+                <div className='w-full   sm:flex grid-cols-1 grid-rows-2'>
                   <div
                     className={`w-full xl:w-1/2  mt-2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] ${
                       selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
@@ -318,7 +340,7 @@ export default function Ranking() {
                       {index + 1}
                     </div>
                     <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
-                      <img src='/images/bolinha.png' className='hidden sm:block' alt='' />
+                      <img src='/images/bolinha.png' className='hidden sm:block w-[120px]' alt='' />
                       <h2
                         className={`w-full  flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'
@@ -372,7 +394,7 @@ export default function Ranking() {
                 </div>
                 {/* Informações abaixo das informações */}
                 {selectedCourse === course.curso && (
-                  <div className='-z-10 mt-5 flex-col bg-white border-t-4 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
+                  <div className='z-10 mt-5 flex-col bg-white border-t-4 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
                     <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-1 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
                       {[
                         { label: 'Soma das Fichas', value: '0' },
@@ -392,14 +414,47 @@ export default function Ranking() {
                           <div className={`h-[60px] bg-[#E6EFF0] ${item.icon ? 'flex justify-evenly' : ''} border-b-4 border-[#005261]`}>
                             {item.label}{' '}
                             {item.icon && (
-                              <Icon
-                                icon='solar:alt-arrow-down-line-duotone'
-                                className='text-[#005261] cursor-pointer'
-                                width={30}
-                              />
-                            )}
+                              <>
+                                <Icon
+                                  icon='solar:alt-arrow-down-line-duotone'
+                                  onClick={() => setShowFilterDataOptions2(!showFilterDataOptions2)}
+                                  className='text-[#005261] cursor-pointer'
+                                  width={30}
+                                />
+                              </>
+                            )} 
+                         
                           </div>
-                          <div className={`h-[60px] ${item.icon ? 'h-[70px]' : ''} bg-white`}>{item.value}</div>
+                          <div className={`h-[60px] ${item.icon ? 'h-[70px]' : ''} bg-white`}>
+                            {item.value}
+                            {item.label == 'Data' && showFilterDataOptions2 && (
+                                  <>
+                                      <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                                      <div className="text-center absolute bg-white  rounded-lg mt-10  w-48 py-2 z-50">
+                                          <ul>
+                                            <li 
+                                                onClick={() => handleData()}
+                                              className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                                              >
+                                                28 ago 
+                                              </li>
+                                              <li 
+                                                onClick={() => handleData("29 ago", 2)}
+                                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                                              >
+                                                29 ago
+                                              </li>
+                                              <li 
+                                                onClick={() => handleData("30 ago", 2)}
+                                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                                              >
+                                              30 ago
+                                              </li>
+                                          </ul>
+                                      </div>
+                                  </>
+                                )} 
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -413,13 +468,13 @@ export default function Ranking() {
       {/*Verifica se o curso não está entre os três primeiros colocados*/}
       {sortedData.map((course, index) => (
           !sortedData.slice(0, 3).find((podiumCourse) => podiumCourse.curso === course.curso) && (
-            <div key={index} className='w-full flex flex-col mt-2 rounded-xl shadow-lg'>
+            <div key={index} className=' w-full flex flex-col mt-2 rounded-xl shadow-lg'>
               <div
-                className={`w-full sm:flex z-30 ${
+                className={`w-full sm:flex   ${
                   selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'
                 } transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
               >
-                <div className='w-full sm:flex grid-cols-1 grid-rows-2'>
+                <div className='z-10 w-full sm:flex grid-cols-1 grid-rows-2'>
                   <div
                     className={`w-full xl:w-1/2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] ${
                       selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
@@ -433,7 +488,7 @@ export default function Ranking() {
                       {index + 1}
                     </div>
                     <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
-                      <img src="/images/bolinha.png" className=' sm:block hidden' alt="" />
+                      <img src="/images/bolinha.png" className=' sm:block hidden w-[120px]' alt="" />
                       <h2
                         className={`w-full flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'
@@ -487,8 +542,8 @@ export default function Ranking() {
                 </div>
                 {/* Informações abaixo das informações */}
                 {selectedCourse === course.curso && (
-                  <div className='-z-10 mt-5 flex-col bg-white border-2 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
-                    <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-2 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
+                  <div className=' mt-5 flex-col bg-white border-2 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
+                    <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-2 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap relative'>
                       {[
                         { label: 'Soma das Fichas', value: '0' },
                         { label: 'Alunos ativos', value: '0' },
@@ -508,13 +563,44 @@ export default function Ranking() {
                             {item.label}{' '}
                             {item.icon && (
                               <Icon
+                                onClick={() => setShowFilterDataOptions2(!showFilterDataOptions2)}
                                 icon='solar:alt-arrow-down-line-duotone'
                                 className='cursor-pointer text-[#005261]'
                                 width={30}
                               />
                             )}
                           </div>
-                          <div className={`h-[60px] ${item.icon ? 'h-[70px]' : ''} bg-white`}>{item.value}</div>
+                          <div className={`h-[60px] ${item.icon ? 'h-[70px]' : ''} bg-white`} >
+                            {item.value}
+                            {item.label == 'Data' && showFilterDataOptions2 && (
+                                  <>
+                                      <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                                      <div className="text-center absolute bg-white  rounded-lg mt-10  w-48 py-2 z-50">
+                                          <ul>
+                                            <li 
+                                                onClick={() => handleData()}
+                                              className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                                              >
+                                                28 ago 
+                                              </li>
+                                              <li 
+                                                onClick={() => handleData("29 ago", 2)}
+                                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                                              >
+                                                29 ago
+                                              </li>
+                                              <li 
+                                                onClick={() => handleData("30 ago", 2)}
+                                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                                              >
+                                              30 ago
+                                              </li>
+                                          </ul>
+                                      </div>
+                                  </>
+                                )}  
+                          </div>
+                        
                         </div>
                       ))}
                     </div>
@@ -525,6 +611,8 @@ export default function Ranking() {
           )
         ))}
 
+      </div>
+      
     </>
   );
 }

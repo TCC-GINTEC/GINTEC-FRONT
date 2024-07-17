@@ -248,7 +248,7 @@ export default function Ranking() {
             )}
           </div>
       </div>
-        <div className='relative inline justify-center mb-10 '>
+        <div className='relative inline justify-center mb-7 '>
           {/*pódio do 1 2 3 lugar */}
           <div className='grid gap-8 md:grid-cols-3 h-[306px] md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               {data.slice(0, 3).map((aluno, index) => (
@@ -275,7 +275,7 @@ export default function Ranking() {
           </div> 
         </div>
  
-        <div className="bg-slate-100 rounded-xl  mb-10 sm:p-3 flex-col flex items-center ">
+        <div className="bg-slate-100 rounded-xl mt-5 mb-10 pt-4 sm:p-3 flex-col flex items-center ">
           {/* Três primeiros lugares */}
           {selectedPodium !== null && (
             <div className='bg-[#005261] grid grid-cols-1  grid-rows-2 sm:flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
@@ -284,7 +284,7 @@ export default function Ranking() {
                   {selectedPodium + 1}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 smjustify-center'>
-                  <img src="images/bolinha.png" className='hidden sm:block' alt="" />
+                  <img src="images/bolinha.png" className='hidden sm:block w-[120px]' alt="" />
                   <h2 className='w-full sm:3/4 md:w-full text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{data[selectedPodium].nome}</h2>
                 </div>
               </div>
@@ -311,7 +311,7 @@ export default function Ranking() {
                   {index + 4}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 smjustify-center'>
-                  <img src="images/bolinha.png" className='hidden sm:block' alt="" />
+                  <img src="images/bolinha.png" className='hidden sm:block w-[120px]' alt="" />
                   <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-[#005261]'>{aluno.nome}</h2>
                 </div>
               </div>
