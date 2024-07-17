@@ -16,6 +16,21 @@ export default function Cadastros(){
           <p>Novo Cadastro</p>
         </div>
       </section> 
+      <section 
+       onClick={() => router.push('cadastros/calendario')} 
+      className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
+      transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
+        <img src="/images/bg-calendario.svg" alt="test image"/>
+        <div className="inset-4 flex  flex-col justify-center text-white text-xl">
+          <p>Calendário</p>
+        </div>
+      </section> 
+      <section onClick={() => router.push('cadastros/atividades')}  className="relative w-[240px] h-[150px] *:absolute *:w-full  hover:cursor-pointer  duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
+        <img src="/images/bg-atividades.svg" alt="test image"/>
+        <div  className="inset-4 flex items-center  text-white text-xl">
+          Atividades 
+        </div>
+      </section>
       <section onClick={() => router.push('cadastros/patio_jogos')}  className="relative w-[240px] h-[150px] *:absolute *:w-full  hover:cursor-pointer  duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
         <img src="/images/bg-patio.png" alt="test image"/>
         <div  className="inset-4 flex items-center  text-white text-xl">
@@ -42,6 +57,7 @@ export default function Cadastros(){
           <p>de Pátio</p>
         </div>
       </section> 
+      
       <section 
        onClick={() => router.push('cadastros/doacao')} 
       className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
@@ -58,15 +74,6 @@ export default function Cadastros(){
         <img src="/images/bg-representantes.svg" alt="test image"/>
         <div className="inset-4 flex  flex-col justify-center text-white text-xl">
           <p>Representantes</p>
-        </div>
-      </section> 
-      <section 
-       onClick={() => router.push('cadastros/calendario')} 
-      className="relative w-[240px] h-[150px] *:absolute *:w-full duration-300 
-      transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
-        <img src="/images/bg-calendario.svg" alt="test image"/>
-        <div className="inset-4 flex  flex-col justify-center text-white text-xl">
-          <p>Calendário</p>
         </div>
       </section> 
       <section onClick={() => router.push('cadastros/novos')} 
