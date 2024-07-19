@@ -19,38 +19,6 @@ export default function Quadra() {
   const handleBackPageNovos = () => {
     router.push('/cadastros/novos')
   }
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const target = e.target;
-    const atv1 = target.atv1.value;
-    const atv2 = target.atv2.value;
-    const atv3 = target.atv3.value;
-
-    setTimeout(() => {
-      setModalOpen(true);
-    }, 4000);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-  const [valueAtv1, setValueAtv1] = useState('');
-  const [suggestionsAtv1, setSuggestionsAtv1] = useState([]);
-
-  const [valueAtv2, setValueAtv2] = useState('');
-  const [suggestionsAtv2, setSuggestionsAtv2] = useState([]);
-
-  const [valueAtv3, setValueAtv3] = useState('');
-  const [suggestionsAtv3, setSuggestionsAtv3] = useState([]);
-
-  const atvItems = [
-    { id: 1, label: 'quadra' },
-    { id: 2, label: 'ping pong' },
-    { id: 3, label: 'pembolim' },
-    { id: 3, label: 'queimada' },
-  ];
-
   {/*cursos opções */}
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -68,82 +36,169 @@ export default function Quadra() {
     { id: 11, label: '2º Administração  ' },
     { id: 12, label: '3º Administração  ' },
   ];
+  const [show, setShow] = useState(false);
 
-  const handleChange = (e) => {
+  function handleShow() {
+    setShow(prevShow => !prevShow); // Alternativa mais concisa para alternar entre true/false
+  }
+
+  const [faseForm1, setFaseForm1] = useState("");
+  const [faseForm2, setFaseForm2] = useState("");
+  const [faseForm3, setFaseForm3] = useState("");
+
+  const handleForm1Submit = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    const atv1 = target.atv1.value;
+    const atv2 = target.atv2.value;
+    const atv3 = target.atv3.value;
+    const fase = target.fasesForm1.value;
+    const dia = target.dia1Form1.value;
+    console.log("formulario 1"+atv1,atv2,atv3,fase,dia)
+    
+    setTimeout(() => {
+      setModalOpen(true);
+    }, 4000);
+  };
+
+  const handleForm2Submit = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    const atv1 = target.atv1.value;
+    const atv2 = target.atv2.value;
+    const atv3 = target.atv3.value;
+    const fase = target.fasesForm2.value;
+    const dia = target.dia2Form2.value;
+    console.log("formulario 2"+atv1,atv2,atv3,fase,dia)
+
+    setTimeout(() => {
+      setModalOpen(true);
+    }, 4000);
+  };
+
+  const handleForm3Submit = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    const atv1 = target.atv1.value;
+    const atv2 = target.atv2.value;
+    const atv3 = target.atv3.value;
+    const fase = target.fasesForm3.value;
+    const dia = target.dia3Form3.value;
+    console.log("formulario 3"+atv1,atv2,atv3,fase,dia)
+
+
+    setTimeout(() => {
+      setModalOpen(true);
+    }, 4000);
+  };
+
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const [valueForm1, setValueForm1] = useState('');
+  const [suggestionsForm1, setSuggestionsForm1] = useState([]);
+
+  const [valueForm2, setValueForm2] = useState('');
+  const [suggestionsForm2, setSuggestionsForm2] = useState([]);
+
+  const [valueForm3, setValueForm3] = useState('');
+  const [suggestionsForm3, setSuggestionsForm3] = useState([]);
+
+  const atvItems = [
+    { id: 1, label: 'quadra' },
+    { id: 2, label: 'ping pong' },
+    { id: 3, label: 'pembolim' },
+    {id:4, label:'xadrez'}
+  ];
+
+  
+
+  {/*opções de selct  para os 3 forms*/}
+  const handleSerieForm1 = (e) => {
     const query = e.target.value;
-    setValue(query);
+    setValueForm1(query);
 
     if (query.length > 0) {
       const filteredItems = items.filter(item =>
         item.label.toLowerCase().includes(query.toLowerCase())
       );
-      setSuggestions(filteredItems);
+      setSuggestionsForm1(filteredItems);
     } else {
-      setSuggestions([]);
+      setSuggestionsForm1([]);
     }
   };
-  const handleSelect = (item) => {
-    setValue(item.label);
-    setSuggestions([]);
+  const handleSelectForm1 = (item) => {
+    setValueForm1(item.label);
+    setSuggestionsForm1([]);
   };
 
-  const handleChangeAtv1 = (e) => {
+  const handleSerieForm2 = (e) => {
     const query = e.target.value;
-    setValueAtv1(query);
-  
+    setValueForm2(query);
+
     if (query.length > 0) {
-      const filteredItems = atvItems.filter(item =>
+      const filteredItems = items.filter(item =>
         item.label.toLowerCase().includes(query.toLowerCase())
       );
-      setSuggestionsAtv1(filteredItems);
+      setSuggestionsForm2(filteredItems);
     } else {
-      setSuggestionsAtv1([]);
+      setSuggestionsForm2([]);
     }
   };
-  
-  const handleSelectAtv1 = (item) => {
-    setValueAtv1(item.label);
-    setSuggestionsAtv1([]);
+  const handleSelectForm2 = (item) => {
+    setValueForm2(item.label);
+    setSuggestionsForm2([]);
   };
-  
-  const handleChangeAtv2 = (e) => {
+
+  const handleSerieForm3 = (e) => {
     const query = e.target.value;
-    setValueAtv2(query);
-  
+    setValueForm3(query);
+
     if (query.length > 0) {
-      const filteredItems = atvItems.filter(item =>
+      const filteredItems = items.filter(item =>
         item.label.toLowerCase().includes(query.toLowerCase())
       );
-      setSuggestionsAtv2(filteredItems);
+      setSuggestionsForm3(filteredItems);
     } else {
-      setSuggestionsAtv2([]);
+      setSuggestionsForm3([]);
     }
   };
-  
-  const handleSelectAtv2 = (item) => {
-    setValueAtv2(item.label);
-    setSuggestionsAtv2([]);
+  const handleSelectForm3 = (item) => {
+    setValueForm3(item.label);
+    setSuggestionsForm3([]);
   };
-  
-  const handleChangeAtv3 = (e) => {
-    const query = e.target.value;
-    setValueAtv3(query);
-  
-    if (query.length > 0) {
-      const filteredItems = atvItems.filter(item =>
-        item.label.toLowerCase().includes(query.toLowerCase())
-      );
-      setSuggestionsAtv3(filteredItems);
-    } else {
-      setSuggestionsAtv3([]);
+
+  {/*opções de fase  para os 3 forms*/}
+
+  function handleOpcaoFaseForm1(fase) {
+    if (fase == 1) {
+      setFaseForm1(1)
+    }else if(fase == 2){
+      setFaseForm1(2)
     }
-  };
-  
-  const handleSelectAtv3 = (item) => {
-    setValueAtv3(item.label);
-    setSuggestionsAtv3([]);
-  };
-  
+
+    setShow(!show)
+  }
+
+  function handleOpcaoFaseForm2(fase) {
+    if (fase == 1) {
+      setFaseForm2(1)
+    }else if(fase == 2){
+      setFaseForm2(2)
+    }
+    setShow(!show)
+  }
+
+  function handleOpcaoFaseForm3(fase) {
+    if (fase == 1) {
+      setFaseForm3(1)
+    }else if(fase == 2){
+      setFaseForm3(2)
+    }
+    setShow(!show)
+  }
+
 
   return (
     <>
@@ -197,141 +252,93 @@ export default function Quadra() {
                 </div>
                 <p className='text-[#005261] font-semibold'>Atividades</p>
               </div>
-              <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
-                
-                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                  Fases
-                  <input type="text" value={"2 º fase"} name="fases" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui'/>
-                </label>
-                <label style={{ padding: '20px' }} className='flex flex-col w-full px-9  rounded-2xl bg-[#E6EFF0]'>
-                  Série
-                  <input
-                    type="text"
-                    value={value}
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChange}
-                    style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
-                  />
-                  {suggestions.length > 0 && (
-                    <select
-                      size={suggestions.length}
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelect(suggestions[e.target.selectedIndex])}
-                    
-                    >
-                      {suggestions.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
+              <form onSubmit={(e) => handleForm1Submit(e)} className="space-y-8 mt-10 w-3/4 flex items-center flex-col">
+              <label className="flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]">
+                Fases
+                <input
+                  type="text"
+                  name="fasesForm1"
+                  onClick={handleShow}
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
+                  value={`${faseForm1} º fase`}
+                  readOnly
+                />
+              </label>
+              
+              <div className={`w-full bg-[#E6EFF0] rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'block max-h-[400px] duration-300 p-6' : 'hidden max-h-0 p-0'}`}>
+                <ul className="space-y-4">
+                  <li className="hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer" onClick={() => handleOpcaoFaseForm1(1)}>fase 1</li>
+                  <li className="hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer" onClick={() => handleOpcaoFaseForm1(2)}>fase 2</li>
+                </ul>
+              </div>
+              
+              <label style={{ padding: '20px' }} className="flex flex-col w-full px-9 rounded-2xl bg-[#E6EFF0]">
+                Série
+                <input
+                  type="text"
+                  value={valueForm1}
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
+                  onChange={(e) => handleSerieForm1(e)}
+                  style={{ padding: '10px', width: '300px' }}
+                  placeholder="Digite aqui..."
+                />
+                {suggestionsForm1.length > 0 && (
+                  <ul style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px', listStyle: 'none', padding: 0 }}>
+                    {suggestionsForm1.map(item => (
+                      <li
+                        key={item.id}
+                        onClick={() => handleSelectForm1(item)}
+                        className="bg-[#fff] text-[#005261] font-semibold text-lg"
+                        style={{ padding: '10px', cursor: 'pointer', borderBottom: '1px solid #ccc' }}
+                      >
+                        {item.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </label>
+              
+              <label className="flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]">
+                Atividade 1
+                <input
+                  type="text"
+                  name="atv1"
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
+                  style={{ padding: '10px', width: '300px' }}
+                  placeholder="Digite Aqui..."
+                />
+              </label>
+              
+              <label className="flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]">
+                Atividade 2
+                <input
+                  type="text"
+                  name="atv2"
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
+                  style={{ padding: '10px', width: '300px' }}
+                  placeholder="Digite Aqui..."
+                />
+              </label>
+              
+              <label className="flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]">
+                Atividade 3
+                <input
+                  type="text"
+                  name="atv3"
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
+                  style={{ padding: '10px', width: '300px' }}
+                  placeholder="Digite Aqui..."
+                />
+              </label>
+              
+              <div className="flex sm:flex-row justify-evenly w-full">
+                <button type="submit" className="sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4">Cadastrar</button>
+                <button onClick={() => handleBackPageNovos()} type="button" className="sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4">Cancelar</button>
+              </div>
+              
+              <input type="text" name="dia1Form1" className="hidden" value={"28"} />
+            </form>
 
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </label>
-                <label style={{ padding: '20px' }} className='flex flex-col w-full px-9  rounded-2xl bg-[#E6EFF0]'>
-                  atividade 1 
-                  <input
-                    type="text"
-                    value={valueAtv1}
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv1}
-                    style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
-                  />
-                  {suggestionsAtv1.length > 0 && (
-                    <select
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelect(suggestionsAtv1[e.target.selectedIndex])}
-                    
-                    >
-                      {suggestionsAtv1.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className={`bg-white text-[#005261] font-semibold`}
-                          style={{ padding: '10px', width: '300px' }}
-
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </label>
-                
-                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                  Atividade 2
-                  <input
-                    type="text"
-                    value={valueAtv2}
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv2}
-                    style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
-                  />
-                  {suggestionsAtv2.length > 0 && (
-                    <select
-                      size={suggestionsAtv2.length}
-                      style={{ border: '1px solid #ccc', marginTop: '10px', width: '300px' }}
-                      onChange={(e) => handleSelectAtv2(suggestionsAtv2[e.target.selectedIndex])}
-                    >
-                      {suggestionsAtv2.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </label>
-                
-                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                  Atividade 3
-                  <input
-                    type="text"
-                    value={valueAtv3}
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv3}
-                    style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
-                  />
-                  {suggestionsAtv3.length > 0 && (
-                    <select
-                      size={suggestionsAtv3.length}
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelectAtv3(suggestionsAtv3[e.target.selectedIndex])}
-                    >
-                      {suggestionsAtv3.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </label>
-                
-                <div className='flex sm:flex-row justify-evenly w-full'>
-                  <button type='submit' className='sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
-                  <button onClick={() => handleBackPageNovos()} type='button' className='sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
-                    cancelar
-                  </button>
-                </div>''
-              </form>
            </ContainerCampeonatoQuadra>
           )
          }
@@ -349,29 +356,37 @@ export default function Quadra() {
                 </div>
                 <p className='text-[#005261] font-semibold'>Atividades</p>
               </div>
-              <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
-                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                  Fases
-                  <input type="text" value={"$2º fase"} name="fases" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui'/>
-                </label>
+              <form onSubmit={(e) => handleForm2Submit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
+                  
+                  <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                     Fases
+                    <input type="text" name="fasesForm2" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'  onClick={handleShow} value={`${faseForm2} º fase`} />
+                  </label>
+                  <div className={`w-full bg-[#E6EFF0] rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'block max-h-[400px] duration-300 p-6' : 'hidden max-h-0 p-0'}`}>
+                      <ul className='space-y-4'>
+                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer' onClick={(e) => handleOpcaoFaseForm2(1)}>fase 1</li>
+                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'onClick={(e) => handleOpcaoFaseForm2(2)}>fase 2</li>
+                      </ul>
+                   </div>
+                   
                 <label style={{ padding: '20px' }} className='flex flex-col w-full px-9  rounded-2xl bg-[#E6EFF0]'>
                   Série
                   <input
                     type="text"
-                    value={value}
+                    value={valueForm2}
                     className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChange}
+                    onChange={(e) => handleSerieForm2(e)}
                     style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
+                    placeholder="Digite aqui..."
                   />
-                  {suggestions.length > 0 && (
+                  {suggestionsForm2.length > 0 && (
                     <select
-                      size={suggestions.length}
+                      size={suggestionsForm2.length}
                       style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelect(suggestions[e.target.selectedIndex])}
+                      onChange={(e) => handleSelectForm2(suggestionsForm2[e.target.selectedIndex])}
                     
                     >
-                      {suggestions.map(item => (
+                      {suggestionsForm2.map(item => (
                         <option
                           key={item.id}
                           value={item.label}
@@ -389,89 +404,33 @@ export default function Quadra() {
                    Atividade 1
                   <input
                     type="text"
-                    value={valueAtv1}
+                    name="atv1"
                     className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv1}
                     style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
+                    placeholder="Digite Aqui..."
                   />
-                  {suggestionsAtv1.length > 0 && (
-                    <select
-                      size={suggestionsAtv1.length}
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelectAtv1(suggestionsAtv1[e.target.selectedIndex])}
-                    >
-                      {suggestionsAtv1.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
                 </label>
                 
                 <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                   Atividade 2
                   <input
                     type="text"
-                    value={valueAtv2}
+                    name="atv2"
                     className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv2}
                     style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
+                    placeholder="Digite Aqui..."
                   />
-                  {suggestionsAtv2.length > 0 && (
-                    <select
-                      size={suggestionsAtv2.length}
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelectAtv2(suggestionsAtv2[e.target.selectedIndex])}
-                    >
-                      {suggestionsAtv2.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
                 </label>   
                 <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                   Atividade 3
                   <input
                     type="text"
-                    value={valueAtv3}
+                    name="atv3"
                     className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv2}
                     style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
+                    placeholder="Digite Aqui..."
                   />
-                  {suggestionsAtv3.length > 0 && (
-                    <select
-                      size={suggestionsAtv3.length}
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelectAtv2(suggestionsAtv3[e.target.selectedIndex])}
-                    >
-                      {suggestionsAtv3.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  
                 </label>
                 
                 <div className='flex sm:flex-row justify-evenly w-full'>
@@ -480,6 +439,7 @@ export default function Quadra() {
                       cancelar
                     </button>
                 </div>
+                <input type="text" name="dia2Form2" className='hidden' value={"29"} />
               </form>
            </ContainerCampeonatoQuadra>
           )
@@ -498,29 +458,35 @@ export default function Quadra() {
                 </div>
                 <p className='text-[#005261] font-semibold'>Atividades</p>
               </div>
-              <form onSubmit={(e) => handleFormSubmit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
-               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                  Fases
-                  <input type="text" value={"1 º fase"} name="fases" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui'/>
-                </label>
+              <form onSubmit={(e) => handleForm3Submit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
+                  <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      Fases
+                    <input type="text" name="fasesForm3" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'  onClick={handleShow} value={`${faseForm3} º fase`} />
+                  </label>
+                  <div className={`w-full bg-[#E6EFF0] rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'block max-h-[400px] duration-300 p-6' : 'hidden max-h-0 p-0'}`}>
+                      <ul className='space-y-4'>
+                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer' onClick={(e) => handleOpcaoFaseForm3(1)}>fase 1</li>
+                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'onClick={(e) => handleOpcaoFaseForm3(2)}>fase 2</li>
+                      </ul>
+                   </div>
                <label style={{ padding: '20px' }} className='flex flex-col w-full px-9  rounded-2xl bg-[#E6EFF0]'>
                   Série
                   <input
                     type="text"
-                    value={value}
+                    value={valueForm3}
                     className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChange}
+                    onChange={(e) => handleSerieForm3(e)}
                     style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
+                    placeholder="Digite aqui ..."
                   />
-                  {suggestions.length > 0 && (
+                  {suggestionsForm3.length > 0 && (
                     <select
-                      size={suggestions.length}
+                      size={suggestionsForm3.length}
                       style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelect(suggestions[e.target.selectedIndex])}
+                      onChange={(e) => handleSelectForm3(suggestionsForm3[e.target.selectedIndex])}
                     
                     >
-                      {suggestions.map(item => (
+                      {suggestionsForm3.map(item => (
                         <option
                           key={item.id}
                           value={item.label}
@@ -538,89 +504,34 @@ export default function Quadra() {
                    Atividade 1
                   <input
                     type="text"
-                    value={valueAtv1}
+                    name="atv1"
                     className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv1}
                     style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
+                    placeholder="Digite Aqui..."
                   />
-                  {suggestionsAtv1.length > 0 && (
-                    <select
-                      size={suggestionsAtv1.length}
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelectAtv1(suggestionsAtv1[e.target.selectedIndex])}
-                    >
-                      {suggestionsAtv1.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  
                 </label>
                 
                 <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                   Atividade 2
                   <input
                     type="text"
-                    value={valueAtv2}
+                    name="atv2"
                     className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv2}
                     style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
-                  />
-                  {suggestionsAtv2.length > 0 && (
-                    <select
-                      size={suggestionsAtv2.length}
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelectAtv2(suggestionsAtv2[e.target.selectedIndex])}
-                    >
-                      {suggestionsAtv2.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                    placeholder="Digite Aqui..."
+                  />           
                 </label>
                 <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                   Atividade 3
                   <input
                     type="text"
-                    value={valueAtv3}
+                    name="atv3"
                     className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    onChange={handleChangeAtv2}
                     style={{ padding: '10px', width: '300px' }}
-                    placeholder="Type to search..."
+                    placeholder="Digite Aqui..."
                   />
-                  {suggestionsAtv3.length > 0 && (
-                    <select
-                      size={suggestionsAtv3.length}
-                      style={{ border: '1px solid #ccc', marginTop: '5px', width: '300px' }}
-                      onChange={(e) => handleSelectAtv2(suggestionsAtv3[e.target.selectedIndex])}
-                    >
-                      {suggestionsAtv3.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.label}
-                          className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                          style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#fff' }}
-                        >
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                 
                 </label>
                 <div className='flex sm:flex-row justify-evenly w-full'>
                     <button type='submit' className='sm:w-1/3 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cadastrar</button>
@@ -628,6 +539,7 @@ export default function Quadra() {
                       cancelar
                     </button>
                 </div>
+                <input type="text" name="dia3Form3" className='hidden' value={"30"} />
               </form>
            </ContainerCampeonatoQuadra>
           )
@@ -636,7 +548,19 @@ export default function Quadra() {
         {isModalOpen && (
           <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-            <Modal closeModal={closeModal} texto={'Campeonato de quadra cadastrado '}/>
+
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+                  <div className="mx-auto  w-[290px] h-[220] sm:w-[390px] sm:h-[330px] bg-white p-6 rounded-lg shadow-lg relative">
+                    <img src="../../../images/sucess-form.png" className='absolute -top-[43px] left-[53px] sm:-top-[43px] sm:left-20 h-[154px] w-[200px] sm:h-[159px] sm:w-[217px]' alt="" />
+                    <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={closeModal}>
+                    <Link href="/cadastros/novos/atividade">✕</Link>
+                    </button>
+                    <div className='mt-28 text-center'>
+                      <h3 className="font-bold text-2xl">Sucesso!</h3>
+                      <p className="py-4 text-2xl">Atividade para turma cadastrado com sucesso.</p>
+                    </div>
+                  </div>
+              </div>
           </>
          )}
 
