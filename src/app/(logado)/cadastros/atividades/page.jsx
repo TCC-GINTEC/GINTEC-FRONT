@@ -106,6 +106,17 @@ export default function Quadra() {
     setShowForm(false);
     setIdObjetoSelecionado(null);
     setCursoEtec('');
+
+    setForm1Atv1Dia1("")
+    setForm1Atv2Dia2("")
+    setForm1Atv3Dia3("")
+    setForm2Atv1Dia1("")
+    setForm2Atv2Dia2("")
+    setForm2Atv3Dia3("")
+    setForm3Atv1Dia1("")
+    setForm3Atv2Dia2("")
+    setForm3Atv3Dia3("")
+
     setPontoCampeonato('');
     setFaseCampeonato('');
     setDataCampeonato('');
@@ -114,8 +125,11 @@ export default function Quadra() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const curso = cursoEtec;
-    const ponto = Number(pontoCampeonato);
-    const fase = Number(faseCampeonato);
+    const atv1Dia1 = form1_Atv1_Dia1 ;
+    const atv2Dia2 = form1_Atv2_Dia2;
+    const atv3Dia3 = form1_Atv3_Dia3;
+    //const ponto = Number(pontoCampeonato);
+    //const fase = Number(faseCampeonato);
     const data = parseDateFromBR(dataCampeonato);
 
     const posicao = retornoApi.findIndex(
@@ -126,8 +140,9 @@ export default function Quadra() {
     novosDados[posicao] = {
       id: idObjetoSelecionado,
       curso: curso,
-      ponto: ponto,
-      fase: fase,
+      form1Atv1Dia1:atv1Dia1,
+      form1Atv2Dia2:atv2Dia2,
+      form1Atv3Dia3:atv3Dia3,
       data: data,
     };
 
