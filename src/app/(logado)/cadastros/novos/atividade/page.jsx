@@ -210,31 +210,31 @@ export default function Quadra() {
       </div>
       
          
-          <div className="md:w-3/4 flex gap-3 md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
+          <div className="max-w-[500px] flex gap-3 justify-evenly md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
             <div
               onClick={() => setMoveBar("28")}
-              className={ `sm:font-semibold text-base sm:text-xl flex items-center gap-2  cursor-pointer ${moveBar === "28" ? "text-[#005261]" : "text-[#DADADA]"}`}
+              className={ `sm:font-semibold text-xl flex items-center gap-2  cursor-pointer ${moveBar === "28" ? "text-[#005261]" : "text-[#DADADA]"}`}
             >
               <img src="../images/home-icon.svg" alt=""  className='sm:block hidden'/>
               28 Agos
             </div>
             <div
               onClick={() => setMoveBar("29")}
-              className={`sm:font-semibold ml-2 text-base sm:text-xl flex cursor-pointer ${moveBar === "29" ? "text-[#005261]" : "text-[#DADADA]"}`}
+              className={`sm:font-semibold ml-2 text-xl flex cursor-pointer ${moveBar === "29" ? "text-[#005261]" : "text-[#DADADA]"}`}
             >
               29 Agos
             </div>
             <div
               onClick={() => setMoveBar("30")}
-              className={`sm:font-semibold text-base sm:text-xl cursor-pointer ${moveBar === "30" ? "text-[#005261]" : "text-[#DADADA]"}`}
+              className={`sm:font-semibold text-xl cursor-pointer ${moveBar === "30" ? "text-[#005261]" : "text-[#DADADA]"}`}
             >
              30 Agos
             </div>
             <div
               className={`hidden sm:block h-[4px] w-[100px] md:w-[124px] bg-[#005261] ${transition ? "duration-1000 delay-700" : ""} 
                 ${moveBar === "28" ? "left-0" : ""} 
-                ${moveBar === "29" ? "md:left-40 left-30" : ""} 
-                ${moveBar === "30" ? "md:left-80" : ""} 
+                ${moveBar === "29" ? "md:left-[190px] left-30" : ""} 
+                ${moveBar === "30" ? "md:left-[380px]" : ""} 
                 absolute -bottom-1 font-bold transition-all`}
             ></div>
           </div>
@@ -277,9 +277,9 @@ export default function Quadra() {
                 <input
                   type="text"
                   value={valueForm1}
-                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full"
                   onChange={(e) => handleSerieForm1(e)}
-                  style={{ padding: '10px', width: '300px' }}
+                  style={{ padding: '10px' }}
                   placeholder="Digite aqui..."
                 />
                 {suggestionsForm1.length > 0 && (
@@ -303,8 +303,8 @@ export default function Quadra() {
                 <input
                   type="text"
                   name="atv1"
-                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                  style={{ padding: '10px', width: '300px' }}
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full"
+                  style={{ padding: '10px'}}
                   placeholder="Digite Aqui..."
                 />
               </label>
@@ -314,8 +314,8 @@ export default function Quadra() {
                 <input
                   type="text"
                   name="atv2"
-                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                  style={{ padding: '10px', width: '300px' }}
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full"
+                  style={{ padding: '10px'}}
                   placeholder="Digite Aqui..."
                 />
               </label>
@@ -325,8 +325,8 @@ export default function Quadra() {
                 <input
                   type="text"
                   name="atv3"
-                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                  style={{ padding: '10px', width: '300px' }}
+                  className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-ful"
+                  style={{ padding: '10px'}}
                   placeholder="Digite Aqui..."
                 />
               </label>
@@ -374,9 +374,9 @@ export default function Quadra() {
                   <input
                     type="text"
                     value={valueForm2}
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
+                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full'
                     onChange={(e) => handleSerieForm2(e)}
-                    style={{ padding: '10px', width: '300px' }}
+                    style={{ padding: '10px' }}
                     placeholder="Digite aqui..."
                   />
                   {suggestionsForm2.length > 0 && (
@@ -405,8 +405,8 @@ export default function Quadra() {
                   <input
                     type="text"
                     name="atv1"
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    style={{ padding: '10px', width: '300px' }}
+                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full'
+                    style={{ padding: '10px' }}
                     placeholder="Digite Aqui..."
                   />
                 </label>
@@ -416,8 +416,8 @@ export default function Quadra() {
                   <input
                     type="text"
                     name="atv2"
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    style={{ padding: '10px', width: '300px' }}
+                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full'
+                    style={{ padding: '10px' }}
                     placeholder="Digite Aqui..."
                   />
                 </label>   
@@ -426,8 +426,8 @@ export default function Quadra() {
                   <input
                     type="text"
                     name="atv3"
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    style={{ padding: '10px', width: '300px' }}
+                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full'
+                    style={{ padding: '10px' }}
                     placeholder="Digite Aqui..."
                   />
                   
@@ -474,9 +474,9 @@ export default function Quadra() {
                   <input
                     type="text"
                     value={valueForm3}
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
+                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full'
                     onChange={(e) => handleSerieForm3(e)}
-                    style={{ padding: '10px', width: '300px' }}
+                    style={{ padding: '10px'}}
                     placeholder="Digite aqui ..."
                   />
                   {suggestionsForm3.length > 0 && (
@@ -505,8 +505,8 @@ export default function Quadra() {
                   <input
                     type="text"
                     name="atv1"
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    style={{ padding: '10px', width: '300px' }}
+                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full'
+                    style={{ padding: '10px' }}
                     placeholder="Digite Aqui..."
                   />
                   
@@ -517,8 +517,8 @@ export default function Quadra() {
                   <input
                     type="text"
                     name="atv2"
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    style={{ padding: '10px', width: '300px' }}
+                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full'
+                    style={{ padding: '10px' }}
                     placeholder="Digite Aqui..."
                   />           
                 </label>
@@ -527,8 +527,8 @@ export default function Quadra() {
                   <input
                     type="text"
                     name="atv3"
-                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
-                    style={{ padding: '10px', width: '300px' }}
+                    className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg w-full'
+                    style={{ padding: '10px' }}
                     placeholder="Digite Aqui..."
                   />
                  
