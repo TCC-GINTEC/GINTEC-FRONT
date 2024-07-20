@@ -112,7 +112,7 @@ export default function Salas() {
                 onClick={() => router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
               >
                 <div className='flex justify-start'>
-                  <img src="/images/bolinha.png" width={50} />
+                  <img src="/images/bolinha2.png" width={50} />
                 </div>
                 <h1 className={`${data.curso === 'recursos humanos' ? '' : ''}`}>
                   {data.serie}º {data.curso}
@@ -129,7 +129,7 @@ export default function Salas() {
               >
 
                 <div className='flex justify-center w-1/3'>
-                  <img src="/images/bolinha.png" width={50} />
+                  <img src="/images/bolinha2.png" width={50} />
                 </div>
                 <h1 className={`${data.curso === 'recursos humanos' ? '' : ''}`}>
                   {data.serie}º {data.curso}
