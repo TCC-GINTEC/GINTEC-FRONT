@@ -7,8 +7,10 @@ export default function HomePage({ children }) {
     <html lang="pt-br">
       <body>
         <div className="flex min-h-screen w-full text-text-color">
+                   
           <SideBar className="z-50  "/>
           <main className=" w-full py-3 px-3 overflow-x-hidden ">
+            {/*mingcute:menu-fill*/}
             {children}
           </main>
         </div>
