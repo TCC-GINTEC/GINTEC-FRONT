@@ -54,12 +54,7 @@ export default function SideBar({ className }) {
                 text: "Notificação",
                 img: "./images/notificacao-icon.svg",
                 link: "/notificacao"
-            },
-            {
-                text: "Configuração",
-                img: "./images/configuracao-icon.svg",
-                link: "/configuracao"
-            },
+            }
         ];
 
         setItens(lst);
