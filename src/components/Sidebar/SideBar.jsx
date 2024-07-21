@@ -6,6 +6,7 @@ import SideBarHead from '@/components/Sidebar/SideBarHead';
 import SideBarSection from '@/components/Sidebar/SideBarSection';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image'
 
 export default function SideBar({ className }) {
     const [active, setActive] = useState(false);
@@ -78,7 +79,7 @@ export default function SideBar({ className }) {
             </SideBarSection>
             <div className='w-full flex justify-start pl-10 pb-20 text-[#005261]'>
                 <Link className="flex flex-row gap-2 items-center" href=''>
-                    <img src="./images/sair-icon.svg" alt="" />
+                    <Image src="./images/sair-icon.svg" alt="" width={20} height={20}/>
                     {active ? 'sair' : ''}
                 </Link>
             </div>

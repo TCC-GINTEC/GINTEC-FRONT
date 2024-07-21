@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
+import Image from 'next/image'
 
 
 export default function Sala() {
@@ -287,7 +288,7 @@ export default function Sala() {
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="mx-auto w-[290px]  h-[360px] sm:w-[390px] bg-white p-6 rounded-3xl shadow-lg relative">
-                <img
+                <Image width={200} height={154} 
                   src="../../../images/alert-fase.png"
                   className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] h-[154px] w-[200px] sm:h-[179px] sm:w-[307px]"
                   alt="Sucesso"
@@ -314,7 +315,7 @@ export default function Sala() {
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="mx-auto w-[290px] h-[360px] sm:w-[390px]  bg-white p-6 rounded-3xl shadow-lg relative">
-                <img
+                <Image
                   src="../../../images/alert-fase.png"
                   className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] h-[154px] w-[200px] sm:h-[179px] sm:w-[307px]"
                   alt="Sucesso"
@@ -339,7 +340,7 @@ export default function Sala() {
          <div className='max-w-[1400px]  flex flex-row justify-between'>
               <button className=''>
                 <Link href={'/salas'}>
-                  <img src="../images/sair-navegacao.svg" />
+                  <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
                 </Link>
               </button>
               <div className='flex justify-center items-center relative '>

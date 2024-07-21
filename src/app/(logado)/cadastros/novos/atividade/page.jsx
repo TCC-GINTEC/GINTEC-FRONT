@@ -42,9 +42,6 @@ export default function Quadra() {
     setShow(prevShow => !prevShow); // Alternativa mais concisa para alternar entre true/false
   }
 
-  const [faseForm1, setFaseForm1] = useState("");
-  const [faseForm2, setFaseForm2] = useState("");
-  const [faseForm3, setFaseForm3] = useState("");
 
   const handleForm1Submit = (e) => {
     e.preventDefault();
@@ -169,33 +166,15 @@ export default function Quadra() {
     setSuggestionsForm3([]);
   };
 
-  {/*opções de fase  para os 3 forms*/}
+  const [faseForm, setFaseForm] = useState("");
 
-  function handleOpcaoFaseForm1(fase) {
+  function handleOpcaoFaseForm(fase) {
     if (fase == 1) {
-      setFaseForm1(1)
+      setFaseForm(1)
     }else if(fase == 2){
-      setFaseForm1(2)
+      setFaseForm(2)
     }
 
-    setShow(!show)
-  }
-
-  function handleOpcaoFaseForm2(fase) {
-    if (fase == 1) {
-      setFaseForm2(1)
-    }else if(fase == 2){
-      setFaseForm2(2)
-    }
-    setShow(!show)
-  }
-
-  function handleOpcaoFaseForm3(fase) {
-    if (fase == 1) {
-      setFaseForm3(1)
-    }else if(fase == 2){
-      setFaseForm3(2)
-    }
     setShow(!show)
   }
 
@@ -260,15 +239,15 @@ export default function Quadra() {
                   name="fasesForm1"
                   onClick={handleShow}
                   className="bg-[#E6EFF0] text-[#005261] font-semibold text-lg"
-                  value={`${faseForm1} º fase`}
+                  value={`${faseForm} º fase`}
                   readOnly
                 />
               </label>
               
               <div className={`w-full bg-[#E6EFF0] rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'block max-h-[400px] duration-300 p-6' : 'hidden max-h-0 p-0'}`}>
                 <ul className="space-y-4">
-                  <li className="hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer" onClick={() => handleOpcaoFaseForm1(1)}>fase 1</li>
-                  <li className="hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer" onClick={() => handleOpcaoFaseForm1(2)}>fase 2</li>
+                  <li className="hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer" onClick={() => handleOpcaoFaseForm(1)}>fase 1</li>
+                  <li className="hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer" onClick={() => handleOpcaoFaseForm(2)}>fase 2</li>
                 </ul>
               </div>
               
@@ -360,12 +339,12 @@ export default function Quadra() {
                   
                   <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                      Fases
-                    <input type="text" name="fasesForm2" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'  onClick={handleShow} value={`${faseForm2} º fase`} />
+                    <input type="text" name="fasesForm2" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'  onClick={handleShow} value={`${faseForm} º fase`} />
                   </label>
                   <div className={`w-full bg-[#E6EFF0] rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'block max-h-[400px] duration-300 p-6' : 'hidden max-h-0 p-0'}`}>
                       <ul className='space-y-4'>
-                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer' onClick={(e) => handleOpcaoFaseForm2(1)}>fase 1</li>
-                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'onClick={(e) => handleOpcaoFaseForm2(2)}>fase 2</li>
+                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer' onClick={(e) => handleOpcaoFaseForm(1)}>fase 1</li>
+                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'onClick={(e) => handleOpcaoFaseForm(2)}>fase 2</li>
                       </ul>
                    </div>
                    
@@ -461,12 +440,12 @@ export default function Quadra() {
               <form onSubmit={(e) => handleForm3Submit(e)} className='space-y-8 mt-10 w-3/4 flex items-center flex-col'>
                   <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                       Fases
-                    <input type="text" name="fasesForm3" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'  onClick={handleShow} value={`${faseForm3} º fase`} />
+                    <input type="text" name="fasesForm3" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'  onClick={handleShow} value={`${faseForm} º fase`} />
                   </label>
                   <div className={`w-full bg-[#E6EFF0] rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'block max-h-[400px] duration-300 p-6' : 'hidden max-h-0 p-0'}`}>
                       <ul className='space-y-4'>
-                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer' onClick={(e) => handleOpcaoFaseForm3(1)}>fase 1</li>
-                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'onClick={(e) => handleOpcaoFaseForm3(2)}>fase 2</li>
+                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer' onClick={(e) => handleOpcaoFaseForm(1)}>fase 1</li>
+                        <li className='hover:bg-[#005261] rounded-xl p-3 hover:text-white hover:cursor-pointer'onClick={(e) => handleOpcaoFaseForm(2)}>fase 2</li>
                       </ul>
                    </div>
                <label style={{ padding: '20px' }} className='flex flex-col w-full px-9  rounded-2xl bg-[#E6EFF0]'>

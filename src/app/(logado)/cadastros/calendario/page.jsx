@@ -98,7 +98,7 @@ export default function Quadra() {
 
       <div className='gap-4 flex justify-center border border-red-500 w-1/2 mx-auto text-wrap'>
         {retornoApi.map((calendario) => (
-          <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='w-[252px] text-center border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
+          <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='w-[252px] text-center border-[3px] border-[#A0C340] text-[#A0C340] pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
             {calendario.fases}
           </div>
         ))}

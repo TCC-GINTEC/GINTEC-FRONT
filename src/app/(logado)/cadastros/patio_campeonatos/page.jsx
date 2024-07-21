@@ -114,7 +114,7 @@ export default function CampeonatosPatio() {
       </div>
       <div className='grid sm:grid-cols-3 grid-cols-1 gap-4 w-full md:w-1/2 sm:mx-auto text-wrap'>
         {retornoApi.map((jogo) => (
-          <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
+          <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='border-[3px] border-[#FF4C4D] text-[#FF4C4D] pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
             {jogo.nome}
           </div>
         ))}

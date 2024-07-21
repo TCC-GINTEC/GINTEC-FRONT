@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Icon } from '@iconify/react';
+import Image from 'next/image'
 
 export default function Salas() {
   const [linhas, setLinhas] = useState([]);
@@ -112,7 +113,7 @@ export default function Salas() {
                 onClick={() => router.push(`/salas/sala?curso=${data.curso}&serie=${data.serie}`)}
               >
                 <div className='flex justify-start'>
-                  <img src="/images/bolinha2.png" width={50} />
+                  <Image src="/images/bolinha2.png" width={50}  height={50} />
                 </div>
                 <h1 className={`${data.curso === 'recursos humanos' ? '' : ''}`}>
                   {data.serie}º {data.curso}
@@ -129,7 +130,7 @@ export default function Salas() {
               >
 
                 <div className='flex justify-center w-1/3'>
-                  <img src="/images/bolinha2.png" width={50} />
+                  <Image src="/images/bolinha2.png" width={50} height={50}/>
                 </div>
                 <h1 className={`${data.curso === 'recursos humanos' ? '' : ''}`}>
                   {data.serie}º {data.curso}
