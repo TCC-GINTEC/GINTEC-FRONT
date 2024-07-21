@@ -289,8 +289,8 @@ export default function Sala() {
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="mx-auto w-[290px]  h-[360px] sm:w-[390px] bg-white p-6 rounded-3xl shadow-lg relative">
                 <Image width={200} height={154} 
-                  src="../../../images/alert-fase.png"
-                  className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] h-[154px] w-[200px] sm:h-[179px] sm:w-[307px]"
+                  src="/images/alert-fase.png"
+                  className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px]  sm:h-[179px] sm:w-[307px]"
                   alt="Sucesso"
                 />
                 <button
@@ -316,8 +316,10 @@ export default function Sala() {
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="mx-auto w-[290px] h-[360px] sm:w-[390px]  bg-white p-6 rounded-3xl shadow-lg relative">
                 <Image
-                  src="../../../images/alert-fase.png"
-                  className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] h-[154px] w-[200px] sm:h-[179px] sm:w-[307px]"
+                  src="/images/alert-fase.png"
+                  width={200}
+                  height={154}
+                  className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] sm:h-[179px] sm:w-[307px]"
                   alt="Sucesso"
                 />
                 <button
@@ -387,7 +389,7 @@ export default function Sala() {
           onClick={() => setMoveBar("principal")}
           className={` sm:font-semibold text-base sm:text-xl flex items-center gap-2  cursor-pointer ${moveBar === "principal" ? "text-[#005261]" : "text-[#DADADA]"}`}
         >
-          <img src="../images/home-icon.svg" alt=""  className='sm:block hidden'/>
+          <Image src="../images/home-icon.svg" alt="" width={20} height={20} className='sm:block hidden'/>
           Principal
         </div>
         <div

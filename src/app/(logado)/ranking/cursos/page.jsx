@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import Link from 'next/link'
+import Image from 'next/image'
+
 
 export default function Ranking() {
   const [data, setData] = useState({
@@ -124,8 +126,9 @@ export default function Ranking() {
               <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
               <div className="fixed inset-0 flex items-center justify-center z-50">
                 <div className="mx-auto w-[290px] h-[360px] sm:w-[390px]  bg-white p-6 rounded-3xl shadow-lg relative">
-                  <img
-                    src="../../../images/alert-fase.png"
+                  <Image
+                    width={200} height={154}
+                    src="/images/alert-fase.png"
                     className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] h-[154px] w-[200px] sm:h-[179px] sm:w-[307px]"
                     alt="Sucesso"
                   />
@@ -150,8 +153,9 @@ export default function Ranking() {
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="mx-auto w-[290px] h-[360px] sm:w-[390px]  bg-white p-6 rounded-3xl shadow-lg relative">
-                <img
-                  src="../../../images/alert-fase.png"
+                <Image
+                  width={200} height={154}
+                  src="/images/alert-fase.png"
                   className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] h-[154px] w-[200px] sm:h-[179px] sm:w-[307px]"
                   alt="Sucesso"
                 />
@@ -307,7 +311,7 @@ export default function Ranking() {
                   }`}
                 />
               </p>
-              <img src='/images/bolinha.png' alt='' width={index === 0 ? 69 : index === 1 ? 52 : 49} />
+              <Image src='/images/bolinha.png' alt='' width={index === 0 ? 69 : index === 1 ?52 : 49} height={index === 0 ?69:index===1?52:49} />
               <p className='font-medium text-center'  style={{ wordBreak: 'break-word', hyphens: 'auto' }}>{course.curso}</p>
               <p className='text-[#FFC24C] font-semibold col-span-4'>{course.total}</p>
               {/* Exibe a soma total de pontos */}
@@ -340,7 +344,7 @@ export default function Ranking() {
                       {index + 1}
                     </div>
                     <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
-                      <img src='/images/bolinha.png' className='hidden sm:block w-[120px]' alt='' />
+                      <Image src='/images/bolinha.png' className='hidden sm:block'width={120} height={120} alt='perfil' />
                       <h2
                         className={`w-full  flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'
@@ -488,7 +492,7 @@ export default function Ranking() {
                       {index + 1}
                     </div>
                     <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
-                      <img src="/images/bolinha.png" className=' sm:block hidden w-[120px]' alt="" />
+                      <Image src="/images/bolinha.png" className=' sm:block hidden' width={120} height={120} alt="" />
                       <h2
                         className={`w-full flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'

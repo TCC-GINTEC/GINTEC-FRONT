@@ -69,11 +69,6 @@ const SideBarContainerItens = ({ children, url,active }) => {
       <div className="relative w-[10px] min-h-full ">
         <div className={`rounded-l-lg w-[7px] h-[37px] bg-[#005261] absolute right-0 transition-all duration-500 ease-in-out ${positionClass}`}>
         </div>
-        <img
-          className={`absolute right-0 transition-all duration-500 ease-in-out ${positionClass}`}
-          src="images/retangulo-bg.svg"
-          alt=""
-        />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import Placed from '@/components/Ranking/Placed';
 import Scores from "@/components/Ranking/Scores"
+import Image from 'next/image'
 import { useState, useEffect } from "react";
 import httpClient from "@/service/api"
 import Link from 'next/link'
@@ -81,9 +82,9 @@ export default function Ranking() {
               <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
               <div className="fixed inset-0 flex items-center justify-center z-50">
                 <div className="mx-auto w-[290px] h-[360px] sm:w-[390px]  bg-white p-6 rounded-3xl shadow-lg relative">
-                  <img
-                    src="../../../images/alert-fase.png"
-                    className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] h-[154px] w-[200px] sm:h-[179px] sm:w-[307px]"
+                  <Image  width={200} height={154}
+                    src="/images/alert-fase.png"
+                    className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px]  sm:h-[179px] sm:w-[307px]"
                     alt="Sucesso"
                   />
                   <button
@@ -107,9 +108,9 @@ export default function Ranking() {
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="mx-auto w-[290px] h-[360px] sm:w-[390px]  bg-white p-6 rounded-3xl shadow-lg relative">
-                <img
-                  src="../../../images/alert-fase.png"
-                  className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] h-[154px] w-[200px] sm:h-[179px] sm:w-[307px]"
+                <Image width={200} height={154}
+                  src="/images/alert-fase.png"
+                  className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px]  sm:h-[179px] sm:w-[307px]"
                   alt="Sucesso"
                 />
                 <button
@@ -264,7 +265,7 @@ export default function Ranking() {
                       onClick={() => handlePodiumClick(index)} 
                       />
                     </p>
-                    <img src="/images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} />
+                    <Image src="/images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} height={index === 0 ?69:index===1?52:49} />
                     <p className='font-medium text-center'>{padrinho.nome} </p>
                     <p className='text-center'>{padrinho.serie} {padrinho.curso}</p>
                     <p className='text-[#FFC24C] font-semibold'>{padrinho.pontuacao}</p>
@@ -282,7 +283,7 @@ export default function Ranking() {
                   {selectedPodium + 1}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 smjustify-center'>
-                  <img src="/images/bolinha.png" className=' sm:block hidden w-[120px]' alt="" />
+                  <Image src="/images/bolinha.png" className=' sm:block hidden' width={120} height={120} alt="perfil usuário" />
                   <h2 className='w-full sm:3/4 md:w-full text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{data[selectedPodium].nome}</h2>
                 </div>
               </div>
@@ -309,7 +310,7 @@ export default function Ranking() {
                   {index + 4}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 smjustify-center'>
-                  <img src="/images/bolinha.png" className='hidden sm:block w-[120px]' alt="" />
+                  <Image src="/images/bolinha.png" className='hidden sm:block w-[120px]' width={120} height={120} alt="perfil usuário" />
                   <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-[#005261]'>{padrinho.nome}</h2>
                 </div>
               </div>
