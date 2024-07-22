@@ -77,7 +77,7 @@ export default function Salas() {
   const uniqueCursos = [...new Set(retornoApi.map(data => data.curso))];
   
   return (
-    <div className='pl-[90px]'>
+    <div>
       <div className="flex justify-end m-auto max-w-[920px] relative">
         <div
           onClick={() => setShowFilterOptions(!showFilterOptions)}

@@ -1,15 +1,16 @@
 "use client";
+import { useRef, useEffect, useState } from 'react';
 
 import Placed from '@/components/Ranking/Placed';
 import Image from 'next/image'
 import Scores from "@/components/Ranking/Scores"
-import { useState, useEffect } from "react";
 import httpClient from "@/service/api"
 import Link from 'next/link'
 import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
 
 export default function Ranking() {
+
 
   const [data, setData] = useState([
     { "nome": "Richard dos Santos Paiva", "curso": "informatica", "serie": "3º", "pontuacao": 17902 },
@@ -79,8 +80,34 @@ export default function Ranking() {
     setAlertShowFase(false);
   };
 
+  const divRef = useRef(null);
+  const [largura, setLargura] = useState(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (divRef.current) {
+        setLargura(divRef.current.offsetWidth);
+      }
+    };
+
+    // Update width initially after the component mounts
+    updateWidth();
+
+    // Optionally, add a resize event listener to update width on window resize
+    window.addEventListener('resize', updateWidth);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+  
+  const gridContainerStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '10px', // Ajuste o espaçamento entre os itens conforme necessário
+  };
   return (
-     <>  
+     <>       
+
 
       {/*Exibe o alerta quando a 2 fase não está disponivel*/}
       {alertShowFase && (
@@ -144,9 +171,9 @@ export default function Ranking() {
         </div>
        
         {/* Filtro */}
-        <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-8 sm:px-20'>
+        <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-8 sm:pr-10'>
           {/* Filtro por fases */}
-          <div className='relative flex justify-center'>
+          <div className='relative flex justify-center '>
             <div
               onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
               className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
@@ -252,13 +279,13 @@ export default function Ranking() {
             )}
           </div>
       </div>
-        <div className='relative inline justify-center mb-7 '>
+        <div ref={divRef}  className='relative inline justify-center mb-7 '>
           {/*pódio do 1 2 3 lugar */}
-          <div className='grid gap-8 md:grid-cols-3 h-[306px] md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+          <div  style={gridContainerStyle} className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               {data.slice(0, 3).map((aluno, index) => (
                   <div  key={index}
-                  className={`h-[93px] grid grid-cols-3 justify-items-center md:flex md:flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
-                    index === 0 ? 'col-span-1 row-start-1 md:row-start-1 md:col-start-2 md:w-[196px] md:h-[280px]' : index === 1 ? 'col-span-1 row-start-2 md:col-start-1 md:row-start-1  md:w-[196px] md:h-[220px]' : 'col-span-1 md:col-start-3 row-start-3 md:row-start-1 md:w-[180px] md:h-[190px] '
+                  className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
+                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[280px] col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[150px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[135px] sm:top-20 h-[171px] sm:h-[221px] absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[100px] md:w-[120px] col-start-3':'md:w-[176px]'}  md:h-[220px]` : `top-[115px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'}  h-[190px]  `
                   }`}
                   >
                     <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer' >

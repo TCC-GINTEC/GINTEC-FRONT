@@ -3,7 +3,7 @@
 import Placed from '@/components/Ranking/Placed';
 import Scores from "@/components/Ranking/Scores"
 import Image from 'next/image'
-import { useState, useEffect } from "react";
+import { useRef, useEffect, useState } from 'react';
 import httpClient from "@/service/api"
 import Link from 'next/link'
 import { Icon } from '@iconify/react';
@@ -73,7 +73,31 @@ export default function Ranking() {
     setAlertShowFase(false);
   };
 
+  const divRef = useRef(null);
+  const [largura, setLargura] = useState(0);
 
+  useEffect(() => {
+    const updateWidth = () => {
+      if (divRef.current) {
+        setLargura(divRef.current.offsetWidth);
+      }
+    };
+
+    // Update width initially after the component mounts
+    updateWidth();
+
+    // Optionally, add a resize event listener to update width on window resize
+    window.addEventListener('resize', updateWidth);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+  
+  const gridContainerStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '10px', // Ajuste o espaçamento entre os itens conforme necessário
+  };
   return (
      <>  
       {/*Exibe o alerta quando a 2 fase não está disponivel*/}
@@ -246,8 +270,8 @@ export default function Ranking() {
               )}
             </div>
         </div>
-        <div className='relative inline justify-center mb-8'>
-          {/*pódio do 1 2 3 lugar */}
+        {/* <div className='relative inline justify-center mb-8'>
+        
           <div className=' h-[306px] grid gap-8 md:grid-cols-3 md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] sm:h-[300px] rounded-3xl mx-auto' style={{backgroundImage: `url('/images/bg-ranking.svg')`,backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
               {data.slice(0, 3).map((padrinho, index) => (    
                   <div key={index} 
@@ -268,6 +292,32 @@ export default function Ranking() {
                     <Image src="/images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} height={index === 0 ?69:index===1?52:49} />
                     <p className='font-medium text-center'>{padrinho.nome} </p>
                     <p className='text-center'>{padrinho.serie} {padrinho.curso}</p>
+                    <p className='text-[#FFC24C] font-semibold'>{padrinho.pontuacao}</p>
+                  </div>
+              ))}
+          </div> 
+        </div> */}
+        <div ref={divRef}  className='relative inline justify-center mb-7 '>
+          {/*pódio do 1 2 3 lugar */}
+          <div  style={gridContainerStyle} className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+              {data.slice(0, 3).map((padrinho, index) => (
+                  <div  key={index}
+                  className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
+                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[280px] col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[140px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[135px] sm:top-20 h-[171px] sm:h-[221px] absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[110px] md:w-[120px] col-start-3':'md:w-[176px]'}  md:h-[220px]` : `top-[115px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'}  h-[190px]  `
+                  }`}
+                  >
+                    <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer' >
+                      {index + 1} º lugar 
+                      <Icon
+                      width={30} 
+                      icon="solar:alt-arrow-down-line-duotone"                  
+                      className={`" text-black duration-300 transform ${selectedPodium === index ? 'rotate-180' : 'rotate-0'}`}
+                      onClick={() => handlePodiumClick(index)} 
+                      />
+                    </p>
+                    <Image src="/images/bolinha.png" alt="" width={index === 0 ? 69 : index === 1 ?52 : 49} height={index === 0 ?69:index===1?52:49} />
+                    <p className='font-medium text-center'>{padrinho.nome} </p>
+                    <p className='text-center text-wrap'>{padrinho.serie} {padrinho.curso}</p>
                     <p className='text-[#FFC24C] font-semibold'>{padrinho.pontuacao}</p>
                   </div>
               ))}

@@ -10,7 +10,7 @@ export default function Layout({ children }) {
   const [showFilterOptions2, setShowFilterOptions2] = useState(false);
 
   return (
-    <div className='pl-[79px] sm:pl-[100px]'>
+    <div className=''>
       <div className='flex justify-center flex-col'>
         <div className='flex flex-col sm:justify-between w-full  '>
           {children}
