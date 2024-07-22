@@ -118,6 +118,8 @@ export default function Ranking() {
     setAlertShowFase(false);
   };
 
+  {/*referencia da largura da div de pódio para controlar a largura dos pódios */}
+ 
   const divRef = useRef(null);
   const [largura, setLargura] = useState(0);
 
@@ -127,22 +129,46 @@ export default function Ranking() {
         setLargura(divRef.current.offsetWidth);
       }
     };
-
-    // Update width initially after the component mounts
     updateWidth();
-
-    // Optionally, add a resize event listener to update width on window resize
     window.addEventListener('resize', updateWidth);
 
-    // Cleanup the event listener on component unmount
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
+ 
+
+  const divRef3colocados = useRef(null);
+  const [largura3colocados, setLargura3colocados] = useState(0);
+
+  useEffect(() => {
+    const updateWidth3colocado = () => {
+      if (divRef3colocados.current) {
+        setLargura3colocados(divRef3colocados.current.offsetWidth);
+        console.log('Largura da div:', divRef3colocados.current.offsetWidth); // Log para depuração
+      }
+    };
+    updateWidth3colocado();
+    window.addEventListener('resize', updateWidth3colocado);
+
+    return () => window.removeEventListener('resize', updateWidth3colocado);
+  }, []);
   
-  const gridContainerStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '10px', // Ajuste o espaçamento entre os itens conforme necessário
-  };
+
+
+  const divRefOutrosColocados = useRef(null);
+  const [larguraOutrosColocados, setLarguraOutrosColocados] = useState(0);
+
+  useEffect(() => {
+    const updateWidthOutrosColocados = () => {
+      if (divRefOutrosColocados.current) {
+        setLargura3colocados(divRefOutrosColocados.current.offsetWidth);
+        console.log('Largura da div:', divRefOutrosColocados.current.offsetWidth); // Log para depuração
+      }
+    };
+    updateWidthOutrosColocados();
+    window.addEventListener('resize', updateWidthOutrosColocados);
+
+    return () => window.removeEventListener('resize', updateWidthOutrosColocados);
+  }, []);
   
 
   return (
@@ -321,7 +347,7 @@ export default function Ranking() {
         {/* Pódio do 1º, 2º, 3º lugares */}
         <div ref={divRef}  className='relative inline justify-center mb-7 '>
           {/*pódio do 1 2 3 lugar */}
-          <div  style={gridContainerStyle} className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+          <div className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               {sortedData.slice(0, 3).map((course, index) => (
                   <div  key={index}
                   className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
@@ -347,33 +373,24 @@ export default function Ranking() {
  
       </div>
 
-      <div className="bg-slate-100 rounded-xl mt-5 pt-4 mb-10 sm:p-3 flex-col flex items-center ">
+      <div   className="bg-slate-100 rounded-xl mt-5 pt-4 mb-10 sm:p-3 flex-col flex items-center ">
       {/*exibe um ou outro dos 3 colocados */}
       {sortedData.map((course, index) => (
             index < 3 && selectedCourse === course.curso && (
-            <div key={index} className='w-full flex flex-col mt-2 rounded-xl shadow-lg'>
+  
+            <div key={index}  ref={divRef3colocados} className='w-full flex flex-col mt-2 rounded-xl shadow-lg'>
               <div
-                className={`w-full sm:flex  ${
-                  selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'
-                } transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
+                className={`w-full  ${ selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'} transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
               >
-                <div className='w-full   sm:flex grid-cols-1 grid-rows-2'>
-                  <div
-                    className={`w-full xl:w-1/2  mt-2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] ${
-                      selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
-                    }`}
-                  >
-                    <div
-                      className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${
-                        selectedCourse === course.curso ? 'text-[#005261] bg-white' : 'text-[#005261] bg-[#E6EFF0]'
-                      } text-4xl`}
-                    >
+                <div className={`w-full flex flex-col sm:flex-row md:flex-row  ${largura3colocados < 700? 'sm:flex-col ': ''} `}>
+                  <div   className={` w-full flex justify-center  md:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 mt-2  sm:pl-6 bg-[#005261] ${ selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}>
+                    <div  className={`w-[40px]  p-2 h-[65px] sm:p-2 rounded-xl ${selectedCourse === course.curso ? 'text-[#005261] bg-white' : 'text-[#005261] bg-[#E6EFF0]'} text-4xl`}>
                       {index + 1}
                     </div>
-                    <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
-                      <Image src='/images/bolinha.png' className='hidden sm:block'width={120} height={120} alt='perfil' />
+                    <div className={`flex ${largura3colocados < 800?' md:flex md:flex-row md:items-center md:justify-center  sm:gap-4': 'sm:gap-4'}`}>
+                      <Image src='/images/bolinha.png' className={`hidden sm:block ${largura3colocados < 600?'hidden':'md:block'} `}width={80} height={80} alt='perfil' />
                       <h2
-                        className={`w-full  flex items-center sm:text-base md:text-xl xl:text-2xl ${
+                        className={`w-full flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'
                         }`}
                       >
@@ -381,16 +398,11 @@ export default function Ranking() {
                       </h2>
                     </div>
                   </div>
-
-                  <div
-                    className={`sm:w-1/2  mt-2  flex justify-end   ${
-                      selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
-                    }`}
+                 <div
+                    className={` mt-2  flex justify-end w-full $${largura3colocados < 600?'':'  '}  ${selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}
                   >
                     <div
-                      className={`w-full  border-r-4 sm:border-x-4 ${
-                        selectedCourse === course.curso ? 'bg-[#005261] border-white' : 'bg-white border-[#DADADA]'
-                      }`}
+                      className={`w-full  border-r-4 sm:border-x-4 ${ selectedCourse === course.curso ? 'bg-[#005261] border-white' : 'bg-white border-[#DADADA]'}`}
                     >
                       <p className={`${selectedCourse === course.curso ? 'text-white border-white' : 'text-[#005261]'} text-center`}>
                         Diferença pro 1º lugar
@@ -423,10 +435,10 @@ export default function Ranking() {
                     </div>
                   </div>
                 </div>
-                {/* Informações abaixo das informações */}
                 {selectedCourse === course.curso && (
                   <div className='z-10 mt-5 flex-col bg-white border-t-4 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
-                    <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-1 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap'>
+                    {/* { label: 'Data', value: '0', icon: true, colSpan: 'col-span-2 sm:col-span-1' }*/}
+                    <div className={`grid grid-cols-4 w-full -mt-1 sm:text-lg md:text-xl ${largura3colocados < 600?'':'sm:flex'} flex-wrap sm:flex-nowrap`}>
                       {[
                         { label: 'Soma das Fichas', value: '0' },
                         { label: 'Alunos ativos', value: '0' },
@@ -434,7 +446,7 @@ export default function Ranking() {
                         { label: 'Fantasmas', value: '0', extraClass: 'sm:border-r-4' },
                         { label: 'Média Individual', value: '0' },
                         { label: 'Atividades Extras', value: '0' },
-                        { label: 'Data', value: '0', icon: true, colSpan: 'col-span-2 sm:col-span-1' },
+                        { label: 'Data', value: '0', icon: true, colSpan: 'col-span-2 ' },
                       ].map((item, index) => (
                         <div
                           key={index}
@@ -499,27 +511,19 @@ export default function Ranking() {
       {/*Verifica se o curso não está entre os três primeiros colocados*/}
       {sortedData.map((course, index) => (
           !sortedData.slice(0, 3).find((podiumCourse) => podiumCourse.curso === course.curso) && (
-            <div key={index} className=' w-full flex flex-col mt-2 rounded-xl shadow-lg'>
+            <div ref={divRefOutrosColocados} key={index} className=' w-full flex flex-col mt-2 rounded-xl shadow-lg'>
               <div
-                className={`w-full sm:flex   ${
-                  selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'
-                } transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
+                className={`w-full  ${  selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'} transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
               >
-                <div className='z-10 w-full sm:flex grid-cols-1 grid-rows-2'>
-                  <div
-                    className={`w-full xl:w-1/2 flex justify-center sm:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 sm:pl-6 bg-[#005261] ${
-                      selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
-                    }`}
-                  >
+                <div className={`w-full flex flex-col sm:flex-row md:flex-row  ${largura3colocados < 700? 'sm:flex-col ': ''} `}>
+                  <div className={`w-full  flex  justify-center  md:justify-start  sm:items-center gap-2 sm:gap-4 xl:gap-3 sm:pl-6 bg-[#005261] ${selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}>
                     <div
-                      className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${
-                        selectedCourse === course.curso ? 'text-[#005261] bg-white' : 'text-[#005261] bg-[#E6EFF0]'
-                      } text-4xl`}
+                      className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${ selectedCourse === course.curso ? 'text-[#005261] bg-white' : 'text-[#005261] bg-[#E6EFF0]'} text-4xl`}
                     >
                       {index + 1}
                     </div>
-                    <div className='flex sm:items-center sm:gap-4 sm:justify-center'>
-                      <Image src="/images/bolinha.png" className=' sm:block hidden' width={120} height={120} alt="" />
+                    <div className={`flex ${larguraOutrosColocados < 800?' md:flex md:flex-row md:items-center md:justify-center  sm:gap-4': 'sm:gap-4'}`}>
+                      <Image src="/images/bolinha.png" className={`hidden sm:block ${larguraOutrosColocados < 600?'hidden':'md:block'} `}width={80} height={80} alt="" />
                       <h2
                         className={`w-full flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'
@@ -531,7 +535,7 @@ export default function Ranking() {
                   </div>
 
                   <div
-                    className={`sm:w-1/2 flex justify-end  ${
+                    className={`w-full flex justify-end  ${
                       selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'
                     }`}
                   >
@@ -574,7 +578,7 @@ export default function Ranking() {
                 {/* Informações abaixo das informações */}
                 {selectedCourse === course.curso && (
                   <div className=' mt-5 flex-col bg-white border-2 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
-                    <div className='grid grid-cols-4 md:grid-cols-7 w-full -mt-2 sm:text-lg md:text-xl flex-wrap sm:flex-nowrap relative'>
+                    <div className={`grid grid-cols-4 w-full -mt-1 sm:text-lg md:text-xl ${largura3colocados < 600?'':'sm:flex'} flex-wrap sm:flex-nowrap`}>
                       {[
                         { label: 'Soma das Fichas', value: '0' },
                         { label: 'Alunos ativos', value: '0' },
@@ -582,7 +586,7 @@ export default function Ranking() {
                         { label: 'Fantasmas', value: '0', extraClass: 'sm:border-r-4' },
                         { label: 'Média Individual', value: '0' },
                         { label: 'Atividades Extras', value: '0' },
-                        { label: 'Data', value: '0', icon: true, colSpan: 'col-span-2 sm:col-span-1' },
+                        { label: 'Data', value: '0', icon: true, colSpan: 'col-span-2' },
                       ].map((item, index) => (
                         <div
                           key={index}
