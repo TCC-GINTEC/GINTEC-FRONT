@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import Link from 'next/link'
 import Image from 'next/image'
@@ -47,6 +47,7 @@ export default function Ranking() {
   const [alertShowDia, setAlertShowDia] = useState(false) 
   const [alertShowFase, setAlertShowFase] = useState(false) 
   
+  const [showFilterDataOptions, setShowFilterDataOptions] = useState(false);
   const [showFilterDataOptions1, setShowFilterDataOptions1] = useState(false);
   const [showFilterDataOptions2, setShowFilterDataOptions2] = useState(false);
   
@@ -117,6 +118,33 @@ export default function Ranking() {
     setAlertShowFase(false);
   };
 
+  const divRef = useRef(null);
+  const [largura, setLargura] = useState(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (divRef.current) {
+        setLargura(divRef.current.offsetWidth);
+      }
+    };
+
+    // Update width initially after the component mounts
+    updateWidth();
+
+    // Optionally, add a resize event listener to update width on window resize
+    window.addEventListener('resize', updateWidth);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+  
+  const gridContainerStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '10px', // Ajuste o espaçamento entre os itens conforme necessário
+  };
+  
+
   return (
     <>
       {/*Exibe o alerta quando a 2 fase não está disponivel*/}
@@ -181,9 +209,9 @@ export default function Ranking() {
        </div>
       
       {/* Filtro */}
-      <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-8 sm:px-20'>
+      <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-6 sm:pr-10'>
           {/* Filtro por fases */}
-          <div className='relative flex justify-center'>
+          <div className='relative flex justify-center '>
             <div
               onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
               className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
@@ -192,55 +220,54 @@ export default function Ranking() {
               Fases
             </div>
             {showFilterFasesOptions && (
-                <>
-                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
-                  <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
-                    <ul>
-                      <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
-                      <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
-                    </ul>
-                  </div>
-                </>
-              )}
-            
+              <>
+                <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
+                <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
+                  <ul>
+                    <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
+                    <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
+                  </ul>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Filtro por data */}
           <div className='relative flex justify-center'>
-                <div
-                      onClick={() => setShowFilterDataOptions1(!showFilterDataOptions1)}
-                      className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
-                 >
-                  <Icon icon="mynaui:filter" className="ml-2 h-6 w-6" />
-                  Data
-               </div>
-              {showFilterDataOptions1 && (
-                  <>
-                      <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
-                      <div className="text-center absolute  bg-white shadow-md rounded-lg mt-20  right-0 w-48 py-2 z-50">
-                          <ul>
-                             <li 
-                                onClick={() => handleData()}
-                               className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                28 ago 
-                              </li>
-                              <li 
-                                onClick={() => handleData("29 ago", 1)}
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                29 ago
-                              </li>
-                              <li 
-                                onClick={() => handleData("30 ago", 1)}
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                               30 ago
-                              </li>
-                          </ul>
-                       </div>
-                   </>
-                )}
+            <div
+              onClick={() => setShowFilterDataOptions(!showFilterDataOptions)}
+              className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+            >
+              <Icon icon="mynaui:filter" className="ml-2 h-6 w-6" />
+              Data
+            </div>
+            {showFilterDataOptions && (
+                <>
+                    <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                    <div className="text-center absolute  bg-white shadow-md rounded-lg mt-20  right-0 w-48 py-2 z-50">
+                        <ul>
+                           <li 
+                              onClick={() => handleData()}
+                             className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                            >
+                              28 ago 
+                            </li>
+                            <li 
+                              onClick={() => handleData("29 ago")}
+                              className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                            >
+                              29 ago
+                            </li>
+                            <li 
+                              onClick={() => handleData("30 ago")}
+                              className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                            >
+                             30 ago
+                            </li>
+                        </ul>
+                     </div>
+                 </>
+              )}
           </div>
 
           {/* Filtro de categorias */}
@@ -253,14 +280,14 @@ export default function Ranking() {
             </div>
             {showFilterOptionsRanking && (
               <>
-                <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterOptionsRanking(false)}></div>
+                <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterOptions2(false)}></div>
                 <div className='z-50 absolute top-12'>
                     <div className="bg-white shadow-md rounded-lg mt-10 sm:mt-5 mr-40 sm:w-[192px] py-2">
                       <ul>
-                        <li onClick={() =>  setShowFilterOptionsRanking(!showFilterOptionsRanking)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">
-                          <Link href="/ranking/cursos">
+                        <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking">
                             <p className='flex items-center justify-evenly text-[#a8a8a8] '>
-                              Todas as Salas
+                              Melhores Alunos
                               <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
                             </p>
                           </Link>
@@ -269,14 +296,14 @@ export default function Ranking() {
                     </div>
                     <div className="bg-white shadow-md rounded-lg mt-5  mr-40 w-[192px] py-2">
                       <ul>
-                        <li onClick={() =>  setShowFilterOptionsRanking(!showFilterOptionsRanking)} className=" pl-6 sm:pl-0 cursor-pointer hover:bg-gray-100 py-1 px-3">
-                          <Link href="/ranking">
+                        <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className=" pl-6 sm:pl-0 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking/cursos">
                             <p className='flex items-center justify-evenly'>
-                              Melhores Alunos
+                              Todas as Salas
                             </p>
                           </Link>
                         </li>
-                        <li onClick={() =>  setShowFilterOptionsRanking(!showFilterOptionsRanking)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                        <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
                           <Link href="/ranking/padrinhos">
                             <p className='flex items-center justify-evenly'>
                               Melhores Padrinhos
@@ -290,34 +317,34 @@ export default function Ranking() {
             )}
           </div>
       </div>
-     
       <div className='relative inline justify-center mb-7'>
         {/* Pódio do 1º, 2º, 3º lugares */}
-        <div className='grid gap-8 md:grid-cols-3 h-[306px] md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-          {sortedData.slice(0, 3).map((course, index) => (
-           <div  key={index}
-            className={` h-[93px] grid grid-cols-3 justify-items-center md:flex md:flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
-              index === 0 ? 'col-span-1 row-start-1 md:row-start-1 md:col-start-2 md:w-[196px] md:h-[280px]' : index === 1 ? 'col-span-1 row-start-2 md:col-start-1 md:row-start-1  md:w-[196px] md:h-[220px]' : 'col-span-1 md:col-start-3 row-start-3 md:row-start-1 md:w-[180px] md:h-[190px] '
-            }`}
-            >
-              <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer'>
-                {index + 1} º lugar
-                <Icon
-                  width={30}
-                  onClick={() => handlePodiumClick(course.curso)}
-                  icon='solar:alt-arrow-down-line-duotone'
-                  className={`  hover:cursor-pointer text-black duration-300 transform ${
-                    selectedCourse === course.curso ? 'rotate-180' : 'rotate-0'
+        <div ref={divRef}  className='relative inline justify-center mb-7 '>
+          {/*pódio do 1 2 3 lugar */}
+          <div  style={gridContainerStyle} className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+              {sortedData.slice(0, 3).map((course, index) => (
+                  <div  key={index}
+                  className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
+                    index === 0 ? ` absolute top-[25px] sm:top-5 w-[130px]  h-[281px] sm:h-[280px]  col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'md:w-[150px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[115px]  h-[191px]  sm:top-20 sm:h-[221px] absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[100px] md:w-[120px] col-start-3':'md:w-[176px]'}` : `top-[135px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  w-[110px]  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'}   h-[170px] sm:h-[190px] `
                   }`}
-                />
-              </p>
-              <Image src='/images/bolinha.png' alt='' width={index === 0 ? 69 : index === 1 ?52 : 49} height={index === 0 ?69:index===1?52:49} />
-              <p className='font-medium text-center'  style={{ wordBreak: 'break-word', hyphens: 'auto' }}>{course.curso}</p>
-              <p className='text-[#FFC24C] font-semibold col-span-4'>{course.total}</p>
-              {/* Exibe a soma total de pontos */}
-            </div>
-          ))}
+                  >
+                    <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer' >
+                      {index + 1} º lugar 
+                      <Icon
+                      width={30} 
+                      onClick={() => handlePodiumClick(course.curso)}
+                      icon="solar:alt-arrow-down-line-duotone"                  
+                      className={`" text-black duration-300 transform ${selectedCourse === course.curso  ? 'rotate-180' : 'rotate-0'}`}   
+                      />
+                    </p>
+                    <Image src='/images/bolinha.png' alt='' width={index === 0 ? 69 : index === 1 ?52 : 49} height={index === 0 ?69:index===1?52:49} />
+                    <p className='font-medium text-center'  style={{ wordBreak: 'break-word', hyphens: 'auto' }}>{course.curso}</p>
+                    <p className='text-[#FFC24C] font-semibold col-span-4'>{course.total}</p>
+                  </div>
+              ))}
+          </div> 
         </div>
+ 
       </div>
 
       <div className="bg-slate-100 rounded-xl mt-5 pt-4 mb-10 sm:p-3 flex-col flex items-center ">

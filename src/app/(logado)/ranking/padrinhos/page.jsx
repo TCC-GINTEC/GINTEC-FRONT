@@ -160,116 +160,114 @@ export default function Ranking() {
         </div>
        
         {/* Filtro */}
-        <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-8 sm:px-20'>
-            {/* Filtro por fases */}
-            <div className='relative flex justify-center'>
-              <div
-                onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
-                className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
-              >
-                <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />
-                Fases
-              </div>
-              {showFilterFasesOptions && (
+        <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-6 sm:pr-10'>
+          {/* Filtro por fases */}
+          <div className='relative flex justify-center '>
+            <div
+              onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
+              className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+            >
+              <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />
+              Fases
+            </div>
+            {showFilterFasesOptions && (
+              <>
+                <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
+                <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
+                  <ul>
+                    <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
+                    <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
+                  </ul>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Filtro por data */}
+          <div className='relative flex justify-center'>
+            <div
+              onClick={() => setShowFilterDataOptions(!showFilterDataOptions)}
+              className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+            >
+              <Icon icon="mynaui:filter" className="ml-2 h-6 w-6" />
+              Data
+            </div>
+            {showFilterDataOptions && (
                 <>
-                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
-                  <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
-                    <ul>
-                      <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
-                      <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
-                    </ul>
-                  </div>
-                </>
+                    <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                    <div className="text-center absolute  bg-white shadow-md rounded-lg mt-20  right-0 w-48 py-2 z-50">
+                        <ul>
+                           <li 
+                              onClick={() => handleData()}
+                             className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                            >
+                              28 ago 
+                            </li>
+                            <li 
+                              onClick={() => handleData("29 ago")}
+                              className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                            >
+                              29 ago
+                            </li>
+                            <li 
+                              onClick={() => handleData("30 ago")}
+                              className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
+                            >
+                             30 ago
+                            </li>
+                        </ul>
+                     </div>
+                 </>
               )}
-            </div>
+          </div>
 
-            {/* Filtro por data */}
-            <div className='relative flex justify-center'>
-              <div
-                onClick={() => setShowFilterDataOptions(!showFilterDataOptions)}
-                className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
-              >
-                <Icon icon="mynaui:filter" className="ml-2 h-6 w-6" />
-                Data
-              </div>
-              {showFilterDataOptions && (
-                  <>
-                      <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
-                      <div className="text-center absolute  bg-white shadow-md rounded-lg mt-20  right-0 w-48 py-2 z-50">
-                          <ul>
-                             <li 
-                                onClick={() => handleData()}
-                               className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                28 ago 
-                              </li>
-                              <li 
-                                onClick={() => handleData("29 ago")}
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                29 ago
-                              </li>
-                              <li 
-                                onClick={() => handleData("30 ago")}
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                               30 ago
-                              </li>
-                          </ul>
-                       </div>
-                   </>
-                )}
+          {/* Filtro de categorias */}
+          <div className='relative flex justify-center items-center'>
+            <div
+              onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)}
+              className='h-[44px] w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex justify-center cursor-pointer items-center'
+            >
+              <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
             </div>
-
-            {/* Filtro de categorias */}
-            <div className='relative flex justify-center items-center'>
-              <div
-                onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)}
-                className='h-[44px] w-[44px] shadow-xl border-[3px] rounded-xl border-[#005261] flex justify-center cursor-pointer items-center'
-              >
-                <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
-              </div>
-              {showFilterOptionsRanking && (
-                <>
-                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterOptionsRanking(false)}></div>
-                  <div className='z-50 absolute top-12'>
-                      <div className="bg-white shadow-md rounded-lg mt-10 sm:mt-5 mr-40 sm:w-[192px] py-2">
-                        <ul>
-                          <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">
-                            <Link href="/ranking/padrinhos">
-                              <p className='flex items-center justify-evenly text-[#a8a8a8] '>
-                                 Melhores Padrinhos
-                                <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
-                              </p>
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="bg-white shadow-md rounded-lg mt-5  mr-40 w-[192px] py-2">
-                        <ul>
-                          <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className=" pl-6 sm:pl-0 cursor-pointer hover:bg-gray-100 py-1 px-3">
-                            <Link href="/ranking/cursos">
-                              <p className='flex items-center justify-evenly'>
-                               
-                                Todas as Salas
-                              </p>
-                            </Link>
-                          </li>
-                          <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
-                            <Link href="/ranking">
-                              <p className='flex items-center justify-evenly'>
-                       
-                                Melhores Alunos
-                              </p>
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
+            {showFilterOptionsRanking && (
+              <>
+                <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterOptions2(false)}></div>
+                <div className='z-50 absolute top-12'>
+                    <div className="bg-white shadow-md rounded-lg mt-10 sm:mt-5 mr-40 sm:w-[192px] py-2">
+                      <ul>
+                        <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking/padrinhos">
+                            <p className='flex items-center justify-evenly text-[#a8a8a8] '>
+                              Melhores Padrinhos
+                              <Icon icon="solar:alt-arrow-down-line-duotone" width={20} />
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
                     </div>
-                </>
-              )}
-            </div>
-        </div>
+                    <div className="bg-white shadow-md rounded-lg mt-5  mr-40 w-[192px] py-2">
+                      <ul>
+                        <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className=" pl-6 sm:pl-0 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking/cursos">
+                            <p className='flex items-center justify-evenly'>
+                              Todas as Salas
+                            </p>
+                          </Link>
+                        </li>
+                        <li onClick={() => setShowFilterOptionsRanking(!showFilterOptionsRanking)} className="pl-6 cursor-pointer hover:bg-gray-100 py-1 px-3">
+                          <Link href="/ranking/">
+                            <p className='flex items-center justify-evenly'>
+                              Melhores Alunos
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+              </>
+            )}
+          </div>
+      </div>
         {/* <div className='relative inline justify-center mb-8'>
         
           <div className=' h-[306px] grid gap-8 md:grid-cols-3 md:grid-rows-1 sm:grid-cols-1 md:justify-items-center md:items-end sm:max-w-[900px] sm:h-[300px] rounded-3xl mx-auto' style={{backgroundImage: `url('/images/bg-ranking.svg')`,backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
@@ -303,7 +301,7 @@ export default function Ranking() {
               {data.slice(0, 3).map((padrinho, index) => (
                   <div  key={index}
                   className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
-                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[280px] col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[140px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[135px] sm:top-20 h-[171px] sm:h-[221px] absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[110px] md:w-[120px] col-start-3':'md:w-[176px]'}  md:h-[220px]` : `top-[115px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'}  h-[190px]  `
+                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[281px] sm:h-[280px] col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[140px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[115px]  h-[191px] sm:h-[221px] sm:top-20 absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[110px] md:w-[120px] col-start-3':'md:w-[176px]'}  md:h-[220px]` : `top-[135px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'} h-[170px]   sm:h-[190px] `
                   }`}
                   >
                     <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer' >

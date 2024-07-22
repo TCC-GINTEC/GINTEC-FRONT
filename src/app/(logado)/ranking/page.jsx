@@ -105,6 +105,7 @@ export default function Ranking() {
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '10px', // Ajuste o espaçamento entre os itens conforme necessário
   };
+  
   return (
      <>       
 
@@ -171,7 +172,7 @@ export default function Ranking() {
         </div>
        
         {/* Filtro */}
-        <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-8 sm:pr-10'>
+        <div className='flex justify-evenly sm:justify-end sm:items-center  w-full sm:gap-6 sm:pr-10'>
           {/* Filtro por fases */}
           <div className='relative flex justify-center '>
             <div
@@ -285,7 +286,7 @@ export default function Ranking() {
               {data.slice(0, 3).map((aluno, index) => (
                   <div  key={index}
                   className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
-                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[280px] col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[150px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[135px] sm:top-20 h-[171px] sm:h-[221px] absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[100px] md:w-[120px] col-start-3':'md:w-[176px]'}  md:h-[220px]` : `top-[115px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'}  h-[190px]  `
+                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[281px] sm:h-[280px]  col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[150px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[115px]  h-[191px]  sm:top-20 sm:h-[221px] absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[100px] md:w-[120px] col-start-3':'md:w-[176px]'}` : `top-[135px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'}   h-[170px] sm:h-[190px] `
                   }`}
                   >
                     <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer' >
