@@ -279,6 +279,48 @@ export default function Sala() {
     setAlertShowDia(false);
   };
 
+  // Estado do formulário para armazenar os valores dos inputs
+  const [formData, setFormData] = useState({});
+
+  /**
+   * Função handleChange
+   * Atualiza o estado formData com o valor do input correspondente ao alunoId e doacao
+   * @param {number} alunoId - ID do aluno
+   * @param {string} doacao - Nome da doação
+   * @param {string} value - Valor do input
+   */
+
+  const handleChange = (alunoId, doacao, value) => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [alunoId]: {
+        ...prevFormData[alunoId],
+        [doacao]: value
+      }
+    }));
+  };
+
+
+  /**
+   * Função handleFormularioPontos
+   * Lida com a submissão do formulário, evitando o comportamento padrão e processando os dados do estado formData
+   * @param {Event} e - Evento de submissão do formulário
+   */
+  const handleFormularioPontos = (e) => {
+    e.preventDefault();
+  
+    const hasValidData = Object.values(formData).some(
+      alunoData => Object.values(alunoData).some(value => value.trim() !== '')
+    );
+  
+    if (!hasValidData) {
+      alert('Por favor, preencha pelo menos um campo.');
+      return;
+    }
+  
+    console.log(formData);
+  };
+
 
   return (
     <div className=''>
@@ -507,8 +549,9 @@ export default function Sala() {
       )}
       {moveBar === "doacoes" && (
         <div className="md:w-[80%] mx-auto">
-          <div className="overflow-x-auto rounded-lg bg-[#005261]">
-            <div className="flex">
+          <form className="overflow-x-auto rounded-lg bg-[#005261]" onSubmit={handleFormularioPontos}>
+          <button type='submit' className='mx-auto block w-[400px] bg-red-500 z-50'>Enviar Dados</button>
+          <div className="flex">
               <div className="w-[300px]">
                 <div className="p-3 font-semibold border border-white border-r-2 text-white">Alunos</div>
                 {retornoApi.map((aluno) => (
@@ -533,16 +576,20 @@ export default function Sala() {
                       }, 0);
 
                       return (
-                        <div key={aluno.id} className="h-[55px] pt-[10px] pl-4 right-to-left bg-white border border-[#DADADA]">
-                          {doacaoValue}
-                        </div>
+                        <input 
+                          key={aluno.id} 
+                          name={doacao} 
+                          type='number'
+                          value={formData[aluno.id]?.[doacao] || ''}    
+                          onChange={(e) => handleChange(aluno.id, doacao, e.target.value)} 
+                          className="h-[55px] pt-[10px] pl-4 right-to-left bg-white border border-[#DADADA]"/>
                       );
                     })}
                   </div>
                 ))}
               </div>
             </div>
-          </div>
+          </form>
         </div>
       )}
       {moveBar === "campeonato" && (
