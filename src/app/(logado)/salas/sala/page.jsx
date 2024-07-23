@@ -281,7 +281,7 @@ export default function Sala() {
 
 
   return (
-    <div className='pl-[87px]'>
+    <div className=''>
         {/*Exibe o alerta quando a 2 fase não está disponivel*/}
         {alertShowFase && (
           <>
@@ -384,7 +384,7 @@ export default function Sala() {
           <p className='-mt-5 text-[#DADADA]'>{faseFilter}</p>
        </div>
      
-      <div className="md:w-3/4 flex gap-3 md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
+      <div className="flex justify-center sm:justify-start md:w-3/4  gap-4 md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
         <div
           onClick={() => setMoveBar("principal")}
           className={` sm:font-semibold text-base sm:text-xl flex items-center gap-2  cursor-pointer ${moveBar === "principal" ? "text-[#005261]" : "text-[#DADADA]"}`}
@@ -408,7 +408,7 @@ export default function Sala() {
           className={`hidden sm:block h-[4px] w-[100px] md:w-[124px] bg-[#005261] ${transition ? "duration-700 delay-100" : ""} 
             ${moveBar === "principal" ? "left-0" : ""} 
             ${moveBar === "doacoes" ? "md:left-40 left-30" : ""} 
-            ${moveBar === "campeonato" ? "md:left-80" : ""} 
+            ${moveBar === "campeonato" ? "md:left-[350px]" : ""} 
             absolute -bottom-1 font-bold`}
         ></div>
       </div>

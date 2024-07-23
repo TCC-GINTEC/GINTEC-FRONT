@@ -10,8 +10,8 @@ export default function SideBarHeadMobile({ active, Action, exibirSidebarMobile}
             src="/images/logo.svg" width={130} height={130}/>
 
 
-            <button onClick={() => exibirSidebarMobile()} className={`p-3 rounded-xl hover:bg-light-green ${active ? 'block relative right-[-25px] rotate-180' : 'block relative right-[-36px]'} transition-all delay-100`}>
-                <Image className={`h-8 w-8 `}  src="./images/seta.svg" width={50} height={50}/>AAA
+            <button onClick={() => exibirSidebarMobile()} className={`p-3 rounded-xl hover:bg-light-green 'block relative right-[-26px] transition-all delay-100`}>
+                <Image className={`h-8 w-8 `}  src="./images/fechar-menu-sidebarMobile.svg" width={50} height={50}/>
             </button>
         </div>
     )

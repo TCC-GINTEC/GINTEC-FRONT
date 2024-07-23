@@ -12,9 +12,6 @@ export default function SideBar({ className,exibirSidebar,exibirSidebarMobile}) 
   const [active, setActive] = useState(false);
   const [Itens, setItens] = useState([]);
   const pathname = usePathname();
-
-  console.log('clicou poha'+exibirSidebarMobile)
-  console.log(exibirSidebar)
   
   function toggleSidebar() {
     setActive(!active);
