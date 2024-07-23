@@ -89,25 +89,20 @@ export default function Ranking() {
         setLargura(divRef.current.offsetWidth);
       }
     };
-
-    // Update width initially after the component mounts
     updateWidth();
-
-    // Optionally, add a resize event listener to update width on window resize
     window.addEventListener('resize', updateWidth);
 
-    // Cleanup the event listener on component unmount
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
  
   const divRef3Colocados = useRef(null);
-  const [largura3Colocados, setLargura3Colocados] = useState(0);
+  const [largura3Colocados, setLargura3Colocados] = useState(701); // Inicializa com valor maior que 700
 
   useEffect(() => {
     const updateWidth3Colocados = () => {
-      if ( divRef3Colocados.current) {
-        setLargura3Colocados( divRef3Colocados.current.offsetWidth);
-        
+      if (divRef3Colocados.current) {
+        setLargura3Colocados(divRef3Colocados.current.offsetWidth);
+        console.log('Largura da div:', divRef3Colocados.current.offsetWidth); // Log para depuração
       }
     };
 
@@ -115,6 +110,23 @@ export default function Ranking() {
     window.addEventListener('resize', updateWidth3Colocados);
 
     return () => window.removeEventListener('resize', updateWidth3Colocados);
+  }, []);
+
+  const divRefOutrosColocados = useRef(null);
+  const [larguraOutrosColocados, setLarguraOutrosColocados] = useState(701);
+
+  useEffect(() => {
+    const updateWidthOutrosColocados = () => {
+      if ( divRefOutrosColocados.current) {
+        setLarguraOutrosColocados( divRefOutrosColocados.current.offsetWidth);
+        
+      }
+    };
+
+    updateWidthOutrosColocados();
+    window.addEventListener('resize', updateWidthOutrosColocados);
+
+    return () => window.removeEventListener('resize', updateWidthOutrosColocados);
   }, []);
   return (
      <>       
@@ -290,13 +302,14 @@ export default function Ranking() {
             )}
           </div>
       </div>
+        
         <div ref={divRef}  className='relative inline justify-center mb-7 '>
           {/*pódio do 1 2 3 lugar */}
-          <div  className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+          <div className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               {data.slice(0, 3).map((aluno, index) => (
                   <div  key={index}
                   className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
-                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[281px] sm:h-[280px]  col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[150px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[115px]  h-[191px]  sm:top-20 sm:h-[221px] absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[100px] md:w-[120px] col-start-3':'md:w-[176px]'}` : `top-[135px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'}   h-[170px] sm:h-[190px] `
+                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[280px] col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[140px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[115px]  h-[190px]  sm:h-[220px]  md:w-[140px] sm:top-20 absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[110px] md:w-[120px] col-start-3':'  '}  ` : ` md:w-[140px]  h-[171px] sm:h-[164px] absolute  top-[135px]  sm:top-[135px] right-0 md:right-7    col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 ':''}  `
                   }`}
                   >
                     <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer' >
@@ -320,35 +333,35 @@ export default function Ranking() {
         <div className="mx-auto w-[990px] max-w-full bg-slate-100 rounded-xl mt-5 mb-10 pt-4 sm:p-3 flex-col flex items-center ">
           {/* Três primeiros lugares */}
           {selectedPodium !== null && (
-            <div ref={divRef3Colocados} className={` bg-[#005261] flex  sm:flex-row ${largura3Colocados < 800?'md:flex-row md:grid sm:grid-cols-1  sm:grid-rows-2  ':'md:flex-row'} md:grid md:grid-cols-1 md:grid-rows-2 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2`}>
-              <div className={` w-full flex justify-center items-center  gap-4 md:gap-2 xl:gap-3 ${largura3Colocados < 800? 'w-full  sm:justify-center ':'sm:w-1/2  md:justify-start'}   mb-4 `}>
-                <div className='flex justify-center items-center w-[40px] h-[65px] sm:p-2 rounded-xl text-[#005261] bg-white text-4xl'>
-                  {selectedPodium + 1}
-                </div>
-                <div className='flex sm:items-center sm:gap-4 smjustify-center'>
-                  <Image src="/images/bolinha.png" className='hidden sm:block' width={80} height={80}  alt="perfil usuario" />
-                  <h2 className='w-full sm:3/4 md:w-full text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{data[selectedPodium].nome}</h2>
-                </div>
+            <div ref={divRef3Colocados} className={`bg-[#005261] flex ${largura3Colocados <= 700 ? 'grid grid-cols-1 grid-rows-2' : 'sm:flex-row'} py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2`}>
+            <div className={` w-full flex justify-center items-center  gap-4 md:gap-2 xl:gap-3 ${largura3Colocados <= 700? 'w-full  sm:justify-center ':'sm:w-1/2  md:justify-start'}   mb-4 `}>
+              <div className='flex justify-center items-center w-[40px] h-[65px] sm:p-2 rounded-xl text-[#005261] bg-white text-4xl'>
+                {selectedPodium + 1}
               </div>
-              <div className={`row-start-2 w-full grid grid-cols-3 ${largura3Colocados < 800?'':'sm:w-1/2  sm:justify-end '} sm:flex`}>
-                <div className='w-full border-x-2 sm:border-x-4'>
-                  <p className='text-white text-center'>Série</p>
-                  <p className='text-[#FFC24C] text-center'>{data[selectedPodium].serie} {data[selectedPodium].curso}</p>
-                </div>
-                <div className='w-full'>
-                  <p className='text-white text-center'>Diferença para o 1º lugar</p>
-                  <p className='text-[#FFC24C] text-center'>{data[0].pontuacao - data[selectedPodium].pontuacao}</p>
-                </div>
-                <div className='w-full border-x-2 sm:border-x-4'>
-                  <p className='text-white  text-center text-wrap'><span className='block sm:inline'>Pontuação </span><span className='block sm:inline'>Final</span></p>
-                  <p className='text-[#FFC24C] text-center'>{data[selectedPodium].pontuacao}</p>
-                </div>
+              <div className='flex  gap-4 items-center  justify-center'>
+                <Image src="/images/bolinha.png" className=' block ' width={100} height={100} alt="perfil usuário" />
+                <h2 className='w-full sm:3/4 md:w-full text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{data[selectedPodium].nome}</h2>
               </div>
             </div>
+            <div className={`row-start-2 w-full grid grid-cols-3 ${largura3Colocados < 800?'':'sm:w-1/2  sm:justify-end '} sm:flex`}>
+              <div className='w-full border-x-2 sm:border-x-4'>
+                <p className='text-white text-center'>Série</p>
+                <p className='text-[#FFC24C] text-center'>{data[selectedPodium].serie} {data[selectedPodium].curso}</p>
+              </div>
+              <div className='w-full'>
+                <p className='text-white text-center'>Diferença para o 1º lugar</p>
+                <p className='text-[#FFC24C] text-center'>{data[0].pontuacao - data[selectedPodium].pontuacao}</p>
+              </div>
+              <div className='w-full border-x-2 sm:border-x-4'>
+                <p className='text-white  text-center text-wrap'><span className='block sm:inline'>Pontuação </span><span className='block sm:inline'>Final</span></p>
+                <p className='text-[#FFC24C] text-center'>{data[selectedPodium].pontuacao}</p>
+              </div>
+            </div>
+          </div>
           )}
           {data.slice(3).map((aluno, index) => (
-            <div key={index + 3} className={`bg-white flex  sm:flex-row ${largura3Colocados < 800?'grid grid-cols-1  grid-rows-2  ':'sm:flex-row'} py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2`}>
-              <div className=' w-full sm:w-1/2 xl:w-1/2 flex justify-center items-center sm:justify-start gap-2 sm:gap-2 xl:gap-3 '>
+            <div key={index + 3} ref={divRefOutrosColocados} className={`bg-white flex  sm:flex-row ${larguraOutrosColocados <= 700?'grid grid-cols-1  grid-rows-2  ':'sm:flex-row'} py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2`}>
+              <div  className={` w-full flex justify-center items-center  gap-4 md:gap-2 xl:gap-3 ${larguraOutrosColocados <= 700? 'w-full  sm:justify-center ':'sm:w-1/2  md:justify-start'}   mb-4 `}>
                 <div className='w-[50px] flex justify-center items-center  h-[65px] rounded-xl text-[#005261] bg-[#E6EFF0] text-4xl'>
                   {index + 4}
                 </div>
@@ -357,7 +370,7 @@ export default function Ranking() {
                   <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-[#005261]'>{aluno.nome}</h2>
                 </div>
               </div>
-              <div className={`row-start-2 w-full grid grid-cols-3 ${largura3Colocados < 800?'':'sm:w-1/2  sm:justify-end '} sm:flex`}>
+              <div className={`row-start-2 w-full grid grid-cols-3 ${larguraOutrosColocados < 800?'':'sm:w-1/2  sm:justify-end '} sm:flex`}>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-[#005261] text-center'>serie</p>
                   <p className='text-[#FFC24C] text-center'>{aluno.serie} {aluno.curso}</p>

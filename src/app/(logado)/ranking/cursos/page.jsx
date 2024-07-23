@@ -137,7 +137,7 @@ export default function Ranking() {
  
 
   const divRef3colocados = useRef(null);
-  const [largura3colocados, setLargura3colocados] = useState(0);
+  const [largura3colocados, setLargura3colocados] = useState(701);
 
   useEffect(() => {
     const updateWidth3colocado = () => {
@@ -347,33 +347,34 @@ export default function Ranking() {
         {/* Pódio do 1º, 2º, 3º lugares */}
         <div ref={divRef}  className='relative inline justify-center mb-7 '>
           {/*pódio do 1 2 3 lugar */}
+        
           <div className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-              {sortedData.slice(0, 3).map((course, index) => (
+              {sortedData.slice(0, 3).map((curso, index) => (
                   <div  key={index}
                   className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
-                    index === 0 ? ` absolute top-[25px] sm:top-5 w-[130px]  h-[281px] sm:h-[280px]  col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'md:w-[150px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[115px]  h-[191px]  sm:top-20 sm:h-[221px] absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[100px] md:w-[120px] col-start-3':'md:w-[176px]'}` : `top-[135px] sm:top-[110px] right-0 md:right-7  absolute  col-span-1 md:col-start-3  w-[110px]  ${largura >=300 && largura <590?'sm:right-0 md:w-[130px]':'md:w-[170px]'}   h-[170px] sm:h-[190px] `
+                    index === 0 ? ` absolute top-[25px] sm:top-5 h-[280px] col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[140px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[115px]  h-[190px]  sm:h-[220px]  md:w-[140px] sm:top-20 absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[110px] md:w-[120px] col-start-3':'  '}  ` : `w-[100px] md:w-[140px]  h-[171px] sm:h-[164px] absolute top-[135px] sm:top-[135px]  right-0 md:right-7   col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 ':''}  `
                   }`}
                   >
                     <p className='flex items-center md:gap-4 font-bold text-center cursor-pointer' >
                       {index + 1} º lugar 
                       <Icon
                       width={30} 
-                      onClick={() => handlePodiumClick(course.curso)}
                       icon="solar:alt-arrow-down-line-duotone"                  
-                      className={`" text-black duration-300 transform ${selectedCourse === course.curso  ? 'rotate-180' : 'rotate-0'}`}   
+                      className={`" text-black duration-300 transform ${selectedCourse  === curso.curso ? 'rotate-180' : 'rotate-0'}`}
+                      onClick={() => handlePodiumClick(curso.curso)} 
                       />
                     </p>
                     <Image src='/images/bolinha.png' alt='' width={index === 0 ? 69 : index === 1 ?52 : 49} height={index === 0 ?69:index===1?52:49} />
-                    <p className='font-medium text-center'  style={{ wordBreak: 'break-word', hyphens: 'auto' }}>{course.curso}</p>
-                    <p className='text-[#FFC24C] font-semibold col-span-4'>{course.total}</p>
+                    <p className='font-medium text-center'  style={{ wordBreak: 'break-word', hyphens: 'auto' }}>{curso.curso}</p>
+                    <p className='text-[#FFC24C] font-semibold col-span-4'>{curso.total}</p>
                   </div>
               ))}
-          </div> 
+          </div>
         </div>
  
       </div>
 
-      <div   className="bg-slate-100 rounded-xl mt-5 pt-4 mb-10 sm:p-3 flex-col flex items-center ">
+      <div   className="mx-auto w-[990px] max-w-full bg-slate-100 rounded-xl mt-5 pt-4 mb-10 sm:p-3 flex-col flex items-center ">
       {/*exibe um ou outro dos 3 colocados */}
       {sortedData.map((course, index) => (
             index < 3 && selectedCourse === course.curso && (
@@ -382,13 +383,13 @@ export default function Ranking() {
               <div
                 className={`w-full  ${ selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'} transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
               >
-                <div className={`w-full flex flex-col sm:flex-row md:flex-row  ${largura3colocados < 700? 'sm:flex-col ': ''} `}>
+                <div className={`w-full flex flex-col sm:flex-row md:flex-row  ${largura3colocados < 900? 'sm:flex-col ': ''} `}>
                   <div   className={` w-full flex justify-center  md:justify-start sm:items-center gap-2 sm:gap-2 xl:gap-3 mt-2  sm:pl-6 bg-[#005261] ${ selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}>
                     <div  className={`w-[40px]  p-2 h-[65px] sm:p-2 rounded-xl ${selectedCourse === course.curso ? 'text-[#005261] bg-white' : 'text-[#005261] bg-[#E6EFF0]'} text-4xl`}>
                       {index + 1}
                     </div>
                     <div className={`flex ${largura3colocados < 800?' md:flex md:flex-row md:items-center md:justify-center  sm:gap-4': 'sm:gap-4'}`}>
-                      <Image src='/images/bolinha.png' className={`hidden sm:block ${largura3colocados < 600?'hidden':'md:block'} `}width={80} height={80} alt='perfil' />
+                      <Image src='/images/bolinha.png' className={`hidden sm:block ${largura3colocados < 900?'hidden':'md:block'} `}width={80} height={80} alt='perfil' />
                       <h2
                         className={`w-full flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'
@@ -399,7 +400,7 @@ export default function Ranking() {
                     </div>
                   </div>
                  <div
-                    className={` mt-2  flex justify-end w-full $${largura3colocados < 600?'':'  '}  ${selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}
+                    className={` mt-2  flex justify-end w-full $${largura3colocados <= 700?'':'  '}  ${selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}
                   >
                     <div
                       className={`w-full  border-r-4 sm:border-x-4 ${ selectedCourse === course.curso ? 'bg-[#005261] border-white' : 'bg-white border-[#DADADA]'}`}
@@ -438,7 +439,7 @@ export default function Ranking() {
                 {selectedCourse === course.curso && (
                   <div className='z-10 mt-5 flex-col bg-white border-t-4 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
                     {/* { label: 'Data', value: '0', icon: true, colSpan: 'col-span-2 sm:col-span-1' }*/}
-                    <div className={`grid grid-cols-4 w-full -mt-1 sm:text-lg md:text-xl ${largura3colocados < 600?'':'sm:flex'} flex-wrap sm:flex-nowrap`}>
+                    <div className={`grid grid-cols-4 w-full -mt-1 sm:text-lg md:text-xl ${largura3colocados < 700?'':'sm:flex'} flex-wrap sm:flex-nowrap`}>
                       {[
                         { label: 'Soma das Fichas', value: '0' },
                         { label: 'Alunos ativos', value: '0' },
@@ -515,7 +516,7 @@ export default function Ranking() {
               <div
                 className={`w-full  ${  selectedCourse === course.curso ? 'w-full flex-col bg-[#005261]' : 'bg-white'} transition-all delay-300 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 rounded-xl`}
               >
-                <div className={`w-full flex flex-col sm:flex-row md:flex-row  ${largura3colocados < 700? 'sm:flex-col ': ''} `}>
+                <div className={`w-full flex flex-col sm:flex-row md:flex-row  ${largura3colocados < 900? 'sm:flex-col ': ''} `}>
                   <div className={`w-full  flex  justify-center  md:justify-start  sm:items-center gap-2 sm:gap-4 xl:gap-3 sm:pl-6 bg-[#005261] ${selectedCourse === course.curso ? 'bg-[#005261]' : 'bg-white'}`}>
                     <div
                       className={`w-[40px] p-2 h-[65px] sm:p-2 rounded-xl ${ selectedCourse === course.curso ? 'text-[#005261] bg-white' : 'text-[#005261] bg-[#E6EFF0]'} text-4xl`}
@@ -523,7 +524,7 @@ export default function Ranking() {
                       {index + 1}
                     </div>
                     <div className={`flex ${larguraOutrosColocados < 800?' md:flex md:flex-row md:items-center md:justify-center  sm:gap-4': 'sm:gap-4'}`}>
-                      <Image src="/images/bolinha.png" className={`hidden sm:block ${larguraOutrosColocados < 600?'hidden':'md:block'} `}width={80} height={80} alt="" />
+                      <Image src="/images/bolinha.png" className={`hidden sm:block ${larguraOutrosColocados < 900?'hidden':'md:block'} `}width={80} height={80} alt="" />
                       <h2
                         className={`w-full flex items-center sm:text-base md:text-xl xl:text-2xl ${
                           selectedCourse === course.curso ? 'text-white' : 'text-[#005261]'
@@ -578,7 +579,7 @@ export default function Ranking() {
                 {/* Informações abaixo das informações */}
                 {selectedCourse === course.curso && (
                   <div className=' mt-5 flex-col bg-white border-2 border-[#005261] flex pb-3  w-full rounded-xl shadow-lg'>
-                    <div className={`grid grid-cols-4 w-full -mt-1 sm:text-lg md:text-xl ${largura3colocados < 600?'':'sm:flex'} flex-wrap sm:flex-nowrap`}>
+                    <div className={`grid grid-cols-4 w-full -mt-1 sm:text-lg md:text-xl ${largura3colocados < 700?'':'sm:flex'} flex-wrap sm:flex-nowrap`}>
                       {[
                         { label: 'Soma das Fichas', value: '0' },
                         { label: 'Alunos ativos', value: '0' },
