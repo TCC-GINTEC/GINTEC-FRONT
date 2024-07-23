@@ -99,13 +99,23 @@ export default function Ranking() {
     // Cleanup the event listener on component unmount
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
-  
-  const gridContainerStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '10px', // Ajuste o espaçamento entre os itens conforme necessário
-  };
-  
+ 
+  const divRef3Colocados = useRef(null);
+  const [largura3Colocados, setLargura3Colocados] = useState(0);
+
+  useEffect(() => {
+    const updateWidth3Colocados = () => {
+      if ( divRef3Colocados.current) {
+        setLargura3Colocados( divRef3Colocados.current.offsetWidth);
+        
+      }
+    };
+
+    updateWidth3Colocados();
+    window.addEventListener('resize', updateWidth3Colocados);
+
+    return () => window.removeEventListener('resize', updateWidth3Colocados);
+  }, []);
   return (
      <>       
 
@@ -282,7 +292,7 @@ export default function Ranking() {
       </div>
         <div ref={divRef}  className='relative inline justify-center mb-7 '>
           {/*pódio do 1 2 3 lugar */}
-          <div  style={gridContainerStyle} className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+          <div  className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               {data.slice(0, 3).map((aluno, index) => (
                   <div  key={index}
                   className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
@@ -307,20 +317,20 @@ export default function Ranking() {
           </div> 
         </div>
  
-        <div className="bg-slate-100 rounded-xl mt-5 mb-10 pt-4 sm:p-3 flex-col flex items-center ">
+        <div className="mx-auto w-[990px] max-w-full bg-slate-100 rounded-xl mt-5 mb-10 pt-4 sm:p-3 flex-col flex items-center ">
           {/* Três primeiros lugares */}
           {selectedPodium !== null && (
-            <div className='bg-[#005261] grid grid-cols-1  grid-rows-2 sm:flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
-              <div className=' w-full sm:w-1/2 xl:w-1/2 flex justify-center items-center sm:justify-start gap-2 sm:gap-2 xl:gap-3 '>
+            <div ref={divRef3Colocados} className={` bg-[#005261] flex  sm:flex-row ${largura3Colocados < 800?'md:flex-row md:grid sm:grid-cols-1  sm:grid-rows-2  ':'md:flex-row'} md:grid md:grid-cols-1 md:grid-rows-2 py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2`}>
+              <div className={` w-full flex justify-center items-center  gap-4 md:gap-2 xl:gap-3 ${largura3Colocados < 800? 'w-full  sm:justify-center ':'sm:w-1/2  md:justify-start'}   mb-4 `}>
                 <div className='flex justify-center items-center w-[40px] h-[65px] sm:p-2 rounded-xl text-[#005261] bg-white text-4xl'>
                   {selectedPodium + 1}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 smjustify-center'>
-                  <Image src="/images/bolinha.png" className='hidden sm:block' width={120} height={120}  alt="perfil usuario" />
+                  <Image src="/images/bolinha.png" className='hidden sm:block' width={80} height={80}  alt="perfil usuario" />
                   <h2 className='w-full sm:3/4 md:w-full text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-white'>{data[selectedPodium].nome}</h2>
                 </div>
               </div>
-              <div className='row-start-2 w-full grid grid-cols-3 sm:w-1/2 sm:flex sm:justify-end '>
+              <div className={`row-start-2 w-full grid grid-cols-3 ${largura3Colocados < 800?'':'sm:w-1/2  sm:justify-end '} sm:flex`}>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-white text-center'>Série</p>
                   <p className='text-[#FFC24C] text-center'>{data[selectedPodium].serie} {data[selectedPodium].curso}</p>
@@ -337,17 +347,17 @@ export default function Ranking() {
             </div>
           )}
           {data.slice(3).map((aluno, index) => (
-            <div key={index + 3} className='bg-white grid grid-cols-1  grid-rows-2 sm:flex py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2'>
+            <div key={index + 3} className={`bg-white flex  sm:flex-row ${largura3Colocados < 800?'grid grid-cols-1  grid-rows-2  ':'sm:flex-row'} py-4 sm:pl-2 md:pl-2 md:pr-4 xl:px-8 w-full rounded-xl shadow-lg mb-2`}>
               <div className=' w-full sm:w-1/2 xl:w-1/2 flex justify-center items-center sm:justify-start gap-2 sm:gap-2 xl:gap-3 '>
                 <div className='w-[50px] flex justify-center items-center  h-[65px] rounded-xl text-[#005261] bg-[#E6EFF0] text-4xl'>
                   {index + 4}
                 </div>
                 <div className='flex sm:items-center sm:gap-4 smjustify-center'>
-                  <Image src="/images/bolinha.png" className='hidden sm:block ' width={120} height={120} alt="perfil usuario" />
+                  <Image src="/images/bolinha.png" className='hidden sm:block ' width={100} height={100} alt="perfil usuario" />
                   <h2 className='w-3/4 text-left sm:w-full sm:text-base md:text-xl xl:text-2xl text-[#005261]'>{aluno.nome}</h2>
                 </div>
               </div>
-              <div className='row-start-2 w-full grid grid-cols-3 sm:w-1/2 sm:flex sm:justify-end '>
+              <div className={`row-start-2 w-full grid grid-cols-3 ${largura3Colocados < 800?'':'sm:w-1/2  sm:justify-end '} sm:flex`}>
                 <div className='w-full border-x-2 sm:border-x-4'>
                   <p className='text-[#005261] text-center'>serie</p>
                   <p className='text-[#FFC24C] text-center'>{aluno.serie} {aluno.curso}</p>

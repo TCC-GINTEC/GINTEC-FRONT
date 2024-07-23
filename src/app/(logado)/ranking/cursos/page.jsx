@@ -118,7 +118,7 @@ export default function Ranking() {
     setAlertShowFase(false);
   };
 
-  {/*referencia da largura da div de pódio para controlar a largura dos pódios */}
+  {/*funções para permitir que o podio e a lista de participantes fique responsivo */}
  
   const divRef = useRef(null);
   const [largura, setLargura] = useState(0);
