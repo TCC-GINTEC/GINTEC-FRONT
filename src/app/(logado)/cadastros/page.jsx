@@ -68,6 +68,16 @@ export default function Cadastros(){
               <p>de Pátio</p>
             </div>
           </section> 
+
+          <section 
+          onClick={() => router.push('cadastros/oficinas')} 
+          class="relative w-[200px] h-[100px] xl:w-[240px] xl:h-[150px] *:absolute *:w-full duration-300 
+          transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
+            <img src="/images/bg-oficinas.svg" alt="test image"/>
+            <div className="inset-4 flex  flex-col justify-center text-white text-xl">
+              <p>Oficinas</p>
+            </div>
+          </section> 
           
           <section 
           onClick={() => router.push('cadastros/doacao')} 
