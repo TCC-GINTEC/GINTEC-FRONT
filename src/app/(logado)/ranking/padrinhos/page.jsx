@@ -302,7 +302,7 @@ export default function Ranking() {
           <div className='relative flex  h-[306px]  justify-evenly md:items-end sm:max-w-[900px]  sm:h-[300px] rounded-3xl mx-auto' style={{ backgroundImage: `url('/images/bg-ranking.svg')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               {data.slice(0, 3).map((padrinho, index) => (
                   <div  key={index}
-                  className={`h-[93px] flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
+                  className={` flex flex-col items-center justify-center bg-[#4C8690] rounded-t-lg ${
                     index === 0 ? ` absolute top-[25px] sm:top-5 h-[280px] col-start-2 col-span-1  md:col-start-2 ${largura >= 300 && largura <=590?'w-[130px] md:w-[140px]  ':'md:w-[176px]'}` : index === 1 ? ` top-[115px]  h-[190px]  sm:h-[220px]  md:w-[140px] sm:top-20 absolute  left-0 md:left-7 col-start-1 col-span-1 md:row-start-1 md:col-start-1 ${largura >= 300 &&  largura <=590  ? 'sm:left-0 w-[110px] md:w-[120px] col-start-3':'  '}  ` : `tsm:top-[110px] md:w-[140px]  h-[171px] sm:h-[164px] absolute top-[135px]  right-0 md:right-7    col-span-1 md:col-start-3  ${largura >=300 && largura <590?'sm:right-0 ':''}  `
                   }`}
                   >

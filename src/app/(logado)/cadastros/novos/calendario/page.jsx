@@ -12,13 +12,17 @@ export default function Novo() {
 
   return (
     <>
-      <div className='sm:ml-[5%] flex flex-col gap-8 '>
-        <Link href='/cadastros'>
-          <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
-        </Link>
-        <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
+      <div className='ml-[5%] mt-8 mb-8 flex flex-row md:flex-col gap-8 '>
+        <div className='w-1/3'>
+          <Link href='/cadastros'>
+            <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+          </Link>
+        </div>
+        <div className='w-full text-start'>
+          <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
+        </div>
       </div>
-      <div className='flex flex-col gap-4 items-center w-full  sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl'>
+      <div className='flex flex-col gap-4 items-center  w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl'>
         <div className='flex justify-start w-full'>
           <Link href='/cadastros'>
             <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />

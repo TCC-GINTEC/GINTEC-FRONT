@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import Modal from '@/components/formCadastro/modal';
-import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra';
+import ContainerAtividade from '@/components/formCadastro/ContainerAtividade';
 
 export default function Quadra() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -89,16 +89,20 @@ export default function Quadra() {
 
   return (
     <>
-      <div className='sm:ml-[5%] flex flex-col gap-8 '>
-        <Link href='/cadastros'>
-          <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
-        </Link>
-        <h1 className='text-2xl font-medium'>Calendário</h1>
+      <div className='ml-[5%] mt-8  mb-8 flex  sm:gap-8 flex-row sm:flex-col w-full'>
+        <div className='w-1/2'>
+          <Link href='/cadastros'>
+            <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+          </Link>
+        </div>
+        <div className='w-full text-start'>
+          <h1 className='text-2xl font-medium'>Calendário</h1>
+        </div>
       </div>
 
-      <div className='gap-4 flex justify-center border border-red-500 w-1/2 mx-auto text-wrap'>
+      <div className='mt-6 p-1 gap-4 flex flex-wrap justify-center max-w-full w-[920px] mx-auto text-wrap'>
         {retornoApi.map((calendario) => (
-          <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='w-[252px] text-center border-[3px] border-[#A0C340] text-[#A0C340] pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
+          <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='max-w-full w-[252px]  h-[63px]  text-center text-lg sm:text-xl  flex items-center justify-center border-[3px] border-[#A0C340] text-[#A0C340] pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
             {calendario.fases}
           </div>
         ))}
@@ -106,7 +110,7 @@ export default function Quadra() {
       {showForm && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
-          <ContainerCampeonatoQuadra alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'sm:m-auto -top-24 fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
+          <ContainerAtividade alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'sm:m-auto -top-60 fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
             <form onSubmit={handleFormSubmit} className='space-y-8 mt-10 w-3/4 flex items-center flex-col bg-white'>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0] '>
                 Fases
@@ -129,7 +133,7 @@ export default function Quadra() {
                 <button onClick={handleCloseForm} type='button' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Cancelar</button>
               </div>
             </form>
-          </ContainerCampeonatoQuadra>
+          </ContainerAtividade>
         </>
       )}
       {isModalOpen && (

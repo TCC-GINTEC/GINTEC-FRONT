@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation'
 import {useRouter} from 'next/navigation'
-import ContainerCampeonatoQuadra from '@/components/formCadastro/ContainerCampeonatoQuadra'
+import ContainerAtividade from '@/components/formCadastro/ContainerAtividade'
 import Modal from '@/components/formCadastro/modal'
 
 export default function Quadra() {
@@ -181,13 +181,16 @@ export default function Quadra() {
 
   return (
     <>
-      <div className='sm:ml-[5%] flex flex-col gap-4'>
-        <Link href='/cadastros'>
-          <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
-        </Link>
-        <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
-      </div>
-      
+          <div className='ml-[5%] mt-8 mb-8 flex flex-col gap-4'>
+            <div className='w-1/3'> 
+              <Link href='/cadastros'>
+                <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+              </Link>
+            </div>
+            <div className='w-full text-start'>
+              <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
+            </div>
+          </div>
          
           <div className="max-w-[500px] flex gap-3 justify-evenly md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
             <div
@@ -220,7 +223,7 @@ export default function Quadra() {
 
          {moveBar === "28" && (
           
-          <ContainerCampeonatoQuadra>
+          <ContainerAtividade>
               <Link href='/cadastros/novos' className='absolute left-4 top-3'>
                 <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
               </Link>
@@ -318,13 +321,13 @@ export default function Quadra() {
               <input type="text" name="dia1Form1" className="hidden" value={"28"} />
             </form>
 
-           </ContainerCampeonatoQuadra>
+           </ContainerAtividade>
           )
          }
 
          {moveBar === "29" && (
                       
-          <ContainerCampeonatoQuadra>
+          <ContainerAtividade>
               <Link href='/cadastros/novos' className='absolute left-4 top-3'>
                 <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
               </Link>
@@ -420,13 +423,13 @@ export default function Quadra() {
                 </div>
                 <input type="text" name="dia2Form2" className='hidden' value={"29"} />
               </form>
-           </ContainerCampeonatoQuadra>
+           </ContainerAtividade>
           )
          }
       
           {moveBar === "30" && (
                       
-          <ContainerCampeonatoQuadra>
+          <ContainerAtividade>
               <Link href='/cadastros/novos' className='absolute left-4 top-3'>
                 <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
               </Link>
@@ -520,7 +523,7 @@ export default function Quadra() {
                 </div>
                 <input type="text" name="dia3Form3" className='hidden' value={"30"} />
               </form>
-           </ContainerCampeonatoQuadra>
+           </ContainerAtividade>
           )
          }
                         

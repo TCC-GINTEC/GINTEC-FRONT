@@ -82,7 +82,7 @@ export default function SideBar({ className, showSidebarMobile }) {
           ))}
         </SideBarContainerItens>
       </SideBarSection>
-      <div className="w-full flex justify-start pl-10 pb-20 text-[#005261]">
+      <div className="w-full flex justify-start pl-10 pb absolute bottom-20 text-[#005261]">
         <Link className="flex flex-row gap-2 items-center" href="">
           <Image src="./images/sair-icon.svg" alt="" width={20} height={20} />
           {active ? "sair" : ""}

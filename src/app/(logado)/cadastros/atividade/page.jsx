@@ -246,16 +246,20 @@ export default function Quadra() {
 
   return (
     <>
-      <div className='sm:ml-[5%] flex flex-col gap-8 '>
-        <Link href='/cadastros'>
-          <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
-        </Link>
-        <h1 className='text-2xl font-medium'>Atividades </h1>
+     <div className='ml-[5%] mt-8 mb-8 flex  flex-row sm:flex-col  sm:gap-8 w-full'>
+        <div className='w-1/2'>
+          <Link href='/cadastros'>
+            <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+          </Link>
+        </div>
+       <div  className='w-full text-start'>
+         <h1 className='text-2xl font-medium '>Atividades </h1>
+       </div>
       </div>
 
-      <div className='gap-4 flex justify-center border border-red-500 w-1/2 mx-auto text-wrap'>
+      <div className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[920px] max-w-full  mx-auto text-wrap'>
         {retornoApi.map((cursosEtec) => (
-          <div key={cursosEtec.id} onClick={() => handleShowForm(cursosEtec)} className='border-[3px] border-[#006578] text-[#006578] pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
+          <div key={cursosEtec.id} onClick={() => handleShowForm(cursosEtec)} className='max-w-full w-[252px]  h-[63px] text-center text-lg sm:text-xl  flex items-center justify-center border-[3px]  border-[#006578] text-[#006578]  rounded-xl font-semibold'>
              {cursosEtec.curso}
            </div>
         ))}
@@ -263,7 +267,7 @@ export default function Quadra() {
       {showForm && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
-          <ContainerAtividade  alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'sm:m-auto -top-24 fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
+          <ContainerAtividade  alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'right-80 -top-60 fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
             <div className='absolute left-4 top-4 cursor-pointer' onClick={() => handleCloseForm()}>
                <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
             </div>

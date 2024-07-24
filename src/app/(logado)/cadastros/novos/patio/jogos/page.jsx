@@ -53,12 +53,16 @@ export default function Patio() {
 
   return (
     <>
-      <div className='sm:ml-[5%] flex flex-col gap-4'>
-        <Link href='/cadastros'>
-          <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
-        </Link>
-        <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
-      </div>
+       <div className='ml-[5%] mt-8 mb-8 flex flex-col gap-4'>
+          <div className='w-1/3'> 
+            <Link href='/cadastros'>
+              <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+            </Link>
+          </div>
+          <div className='w-full text-start'>
+            <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
+          </div>
+       </div>
       <ContainerJogosPatio>
         <div>
           <Link href='/cadastros/novos' className='absolute left-3 top-2'>

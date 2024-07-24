@@ -104,15 +104,19 @@ export default function Patio() {
 
   return (
     <>
-    <div className='sm:ml-[5%] flex flex-col gap-8 '>
-        <Link href='/cadastros'>
-          <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
-        </Link>
-        <h1 className='text-2xl font-medium'>Jogos de Pátio</h1>
+       <div className='ml-[5%] mt-8 mb-8 flex  flex-row sm:flex-col  sm:gap-8 w-full'>
+       <div className='w-1/3 '>
+          <Link href='/cadastros'>
+            <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+          </Link>
+        </div>
+        <div className='w-full text-start'>
+          <h1 className='text-2xl  font-medium '>Jogos de Pátio </h1>
+        </div>
       </div>
-      <div className='grid sm:grid-cols-3 grid-cols-1 gap-4  w-full md:w-1/2 sm:mx-auto'>
+      <div className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[920px] max-w-full  mx-auto text-wrap'>
         {retornoApi.map((jogo) => (
-          <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
+          <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='max-w-full w-[252px]  h-[63px] text-center text-lg sm:text-xl  flex items-center justify-center border-[3px] border-blue-500 text-blue-500 pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>
             {jogo.nome}
           </div>
         ))}
@@ -120,7 +124,7 @@ export default function Patio() {
       {showForm && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <ContainerCampeonatoPatio alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'-top-32 sm:m-auto fixed inset-0 flex items-center justify-center z-50 p-4'}>
+          <ContainerCampeonatoPatio alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'-top-60 sm:m-auto fixed inset-0 flex items-center justify-center z-50 p-4'}>
             <form onSubmit={handleFormSubmit} className='-mt-10 p-4 w-full flex flex-col'>
               <div className='flex sm:flex-row flex-col gap-4'>
                 <div className={`flex flex-col space-y-8 ${extraClicked ? 'w-full sm:w-1/2 transition-all duration-700' : 'w-full duration-700'}`}>

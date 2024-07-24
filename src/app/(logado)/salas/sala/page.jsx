@@ -582,7 +582,10 @@ export default function Sala() {
                           type='number'
                           value={formData[aluno.id]?.[doacao] || ''}    
                           onChange={(e) => handleChange(aluno.id, doacao, e.target.value)} 
-                          className="h-[55px] pt-[10px] pl-4 right-to-left bg-white border border-[#DADADA]"/>
+                          className="h-[55px] pt-[10px] pl-4 right-to-left bg-white border border-[#DADADA]"
+                          autocomplete="off" 
+
+                          />
                       );
                     })}
                   </div>

@@ -7,7 +7,7 @@ export default function Cadastros(){
   const router = useRouter()
 
   return(
-    <div className='pl-2 flex flex-col justify-start m-auto'>
+    <div className='mt-8 pl-2 flex flex-col justify-start m-auto'>
     <div className="pl-2 mx-auto w-[920px] max-w-full" >
       <h1 className='md:pl-4 pl-8 text-3xl mb-10'>Cadastros</h1>
       <div className='pl-2  mx-auto w-[920px] max-w-full  grid md:grid-cols-3 grid-cols-2 gap-10 justify-items-center '>
@@ -30,7 +30,7 @@ export default function Cadastros(){
             </div>
           </section> 
           
-          <section onClick={() => router.push('cadastros/atividades')}  className="relative  w-[200px] h-[100px] xl:w-[240px] xl:h-[150px] *:absolute *:w-full  hover:cursor-pointer  duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
+          <section onClick={() => router.push('cadastros/atividade')}  className="relative  w-[200px] h-[100px] xl:w-[240px] xl:h-[150px] *:absolute *:w-full  hover:cursor-pointer  duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
             <img src="/images/bg-atividades.svg" alt="test image"/>
             <div  className="inset-4 flex items-center  text-white text-xl">
               Atividades 
