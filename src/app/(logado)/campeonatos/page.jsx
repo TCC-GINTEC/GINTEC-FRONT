@@ -116,9 +116,7 @@ export default function Campeonatos() {
             </div>
           </div>
           <div className='flex justify-evenly w-full flex-wrap'>
-            {Itens.map(() => (
-              
-            ))}
+          
             <div className="w-[257px] h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4">
               <div className="bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg">
                 <Image src="/images/img-futsal.svg" width={30} height={30} alt="Queimada" />
@@ -136,4 +134,4 @@ export default function Campeonatos() {
       </div>
     </>
   );
-        }
+}

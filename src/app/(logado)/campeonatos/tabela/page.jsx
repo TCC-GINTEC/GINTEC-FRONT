@@ -6,243 +6,23 @@ import { Icon } from '@iconify/react';
 import Image from 'next/image'
 
 
-export default function Sala() {
+export default function TabelaCampeonatos() {
+  const [tabelaTimesContra,setTabelaTimesContra ] = useState(null);
 
   const [showFilterOptions, setShowFilterOptions] = useState(false);
-  const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
-  const [showFilterDataOptions, setShowFilterDataOptions] = useState(false);
   
   const [faseFilter, setFaseFilter] = useState("1 º Fase"); // Estado para armazenar a fase selecionada
-  const [faseDia,setFaseDia]= useState("");
-  const [dia,setDia]= useState("");
 
-  const [moveBar, setMoveBar] = useState("principal");
+  const [moveBar, setMoveBar] = useState(1);
   const [transition, setTransition] = useState(false); // Estado para controlar a transição
-  
-  
-  const searchParams = useSearchParams();
-  const urlCurso = searchParams.get("curso");
-  const urlSerie = searchParams.get("serie");
-
-  {/*ter ideia do que ela vai inserir de doação */}
-  
-  const [doacoesInseridas, setDoacoesInseridas] = useState([
-    "estagiario",
-    "domino",
-    "PS",
-    "oficina",
-    "jogos",
-    "livros"
-  ]);
-
-  const [retornoApi, setRetornoApi] = useState([
-    {
-      id: 1,
-      nome: "Victoria Laurinda Camargo",
-      qda: 25,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 60.7,
-      mencao: "MB",
-      doacao: [{ jogos: 700 },{oficina:15000},{PS:500},{ livros: 500 }],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Futsal-Fem"},{esporte:"Queimada"},{esporte:"Volei"}]
-    },
-    {
-      id: 2,
-      nome: "Ana B Almeida Silva",
-      qda: 13,
-      qdp: 9.896,
-      dia: 28,
-      totalPontos: 25.76,
-      mencao: "R",
-      doacao: [{ jogos: 700 },{PS:500},{ livros: 500 }],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Futsal-Fem"},{esporte:"Basquete"},{esporte:"Handebol"}]
-    },
-    {
-      id: 3,
-      nome: "Ana B Buzana Silva",
-      qda: 19,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 48.367,
-      mencao: "B",
-      doacao: [{ jogos: 700 },{ livros: 500 }],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Futsal-Fem"},{esporte:"Basquete"},{esporte:"Handebol"}]
-    },
-    {
-      id: 4,
-      nome: "Ana J dos Santos Olidin",
-      qda: 25,
-      qdp: 1200,
-      dia: 28,
-      totalPontos: 0,
-      mencao: "I",
-      doacao: [{ jogos: 700 },{ livros: 500 }],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Volei"},{esporte:"Basquete"},{esporte:"Handebol"}]
-    },
-    {
-      id: 5,
-      nome: "Andre L Scalise Albanese Junior",
-      qda: 25,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 60.7,
-      mencao: "MB",
-      doacao: [{ estagiario: 700 },{ jogos: 700 },{ livros: 500 }],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Volei"},{esporte:"Queimada"},{esporte:"Handebol"}]
-
-    },
-    {
-      id: 6,
-      nome: "Andre Victor Garcia de Jesus",
-      qda: 19,
-      qdp: 12.098,
-      dia: 28,
-      totalPontos: 48.367,
-      mencao: "B",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Volei"},{esporte:"Basquete"},{esporte:"Handebol"}]
-    },
-    {
-      id: 7,
-      nome: "Beatriz Barros de Morais",
-      qda: 25,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 60.7,
-      mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Futsal-Fem"},{esporte:"Queimada"},{esporte:"Volei"}]
-    },
-    {
-      id: 8,
-      nome: "Camila Marques",
-      qda: 25,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 60.7,
-      mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros:500 } ],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Futsal-Fem"},{esporte:"Queimada"},{esporte:"Handebol"}]
-    },
-    {
-      id: 9,
-      nome: "Carlos Daniel Lima de Abreu",
-      qda: 25,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 60.7,
-      mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Futsal-Masc"},{esporte:"Basquete"},{esporte:"Queimada"}]
-    },
-    {
-      id: 10,
-      nome: "Carlos Eduardo Da Silva Costa",
-      qda: 25,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 60.7,
-      mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Futsal-Masc"},{esporte:"Queimada"},{esporte:"Handebol"}]
-    },
-    {
-      id: 11,
-      nome: "Eduardo Lima",
-      qda: 7,
-      qdp: 3.765,
-      dia: 28,
-      totalPontos: 10.345,
-      mencao: "I",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 700 } ],
-      dia: new Date("2024-08-28"),
-      time: [{esporte:"Futsal-Masc"},{esporte:"Queimada"},{esporte:"Handebol"}]
-    },
-    {
-      id: 12,
-      nome: "Erick Henrique Monteiro Lima",
-      qda: 7,
-      qdp: 3.765,
-      dia: 28,
-      totalPontos: 10.345,
-      mencao: "I",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
-      time: [{esporte:"Futsal-Masc"},{esporte:"Basquete"},{esporte:"Handebol"}]
-    },
-    {
-      id: 13,
-      nome: "Evely Gusmão de Almeida",
-      qda: 25,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 60.7,
-      mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
-      time: [{esporte:"Basquete"},{esporte:"Volei"},{esporte:"Handebol"}]
-    },
-    {
-      id: 14,
-      nome: "Eyshila Neubert Basseto",
-      qda: 25,
-      qdp: 18.436,
-      dia: 28,
-      totalPontos: 60.7,
-      mencao: "MB",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
-      time: [{esporte:"Basquete"},{esporte:"Futsal-Fem"},{esporte:"Queimada"}]
-    },
-    {
-      id: 15,
-      nome: "Gabriela Silva de Araujo",
-      qda: 19,
-      qdp: 12.098,
-      dia: 28,
-      totalPontos: 48.367,
-      mencao: "B",
-      doacao: [ {cesta:500},{ jogos: 700 },{ livros: 500 } ],
-      time: [{esporte:"Futsal-Fem"},{esporte:"Volei"},{esporte:"Handebol"}]
-    }
-  ]);
-
-  const esportes = [
-    ["Basquete", "Volei", "Queimada"],
-    ["Futsal-Masc", "Futsal-Fem", "Handebol"],
-  ];
 
   const [alertShowFase, setAlertShowFase] = useState(false) 
-  const [alertShowDia, setAlertShowDia] = useState(false) 
-
-  
+  const [alertShowDia, setAlertShowDia] = useState(false)   
   
   useEffect(() => {
     setTransition(true); // Ativa a transição após o componente ser montado
   }, []);
 
-  function getColorClass(mencao) {
-    switch (mencao) {
-      case "MB":
-        return "bg-[#3ACF1F]"; // Verde para MB
-      case "B":
-        return "bg-[#A0C340]"; // Verde-claro para B
-      case "I":
-        return "bg-[#D32719]"; // Vermelho para I
-      case "R":
-        return "bg-[#FFC24C]"; // Laranja para R
-      default:
-        return "bg-gray-200"; // Cor padrão para outras menções
-    }
-  }
 
   function handleFilterData() {
     setShowFilterDataOptions(false)
@@ -260,17 +40,6 @@ export default function Sala() {
     setShowFilterFasesOptions(false);
   }
 
-  function handleData(diaSelecionado) {
-    setShowFilterOptions(false);
-    if (diaSelecionado === "29 ago" || diaSelecionado === "30 ago") {
-      setAlertShowDia(true);
-      setShowFilterDataOptions(false);
-    } else {
-      setDia(diaSelecionado);
-      setShowFilterDataOptions(false);
-    }
-  }
-
   const handleCloseAlertFase = () => {
     setAlertShowFase(false);
   };
@@ -279,357 +48,156 @@ export default function Sala() {
     setAlertShowDia(false);
   };
 
-  // Estado do formulário para armazenar os valores dos inputs
-  const [formData, setFormData] = useState({});
-
-  /**
-   * Função handleChange
-   * Atualiza o estado formData com o valor do input correspondente ao alunoId e doacao
-   * @param {number} alunoId - ID do aluno
-   * @param {string} doacao - Nome da doação
-   * @param {string} value - Valor do input
-   */
-
-  const handleChange = (alunoId, doacao, value) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [alunoId]: {
-        ...prevFormData[alunoId],
-        [doacao]: value
-      }
-    }));
-  };
-
-
-  /**
-   * Função handleFormularioPontos
-   * Lida com a submissão do formulário, evitando o comportamento padrão e processando os dados do estado formData
-   * @param {Event} e - Evento de submissão do formulário
-   */
-  const handleFormularioPontos = (e) => {
-    e.preventDefault();
   
-    const hasValidData = Object.values(formData).some(
-      alunoData => Object.values(alunoData).some(value => value.trim() !== '')
+  // Função para obter e exibir o conteúdo
+  const mostrarTabelaTimesContra = () => {
+    const resultado = (
+      <>
+        <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+        
+        <div className="z-50 fixed bg-white flex flex-col md:w-[700px] w-full rounded-lg">
+          <h1 className="text-center mt-3 text-2xl font-semibold text-[#005261]">Jogos J1</h1>
+          <div className="mx-auto flex flex-col sm:flex-row pt-4 pb-4">
+            <div className="flex flex-col sm:rounded-l-lg sm:border-l-4 sm:border-[#DADADA]">
+              <div className="bg-[#005261] w-full sm:border-r-4 text-white sm:border-white text-center pt-3">1º ADM</div>
+              <div className="flex flex-row w-full justify-evenly sm:border-r-4 sm:border-[#005261]">
+                <p className="flex justify-center items-center w-full sm:w-[89px] text-center border-b-4 border-[#DADADA]">1</p>
+                <p className="w-full sm:w-[209px] pl-2 pt-1 pb-1 break-words border-b-4 border-[#DADADA]">Andre L Scalise Albanese Junior</p>
+              </div>
+              {[...Array(8)].map((_, i) => (
+                <div className="flex flex-row w-full justify-evenly sm:border-r-4 sm:border-[#005261]" key={i}>
+                  <p className="flex justify-center items-center w-full sm:w-[89px] text-center border-b-4 border-[#DADADA]">1</p>
+                  <p className="w-full sm:w-[209px] pl-2 pt-1 pb-1 break-words border-b-4 border-[#DADADA]">Andre L Scalise Albanese Junior</p>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col w-full sm:rounded-r-lg sm:border-r-4 sm:border-[#DADADA]">
+              <div className="bg-[#005261] w-full text-white text-center pt-3">3º ADM</div>
+              <div className="flex flex-col sm:flex-row w-full justify-evenly">
+                <p className="flex justify-center items-center w-full sm:w-[89px] text-center border-b-4 border-[#DADADA]">1</p>
+                <p className="w-full sm:w-[209px] pl-2 pt-1 pb-1 break-words border-b-4 border-[#DADADA]">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+              </div>
+            </div>
+          </div>
+  </div>
+      </>
     );
-  
-    if (!hasValidData) {
-      alert('Por favor, preencha pelo menos um campo.');
-      return;
-    }
-  
-    console.log(formData);
+    setTabelaTimesContra(resultado);
   };
-
 
   return (
-    <div className=''>
-        {/*Exibe o alerta quando a 2 fase não está disponivel*/}
-        {alertShowFase && (
-          <>
-            <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-            <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div className="mx-auto w-[290px]  h-[360px] sm:w-[390px] bg-white p-6 rounded-3xl shadow-lg relative">
-                <Image width={200} height={154} 
-                  src="/images/alert-fase.png"
-                  className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px]  sm:h-[179px] sm:w-[307px]"
-                  alt="Sucesso"
-                />
-                <button
-                  className="absolute top-4 right-6   hover:text-gray-400 "
-                  onClick={handleCloseAlertFase}
-                >
-                  ✕
-                </button>
-                <div className="mt-28 text-center">
-                  <h3 className="font-bold text-2xl">Atenção!</h3>
-                  <p className="py-4 pb-8 text-xl">
-                    Esta fase não está disponível para visualização
-                  </p>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-        
-        {alertShowDia && (
-          <>
-            <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-            <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div className="mx-auto w-[290px] h-[360px] sm:w-[390px]  bg-white p-6 rounded-3xl shadow-lg relative">
-                <Image
-                  src="/images/alert-fase.png"
-                  width={200}
-                  height={154}
-                  className="absolute -top-[43px] left-[40px] sm:-top-[48px] sm:left-[45px] sm:h-[179px] sm:w-[307px]"
-                  alt="Sucesso"
-                />
-                <button
-                  className="absolute top-4 right-6   hover:text-gray-400 "
-                  onClick={handleCloseAlertDia}
-                >
-                  ✕
-                </button>
-                <div className="mt-28 text-center">
-                  <h3 className="font-bold text-2xl">Atenção!</h3>
-                  <p className="py-4 pb-8 text-xl">
-                     Este dia não está disponível para visualização
-                  </p>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-       <div className='mx-auto pl-5 md:pl-20 flex flex-col gap-10 m-5'>
-         <div className='max-w-[1400px]  flex flex-row justify-between'>
-              <button className=''>
-                <Link href={'/salas'}>
-                  <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
-                </Link>
-              </button>
-              <div className='flex justify-center items-center relative '>
-                <div
-                  onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
-                  className="w-[170px] bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center mr-4"
-                >
-                  <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />
-                  Fases
-                
-                </div>
-                    {showFilterFasesOptions && (
-                    <>
-                      <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
-                      <div className="absolute bg-white shadow-md rounded-lg mt-40 right-0 w-48 py-2 z-50">
-                        <ul>
-                          <li 
-                            onClick={() => handleFase(1)}
-                            className="cursor-pointer hover:bg-gray-100 py-1 px-3"
-                          >
-                            1 º fase
-                          </li>
-                          <li 
-                            onClick={() => handleFase(2)}
-                            className="cursor-pointer hover:bg-gray-100 py-1 px-3"
-                          >
-                            2 º fase
-                          </li>
-                        </ul>
-                      </div>
-                    </>
-                  )}
-              </div>
-             
-          </div>
-          <h1 className="text-2xl font-semibold">
-            {urlSerie} º {urlCurso}
-          </h1>
-          <p className='-mt-5 text-[#DADADA]'>{faseFilter}</p>
-       </div>
+    <div className='w-[920px] max-w-full mx-auto pl-4 '>
+      <button onClick={mostrarTabelaTimesContra} className="bg-blue-500 text-white p-2 rounded">
+        Clica aqui
+      </button>
+  
+      {tabelaTimesContra && (
+        <div>
+          {tabelaTimesContra}
+        </div>
+      )}
      
-      <div className="flex justify-center sm:justify-start md:w-3/4  gap-4 md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
+  
+      <div className="flex justify-center md:justify-start w-[400px] sm:w-[600px] md:w-[800px] sm:max-w-full gap-4 md:gap-20 mb-4 border-b-4 border-b-[#DADADA] relative">
         <div
-          onClick={() => setMoveBar("principal")}
-          className={` sm:font-semibold text-base sm:text-xl flex items-center gap-2  cursor-pointer ${moveBar === "principal" ? "text-[#005261]" : "text-[#DADADA]"}`}
+          onClick={() => setMoveBar(1)}
+          className={`sm:font-semibold text-base md:text-xl flex items-center gap-2 cursor-pointer ${moveBar === "principal" ? "text-[#005261]" : "text-[#DADADA]"}`}
         >
-          <Image src="../images/home-icon.svg" alt="" width={20} height={20} className='sm:block hidden'/>
-          Principal
+          1 º Fase 
         </div>
         <div
-          onClick={() => setMoveBar("doacoes")}
-          className={`sm:font-semibold ml-2 text-base sm:text-xl flex cursor-pointer ${moveBar === "doacoes" ? "text-[#005261]" : "text-[#DADADA]"}`}
+          onClick={() => setMoveBar(2)}
+          className={`sm:font-semibold ml-2 text-base md:text-xl flex cursor-pointer ${moveBar === "doacoes" ? "text-[#005261]" : "text-[#DADADA]"}`}
         >
-          Doações
+          2 º Fase 
         </div>
         <div
-          onClick={() => setMoveBar("campeonato")}
-          className={`sm:font-semibold text-base sm:text-xl cursor-pointer ${moveBar === "campeonato" ? "text-[#005261]" : "text-[#DADADA]"}`}
+          onClick={() => setMoveBar(3)}
+          className={`sm:font-semibold text-base md:text-xl cursor-pointer ${moveBar === "campeonato" ? "text-[#005261]" : "text-[#DADADA]"}`}
         >
-          Campeonatos
+          3 º Fase 
         </div>
         <div
-          className={`hidden sm:block h-[4px] w-[100px] md:w-[124px] bg-[#005261] ${transition ? "duration-700 delay-100" : ""} 
-            ${moveBar === "principal" ? "left-0" : ""} 
-            ${moveBar === "doacoes" ? "md:left-40 left-30" : ""} 
-            ${moveBar === "campeonato" ? "md:left-[350px]" : ""} 
+          onClick={() => setMoveBar(4)}
+          className={`sm:font-semibold text-base md:text-xl cursor-pointer ${moveBar === "campeonato" ? "text-[#005261]" : "text-[#DADADA]"}`}
+        >
+          Fase Final
+        </div>
+        <div
+          className={`hidden sm:block h-[4px] md:w-[120px] bg-[#005261] ${transition ? "duration-700 delay-100" : ""} 
+            ${moveBar === 1 ? "left-0" : ""} 
+            ${moveBar === 2 ? "md:left-32 " : ""} 
+            ${moveBar === 3 ? "md:left-[290px]" : ""} 
+            ${moveBar === 4 ? "md:left-[445px]" : ""} 
             absolute -bottom-1 font-bold`}
         ></div>
       </div>
-  
-      {moveBar === "principal" && (
-        <div className="md:w-[85%] mx-auto">
-          <div className="overflow-x-auto rounded-lg bg-[#005261]">
-            <div className="flex">
-              <div className="w-[300px]">
-                <div className="p-3 font-semibold border border-white border-r-2 text-white">Alunos</div>
-                {retornoApi.map((aluno) => (
-                  <div key={aluno.id} className="pt-[10px] pl-[4px] h-[59px] Right-to-left bg-white border border-[#DADADA]">
-                    {aluno.nome}
-                  </div>
-                ))}
+      <div className='bg-[#005261] w-[400px] sm:w-[600px] md:w-[800px] sm:max-w-full flex rounded-lg rounded-b-lg overflow-x-auto'>
+        <div className='w-[920px] flex'>
+          {moveBar === 1 && (
+            <>
+              <div>
+                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
+                  Horário
+                </div>
+                <form action="" className='w-[200px]'>
+                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"8h00"} />
+                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"8h15"} />
+                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"8h30"} />
+                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"8h45"} />
+                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"9h10"} />
+                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"9h25"} />
+                </form>
               </div>
-              <div className="w-3/4 flex overflow-x-auto">
-                <div className="min-w-[200px]">
-                  <div className="p-3 font-bold border border-white border-r-2 text-white sm:text-center">QDA</div>
-                  {retornoApi.map((aluno) => (
-                    <div key={aluno.id}  className="sm:text-center pt-[10px] h-[59px] pl-4 Right-to-left bg-white border border-[#DADADA]">
-                      {aluno.qda}
-                    </div>
-                  ))}
+              <div>
+                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
+                  Jogos
                 </div>
-                <div className="min-w-[200px]">
-                  <div className="p-3 font-bold border border-white border-r-2 text-white sm:text-center">QDP</div>
-                  {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className="sm:text-center pt-[10px]  h-[59px]  pl-4 Right-to-left bg-white border border-[#DADADA]">
-                      {aluno.qdp}
-                    </div>
-                  ))}
-                </div>
-                <div className="min-w-[200px]">
-                  <div 
-                  onClick={() => setShowFilterDataOptions(!showFilterDataOptions)}
-                  className="p-3 font-bold border border-white border-r-2 text-white sm:text-center relative">
-                    <p className='flex justify-center items-center'>
-                      DATA
-                      <Icon icon="solar:alt-arrow-down-linear" width={20}/>
-                    </p>
-                    {showFilterDataOptions && (
-                        <>
-                          <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
-                          <div className="text-center absolute mt-7 bg-white shadow-md rounded-lg  right-0 w-48 py-2 z-50">
-                            <ul>
-                              <li 
-                                
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                {faseDia == 1? "28 ago"  :'28 set'}
-                              </li>
-                              <li 
-                                onClick={() => handleData("29 ago")}
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                {faseDia == 1? "29 ago": '29 set'}
-                              </li>
-                              <li 
-                                onClick={() => handleData("30 ago")}
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                {faseDia == 1? "30 ago": '30 set' }
-                              </li>
-                            </ul>
-                          </div>
-                        </>
-                      )}
-                  </div>
-                  {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className="text-center pt-[10px]  h-[59px]  Right-to-left bg-white border border-[#DADADA]">
-                          {faseDia === 1 ? "28 ago" : "28 set"}
-                    </div>
-                  ))}
-                </div>
-                <div className="min-w-[200px]">
-                  <div className="p-3 font-bold border border-white border-r-2 text-white sm:text-center">Total Geral</div>
-                  {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className="sm:text-center pt-[10px] h-[59px] pl-4 Right-to-left bg-white border border-[#DADADA]">
-                      {aluno.totalPontos}
-                    </div>
-                  ))}
-                </div>
-                <div className="min-w-[200px] border border-[#DADADA] border-l-2 text-center">
-                  <div className="p-3 font-bold text-white text-center">MENÇÕES</div>
-                  {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className={`pt-[10px] Right-to-left h-[59px]  border border-[#DADADA] ${getColorClass(aluno.mencao)}`}>
-                      {aluno.mencao}
-                    </div>
-                  ))}
-                </div>
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] sm:max-w-full bg-white text-center text-[#DADADA]' value={"J1"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J2"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J3"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J4"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J5"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J6"} />
               </div>
-            </div>
-          </div>
+              <div>
+                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
+                  Time A
+                </div>
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"1°ADM"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"2°CONT"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"1°INFO"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"1°CONT"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"2°RH"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"3°ADM"} />
+              </div>
+              <div>
+                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
+                  Time B
+                </div>
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"1°RH"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"3°INFO"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"3°RH"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"2°ADM"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"2°RH"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"3°ADM"} />
+              </div>
+              <div>
+                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
+                  Rodada
+                </div>
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
+                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
+              </div>
+            </>
+          )}
         </div>
-      )}
-      {moveBar === "doacoes" && (
-        <div className="md:w-[80%] mx-auto">
-          <form className="overflow-x-auto rounded-lg bg-[#005261]" onSubmit={handleFormularioPontos}>
-          <button type='submit' className='mx-auto block w-[400px] bg-red-500 z-50'>Enviar Dados</button>
-          <div className="flex">
-              <div className="w-[300px]">
-                <div className="p-3 font-semibold border border-white border-r-2 text-white">Alunos</div>
-                {retornoApi.map((aluno) => (
-                  <div key={aluno.id} className="h-[55px] pt-[10px] pl-[4px] right-to-left bg-white border border-[#DADADA]">
-                    {aluno.nome}
-                  </div>
-                ))}
-              </div>
-              <div className="w-3/4 flex overflow-x-auto">
-                {doacoesInseridas.map((doacao, index) => (
-                  <div key={index} className="min-w-[200px]">
-                    <div className="p-3 font-bold border border-white border-r-2 text-white">
-                      {doacao}
-                    </div>
-                    {retornoApi.map((aluno) => {
-                      const doacaoValue = aluno.doacao.reduce((acc, current) => {
-                        const key = Object.keys(current)[0];
-                        if (key === doacao) {
-                          acc = current[key];
-                        }
-                        return acc;
-                      }, 0);
-
-                      return (
-                        <input 
-                          key={aluno.id} 
-                          name={doacao} 
-                          type='number'
-                          value={formData[aluno.id]?.[doacao] || ''}    
-                          onChange={(e) => handleChange(aluno.id, doacao, e.target.value)} 
-                          className="h-[55px] pt-[10px] pl-4 right-to-left bg-white border border-[#DADADA]"
-                          autocomplete="off" 
-
-                          />
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </form>
-        </div>
-      )}
-      {moveBar === "campeonato" && (
-        <div className="md:w-[90%] mx-auto">
-            {esportes.map((esporteGroup, index) => (
-              <div key={index} className="border bg-[#005261] rounded-l-lg rounded-r-lg overflow-x-auto mb-4">
-                <table className="w-full">
-                  <thead>
-                    <tr className="text-white text-center">
-                      {esporteGroup.map((esporte, idx) => (
-                        <th key={idx} className="p-3 min-w-[150px] border border-white">
-                          {esporte}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                     {/* Renderizar até 12 linhas para cada esporte */}
-                     {retornoApi.map((aluno, alunoIndex) => (
-                    <tr key={aluno.id} className="text-center border">
-                      {esporteGroup.map((esporte, idx) => {
-                        const alunoNoEsporte = aluno.time && aluno.time.find(item => item.esporte === esporte);
-                        return (
-                          <td key={idx} className="border bg-white border-gray-200 min-w-[150px]">
-                            {alunoNoEsporte ? aluno.nome : ''}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
-                  </tbody>
-                </table>
-              </div>
-            ))}
-        </div>
-      )}
+      </div>
     </div>
   );
-} 
-
+}
+  
