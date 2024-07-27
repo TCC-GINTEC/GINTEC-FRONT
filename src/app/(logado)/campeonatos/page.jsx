@@ -41,6 +41,21 @@ export default function Campeonatos() {
     setAlertShowFase(false);
   };
 
+  const divRef = useRef(null);
+  const [largura, setLargura] = useState(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (divRef.current) {
+        setLargura(divRef.current.offsetWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
   return (
     <>
       {/* Exibe o alerta quando a 2 fase não está disponível */}
@@ -65,7 +80,7 @@ export default function Campeonatos() {
               <div className="mt-28 text-center">
                 <h3 className="font-bold text-2xl">Atenção!</h3>
                 <p className="py-4 pb-8 text-xl">
-                  Este dia não está disponível para visualização
+                  Este fase não está disponível para visualização
                 </p>
               </div>
             </div>
@@ -73,18 +88,20 @@ export default function Campeonatos() {
         </>
       )}
 
-      <div className="relative flex justify-center">
+      <div className="sm:pr-20 relative flex items-center justify-between">
+        <div className="w-full text-start  sm:pl-4">
+          <h1 className="text-3xl">Campeonatos</h1>
+        </div>
         <div
           onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
-          className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[2px] border-[#005261] my-4 cursor-pointer flex items-center"
+          className="relative w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[2px] border-[#005261] my-4 cursor-pointer flex items-center"
         >
           <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />
           Fases
-        </div>
-        {showFilterFasesOptions && (
+          {showFilterFasesOptions && (
           <>
             <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
-            <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
+            <div className="absolute top-10 right-1 bg-white shadow-md rounded-lg  w-48 py-2 z-50">
               <ul>
                 <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
                 <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
@@ -92,34 +109,32 @@ export default function Campeonatos() {
             </div>
           </>
         )}
+        </div>
+    
       </div>
 
-      <div className="w-full text-start pl-8 sm:pl-20">
-        <h1 className="text-3xl">Campeonatos</h1>
-      </div>
-
-      <div className="w-[920px] max-w-full mx-auto">
+      <div ref={divRef}  className="w-[920px] max-w-full mx-auto">
         <div className="flex flex-col items-center w-full sm:gap-6 sm:pr-10">
-          <div className="w-[626px] h-[195px] flex justify-evenly items-center shadow-2xl rounded-lg mx-auto">
-            <div className="w-[118px] h-[138px] text-center flex flex-col justify-center rounded-lg bg-[#005261] text-[#FFFFFF]">
+          <div className="w-full sm:w-[626px] h-[195px] flex justify-evenly items-center shadow-2xl rounded-lg mx-auto">
+            <div className="w-[100px] sm:w-[118px] h-[138px] text-center flex flex-col justify-center rounded-lg bg-[#005261] text-[#FFFFFF]">
               <h2 className="text-3xl font-medium">28</h2>
               <p>Ago</p>
             </div>
-            <div className="w-[118px] h-[138px] text-center flex flex-col justify-center rounded-lg bg-[#F8F8F8] text-[#005261]">
+            <div className="w-[100px] sm:w-[118px] h-[138px] text-center flex flex-col justify-center rounded-lg bg-[#F8F8F8] text-[#005261]">
               <h2 className="text-3xl font-medium">29</h2>
               <p>Ago</p>
             </div>
-            <div className="w-[118px] h-[138px] text-center flex flex-col justify-center rounded-lg bg-[#F8F8F8] text-[#005261]">
+            <div className="w-[100px] sm:w-[118px] h-[138px] text-center flex flex-col justify-center rounded-lg bg-[#F8F8F8] text-[#005261]">
               <h2 className="text-3xl font-medium">30</h2>
               <p>Ago</p>
             </div>
           </div>
-          <div className='flex justify-evenly w-full flex-wrap'>
+          <div className={`mt-10 grid ${largura < 800 ? 'sm:grid-cols-2':' sm:grid-cols-3'} gap-8`}>
               {itens.map((item, index) => {
                 // Pegando o primeiro nome (ou palavra) do item
                 const imageName = item.text.split(' ')[0].toLowerCase().replace(/\s+/g, '-');
                 const encodedText = encodeURIComponent(item.text);
-                
+
                 return (
                   <div key={index} className="w-[257px] h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4" onClick={() => router.push(`/campeonatos/tabela?campeonato=${encodedText}`)}>
                     <div className="bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg">

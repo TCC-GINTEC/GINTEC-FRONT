@@ -15,7 +15,7 @@ const SideBarContainerItens = ({ children, url,active }) => {
         case "/cadastros":
           positionClass = "position-active-dois";
           break;
-        case "/prazos":
+        case "/campeonatos":
           positionClass = "position-active-tres";
           break;
         case "/ranking":
@@ -43,7 +43,7 @@ const SideBarContainerItens = ({ children, url,active }) => {
             case "/cadastros":
               positionClass = "position-false-dois";
               break;
-            case "/prazos":
+            case "/campeonatos":
               positionClass = "position-false-tres";
               break;
             case "/ranking":

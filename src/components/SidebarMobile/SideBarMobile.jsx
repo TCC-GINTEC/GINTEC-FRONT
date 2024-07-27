@@ -39,9 +39,9 @@ export default function SideBar({ className,exibirSidebar,exibirSidebarMobile}) 
         link: "/cadastros",
       },
       {
-        text: "Prazos",
-        img: "./images/prazos-icon.svg",
-        link: "/prazos",
+        text: "Campeonatos",
+        img: "./images/campeonato-icon.svg",
+        link: "/campeonatos",
       },
       {
         text: "Pontuação geral",

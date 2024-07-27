@@ -77,6 +77,12 @@ export default function TabelaCampeonatos() {
     }));
   };
 
+  {/*largura */}
+
+   
+
+
+
   return (
     <>
       <div className='ml-[5%] mt-8 mb-8 flex flex-row sm:flex-col gap-4'>
@@ -197,7 +203,7 @@ export default function TabelaCampeonatos() {
                             formData.horarios[index]
                           )}
                         </td>
-                        <td className="w-[200px] h-[50px] border-r border-gray-300 p-1 text-center" onClick={() => mostrarTabelaTimesContra()}>
+                        <td className="w-[200px] h-[50px] border-r border-gray-300 p-1 text-center" onClick={() => mostrarTabelaTimesContra(!tabelaTimesContra)}>
                           {jogo}
                         </td>
                         <td className="w-[200px] h-[50px] border-r border-gray-300 p-1 text-center">

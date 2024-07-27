@@ -40,9 +40,9 @@ export default function SideBar({ className, showSidebarMobile }) {
         link: "/cadastros",
       },
       {
-        text: "Prazos",
-        img: "./images/prazos-icon.svg",
-        link: "/prazos",
+        text: "Campeonatos",
+        img: "./images/campeonato-icon.svg",
+        link: "/campeonatos",
       },
       {
         text: "Pontuação geral",
