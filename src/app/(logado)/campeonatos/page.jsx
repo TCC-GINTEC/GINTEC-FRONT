@@ -2,42 +2,41 @@
 import { Icon } from '@iconify/react';
 import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
 
 export default function Campeonatos() {
-  const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
-  const [alertShowFase, setAlertShowFase] = useState(false) 
+  const router = useRouter();
 
-  const [Itens, setItens] = useState([]);
+  const [showFilterFasesOptions, setShowFilterFasesOptions] = useState(false);
+  const [alertShowFase, setAlertShowFase] = useState(false);
+  const [itens, setItens] = useState([]);
+
+  useEffect(() => {
+    handleGetItens();
+  }, []);
 
   function handleGetItens() {
-    const lst = [
-      {
-        text: "Basquete",
-        img: "./images/img-basquete.svg",
-        link: "/home",
-      },
-      {
-        text: "Futsal ",
-        img: "./images/img-futsal.svg",
-        link: "/home",
-      },
-      {
-        text: "Domino",
-        img: "./images/domino.svg",
-        link: "/notificacao",
-      },
+    const listaCadastroCampeonatos = [
+      { text: 'pembolim' },
+      { text: 'basquete' },
+      { text: 'futsal masculino' },
+      { text: 'futsal feminino' },
+      { text: 'queimada' },
+      { text: 'damas' },
+      { text: 'xadrez' },
+      { text: 'volei' },
     ];
 
-    setItens(lst);
+    setItens(listaCadastroCampeonatos);
   }
-  
+
   function handleFase(fase) {
     if (fase === 2) {
       setAlertShowFase(true);
     }
     setShowFilterFasesOptions(false);
   }
-  
+
   const handleCloseAlertFase = () => {
     setAlertShowFase(false);
   };
@@ -73,7 +72,7 @@ export default function Campeonatos() {
           </div>
         </>
       )}
-  
+
       <div className="relative flex justify-center">
         <div
           onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
@@ -94,11 +93,11 @@ export default function Campeonatos() {
           </>
         )}
       </div>
-  
+
       <div className="w-full text-start pl-8 sm:pl-20">
         <h1 className="text-3xl">Campeonatos</h1>
       </div>
-  
+
       <div className="w-[920px] max-w-full mx-auto">
         <div className="flex flex-col items-center w-full sm:gap-6 sm:pr-10">
           <div className="w-[626px] h-[195px] flex justify-evenly items-center shadow-2xl rounded-lg mx-auto">
@@ -116,20 +115,26 @@ export default function Campeonatos() {
             </div>
           </div>
           <div className='flex justify-evenly w-full flex-wrap'>
-          
-            <div className="w-[257px] h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4">
-              <div className="bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg">
-                <Image src="/images/img-futsal.svg" width={30} height={30} alt="Queimada" />
-              </div>
-              <p className="text-[#9747FF] font-semibold">Queimada</p>
+              {itens.map((item, index) => {
+                // Pegando o primeiro nome (ou palavra) do item
+                const imageName = item.text.split(' ')[0].toLowerCase().replace(/\s+/g, '-');
+                const encodedText = encodeURIComponent(item.text);
+                
+                return (
+                  <div key={index} className="w-[257px] h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4" onClick={() => router.push(`/campeonatos/tabela?campeonato=${encodedText}`)}>
+                    <div className="bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg">
+                      <Image
+                        src={`/images/img-${imageName}.svg`}
+                        width={30}
+                        height={30}
+                        alt={item.text}
+                      />
+                    </div>
+                    <p className="text-[#9747FF] font-semibold">{item.text}</p>
+                  </div>
+                );
+              })}
             </div>
-            <div className="w-[257px] h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4">
-              <div className="bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg">
-                <Image src="/images/img-futsal.svg" width={30} height={30} alt="Futebol Feminino" />
-              </div>
-              <p className="text-[#9747FF] font-semibold">Futebol Feminino</p>
-            </div>
-          </div>
         </div>
       </div>
     </>

@@ -1,203 +1,259 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from 'next/link';
-import { Icon } from '@iconify/react';
-import Image from 'next/image'
 
+import { useState, useEffect } from "react";
+import { Icon } from '@iconify/react';
+import Link from 'next/link';
+import { useSearchParams } from "next/navigation";
 
 export default function TabelaCampeonatos() {
-  const [tabelaTimesContra,setTabelaTimesContra ] = useState(null);
+  const searchParams = useSearchParams();
+  const urlCampeonato = searchParams.get("campeonato");
 
+  const [tabelaTimesContra, setTabelaTimesContra] = useState(false);
   const [showFilterOptions, setShowFilterOptions] = useState(false);
-  
-  const [faseFilter, setFaseFilter] = useState("1 º Fase"); // Estado para armazenar a fase selecionada
-
+  const [faseFilter, setFaseFilter] = useState("1 º Fase");
   const [moveBar, setMoveBar] = useState(1);
-  const [transition, setTransition] = useState(false); // Estado para controlar a transição
+  const [transition, setTransition] = useState(false);
+  const [alertShowFase, setAlertShowFase] = useState(false);
+  const [alertShowDia, setAlertShowDia] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const [alertShowFase, setAlertShowFase] = useState(false) 
-  const [alertShowDia, setAlertShowDia] = useState(false)   
+  const [originalFormData, setOriginalFormData] = useState({
+    horarios: ["", "", "", "", "", ""],
+    jogos: ["J1", "J2", "J3", "J4", "J5", "J6"],
+    timeA: ["1ºADM", "2ºCONT", "1ºINFO", "2ºRH", "2ºRH", "3ºADM"],
+    timeB: ["3ºADM", "1ºADM", "2ºRH", "2ºRH", "2ºINFO", "resp"],
+  });
+
   
+  const [formData, setFormData] = useState({ ...originalFormData });
+
   useEffect(() => {
-    setTransition(true); // Ativa a transição após o componente ser montado
+    setTransition(true);
   }, []);
 
 
-  function handleFilterData() {
-    setShowFilterDataOptions(false)
-
-  }
-  
   function handleFase(fase) {
     setShowFilterOptions(false);
     if (fase === 1) {
       setFaseFilter("1 º Fase");
     } else if (fase === 2) {
-      setAlertShowFase(true);      
+      setAlertShowFase(true);
       setFaseFilter("2 º Fase");
     }
-    setShowFilterFasesOptions(false);
+    setShowFilterOptions(false);
   }
 
   const handleCloseAlertFase = () => {
     setAlertShowFase(false);
   };
 
-  const handleCloseAlertDia = () => {
-    setAlertShowDia(false);
+
+  const mostrarTabelaTimesContra = (exibir) => {
+    setTabelaTimesContra(exibir);
   };
 
-  
-  // Função para obter e exibir o conteúdo
-  const mostrarTabelaTimesContra = () => {
-    const resultado = (
-      <>
-        <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
-        
-        <div className="z-50 fixed bg-white flex flex-col md:w-[700px] w-full rounded-lg">
-          <h1 className="text-center mt-3 text-2xl font-semibold text-[#005261]">Jogos J1</h1>
-          <div className="mx-auto flex flex-col sm:flex-row pt-4 pb-4">
-            <div className="flex flex-col sm:rounded-l-lg sm:border-l-4 sm:border-[#DADADA]">
-              <div className="bg-[#005261] w-full sm:border-r-4 text-white sm:border-white text-center pt-3">1º ADM</div>
-              <div className="flex flex-row w-full justify-evenly sm:border-r-4 sm:border-[#005261]">
-                <p className="flex justify-center items-center w-full sm:w-[89px] text-center border-b-4 border-[#DADADA]">1</p>
-                <p className="w-full sm:w-[209px] pl-2 pt-1 pb-1 break-words border-b-4 border-[#DADADA]">Andre L Scalise Albanese Junior</p>
-              </div>
-              {[...Array(8)].map((_, i) => (
-                <div className="flex flex-row w-full justify-evenly sm:border-r-4 sm:border-[#005261]" key={i}>
-                  <p className="flex justify-center items-center w-full sm:w-[89px] text-center border-b-4 border-[#DADADA]">1</p>
-                  <p className="w-full sm:w-[209px] pl-2 pt-1 pb-1 break-words border-b-4 border-[#DADADA]">Andre L Scalise Albanese Junior</p>
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-col w-full sm:rounded-r-lg sm:border-r-4 sm:border-[#DADADA]">
-              <div className="bg-[#005261] w-full text-white text-center pt-3">3º ADM</div>
-              <div className="flex flex-col sm:flex-row w-full justify-evenly">
-                <p className="flex justify-center items-center w-full sm:w-[89px] text-center border-b-4 border-[#DADADA]">1</p>
-                <p className="w-full sm:w-[209px] pl-2 pt-1 pb-1 break-words border-b-4 border-[#DADADA]">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-              </div>
-            </div>
-          </div>
-  </div>
-      </>
-    );
-    setTabelaTimesContra(resultado);
+  const handleEditClick = () => {
+    setIsEditing(true);
+    // Save the current form data to allow reverting
+    setOriginalFormData({ ...formData });
+  };
+
+  const handleSaveClick = () => {
+    console.log("Dados Submetidos:", formData);
+    setIsEditing(false);
+  };
+
+  const handleCancelClick = () => {
+    // Revert to original data and exit editing mode
+    setFormData({ ...originalFormData });
+    setIsEditing(false);
+  };
+
+  const handleInputChange = (index, field, value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      [field]: prevState[field].map((item, i) => (i === index ? value : item))
+    }));
   };
 
   return (
-    <div className='w-[920px] max-w-full mx-auto pl-4 '>
-      <button onClick={mostrarTabelaTimesContra} className="bg-blue-500 text-white p-2 rounded">
-        Clica aqui
-      </button>
-  
-      {tabelaTimesContra && (
-        <div>
-          {tabelaTimesContra}
-        </div>
-      )}
-     
-  
-      <div className="flex justify-center md:justify-start w-[400px] sm:w-[600px] md:w-[800px] sm:max-w-full gap-4 md:gap-20 mb-4 border-b-4 border-b-[#DADADA] relative">
-        <div
-          onClick={() => setMoveBar(1)}
-          className={`sm:font-semibold text-base md:text-xl flex items-center gap-2 cursor-pointer ${moveBar === "principal" ? "text-[#005261]" : "text-[#DADADA]"}`}
-        >
-          1 º Fase 
-        </div>
-        <div
-          onClick={() => setMoveBar(2)}
-          className={`sm:font-semibold ml-2 text-base md:text-xl flex cursor-pointer ${moveBar === "doacoes" ? "text-[#005261]" : "text-[#DADADA]"}`}
-        >
-          2 º Fase 
-        </div>
-        <div
-          onClick={() => setMoveBar(3)}
-          className={`sm:font-semibold text-base md:text-xl cursor-pointer ${moveBar === "campeonato" ? "text-[#005261]" : "text-[#DADADA]"}`}
-        >
-          3 º Fase 
-        </div>
-        <div
-          onClick={() => setMoveBar(4)}
-          className={`sm:font-semibold text-base md:text-xl cursor-pointer ${moveBar === "campeonato" ? "text-[#005261]" : "text-[#DADADA]"}`}
-        >
-          Fase Final
-        </div>
-        <div
-          className={`hidden sm:block h-[4px] md:w-[120px] bg-[#005261] ${transition ? "duration-700 delay-100" : ""} 
-            ${moveBar === 1 ? "left-0" : ""} 
-            ${moveBar === 2 ? "md:left-32 " : ""} 
-            ${moveBar === 3 ? "md:left-[290px]" : ""} 
-            ${moveBar === 4 ? "md:left-[445px]" : ""} 
-            absolute -bottom-1 font-bold`}
-        ></div>
+    <>
+      <div className='ml-[5%] mt-8 mb-8 flex flex-row sm:flex-col gap-4'>
+          <button>
+              <Link href={'/campeonatos'}>
+                <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
+              </Link>
+          </button>
+         <h1 className='text-2xl font-bold'>{urlCampeonato}</h1>
       </div>
-      <div className='bg-[#005261] w-[400px] sm:w-[600px] md:w-[800px] sm:max-w-full flex rounded-lg rounded-b-lg overflow-x-auto'>
-        <div className='w-[920px] flex'>
-          {moveBar === 1 && (
+      <div className='w-[920px] max-w-full mx-auto'>
+        {tabelaTimesContra && (
+          <>
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+            <div className="fixed inset-0 flex items-center justify-center z-50 -top-72">
+              <div className="mx-auto flex flex-col items-center justify-center w-[450px] sm:w-[800px] max-w-full rounded-3xl bg-white border pt-4 pb-4">
+                <div className="flex w-full pl-16">
+                  <div className="w-1/3">
+                    <Icon
+                      icon="solar:arrow-left-linear"
+                      style={{ color: "#005261" }}
+                      width={30}
+                      onClick={() => mostrarTabelaTimesContra(false)}
+                    />
+                  </div>
+                  <div className="w-full pl-10 sm:pl-24">
+                    <h1 className="text-[#005261] text-xl font-semibold">Jogos J1</h1>
+                  </div>
+                </div>
+                <div className="bg-[#005261] w-[400px] sm:w-[700px] sm:max-w-full rounded-lg">
+                  <div className="w-full flex flex-col sm:flex-row">
+                    <div className="w-full flex flex-col">
+                      <div className="h-[51px] flex items-center justify-center text-center text-white border-r-4 border-white">
+                        Horário
+                      </div>
+                      <div className="sm:border-r-4 sm:border-[#005261]">
+                        <div className="flex flex-row">
+                          <div className="flex justify-center items-center bg-white border border-gray-300 w-[89px] h-[50px] max-w-full text-center">1</div>
+                          <div className= "flex items-center bg-white border border-gray-300 w-full h-[50px] pl-1">Joao Cleber da Silva Pereira Nunes Ambraga Jorge Macedonia</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-full flex flex-col">
+                      <div className="h-[51px] flex items-center justify-center text-white">
+                        Horário
+                      </div>
+                      <div>
+                        <div className="flex flex-row">
+                          <div className="flex justify-center items-center bg-white border border-gray-300 w-[89px] h-[50px] max-w-full text-center">1</div>
+                          <div className="flex items-center bg-white border border-gray-300 w-full h-[50px] pl-1 max-w-full text-start ">Joao Cleber da Silva Pereira Nunes Ambraga Jorge Macedonia</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        <div className="mx-auto flex justify-center md:justify-start w-[400px] sm:w-[600px] md:w-[800px] sm:max-w-full gap-4 md:gap-20 mb-4 border-b-4 border-b-[#DADADA] relative">
+          <div
+            onClick={() => setMoveBar(1)}
+            className={`sm:font-semibold text-nowrap text-base md:text-xl flex items-center gap-2 cursor-pointer ${moveBar === 1 ? "text-[#005261]" : "text-[#DADADA]"}`}
+          >
+            1 º Fase 
+          </div>
+          <div
+            onClick={() => setMoveBar(2)}
+            className={`sm:font-semibold ml-2  text-nowrap text-base md:text-xl flex cursor-pointer ${moveBar === 2 ? "text-[#005261]" : "text-[#DADADA]"}`}
+          >
+            2 º Fase 
+          </div>
+          <div
+            onClick={() => setMoveBar(3)}
+            className={`sm:font-semibold text-nowrap text-base md:text-xl cursor-pointer ${moveBar === 3 ? "text-[#005261]" : "text-[#DADADA]"}`}
+          >
+            3 º Fase 
+          </div>
+          <div
+            onClick={() => setMoveBar(4)}
+            className={`sm:font-semibold text-nowrap text-base md:text-xl cursor-pointer ${moveBar === 4 ? "text-[#005261]" : "text-[#DADADA]"}`}
+          >
+            Fase Final
+          </div>
+          <div
+            className={`hidden sm:block h-[4px] md:w-[120px]  ${transition ? "duration-700 delay-100" : ""} 
+              ${moveBar === 1 ? "left-0" : ""} 
+              ${moveBar === 2 ? "md:left-32 " : ""} 
+              ${moveBar === 3 ? "md:left-[290px]" : ""} 
+              ${moveBar === 4 ? "md:left-[445px]" : ""} 
+              absolute -bottom-1 font-bold`}
+          ></div>
+        </div>
+        <div className="mx-auto w-[425px] sm:w-[600px] md:w-[900px] sm:max-w-full ">
+          <div className="relative overflow-x-auto md:overflow-x-hidden rounded-3xl">
+            <div className="min-w-[920px]">
+              {moveBar === 1 && (
+                <table className="w-full table-auto border-collapse border border-gray-300">
+                  <thead className="bg-[#005261] text-white">
+                    <tr>
+                      <th className="w-[200px] h-[51px] border-r-4 border-white sticky left-0 bg-[#005261] z-20">Horário</th>
+                      <th className="w-[200px] h-[51px] border-r-4 border-white">Jogos</th>
+                      <th className="w-[200px] h-[51px] border-r-4 border-white">Time A</th>
+                      <th className="w-[200px] h-[51px]">Time B</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {formData.jogos.map((jogo, index) => (
+                      <tr key={index} className="border-b">
+                        <td className="w-[200px] h-[50px] border-r border-gray-300 p-1 text-center sticky left-0 bg-white z-10">
+                          {isEditing ? (
+                            <input
+                              type="time"
+                              value={formData.horarios[index]}
+                              onChange={(e) => handleInputChange(index, 'horarios', e.target.value)}
+                            />
+                          ) : (
+                            formData.horarios[index]
+                          )}
+                        </td>
+                        <td className="w-[200px] h-[50px] border-r border-gray-300 p-1 text-center" onClick={() => mostrarTabelaTimesContra()}>
+                          {jogo}
+                        </td>
+                        <td className="w-[200px] h-[50px] border-r border-gray-300 p-1 text-center">
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={formData.timeA[index]}
+                              onChange={(e) => handleInputChange(index, 'timeA', e.target.value)}
+                            />
+                          ) : (
+                            formData.timeA[index]
+                          )}
+                        </td>
+                        <td className="w-[200px] h-[50px] p-1 text-center">
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={formData.timeB[index]}
+                              onChange={(e) => handleInputChange(index, 'timeB', e.target.value)}
+                            />
+                          ) : (
+                            formData.timeB[index]
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+             
+            </div>
+          </div>
+        </div>
+        <div className="flex sm:justify-between items-center flex-col sm:flex-row gap-4 mt-4 pl-8 sm:pl-4">
+          {isEditing ? (
             <>
-              <div>
-                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
-                  Horário
-                </div>
-                <form action="" className='w-[200px]'>
-                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"8h00"} />
-                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"8h15"} />
-                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"8h30"} />
-                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"8h45"} />
-                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"9h10"} />
-                  <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"9h25"} />
-                </form>
-              </div>
-              <div>
-                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
-                  Jogos
-                </div>
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] sm:max-w-full bg-white text-center text-[#DADADA]' value={"J1"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J2"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J3"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J4"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J5"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"J6"} />
-              </div>
-              <div>
-                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
-                  Time A
-                </div>
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"1°ADM"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"2°CONT"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"1°INFO"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"1°CONT"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"2°RH"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"3°ADM"} />
-              </div>
-              <div>
-                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
-                  Time B
-                </div>
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"1°RH"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"3°INFO"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"3°RH"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"2°ADM"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"2°RH"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full text-center' value={"3°ADM"} />
-              </div>
-              <div>
-                <div className='w-[200px] h-[51px] flex justify-center items-center text-white border-r-4 border-white'>
-                  Rodada
-                </div>
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
-                <input type="text" className='border border-gray-300 w-[200px] h-[42px] max-w-full bg-white text-center text-[#DADADA]' value={"1"} />
-              </div>
+              <button onClick={handleSaveClick} className="w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
+                Salvar
+              </button>
+              <button onClick={handleCancelClick} className="w-[180px] h-[60px] rounded-xl bg-[#E6EFF0] text-[#005261] px-4 py-2">
+                Cancelar
+              </button>
             </>
+          ) : (
+            <button onClick={handleEditClick} className="w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
+              Editar
+            </button>
           )}
+
+          <div className='w-[400px]  text-justify border border-[#005261] p-2'>
+            OBS: utilize as abreviações : <span className="font-bold">3ºINFO</span>, <span className="font-bold">2ºINFO</span>, <span className="font-bold">1ºINFO</span>,
+             <span className="font-bold">3ºADM</span>,  <span className="font-bold">2ºADM</span>, <span className="font-bold">1ºADM</span>, <span className="font-bold">1ºRH</span>, <span className="font-bold">2ºRH</span>, <span className="font-bold">1ºRH</span>, 
+             <span className='font-bold'>3ºCONT</span>, <span className="font-bold">2ºCONT</span>, <span className="font-bold">1ºCONT</span>. Utilize <span className="font-bold">resp</span> para caso de repescagem
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
-  

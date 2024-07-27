@@ -382,7 +382,7 @@ export default function Sala() {
         )}
        <div className='mx-auto pl-5 md:pl-20 flex flex-col gap-10 m-5'>
          <div className='max-w-[1400px]  flex flex-row justify-between'>
-              <button className=''>
+              <button>
                 <Link href={'/salas'}>
                   <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
                 </Link>
