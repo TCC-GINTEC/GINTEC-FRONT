@@ -21,7 +21,7 @@ const SideBarContainerItens = ({ children, url,active }) => {
         case "/ranking":
           positionClass = "position-active-quatro";
           break;
-        case "/notificacao":
+        case "/recados":
           positionClass = "position-active-cinco";
           break;
         case "/configuracao":
@@ -49,7 +49,7 @@ const SideBarContainerItens = ({ children, url,active }) => {
             case "/ranking":
               positionClass = "position-false-quatro";
               break;
-            case "/notificacao":
+            case "/recados":
               positionClass = "position-false-cinco";
               break;
             case "/configuracao":

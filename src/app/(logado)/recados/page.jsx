@@ -10,64 +10,141 @@ import ContainerDoacao from '@/components/formCadastro/ContainerDoacao';
 export default function Recados(){
   const [modalSucessoOpen, setModalSucessoOpen] = useState(false);
 
-
   const [mostrarCalendario, setMostrarCalendario] = useState(false)
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
   const [opcaoForm, setOpcaoForm] = useState(0);
   
+  const [mostrarFormulario2, setMostrarFormulario2] = useState(false)
+ 
   const [todosRecadosFiltro, setTodosRecadosFiltro] = useState(false);
   const [periodoFiltro, setPeriodoFiltro] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false) 
   const [mostrarModalOpcoes, setMostrarModalOpcoes] = useState(false);
+  
+  const [retornoApiAddRecado, setRetornoApiAddRecado] = useState([]);
 
   function handleMostrarModal() {
     setMostrarModalOpcoes(prevShow => !prevShow); // Alternativa mais concisa para alternar entre true/false
   }
   const paletaCores = [
-    { name: 'Prazos',  background: 'bg-[#FF4CA2]', img: 'img-prazo.svg' },
-    { name: 'Organização de Sala', background: 'bg-[#005261]', img: 'organizacao-sala-icon.svg', coloricon:'text-white' },
-    { name: 'Cadastros', background: 'bg-[#A0C340]', img: 'cadastros-icon.svg', coloricon:'text-white' },
-    { name: 'Campeonato de Quadra', background: 'bg-[#8A29E6]', img: 'img-futsal.svg' },
-    { name: 'Doações', background: 'bg-[#FFC24C]',img:'img-doacao.svg' },
-    { name: 'Oficinas', background: 'bg-[#00C1CF]',img:'img-oficina.svg' },
-    { name: 'Campeonato de Pátio', background: 'bg-[#FF4C4D]',img:'img-domino.svg' }
+    { titulo: 'Prazos',  background: 'bg-[#FF4CA2]', img: 'img-prazo.svg' },
+    { titulo: 'Organização de Sala', background: 'bg-[#005261]', img: 'organizacao-sala-icon.svg', coloricon:'text-white' },
+    { titulo: 'Cadastros', background: 'bg-[#A0C340]', img: 'cadastros-icon.svg', coloricon:'text-white' },
+    { titulo: 'Campeonato de Quadra', background: 'bg-[#8A29E6]', img: 'img-futsal.svg' },
+    { titulo: 'Doações', background: 'bg-[#FFC24C]',img:'img-doacao.svg' },
+    { titulo: 'Oficinas', background: 'bg-[#00C1CF]',img:'img-oficina.svg' },
+    { titulo: 'Campeonato de Pátio', background: 'bg-[#FF4C4D]',img:'img-domino.svg' }
   ];
+ 
+  {/*quando a pessoa cria um novo recado */}
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const target = e.target;
-    let tituloRecado = target.titulo.value;
-    let visualizacao = target.visualizacao.value;
-    let data = target.diaMarcado.value;
-    let horario = target.horarioRecado.value;
-    let recado =  target.recado.value;
-    console.log(tituloRecado,visualizacao, data, horario,recado)
-    
+    const tipoRecado = target.tipoRecado.value;
+    const tituloRecado = target.titulo.value;
+    const visualizacaoRecado = target.visualizacao.value;
+    const dataRecado = target.diaMarcado.value;
+    const horarioRecado = target.horarioRecado.value;
+    const mensagem = target.recado.value;
+
+    setRetornoApiAddRecado(prevState => [
+      ...prevState,
+      {
+        id: prevState.length + 1, // Adicione um ID único para cada recado
+        tipo : tipoRecado,
+        titulo: tituloRecado,
+        visualizacao: visualizacaoRecado,
+        data: dataRecado,
+        horario: horarioRecado,
+        recado: mensagem
+      }
+    ]);
     setTimeout(() => {
       setMostrarModal(false)
-      setModalSucessoOpen(true);      
+      setModalSucessoOpen(true);
     }, 4000);
-  }
+  };
 
   const closeModal = () => {
     setMostrarFormulario(false)
     setModalSucessoOpen(false);
   }
+
+ {/*os dados vem da api e quando a pessoa clica no recado a pessoa pode vizualizar as informações ou editar elas */}
+
+  const [idObjetoSelecionado, setIdObjetoSelecionado] = useState(null);
+
+  const [tipo, setTipo] = useState('');
+  const [visualizacao, setVisualizacao] = useState('');
+  const [titulo, setTitulo] = useState('');
+  const [dia, setDia] = useState('');
+  const [horario, setHorario] = useState('');
+  const [mensagem, setMensagem] = useState('');
+
+  const handleShowForm = (recado) => {
+    setMostrarFormulario2(true);
+    setIdObjetoSelecionado(recado.id);
+    setTipo(recado.tipo);
+    setVisualizacao(recado.visualizacao);
+    setTitulo(recado.titulo);
+    setDia(recado.data);
+    setHorario(recado.horario);
+    setMensagem(recado.recado);
+  };
+  
+  const handleCloseForm = () => {
+    setMostrarFormulario2(false);
+    setIdObjetoSelecionado(null);
+    setTipo('');
+    setTitulo('');
+    setDia('');
+    setHorario('');
+    setMensagem('');;
+  };
+  
+  const handleFormSubmit2 = (e) => {
+    e.preventDefault();
+    
+    const tipoRecado = tipo;
+    const visualizacaoRecado = visualizacao;
+    const tituloRecado= titulo;
+    const diaRecado = dia;
+    const horarioRecado = horario;
+    const mensagemRecado= mensagem;
+    
+    const posicao = retornoApiAddRecado.findIndex((elemento) => elemento.id === idObjetoSelecionado);
+  
+    const novosDados = [...retornoApiAddRecado];
+    novosDados[posicao] = {
+      id: idObjetoSelecionado,
+      tipo: tipoRecado,
+      visualizacao: visualizacaoRecado,
+      tipo: tituloRecado ,
+      dia: diaRecado,
+      horario: horarioRecado,
+      mensagem: mensagemRecado,
+    };
+
+    setRetornoApiAddRecado(novosDados);
+  
+    setTimeout(() => {
+      handleCloseForm();
+      setModalSucessoOpen(true);
+    }, 4000);
+  };
+
+  {/*funções daqui pra baixo para ser possível aplicar responsividade */}
   
   const [larguraJanela, setLarguraJanela] = useState(0);
 
   useEffect(() => {
-      // Função para atualizar a largura da janela
       const handleResize = () => {
           setLarguraJanela(window.innerWidth);
       };
-
-      // Configura a largura inicial
       handleResize();
-
-      // Adiciona o listener para o evento resize
       window.addEventListener('resize', handleResize);
 
-      // Cleanup: remove o listener quando o componente é desmontado
       return () => {
           window.removeEventListener('resize', handleResize);
       };
@@ -108,7 +185,7 @@ export default function Recados(){
           </div>
           {/* filtros */}
           <div className={`flex ${largura < 700   && largura >= 624?'md:flex-col justify-center':'sm:flex-row items-center'} border border-orange-500 mt-[50px] ml-4 mb-[50px] w-full`}>
-            {/* filtro 1 */}
+            {/* filtro 1 Todos os Recados */}
             <div className='relative flex justify-center'>
               <div
                 onClick={() => setTodosRecadosFiltro(!todosRecadosFiltro)}
@@ -135,7 +212,7 @@ export default function Recados(){
               )}
             </div>
             
-            {/* filtro 2 */}
+            {/* filtro 2 Periodo */}
             <div className={`ml-[5%] relative flex flex-col sm:flex-row sm:justify-center`}>
               <div
                 onClick={() => setPeriodoFiltro(!periodoFiltro)}
@@ -163,25 +240,71 @@ export default function Recados(){
             </div>
           </div>
           
-          {/* seção de recados */}
-          <section className=' flex flex-col gap-4 ml-4 '>
-            <div className='p-1 pb-4 pl-4 pr-4 border-b-2 border-[#E6E6E6]'>
-              {/* Ícone */}
-              <div className='float-left w-[50px] h-[50px] rounded-lg bg-[#8A29E6] grid place-content-center mr-4'>
-                <Image src="/images/img-futsal.svg" alt="imagem recado" width={30} height={30} />
-              </div>
-              <div className='float-left'>
-                {/* Título */}
-                <span className='block text-lg font-semibold mb-1'>Titulo</span>
-                {/* Data */}
-                <span className='block text-sm text-gray-400'>24 ago às 08:42</span>
-              </div>
-              <Icon width={40} icon="iconamoon:arrow-right-2-bold" className={`text-[#005261] float-right`} />
-              <div className='clear-both'></div>
-            </div>
+          {/* seção de recados adicionados do formulario */}
+          <section className='flex flex-col gap-4 ml-4'>
+            {retornoApiAddRecado.map((recado) => {
+              const item = paletaCores.find((item) => item.titulo === recado.tipo);
+
+              if (!item) return null; // Verifique se o item existe na paleta de cores
+
+              return (
+                <div key={recado.id} className='p-1 pb-4 pl-4 pr-4 border-b-2 border-[#E6E6E6]' onClick={() => handleShowForm(recado)}>
+                  {/* Ícone */}
+                  <div className={`float-left w-[50px] h-[50px] rounded-lg ${item.background} grid place-content-center mr-4`}>
+                    <Image src={`/images/${item.img}`} alt="imagem recado" width={30} height={30} />
+                  </div>
+                  <div className='float-left'>
+                    {/* Título */}
+                    <span className='block text-lg font-semibold mb-1'>{item.titulo}</span>
+                    {/* Data */}
+                    <span className='block text-sm text-gray-400'>{recado.data} às {recado.horario}</span>
+                  </div>
+                  <Icon width={40} icon="iconamoon:arrow-right-2-bold" className={`text-[#005261] float-right`} />
+                  <div className='clear-both'></div>
+                </div>
+              );
+            })}
           </section>
-        </div>
+        </div>   
       </div>
+           
+      {/*mostrar formulario 2 qunado clicar no recado */}
+          {mostrarFormulario2 && (
+             <div className={`foverflow-y-auto flex flex-col gap-4 z-50 bg-white items-center w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative`}>
+                <form onSubmit={handleFormSubmit2}  className=' space-y-8 sm:w-3/4 h-[700px] flex items-center flex-col z-50 bg-white '>
+                     <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                        Tipo de Recado  
+                        <input type="text" value={tipo}  name="tipoRecado" onChange={(e) => setTipo(e.target.value)}  className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                      </label>
+                      <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                        Titulo 
+                        <input type="text" value={titulo} name="titulo" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                      </label>
+                      <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                        <input type="radio"  name="visualizacao" className='bg-[#E6EFF0] text-[#005261]  text-lg' value="representante" checked={visualizacao == 'representante'}/> Representantes <br/>
+                        <input type="radio" name="visualizacao" className='bg-[#E6EFF0] text-[#005261] text-lg' value="aluno" checked={visualizacao == 'aluno'}/> Todos os Alunos
+                      </label>
+                      <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                        <input type="date" name="diaMarcado" value={dia} onChange={(e) => setDia(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg'/>
+                      </label>
+                      <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                         <input type="time" value={horario} name="horarioRecado" onChange={(e) => setHorario(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                      </label>
+                      <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                         Recado 
+                         <textarea name="recado" value={mensagem} onChange={(e) => setMensagem(e.target.value)} className='bg-[#E6EFF0] w-full text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                       </label>
+                      <div className='flex sm:flex-row justify-evenly w-full gap-2'>
+                        <button type='submit' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Publicar</button>
+                        <button type='button' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4' onClick={handleCloseForm}>
+                           Cancelar
+                        </button>
+                      </div>
+                    </form>
+               </div> 
+            )
+          }
+
       {/* div da direita */}
       <div className={
         ` ${largura < 639 ? `${mostrarCalendario?'block z-50 fixed right-0 top-8 ':'hidden'} ` : 'block'} ${largura < 1086 ? 'w-[350px] ' : larguraJanela < 916 ? ' pr-8' : 'w-[520px]'} 
@@ -194,7 +317,7 @@ export default function Recados(){
           </section>
           <section>
             {/* notificacao */}
-            <p className='text-[#999999] text-center pt-[56px] pb-[50px]'>Escolha uma data e veja qual prazo está marcado ser entregue nela</p>
+            <p className='text-[#999999] text-center sm:pt-[56px] sm:pb-[50px]'>Escolha uma data e veja qual prazo está marcado ser entregue nela</p>
             <hr className='border-[#005261] border-b-2'/>
           </section>
           {/* botao */}
@@ -206,23 +329,29 @@ export default function Recados(){
           </button>
         </div>
       </div>
-         {modalSucessoOpen && (
-            <>
-                 <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div> {/* Fundo preto translúcido */}
-                 <div className="fixed -top-8 inset-0 flex items-center justify-center z-50">
-                   <div className="mx-auto  w-[290px] h-[220] sm:w-[390px] sm:h-[330px] bg-white p-6 rounded-lg shadow-lg relative z-50">
-                      <image src=".././images/sucess-form.png" className='absolute -top-[43px] left-[53px] sm:-top-[43px] sm:left-20 h-[154px] w-[200px] sm:h-[159px] sm:w-[217px]' alt="" />
-                      <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={closeModal}>
-                        ✕
-                      </button>
-                      <div className='mt-28 text-center'>
-                        <h3 className="font-bold text-2xl">Sucesso!</h3>
-                        <p className="py-4 text-2xl">a</p>
-                      </div>
-                  </div>
-                  </div>
+        
+        {/*quando a pessoa cria um recado */}
+
+        {modalSucessoOpen && (
+          <>
+              <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div> {/* Fundo preto translúcido */}
+               <div className="fixed -top-8 inset-0 flex items-center justify-center z-50">
+                  <div className="mx-auto  w-[290px] h-[220] sm:w-[390px] sm:h-[330px] bg-white p-6 rounded-lg shadow-lg relative z-50">
+                    <image src="../../images/sucess-form.png" className='absolute -top-[43px] left-[53px] sm:-top-[43px] sm:left-20 h-[154px] w-[200px] sm:h-[159px] sm:w-[217px]' alt="" />
+                    <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={closeModal}>
+                      ✕
+                    </button>
+                    <div className='mt-28 text-center'>
+                      <h3 className="font-bold text-2xl">Sucesso!</h3>
+                      <p className="py-4 text-2xl">Esse recado foi publicado com sucesso.</p>
+                    </div>
+                </div>
+              </div>
             </>
-          )}
+         )}
+      
+      {/*quando a pessoa clica no botão de acionar um nobo recado*/}
+
       {mostrarModal && (
           <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div> {/* Fundo preto translúcido */}
@@ -254,21 +383,21 @@ export default function Recados(){
                       <div className='absolute left-4 top-2 cursor-pointer' onClick={() => setMostrarModal(!mostrarModal), () => setMostrarFormulario(!mostrarFormulario)}>
                         <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
                       </div>
-                      <form  onSubmit={(e) => handleFormSubmit(e)} className=' space-y-8 sm:w-3/4 h-[700px] flex items-center flex-col z-50 bg-white '>
+                      <form onSubmit={handleFormSubmit}  className=' space-y-8 sm:w-3/4 h-[700px] flex items-center flex-col z-50 bg-white '>
                        <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                            Tipo de Recado
                           {opcaoForm == 1 ?(  
-                            <input type="text" name="organizacaoSala" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Organização de Sala'}/>
+                            <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Organização de Sala'}/>
                             ):opcaoForm == 2?(
-                              <input type="text" name="campeonatoPatio" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Campeonato de Pátio'}/>
+                              <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Campeonato de Pátio'}/>
                             ):opcaoForm == 3?(
-                              <input type="text" name="campeonatoQuadra" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Campeonato de Quadra'}/>
+                              <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Campeonato de Quadra'}/>
                             ):opcaoForm == 4?(
-                            <input type="text" name="prazo" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Prazos'}/>
+                            <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Prazos'}/>
                             ):opcaoForm == 5?(
-                            <input type="text" name="doacao" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Doações'}/>
+                            <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Doações'}/>
                            ):(
-                            <input type="text" name="oficina" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Oficinas'}/>
+                            <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Oficinas'}/>
                            )
                           }
                         </label>
@@ -293,7 +422,7 @@ export default function Recados(){
                           <textarea name="recado" className='bg-[#E6EFF0] w-full text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
                         </label>
                         <div className='flex sm:flex-row justify-evenly w-full gap-2'>
-                          <button type='submit' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
+                          <button type='submit' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Publicar</button>
                           <button type='button' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4' onClick={() => setMostrarModal(!mostrarModal), () => setMostrarFormulario(!mostrarFormulario)}>
                             Cancelar
                           </button>
@@ -302,6 +431,7 @@ export default function Recados(){
                     </div>
                   )}
             </div>
+
           </>
         )}
     </div>

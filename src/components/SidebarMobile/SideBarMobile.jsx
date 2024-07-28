@@ -49,9 +49,9 @@ export default function SideBar({ className,exibirSidebar,exibirSidebarMobile}) 
         link: "/ranking",
       },
       {
-        text: "Notificação",
+        text: "Recados",
         img: "./images/notificacao-icon.svg",
-        link: "/notificacao",
+        link: "/recados",
       },
     ];
 
