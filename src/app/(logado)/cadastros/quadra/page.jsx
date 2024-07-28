@@ -11,7 +11,7 @@ export default function Quadra() {
   const [nomeCampeonato, setNomeCampeonato] = useState('');
   const [pontoCampeonato, setPontoCampeonato] = useState('');
   const [dataCampeonato, setDataCampeonato] = useState('');
-  const [faseCampeonato, setFaseCampeonato] = useState('');
+  const [qntJogadoresTime,  setQntJogadoresTime] = useState('');
   const [idObjetoSelecionado, setIdObjetoSelecionado] = useState(null);
 
   const [retornoApi, setRetornoApi] = useState([
@@ -19,28 +19,28 @@ export default function Quadra() {
       id: 1,
       nome: 'damas',
       ponto: 200,
-      fase: 3,
+      jogadoresPorTime: 3,
       data: new Date('2024-08-01'),
     },
     {
       id: 2,
       nome: 'xadrez',
       ponto: 150,
-      fase: 3,
+      jogadoresPorTime: 3,
       data: new Date('2024-07-20'),
     },
     {
       id: 3,
       nome: 'pembolim',
       ponto: 100,
-      fase: 3,
+      jogadoresPorTime: 3,
       data: new Date('2024-07-15'),
     },
     {
       id: 4,
       nome: 'ping pong',
       ponto: 250,
-      fase: 3,
+      jogadoresPorTime: 3,
       data: new Date('2024-07-25'),
     },
   ]);
@@ -59,7 +59,7 @@ export default function Quadra() {
     setIdObjetoSelecionado(jogo.id);
     setNomeCampeonato(jogo.nome);
     setPontoCampeonato(jogo.ponto);
-    setFaseCampeonato(jogo.fase);
+    setQntJogadoresTime(jogo.jogadoresPorTime);
     setDataCampeonato(formatDateToBR(jogo.data));
   };
 
@@ -68,7 +68,7 @@ export default function Quadra() {
     setIdObjetoSelecionado(null);
     setNomeCampeonato('');
     setPontoCampeonato('');
-    setFaseCampeonato('');
+    setQntJogadoresTime('');
     setDataCampeonato('');
   };
 
@@ -76,7 +76,7 @@ export default function Quadra() {
     e.preventDefault();
     const nome = nomeCampeonato;
     const ponto = Number(pontoCampeonato);
-    const fase = Number(faseCampeonato);
+    const jogadores =Number(qntJogadoresTime);
     const data = parseDateFromBR(dataCampeonato);
 
     const posicao = retornoApi.findIndex(
@@ -88,7 +88,7 @@ export default function Quadra() {
       id: idObjetoSelecionado,
       nome: nome,
       ponto: ponto,
-      fase: fase,
+      jogadores: jogadores,
       data: data,
     };
 
@@ -137,8 +137,8 @@ export default function Quadra() {
                 <input type="text" name="pontoCampeonato" value={pontoCampeonato} onChange={(e) => setPontoCampeonato(Number(e.target.value))} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                Quantidade de fases
-                <input type="text" name="qntFases" value={faseCampeonato} onChange={(e) => setFaseCampeonato(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                Quantidade de Jogadores por Time
+                <input type="number" name="jogadores" value={qntJogadoresTime} onChange={(e) => setQntJogadoresTime(e.target.value)}  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' autocomplete="off"/>
               </label>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                 Data

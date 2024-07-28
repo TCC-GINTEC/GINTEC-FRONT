@@ -21,8 +21,7 @@ export default function Quadra() {
     const target = e.target;
     const nome = target.nomeCampeonato.value;
     const ponto = target.pontoCampeonato.value;
-    const qntFase = target.qntFases.value;
-    const qntJogos   = target.qntJogos.value;
+    const jogadores = target.jogadores.value;
     const data = target.dataCampeonato.value;
 
     setTimeout(() => {
@@ -67,12 +66,8 @@ export default function Quadra() {
             <input type="number" name="pontoCampeonato" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-            Quantidade de fases
-            <input type="number" name="qntFases" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
-          </label>
-          <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-            Quantidade de Jogos
-            <input type="text" name="qntJogos" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' />
+            Quantidade de Jogadores por Time
+            <input type="number" name="jogadores" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' placeholder='digite aqui' autocomplete="off"/>
           </label>
           <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
             Data
