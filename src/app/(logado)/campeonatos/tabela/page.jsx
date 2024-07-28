@@ -90,6 +90,7 @@ export default function TabelaCampeonatos() {
          <h1 className='text-2xl font-bold'>{urlCampeonato}</h1>
       </div>
       <div className='w-[920px] max-w-full mx-auto'>
+        <p className=' text-center mb-4 text-[#666666]'>Para editar, clique no botão 'Editar' e faça as alterações necessárias. Para visualizar os times que vão disputar clique em uma das células da coluna Jogos </p>
         {tabelaTimesContra && (
           <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>

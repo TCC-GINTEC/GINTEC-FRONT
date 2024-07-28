@@ -165,8 +165,8 @@ export default function Campeonatos() {
                 const encodedText = encodeURIComponent(item.text);
 
                 return (
-                  <div key={index} className={`${larguraJanela < 600 && larguraJanela > 448 || largura < 700 && largura >= 501 ?'w-[200px]':' w-[275px]'}  h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4`} onClick={() => router.push(`/campeonatos/tabela?campeonato=${encodedText}`)}>
-                    <div className="bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg">
+                  <div key={index} className={`hover:scale-110 transition-all duration-150  ${larguraJanela < 600 && larguraJanela > 448 || largura < 700 && largura >= 501 ?'w-[200px]':' w-[275px]'}  h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4`} onClick={() => router.push(`/campeonatos/tabela?campeonato=${encodedText} `)}>
+                    <div className="bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg ">
                       <Image
                         src={`/images/img-${imageName}.svg`}
                         width={30}
