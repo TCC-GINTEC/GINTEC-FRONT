@@ -60,10 +60,8 @@ export default function Recados(){
         recado: mensagem
       }
     ]);
-    setTimeout(() => {
-      setMostrarModal(false)
-      setModalSucessoOpen(true);
-    }, 4000);
+
+    setMostrarModal(false)
   };
 
   const closeModal = () => {
@@ -127,11 +125,8 @@ export default function Recados(){
     };
 
     setRetornoApiAddRecado(novosDados);
-  
-    setTimeout(() => {
-      handleCloseForm();
-      setModalSucessoOpen(true);
-    }, 4000);
+
+    handleCloseForm();
   };
 
   {/*funções daqui pra baixo para ser possível aplicar responsividade */}
@@ -270,44 +265,53 @@ export default function Recados(){
            
       {/*mostrar formulario 2 qunado clicar no recado */}
           {mostrarFormulario2 && (
-             <div className={`foverflow-y-auto flex flex-col gap-4 z-50 bg-white items-center w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative`}>
-                <form onSubmit={handleFormSubmit2}  className=' space-y-8 sm:w-3/4 h-[700px] flex items-center flex-col z-50 bg-white '>
-                     <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                        Tipo de Recado  
-                        <input type="text" value={tipo}  name="tipoRecado" onChange={(e) => setTipo(e.target.value)}  className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
-                      </label>
-                      <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                        Titulo 
-                        <input type="text" value={titulo} name="titulo" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
-                      </label>
-                      <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                        <input type="radio"  name="visualizacao" className='bg-[#E6EFF0] text-[#005261]  text-lg' value="representante" checked={visualizacao == 'representante'}/> Representantes <br/>
-                        <input type="radio" name="visualizacao" className='bg-[#E6EFF0] text-[#005261] text-lg' value="aluno" checked={visualizacao == 'aluno'}/> Todos os Alunos
-                      </label>
-                      <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                        <input type="date" name="diaMarcado" value={dia} onChange={(e) => setDia(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg'/>
-                      </label>
-                      <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                         <input type="time" value={horario} name="horarioRecado" onChange={(e) => setHorario(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
-                      </label>
-                      <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                         Recado 
-                         <textarea name="recado" value={mensagem} onChange={(e) => setMensagem(e.target.value)} className='bg-[#E6EFF0] w-full text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
-                       </label>
-                      <div className='flex sm:flex-row justify-evenly w-full gap-2'>
-                        <button type='submit' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Publicar</button>
-                        <button type='button' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4' onClick={handleCloseForm}>
-                           Cancelar
-                        </button>
-                      </div>
-                    </form>
-               </div> 
+             <>
+              <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div> {/* Fundo preto translúcido */}
+              <div className="fixed -top-8 inset-0 flex items-center justify-center z-50  ">
+                <div className=" flex flex-col gap-4 z-50 bg-white items-center w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative max-h-screen h-[700px] overflow-y-auto ">
+                  <div className='absolute left-4 top-2 cursor-pointer' onClick={() => setMostrarFormulario2(!mostrarFormulario2)}>
+                    <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
+                  </div>
+                  <form onSubmit={handleFormSubmit2} className='overflow-y-auto space-y-8 sm:w-3/4 h-full flex items-center flex-col z-50 bg-white'>
+                    <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      Tipo de Recado  
+                      <input type="text" value={tipo} name="tipoRecado" onChange={(e) => setTipo(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                    </label>
+                    <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      Titulo 
+                      <input type="text" value={titulo} name="titulo" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                    </label>
+                    <label className='gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      <input type="radio" name="visualizacao" className='bg-[#E6EFF0] text-[#005261] text-lg' value="representante" checked={visualizacao === 'representante'} /> Representantes <br/>
+                      <input type="radio" name="visualizacao" className='bg-[#E6EFF0] text-[#005261] text-lg' value="aluno" checked={visualizacao === 'aluno'} /> Todos os Alunos
+                    </label>
+                    <label className='gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      <input type="date" name="diaMarcado" value={dia} onChange={(e) => setDia(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg'/>
+                    </label>
+                    <label className='gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      <input type="time" value={horario} name="horarioRecado" onChange={(e) => setHorario(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                    </label>
+                    <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      Recado 
+                      <textarea name="recado" value={mensagem} onChange={(e) => setMensagem(e.target.value)} className='bg-[#E6EFF0] w-full text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                    </label>
+                    <div className='flex sm:flex-row justify-evenly w-full gap-2'>
+                      <button type='submit' className='w-1/2 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Publicar</button>
+                      <button type='button' className='w-1/2 rounded-2xl self-start bg-[#005261] text-white font-medium p-4' onClick={handleCloseForm}>
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+            </div>
+
+             </>
             )
           }
 
       {/* div da direita */}
       <div className={
-        ` ${largura < 639 ? `${mostrarCalendario?'block z-50 fixed right-0 top-8 ':'hidden'} ` : 'block'} ${largura < 1086 ? 'w-[350px] ' : larguraJanela < 916 ? ' pr-8' : 'w-[520px]'} 
+        ` ${largura < 639 ? `${mostrarCalendario?'block z-50 fixed right-0 top-8 ':'hidden'} ` : `block`} ${mostrarModal ?'hidden':'block'}  ${largura < 1086 ? 'w-[350px] ' : larguraJanela < 916 ? ' pr-8' : 'w-[520px]'} 
         h-[690px] rounded-l-lg bg-[#efeeee] border border-green-500 `}>
         <Image src={'/images/fechar-menu.svg'} className={`relative -left-1 -top-3 ${largura>625?'hidden':'block'}`} width={40} height={30} onClick={() =>setMostrarCalendario(!mostrarCalendario)}/>
         
@@ -330,26 +334,6 @@ export default function Recados(){
         </div>
       </div>
         
-        {/*quando a pessoa cria um recado */}
-
-        {modalSucessoOpen && (
-          <>
-              <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div> {/* Fundo preto translúcido */}
-               <div className="fixed -top-8 inset-0 flex items-center justify-center z-50">
-                  <div className="mx-auto  w-[290px] h-[220] sm:w-[390px] sm:h-[330px] bg-white p-6 rounded-lg shadow-lg relative z-50">
-                    <image src="../../images/sucess-form.png" className='absolute -top-[43px] left-[53px] sm:-top-[43px] sm:left-20 h-[154px] w-[200px] sm:h-[159px] sm:w-[217px]' alt="" />
-                    <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={closeModal}>
-                      ✕
-                    </button>
-                    <div className='mt-28 text-center'>
-                      <h3 className="font-bold text-2xl">Sucesso!</h3>
-                      <p className="py-4 text-2xl">Esse recado foi publicado com sucesso.</p>
-                    </div>
-                </div>
-              </div>
-            </>
-         )}
-      
       {/*quando a pessoa clica no botão de acionar um nobo recado*/}
 
       {mostrarModal && (
@@ -379,7 +363,7 @@ export default function Recados(){
                 </div>
               </div>
                 {mostrarFormulario && (
-                   <div className={`foverflow-y-auto flex flex-col gap-4 z-50 bg-white items-center w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative`}>
+                   <div className={`foverflow-y-auto flex flex-col gap-4 z-50 bg-white items-center w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative  max-h-screen h-[700px] overflow-y-auto `}>
                       <div className='absolute left-4 top-2 cursor-pointer' onClick={() => setMostrarModal(!mostrarModal), () => setMostrarFormulario(!mostrarFormulario)}>
                         <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
                       </div>
