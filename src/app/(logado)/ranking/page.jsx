@@ -154,7 +154,7 @@ export default function Ranking() {
                   <div className="mt-28 text-center">
                     <h3 className="font-bold text-2xl">Atenção!</h3>
                     <p className="py-4 pb-8 text-xl">
-                      Este dia não está disponível para visualização
+                      Este Fase não está disponível para visualização
                     </p>
                   </div>
                 </div>

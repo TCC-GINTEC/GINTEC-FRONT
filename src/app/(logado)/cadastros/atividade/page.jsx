@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image'
 import Modal from '@/components/formCadastro/modal';
 import ContainerAtividade from '@/components/formCadastro/ContainerAtividade';
@@ -34,7 +34,9 @@ export default function Quadra() {
  
   const [dataCampeonato, setDataCampeonato] = useState('');
  
- 
+  const [alertShowFase, setAlertShowFase] = useState(false) 
+  const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
+
 
   const [retornoApi, setRetornoApi] = useState([
     {
@@ -68,15 +70,7 @@ export default function Quadra() {
     {
       id: 3,
       curso:'3 informatica',
-      form1Atv1Dia1:'labirito 3D',
-      form1Atv2Dia2:'labirito 3D',
-      form1Atv3Dia3:'labirito 3D',
-      form2Atv1Dia1:'labirito 3D',
-      form2Atv2Dia2:'labirito 3D',
-      form2Atv3Dia3:'labirito 3D',
-      form3Atv1Dia1:'labirito 3D',
-      form3Atv2Dia2:'labirito 3D',
-      form3Atv3Dia3:'labirito 3D',
+
       data: new Date('2024-07-15'),
     },
     {
@@ -242,32 +236,130 @@ export default function Quadra() {
 
     setShow(!show)
   }
+  function handleFaseOpcoes() {
+    setShowFilterFasesOptions(false);
+  }
 
+  
+  const handleCloseAlertFase = () => {
+    setAlertShowFase(false);
+  };
+   //exibe o alerta quando a 2 fase não está disponivel
+   function handleFase(fase) {
+    if (fase === 2) {
+      setAlertShowFase(true);
+    }
+    setShowFilterFasesOptions(false);
+  }
+
+  {/*função para aplicar responsividade */}
+
+  const divRef = useRef(null);
+  const [largura, setLargura] = useState(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (divRef.current) {
+        setLargura(divRef.current.offsetWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  function mostrarSecaoCalendario() {
+    setMostrarCalendario(true)
+  }
 
   return (
     <>
-     <div className='ml-[5%] mt-8 mb-8 flex  flex-row sm:flex-col  sm:gap-8 w-full'>
-        <div className='w-1/2'>
+     {/*Exibe o alerta quando a 2 fase não está disponivel*/}
+     {alertShowFase && (
+           <>
+              <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+              <div className="fixed inset-0 flex items-center justify-center z-50">
+                <div className="mx-auto w-[290px] h-[360px] sm:w-[390px]  bg-white p-6 rounded-3xl shadow-lg relative">
+                  <Image 
+                    width={200}
+                    height={154}
+                    src="/images/alert-fase.png"
+                    className="absolute -top-[41px] left-[40px] sm:-top-[48px] sm:left-[45px]  sm:h-[179px] sm:w-[307px]"
+                    alt="Sucesso"
+                  />
+                  <button
+                    className="absolute top-4 right-6   hover:text-gray-400 "
+                    onClick={handleCloseAlertFase}
+                  >
+                    ✕
+                  </button>
+                  <div className="mt-28 text-center">
+                    <h3 className="font-bold text-2xl">Atenção!</h3>
+                    <p className="py-4 pb-8 text-xl">
+                      Este Fase não está disponível para visualização
+                    </p>
+                  </div>
+                </div>
+              </div>
+           </>
+        )}
+     <div className='ml-[5%] mt-8 mb-8 flex  flex-row sm:flex-col  sm:gap-8 w-full relative'>
+        <div className=' flex flex-row sm:justify-center sm:flex-col w-full'>
           <Link href='/cadastros'>
             <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
           </Link>
+            <div className='flex flex-row justify-evenly sm:justify-between sm:pr-40 w-full '>
+                 <h1 className='flex items-center text-2xl font-medium '>Atividades </h1>
+                  {/* Filtro por fases */}
+
+                  <div
+                    onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
+                    className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+                  >
+                    <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />
+                    Fases
+                  </div>
+                  {showFilterFasesOptions && (
+                    <>
+                      <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
+                      <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
+                        <ul>
+                          <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
+                          <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
+                        </ul>
+                      </div>
+                    </>
+                  )}
+            </div>
         </div>
-       <div  className='w-full text-start'>
-         <h1 className='text-2xl font-medium '>Atividades </h1>
-       </div>
       </div>
 
-      <div className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[920px] max-w-full  mx-auto text-wrap'>
+      <div ref={divRef} className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[1020px] max-w-full  mx-auto text-wrap bg-[#F8F8F8]'>
         {retornoApi.map((cursosEtec) => (
-          <div key={cursosEtec.id} onClick={() => handleShowForm(cursosEtec)} className='max-w-full w-[252px]  h-[63px] text-center text-lg sm:text-xl  flex items-center justify-center border-[3px]  border-[#006578] text-[#006578]  rounded-xl font-semibold'>
-             {cursosEtec.curso}
+          <div key={cursosEtec.id}  className='flex items-start sm:pl-7 pt-7 pb-5 flex-col max-w-full w-[270px]   text-center  bg-white rounded-xl '>
+            <div className={`flex ${largura <= 740 && largura >404?'sm:flex-col items-center gap-1 mb-4 ':'sm:flex-row sm:justify-evenly sm:gap-8'}  items-center flex-col w-full   `}>
+              <h1 className='text-center font-bold pb-1 w-1/2'>{cursosEtec.curso}</h1>
+              <div className={`${cursosEtec.form1Atv1Dia1 == null?'text-[#D32719] bg-[#FDD5D1]  ':'bg-[#E8FBE4] text-[#3ACF1F] '}  h-[23px] rounded-lg px-1  `}>{cursosEtec.form1Atv1Dia1 == null?'Pendente ':'Concluido'}</div>
+            </div>
+            <div className='flex  justify-evenly items-end sm:flex-row w-full relative'>
+              <ul className={`flex flex-col ${cursosEtec.form1Atv1Dia1 == null?'hidden':'block'} list-disc`}>
+                <li>{cursosEtec.form1Atv1Dia1}</li>
+                <li>{cursosEtec.form1Atv2Dia2}</li>
+                <li>{cursosEtec.form1Atv3Dia3}</li>
+              </ul>
+              <div >
+                 <Image src={'/images/edicao.svg'} onClick={() => handleShowForm(cursosEtec)} className={`${cursosEtec.form1Atv1Dia1 == null ?'hidden':''} hover:scale-125`}width={20} height={20}/>
+                  <p className={`${cursosEtec.form1Atv1Dia1 == null ?'block text-[#a0a0a0]':'hidden'} mt-10`}>Aguardando cadastros</p>
+              </div>
+            </div>
            </div>
         ))}
       </div>
       {showForm && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
-          <ContainerAtividade  alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'right-80 -top-60 fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
+          <ContainerAtividade  alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'right-80 -top-[500px] fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
             <div className='absolute left-4 top-4 cursor-pointer' onClick={() => handleCloseForm()}>
                <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
             </div>
