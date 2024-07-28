@@ -23,7 +23,7 @@ export default function SideBarHeadMobile({
       >
         <Image
           className={`h-8 w-8 `}
-          src="./images/fechar-menu-sidebarMobile.svg"
+          src="./images/fechar-menu.svg"
           width={50}
           height={50}
         />

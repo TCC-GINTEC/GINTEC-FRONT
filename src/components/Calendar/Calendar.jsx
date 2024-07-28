@@ -33,23 +33,25 @@ export default function Calendar() {
     }
 
     return (
-        <>
-            <select value={mesSelecionado} onChange={(e) => setMesSelecionado(e.target.value)}>
-                <option value={0}>Janeiro</option>
-                <option value={1}>Fevereiro</option>
-                <option value={2}>Março</option>
-                <option value={3}>Abril</option>
-                <option value={4}>Maio</option>
-                <option value={5}>Junho</option>
-                <option value={6}>Julho</option>
-                <option value={7}>Agosto</option>
-                <option value={8}>Setembro</option>
-                <option value={9}>Outubro</option>
-                <option value={10}>Novembro</option>
-                <option value={11}>Dezembro</option>
-            </select>
-            <input type="number" value={anoSelecionado} onChange={(e) => setAnoSelecionado(e.target.value)} />
-            <div className="grid grid-cols-7 gap-8">
+        <div className='bg-white rounded-lg w-full p-8'>
+            <div className='text-[#005261] font-bold  flex justify-evenly mb-5'>
+                <select value={mesSelecionado} onChange={(e) => setMesSelecionado(e.target.value)}>
+                    <option value={0}>Janeiro</option>
+                    <option value={1}>Fevereiro</option>
+                    <option value={2}>Março</option>
+                    <option value={3}>Abril</option>
+                    <option value={4}>Maio</option>
+                    <option value={5}>Junho</option>
+                    <option value={6}>Julho</option>
+                    <option value={7}>Agosto</option>
+                    <option value={8}>Setembro</option>
+                    <option value={9}>Outubro</option>
+                    <option value={10}>Novembro</option>
+                    <option value={11}>Dezembro</option>
+                </select>
+                <input type="number" value={anoSelecionado} className="text-[#005261] font-bold w-[100px]" onChange={(e) => setAnoSelecionado(e.target.value)} />
+            </div>
+            <div className="grid grid-cols-7 gap-5">
                 {renderDiasAnteriores().map((dia, index) => (
                     <p key={index} className="text-gray-400">{dia}</p>
                 ))}
@@ -60,7 +62,7 @@ export default function Calendar() {
                     <p key={index} className="text-gray-400">{dia}</p>
                 ))}
             </div>
-        </>
+        </div>
     );
 }
 

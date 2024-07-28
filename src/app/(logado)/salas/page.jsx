@@ -85,7 +85,7 @@ export default function Salas() {
     <>
       <div className="sm:pl-4 mt-10 flex flex-col justify-end m-auto max-w-[920px] relative">
         <div className='w-full block sm:hidden'>
-          <h1 className=' text-3xl text-center '>Organização das salas</h1>
+          <h1 className=' text-3xl text-center '>Organização das Salas</h1>
           <p className=' text-center text-[#DADADA]'>{subtitulo}</p>
         </div>
        <div className='w-full flex flex-col items-center'>

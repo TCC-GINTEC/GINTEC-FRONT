@@ -79,10 +79,6 @@ export default function TabelaCampeonatos() {
 
   {/*largura */}
 
-   
-
-
-
   return (
     <>
       <div className='ml-[5%] mt-8 mb-8 flex flex-row sm:flex-col gap-4'>
