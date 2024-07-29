@@ -179,7 +179,7 @@ export default function Recados(){
             </div>
           </div>
           {/* filtros */}
-          <div className={`flex ${largura < 700   && largura >= 624?'md:flex-col justify-center':'sm:flex-row items-center'} border border-orange-500 mt-[50px] ml-4 mb-[50px] w-full`}>
+          <div className={`flex ${largura < 700   && largura >= 624?'md:flex-col justify-center':'sm:flex-row items-center'} mt-[50px] ml-4 mb-[50px] w-full`}>
             {/* filtro 1 Todos os Recados */}
             <div className='relative flex justify-center'>
               <div
@@ -312,11 +312,11 @@ export default function Recados(){
       {/* div da direita */}
       <div className={
         ` ${largura < 639 ? `${mostrarCalendario?'block z-50 fixed right-0 top-8 ':'hidden'} ` : `block`} ${mostrarModal ?'hidden':'block'}  ${largura < 1086 ? 'w-[350px] ' : larguraJanela < 916 ? ' pr-8' : 'w-[520px]'} 
-        h-[690px] rounded-l-lg bg-[#efeeee] border border-green-500 `}>
+        h-[690px] rounded-l-lg bg-[#efeeee]  `}>
         <Image src={'/images/fechar-menu.svg'} className={`relative -left-1 -top-3 ${largura>625?'hidden':'block'}`} width={40} height={30} onClick={() =>setMostrarCalendario(!mostrarCalendario)}/>
         
-        <div className='max-w-full w-[410px] border border-orange-500 mx-auto'>
-          <section className='border p-4 border-red-500'>
+        <div className='max-w-full w-[410px] mx-auto'>
+          <section className='border p-4'>
               <Calendar />
           </section>
           <section>

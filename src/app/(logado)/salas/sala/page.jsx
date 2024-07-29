@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useRef, useEffect, useState } from 'react';
 import { useSearchParams } from "next/navigation";
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
@@ -7,6 +7,7 @@ import Image from 'next/image'
 
 
 export default function Sala() {
+  const [mostrarLista, setMostrarLista] = useState(false) 
 
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
@@ -322,6 +323,27 @@ export default function Sala() {
   };
 
 
+  const handleFecharLista = () => {
+    setFecharLista(false);
+  };
+
+  const divRef = useRef(null);
+  const [largura, setLargura] = useState(); // Inicializa com valor maior que 700
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (divRef.current) {
+        setLargura(divRef.current.offsetWidth);
+        console.log('Largura da div:', divRef.current.offsetWidth); // Log para depuração
+      }
+    };
+
+    updateWidth;
+    window.addEventListener('resize', updateWidth);
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+  
   return (
     <div className=''>
         {/*Exibe o alerta quando a 2 fase não está disponivel*/}
@@ -548,88 +570,235 @@ export default function Sala() {
         </div>
       )}
       {moveBar === "doacoes" && (
-        <div className="md:w-[80%] mx-auto">
-          <form className="overflow-x-auto rounded-lg bg-[#005261]" onSubmit={handleFormularioPontos}>
-          <button type='submit' className='mx-auto block w-[400px] bg-red-500 z-50'>Enviar Dados</button>
-          <div className="flex">
-              <div className="w-[300px]">
-                <div className="p-3 font-semibold border border-white border-r-2 text-white">Alunos</div>
-                {retornoApi.map((aluno) => (
-                  <div key={aluno.id} className="h-[55px] pt-[10px] pl-[4px] right-to-left bg-white border border-[#DADADA]">
-                    {aluno.nome}
-                  </div>
-                ))}
+        <div ref={divRef} className={`w-[841px] max-w-full grid ${largura < 720?'grid-cols-1 justify-items-center	':'grid-cols-2'}  gap-5 mx-auto bg-[#dbdada] p-8 rounded-3xl`}>
+          <div className='flex justify-evenly items-center w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/lacres.svg' width={25} height={25}/>
               </div>
-              <div className="w-3/4 flex overflow-x-auto">
-                {doacoesInseridas.map((doacao, index) => (
-                  <div key={index} className="min-w-[200px]">
-                    <div className="p-3 font-bold border border-white border-r-2 text-white">
-                      {doacao}
-                    </div>
-                    {retornoApi.map((aluno) => {
-                      const doacaoValue = aluno.doacao.reduce((acc, current) => {
-                        const key = Object.keys(current)[0];
-                        if (key === doacao) {
-                          acc = current[key];
-                        }
-                        return acc;
-                      }, 0);
-
-                      return (
-                        <input 
-                          key={aluno.id} 
-                          name={doacao} 
-                          type='number'
-                          value={formData[aluno.id]?.[doacao] || ''}    
-                          onChange={(e) => handleChange(aluno.id, doacao, e.target.value)} 
-                          className="h-[55px] pt-[10px] pl-4 right-to-left bg-white border border-[#DADADA]"
-                          autocomplete="off" 
-
-                          />
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
+              <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
             </div>
-          </form>
+            <button onClick={() => setMostrarLista(!mostrarLista)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+              Ver mais
+            </button>
+          </div>
+          <div className='flex justify-evenly items-center w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/lacres.svg' width={25} height={25}/>
+              </div>
+              <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
+            </div>
+            <button onClick={() => setMostrarLista(!mostrarLista)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+              Ver mais
+            </button>
+          </div>
+          <div className='flex justify-evenly items-center w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/lacres.svg' width={25} height={25}/>
+              </div>
+              <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
+            </div>
+            <button onClick={() => setMostrarLista(!mostrarLista)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+              Ver mais
+            </button>
+          </div>
         </div>
       )}
       {moveBar === "campeonato" && (
-        <div className="md:w-[90%] mx-auto">
-            {esportes.map((esporteGroup, index) => (
-              <div key={index} className="border bg-[#005261] rounded-l-lg rounded-r-lg overflow-x-auto mb-4">
-                <table className="w-full">
-                  <thead>
-                    <tr className="text-white text-center">
-                      {esporteGroup.map((esporte, idx) => (
-                        <th key={idx} className="p-3 min-w-[150px] border border-white">
-                          {esporte}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                     {/* Renderizar até 12 linhas para cada esporte */}
-                     {retornoApi.map((aluno, alunoIndex) => (
-                    <tr key={aluno.id} className="text-center border">
-                      {esporteGroup.map((esporte, idx) => {
-                        const alunoNoEsporte = aluno.time && aluno.time.find(item => item.esporte === esporte);
-                        return (
-                          <td key={idx} className="border bg-white border-gray-200 min-w-[150px]">
-                            {alunoNoEsporte ? aluno.nome : ''}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
-                  </tbody>
-                </table>
+       <div ref={divRef} className={`w-[841px] max-w-full grid ${largura < 720?'grid-cols-1 justify-items-center	':'grid-cols-2'}  gap-5 mx-auto bg-[#dbdada] p-8 rounded-3xl`}>
+          
+          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/img-futsal.svg' width={25} height={25}/>
               </div>
-            ))}
+              <div>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Futebol </p>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Masculino</p>
+              </div>
+            </div>
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
+            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
+          </div>
+
+          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/img-futsal.svg' width={25} height={25}/>
+              </div>
+              <div>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Futebol </p>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Femino</p>
+              </div>
+            </div>
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
+            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
+          </div>
+
+          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/img-basquete.svg' width={25} height={25}/>
+              </div>
+              <div>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Basquete </p>
+              </div>
+            </div>
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
+            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
+          </div>
+
+          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/img-queimada.svg' width={25} height={25}/>
+              </div>
+              <div>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Queimada </p>
+              </div>
+            </div>
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
+            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
+          </div>
+
+          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/img-volei.svg' width={25} height={25}/>
+              </div>
+              <div>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Vôlei </p>
+              </div>
+            </div>
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
+            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
+          </div>
+
+          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/img-ping-pong.svg' width={25} height={25}/>
+              </div>
+              <div>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Ping Pong </p>
+              </div>
+            </div>
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 hidden'>Cadastrado</div>
+            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 block'>Não Cadastrado</div>
+          </div>
+
+          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/img-xadrez.svg' width={15} height={15}/>
+              </div>
+              <div>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Xadrez </p>
+              </div>
+            </div>
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
+            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
+          </div>
+
+           
+          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
+            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
+              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                <Image src='/images/img-damas.svg' width={30} height={30}/>
+              </div>
+              <div>
+                <p className='font-medium  text-[#b1b1b1] text-lg'>Damas </p>
+              </div>
+            </div>
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 hidden'>Cadastrado</div>
+            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 block'>Não Cadastrado</div>
+          </div>
+
         </div>
       )}
+
+      {mostrarLista && (
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="mx-auto w-[445px] h-[660px] bg-white p-6 rounded-3xl shadow-lg relative">
+                <div className='flex'>
+                  <div className='w-1/2'>
+                    <Image src="/images/fechar-menu.svg"  className="hover:scale-125 cursor-pointer duration-100 transition-all " width={30} height={25} onClick={() => setMostrarLista(!mostrarLista)}/>
+                  </div>
+                  <div className='w-full border border-orange-500'>
+                    <h1 className='text-2xl text-[#005261] font-bold'>Doação</h1>
+                  </div>
+                </div>
+                <div className='flex justify-between mt-10'>
+                  <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                    <Image src='/images/lacres.svg' width={25} height={25}/>
+                  </div>
+                  <div className=''>
+                    <p>Data para Limite</p>
+                    <p className='text-end'>21 ago</p>
+                  </div>
+                </div>
+                <div className='pl-8 pt-6 h-[408px] bg-[#efefef] border border-orange-500'>
+                  <h1 className='text-lg font-medium pb-7'>Alunos que doaram</h1>
+                  <div className='w-full overflow-y-auto h-[300px]'>
+                    {/*nomes alunos */}
+                    <p>Fulano Ciclano Silano Beltrano</p>
+                    <p>Fulano Ciclano Silano Beltrano</p>
+                  </div>
+                </div>
+                <div className='flex justify-between items-center py-4 px-4'>
+                  <h2 className='font-semibold text-lg '>Total de Pontos</h2>
+                  <p className='text-bold text-[#3ACF1F] font-medium'>00000</p>
+                </div>
+             </div>
+          </div>
+        </>
+      )}
+
+{mostrarLista && (
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="mx-auto w-[445px] h-[660px] bg-white p-6 rounded-3xl shadow-lg relative">
+                <div className='flex'>
+                  <div className='w-1/2'>
+                    <Image src="/images/fechar-menu.svg"  className="hover:scale-125 cursor-pointer duration-100 transition-all " width={30} height={25} onClick={() => setMostrarLista(!mostrarLista)}/>
+                  </div>
+                  <div className='w-full border border-orange-500'>
+                    <h1 className='text-2xl text-[#005261] font-bold'>Doação</h1>
+                  </div>
+                </div>
+                <div className='flex justify-between mt-10'>
+                  <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                    <Image src='/images/lacres.svg' width={25} height={25}/>
+                  </div>
+                  <div className=''>
+                    <p>Data para Limite</p>
+                    <p className='text-end'>21 ago</p>
+                  </div>
+                </div>
+                <div className='pl-8 pt-6 h-[408px] bg-[#efefef] border border-orange-500'>
+                  <h1 className='text-lg font-medium pb-7'>Alunos que doaram</h1>
+                  <div className='w-full overflow-y-auto h-[300px]'>
+                    {/*nomes alunos */}
+                    <p>Fulano Ciclano Silano Beltrano</p>
+                    <p>Fulano Ciclano Silano Beltrano</p>
+                  </div>
+                </div>
+                <div className='flex justify-between items-center py-4 px-4'>
+                  <h2 className='font-semibold text-lg '>Total de Pontos</h2>
+                  <p className='text-bold text-[#3ACF1F] font-medium'>00000</p>
+                </div>
+             </div>
+          </div>
+        </>
+      )}
     </div>
+
+
   );
 } 
 

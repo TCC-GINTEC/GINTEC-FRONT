@@ -10,6 +10,7 @@ export default function Salas() {
   const [linhas, setLinhas] = useState([]);
   const [ subtitulo, setSubtitulo]= useState('Todos os Cursos')
   const router = useRouter();
+  const [alertShowFase, setAlertShowFase] = useState(false) 
 
   const [retornoApi, setRetornoApi] = useState([
     {
