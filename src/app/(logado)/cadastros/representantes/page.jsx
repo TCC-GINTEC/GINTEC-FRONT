@@ -127,7 +127,7 @@ export default function Representantes() {
       {showForm && (
         <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-            <ContainerRepresentantes alert={'Caso deseje editar o Vice-representante e o Represente aperte o campo e edite'} classe={'-top-60 sm:m-auto fixed inset-0 flex items-center justify-center z-50 p-4'}>
+            <ContainerRepresentantes alert={'Caso deseje editar o Vice-representante e o Represente aperte o campo e edite'} classe={'-top-[265px] sm:m-auto fixed inset-0 flex items-center justify-center z-50 p-4'}>
               <form onSubmit={handleFormSubmit} className="space-y-8 mt-10 w-3/4 flex items-center flex-col">
               <label className="flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]">
                 RM do Representante

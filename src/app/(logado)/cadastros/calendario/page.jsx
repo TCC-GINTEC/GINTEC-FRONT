@@ -110,8 +110,8 @@ export default function Quadra() {
       {showForm && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
-          <ContainerAtividade alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'sm:m-auto -top-60 fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
-            <form onSubmit={handleFormSubmit} className='space-y-8 mt-10 w-3/4 flex items-center flex-col bg-white'>
+          <ContainerAtividade alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'sm:m-auto -top-[150px] fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
+            <form onSubmit={handleFormSubmit} className='space-y-8  w-3/4 flex items-center flex-col bg-white'>
               <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0] '>
                 Fases
                 <input type="text" name="fases" value={fases} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
