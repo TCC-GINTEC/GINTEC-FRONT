@@ -1,13 +1,25 @@
 "use client";
 import { useRef, useEffect, useState } from 'react';
 import { useSearchParams } from "next/navigation";
+import ModalAlunosInformacao from '@/components/Salas/sala/ModalAlunosInformacao'
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import Image from 'next/image'
 
 
 export default function Sala() {
-  const [mostrarLista, setMostrarLista] = useState(false) 
+
+  const[mostrarInformacoesAluno, setExibirInformacoesAluno] = useState(false);
+  const [nomeAluno, setNomeAluno] = useState('');
+  const [mostrarOpcoesDiasParticipado, setMostrarOpcoesDiasParticipado] = useState(false);
+
+
+  const[exibirLista, setExibirLista] =useState('');
+  const [listaDeDoador, setListaDeDoadores] = useState([]) 
+  const [listaDeJogadores, setListaDeJogadores] = useState([]) 
+  const [nomeCampeonato, setNomeCampeonato]= useState('')
+  
+  {/*selecionar a fase */}
 
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
@@ -17,24 +29,18 @@ export default function Sala() {
   const [faseDia,setFaseDia]= useState("");
   const [dia,setDia]= useState("");
 
+  {/*colocar o movimento da barra de navegação*/}
+
   const [moveBar, setMoveBar] = useState("principal");
   const [transition, setTransition] = useState(false); // Estado para controlar a transição
+
+  const [moveBar2, setMoveBar2] = useState(1);
+  const [transition2, setTransition2] = useState(false);
   
-  
+  {/* para colocar o titulo do curso e a serie selecionada */}
   const searchParams = useSearchParams();
   const urlCurso = searchParams.get("curso");
-  const urlSerie = searchParams.get("serie");
-
-  {/*ter ideia do que ela vai inserir de doação */}
-  
-  const [doacoesInseridas, setDoacoesInseridas] = useState([
-    "estagiario",
-    "domino",
-    "PS",
-    "oficina",
-    "jogos",
-    "livros"
-  ]);
+  const urlSerie = searchParams.get("serie");  
 
   const [retornoApi, setRetornoApi] = useState([
     {
@@ -216,16 +222,17 @@ export default function Sala() {
     }
   ]);
 
-  const esportes = [
-    ["Basquete", "Volei", "Queimada"],
-    ["Futsal-Masc", "Futsal-Fem", "Handebol"],
-  ];
-
   const [alertShowFase, setAlertShowFase] = useState(false) 
   const [alertShowDia, setAlertShowDia] = useState(false) 
+  
+  
+  function exibirModalAlunoInformacao(aluno){
+    setExibirInformacoesAluno(!mostrarInformacoesAluno)
+    setNomeAluno(aluno)
+  }
 
-  
-  
+  {/*ativa transição */}
+
   useEffect(() => {
     setTransition(true); // Ativa a transição após o componente ser montado
   }, []);
@@ -245,9 +252,10 @@ export default function Sala() {
     }
   }
 
+  {/*na opção de PRINCIPAL filtrar informacoes por data */}
+
   function handleFilterData() {
     setShowFilterDataOptions(false)
-
   }
   
   function handleFase(fase) {
@@ -280,72 +288,89 @@ export default function Sala() {
     setAlertShowDia(false);
   };
 
-  // Estado do formulário para armazenar os valores dos inputs
-  const [formData, setFormData] = useState({});
+  {/*quando a pessoa clicar no botão da opção de doação e campeonato */}
 
-  /**
-   * Função handleChange
-   * Atualiza o estado formData com o valor do input correspondente ao alunoId e doacao
-   * @param {number} alunoId - ID do aluno
-   * @param {string} doacao - Nome da doação
-   * @param {string} value - Valor do input
-   */
+  function mostrarLista1(lista){
+    setExibirLista(lista)
+  }
 
-  const handleChange = (alunoId, doacao, value) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [alunoId]: {
-        ...prevFormData[alunoId],
-        [doacao]: value
-      }
+  function mostrarLista2(lista, nome){
+    setExibirLista(lista)
+    setNomeCampeonato(nome)
+
+  }
+
+
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [originalFormData, setOriginalFormData] = useState({
+    horarios: ["", "", "", "", "", ""],
+    jogos: ["J1", "J2", "J3", "J4", "J5", "J6"],
+    timeA: ["1ºADM", "2ºCONT", "1ºINFO", "2ºRH", "2ºRH", "3ºADM"],
+    timeB: ["3ºADM", "1ºADM", "2ºRH", "2ºRH", "2ºINFO", "resp"],
+  });
+
+  const [formData, setFormData] = useState({ ...originalFormData });
+
+  const handleInputChange = (index, field, value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      [field]: prevState[field].map((item, i) => (i === index ? value : item))
     }));
   };
 
-
-  /**
-   * Função handleFormularioPontos
-   * Lida com a submissão do formulário, evitando o comportamento padrão e processando os dados do estado formData
-   * @param {Event} e - Evento de submissão do formulário
-   */
-  const handleFormularioPontos = (e) => {
-    e.preventDefault();
-  
-    const hasValidData = Object.values(formData).some(
-      alunoData => Object.values(alunoData).some(value => value.trim() !== '')
-    );
-  
-    if (!hasValidData) {
-      alert('Por favor, preencha pelo menos um campo.');
-      return;
-    }
-  
-    console.log(formData);
+  const handleEditClick = () => {
+    setIsEditing(true);
+    // Save the current form data to allow reverting
+    setOriginalFormData({ ...formData });
   };
 
-
-  const handleFecharLista = () => {
-    setFecharLista(false);
+  const handleSaveClick = () => {
+    console.log("Dados Submetidos:", formData);
+    setIsEditing(false);
   };
 
-  const divRef = useRef(null);
-  const [largura, setLargura] = useState(); // Inicializa com valor maior que 700
+  const handleCancelClick = () => {
+    // Revert to original data and exit editing mode
+    setFormData({ ...originalFormData });
+    setIsEditing(false);
+  };
 
-  useEffect(() => {
-    const updateWidth = () => {
-      if (divRef.current) {
-        setLargura(divRef.current.offsetWidth);
-        console.log('Largura da div:', divRef.current.offsetWidth); // Log para depuração
-      }
-    };
-
-    updateWidth;
-    window.addEventListener('resize', updateWidth);
-
-    return () => window.removeEventListener('resize', updateWidth);
-  }, []);
+    {/*função para aplicar responsividade em dispositivos com telas menores */}
+    const divRef = useRef(null);
+    const [largura, setLargura] = useState(); // Inicializa com valor maior que 700
   
+    useEffect(() => {
+      const updateWidth = () => {
+        if (divRef.current) {
+          setLargura(divRef.current.offsetWidth);
+          console.log('Largura da div:', divRef.current.offsetWidth); // Log para depuração
+        }
+      };
+  
+      updateWidth;
+      window.addEventListener('resize', updateWidth);
+  
+      return () => window.removeEventListener('resize', updateWidth);
+    }, []);
+    
+    const [larguraJanela, setLarguraJanela] = useState(0);
+  
+    useEffect(() => {
+        const handleResize = () => {
+            setLarguraJanela(window.innerWidth);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+  
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
   return (
     <div className=''>
+
         {/*Exibe o alerta quando a 2 fase não está disponivel*/}
         {alertShowFase && (
           <>
@@ -373,7 +398,7 @@ export default function Sala() {
             </div>
           </>
         )}
-        
+       {/*Exibe o alerta quando o dia não está disponivel*/}
         {alertShowDia && (
           <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
@@ -402,6 +427,92 @@ export default function Sala() {
             </div>
           </>
         )}
+
+        {/*mostrar o modal quando a pessoa clicar na informação do aluno 
+        nela tem que aparecer o nome (dentro do modalAlunsInformacao), os jogos que ela fez, pontuação, e ponto extra.
+        Esse modal é editavel. Falta mostrar a tabela nela de campeonatos de quadra, campeonatos de patio, oficinas
+        */}
+        {mostrarInformacoesAluno && (
+            <>
+              <ModalAlunosInformacao 
+                moveBar2={moveBar2} 
+                setMoveBar2={setMoveBar2}
+                 transition2={transition2} 
+                 exibirModalAlunoInformacao={exibirModalAlunoInformacao}
+              >
+                  <div className={`${larguraJanela < 600 ? 'overflow-x-auto' : ''} w-full`}>
+                    <table className="w-full table-auto border-collapse border border-gray-300">
+                      <thead className="bg-[#005261] text-white">
+                        <tr>
+                          <th className="w-[200px] h-[51px] border-r-4 border-white sticky left-0 bg-[#005261] z-20">Jogos</th>
+                          <th className="w-[200px] h-[51px] border-r-4 border-white">Pontuação</th>
+                          <th className="w-[200px] h-[51px] border-r-4 border-white">Extra</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {formData.jogos.map((jogo, index) => (
+                          <tr key={index} className="border-b">
+                            <td className="h-[50px] border-r border-gray-300 p-1 text-center sticky left-0 bg-white z-10">
+                              {isEditing ? (
+                                <input
+                                  type="text"
+                                  value={formData.horarios[index]}
+                                  onChange={(e) => handleInputChange(index, 'horarios', e.target.value)}
+                                />
+                              ) : (
+                                formData.horarios[index]
+                              )}
+                            </td>
+                            <td className="h-[50px] border-r border-gray-300 p-1 text-center">
+                              {isEditing ? (
+                                <input
+                                  type="text"
+                                  value={formData.jogos[index]}
+                                  onChange={(e) => handleInputChange(index, 'jogos', e.target.value)}
+                                />
+                              ) : (
+                                formData.jogos[index]
+                              )}
+                            </td>
+                            <td className="h-[50px] border-r border-gray-300 p-1 text-center">
+                              {isEditing ? (
+                                <input
+                                  type="text"
+                                  value={formData.timeA[index]}
+                                  onChange={(e) => handleInputChange(index, 'timeA', e.target.value)}
+                                />
+                              ) : (
+                                formData.timeA[index]
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div>
+                     <div className="flex sm:justify-between items-center flex-col sm:flex-row gap-4 mt-4 pl-8 sm:pl-4">
+                      {isEditing ? (
+                        <>
+                          <button onClick={handleSaveClick} className="w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
+                            Salvar
+                          </button>
+                          <button onClick={handleCancelClick} className="w-[180px] h-[60px] rounded-xl bg-[#E6EFF0] text-[#005261] px-4 py-2">
+                            Cancelar
+                          </button>
+                        </>
+                      ) : (
+                        <button onClick={handleEditClick} className="w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
+                          Editar
+                        </button>
+                      )}
+                  </div>
+                 </div> 
+               </ModalAlunosInformacao> 
+            </>
+          )
+        }
+        {/*botão para selecioanr a fase */}
        <div className='mx-auto pl-5 md:pl-20 flex flex-col gap-10 m-5'>
          <div className='max-w-[1400px]  flex flex-row justify-between'>
               <button>
@@ -447,7 +558,7 @@ export default function Sala() {
           </h1>
           <p className='-mt-5 text-[#DADADA]'>{faseFilter}</p>
        </div>
-     
+      {/*esta parte é a navegação das opções */}
       <div className="flex justify-center sm:justify-start md:w-3/4  gap-4 md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
         <div
           onClick={() => setMoveBar("principal")}
@@ -501,7 +612,7 @@ export default function Sala() {
                 <div className="min-w-[200px]">
                   <div className="p-3 font-bold border border-white border-r-2 text-white sm:text-center">QDP</div>
                   {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className="sm:text-center pt-[10px]  h-[59px]  pl-4 Right-to-left bg-white border border-[#DADADA]">
+                    <div key={aluno.id} className="sm:text-center pt-[10px]  h-[59px]  pl-4 Right-to-left bg-white border border-[#DADADA]" onClick={() => exibirModalAlunoInformacao(aluno.nome)}>
                       {aluno.qdp}
                     </div>
                   ))}
@@ -578,7 +689,7 @@ export default function Sala() {
               </div>
               <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
             </div>
-            <button onClick={() => setMostrarLista(!mostrarLista)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+            <button onClick={() => mostrarLista1(1)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
               Ver mais
             </button>
           </div>
@@ -589,7 +700,7 @@ export default function Sala() {
               </div>
               <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
             </div>
-            <button onClick={() => setMostrarLista(!mostrarLista)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+            <button onClick={() => mostrarLista1(1)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
               Ver mais
             </button>
           </div>
@@ -600,149 +711,92 @@ export default function Sala() {
               </div>
               <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
             </div>
-            <button onClick={() => setMostrarLista(!mostrarLista)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+            <button onClick={() => mostrarLista1(1)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
               Ver mais
             </button>
           </div>
         </div>
       )}
       {moveBar === "campeonato" && (
-       <div ref={divRef} className={`w-[841px] max-w-full grid ${largura < 720?'grid-cols-1 justify-items-center	':'grid-cols-2'}  gap-5 mx-auto bg-[#dbdada] p-8 rounded-3xl`}>
-          
-          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/img-futsal.svg' width={25} height={25}/>
-              </div>
-              <div>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Futebol </p>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Masculino</p>
-              </div>
+       <div ref={divRef} className={`w-[841px] max-w-full grid ${largura < 720 ? 'grid-cols-1 justify-items-center' : 'grid-cols-2'} gap-5 mx-auto bg-[#dbdada] p-8 rounded-3xl`}>
+      {[
+        { nome: 'Futebol Masculino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
+        { nome: 'Futebol Feminino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
+        { nome: 'Basquete', imgSrc: '/images/img-basquete.svg', status: 'Cadastrado' },
+        { nome: 'Queimada', imgSrc: '/images/img-queimada.svg', status: 'Cadastrado' },
+        { nome: 'Vôlei', imgSrc: '/images/img-volei.svg', status: 'Cadastrado' },
+        { nome: 'Ping Pong', imgSrc: '/images/img-ping-pong.svg', status: 'Não Cadastrado' },
+        { nome: 'Xadrez', imgSrc: '/images/img-xadrez.svg', status: 'Cadastrado' },
+        { nome: 'Damas', imgSrc: '/images/img-damas.svg', status: 'Não Cadastrado' }
+      ].map((atividade, index) => (
+        <div
+          key={index}
+          className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg'
+          onClick={() => mostrarLista2(2, atividade.nome)}
+        >
+          <div className='flex justify-evenly gap-2 items-center'>
+            <div className='w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg'>
+              <Image src={atividade.imgSrc} width={25} height={25} alt={atividade.nome} />
             </div>
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
-            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
-          </div>
-
-          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/img-futsal.svg' width={25} height={25}/>
-              </div>
-              <div>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Futebol </p>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Femino</p>
-              </div>
+            <div>
+              <p className='font-medium text-[#b1b1b1] text-lg'>{atividade.nome}</p>
             </div>
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
-            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
           </div>
-
-          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/img-basquete.svg' width={25} height={25}/>
-              </div>
-              <div>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Basquete </p>
-              </div>
-            </div>
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
-            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
-          </div>
-
-          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/img-queimada.svg' width={25} height={25}/>
-              </div>
-              <div>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Queimada </p>
-              </div>
-            </div>
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
-            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
-          </div>
-
-          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/img-volei.svg' width={25} height={25}/>
-              </div>
-              <div>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Vôlei </p>
-              </div>
-            </div>
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
-            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
-          </div>
-
-          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/img-ping-pong.svg' width={25} height={25}/>
-              </div>
-              <div>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Ping Pong </p>
-              </div>
-            </div>
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 hidden'>Cadastrado</div>
-            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 block'>Não Cadastrado</div>
-          </div>
-
-          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/img-xadrez.svg' width={15} height={15}/>
-              </div>
-              <div>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Xadrez </p>
-              </div>
-            </div>
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 '>Cadastrado</div>
-            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 hidden'>Não Cadastrado</div>
-          </div>
-
-           
-          <div className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div className='flex justify-evenly gap-2 border border-red-500  items-center'>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/img-damas.svg' width={30} height={30}/>
-              </div>
-              <div>
-                <p className='font-medium  text-[#b1b1b1] text-lg'>Damas </p>
-              </div>
-            </div>
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1 hidden'>Cadastrado</div>
-            <div className='text-[#D32719] bg-[#FDD5D1]  h-[23px] rounded-lg px-1 block'>Não Cadastrado</div>
-          </div>
-
+          {atividade.status === 'Cadastrado' ? (
+            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1'>Cadastrado</div>
+          ) : (
+            <div className='text-[#D32719] bg-[#FDD5D1] h-[23px] rounded-lg px-1'>Não Cadastrado</div>
+          )}
         </div>
+      ))}
+    </div>
       )}
 
-      {mostrarLista && (
+      {exibirLista == 1 &&  (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="mx-auto w-[445px] h-[660px] bg-white p-6 rounded-3xl shadow-lg relative">
+          <div className="absolute inset-0 bg-black bg-opacity-50 z-50"></div>
+          <div className="absolute inset-0 flex items-center justify-center z-50">
+            <div className="mx-auto w-[445px]  bg-white p-6 rounded-3xl shadow-lg relative">
                 <div className='flex'>
                   <div className='w-1/2'>
-                    <Image src="/images/fechar-menu.svg"  className="hover:scale-125 cursor-pointer duration-100 transition-all " width={30} height={25} onClick={() => setMostrarLista(!mostrarLista)}/>
+                    <Image src="/images/fechar-menu.svg"  className="hover:scale-125 cursor-pointer duration-100 transition-all " width={30} height={25} onClick={() => mostrarLista1(0)}/>
                   </div>
-                  <div className='w-full border border-orange-500'>
+                  <div className='w-full '>
                     <h1 className='text-2xl text-[#005261] font-bold'>Doação</h1>
                   </div>
                 </div>
                 <div className='flex justify-between mt-10'>
-                  <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                    <Image src='/images/lacres.svg' width={25} height={25}/>
+                  <div className='flex gap-2 '>
+                     <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                       <Image src='/images/lacres.svg' width={25} height={25}/>
+                    
+                      </div>
+                      <div>
+                        <p className='text-lg text-[#005261] font-semibold'>Lacres</p>
+                        <p>Pontuação: <span className='text-[#3ACF1F]'>0000</span></p>
+                      </div>
                   </div>
                   <div className=''>
                     <p>Data para Limite</p>
                     <p className='text-end'>21 ago</p>
                   </div>
                 </div>
-                <div className='pl-8 pt-6 h-[408px] bg-[#efefef] border border-orange-500'>
-                  <h1 className='text-lg font-medium pb-7'>Alunos que doaram</h1>
+                <form >
+                  <label>
+                      <h2 className='mt-4 ml-4 text-lg font-medium text-[#005261]'>Adicione um Novo Jogador</h2>
+                      <div className='flex justify-evenly'>
+                         <input type="text" className='w-3/4' />
+                         <button className='bg-[#005261] w-[36px] h-[36px] grid place-items-center'>
+                            <Image src="/images/enviar.svg"  width={20} height={20}/>
+                          </button>
+                      </div>
+                  </label>
+                </form>
+                <div className='mt-4 pl-8 pt-6 h-[408px] bg-[#efefef]'>
+                  <div className='flex items-center justify-between pb-4' >
+                      <h1 className='text-lg font-medium '>Alunos que Doaram</h1>
+                      <span className='text-[#979797] mr-4'>0 Alunos</span>
+                  </div>
                   <div className='w-full overflow-y-auto h-[300px]'>
                     {/*nomes alunos */}
                     <p>Fulano Ciclano Silano Beltrano</p>
@@ -758,44 +812,64 @@ export default function Sala() {
         </>
       )}
 
-{mostrarLista && (
-        <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="mx-auto w-[445px] h-[660px] bg-white p-6 rounded-3xl shadow-lg relative">
-                <div className='flex'>
-                  <div className='w-1/2'>
-                    <Image src="/images/fechar-menu.svg"  className="hover:scale-125 cursor-pointer duration-100 transition-all " width={30} height={25} onClick={() => setMostrarLista(!mostrarLista)}/>
-                  </div>
-                  <div className='w-full border border-orange-500'>
-                    <h1 className='text-2xl text-[#005261] font-bold'>Doação</h1>
-                  </div>
+    {exibirLista == 2 && (
+            <>
+              <div className="absolute inset-0 bg-black bg-opacity-50 z-50"></div>
+              <div className="absolute inset-0 flex items-center justify-center z-50">
+                <div className="mx-auto w-[445px]  bg-white p-6 rounded-3xl shadow-lg relative">
+                    <div className='flex'>
+                      <div className='w-1/2'>
+                        <Image src="/images/fechar-menu.svg"  className="hover:scale-125 cursor-pointer duration-100 transition-all " width={30} height={25}  onClick={() => mostrarLista2(0)}/>
+                      </div>
+                      <div className=' flex justify-between w-full '>
+                        <h1 className='text-2xl text-[#005261] font-bold'>Campeonatos</h1>
+                      </div>
+                    </div>
+                    <div className='flex justify-between mt-10'>
+                      <div className='flex gap-2 '>
+                         <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
+                           <Image src='/images/lacres.svg' width={25} height={25}/>
+                          </div>
+                          <div>
+                            <p className='text-lg text-[#005261] font-semibold'>{nomeCampeonato}</p>
+                            <p>Pontuação: <span className='text-[#3ACF1F]'>0000</span></p>
+                          </div>
+                       </div>
+                      <div className=''>
+                        <p>Data para Limite</p>
+                        <p className='text-end'>21 ago</p>
+                      </div>
+                    </div>
+                    <form >
+                      <label>
+                          <h2 className='mt-4 ml-4 text-lg font-medium text-[#005261]'>Adicione um Novo Jogador</h2>
+                          <div className='flex justify-evenly'>
+                            <input type="text" className='w-3/4' />
+                            <button className='bg-[#005261] w-[36px] h-[36px] grid place-items-center'>
+                              <Image src="/images/enviar.svg"  width={20} height={20}/>
+                            </button>
+                          </div>
+                      </label>
+                    </form>
+                    <div className='mt-4 pl-8 pt-6 h-[408px] bg-[#efefef] border border-orange-500'>
+                      <div className='flex items-center justify-between pb-4' >
+                        <h1 className='text-lg font-medium '>Jogadores</h1>
+                        <span className='text-[#979797] mr-4'>0 Alunos</span>
+                      </div>
+                      <div className='w-full overflow-y-auto h-[300px]'>
+                        {/*nomes alunos */}
+                        <p>Fulano Ciclano Silano Beltrano</p>
+                        <p>Fulano Ciclano Silano Beltrano</p>
+                      </div>
+                    </div>
+                    <div className='flex justify-between items-center py-4 px-4'>
+                      <h2 className='font-semibold text-lg '>Total de Pontos</h2>
+                      <p className='text-bold text-[#3ACF1F] font-medium'>00000</p>
+                    </div>
                 </div>
-                <div className='flex justify-between mt-10'>
-                  <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                    <Image src='/images/lacres.svg' width={25} height={25}/>
-                  </div>
-                  <div className=''>
-                    <p>Data para Limite</p>
-                    <p className='text-end'>21 ago</p>
-                  </div>
-                </div>
-                <div className='pl-8 pt-6 h-[408px] bg-[#efefef] border border-orange-500'>
-                  <h1 className='text-lg font-medium pb-7'>Alunos que doaram</h1>
-                  <div className='w-full overflow-y-auto h-[300px]'>
-                    {/*nomes alunos */}
-                    <p>Fulano Ciclano Silano Beltrano</p>
-                    <p>Fulano Ciclano Silano Beltrano</p>
-                  </div>
-                </div>
-                <div className='flex justify-between items-center py-4 px-4'>
-                  <h2 className='font-semibold text-lg '>Total de Pontos</h2>
-                  <p className='text-bold text-[#3ACF1F] font-medium'>00000</p>
-                </div>
-             </div>
-          </div>
-        </>
-      )}
+              </div>
+            </>
+          )}
     </div>
 
 
