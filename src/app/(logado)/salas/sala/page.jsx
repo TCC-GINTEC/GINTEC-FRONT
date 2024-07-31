@@ -288,14 +288,9 @@ export default function Sala() {
     setAlertShowDia(false);
   };
 
-  {/*quando a pessoa clicar no botão da opção de doação e campeonato */}
 
-  function mostrarLista1(lista){
-    setExibirLista(lista)
-  }
 
-  function mostrarLista2(lista, nome){
-    setExibirLista(lista)
+  function mostrarNomeCampeonatoDialog2(nome){
     setNomeCampeonato(nome)
 
   }
@@ -689,7 +684,7 @@ export default function Sala() {
               </div>
               <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
             </div>
-            <button onClick={() => mostrarLista1(1)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+            <button onClick={()=>document.getElementById('my_modal_1').showModal()} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
               Ver mais
             </button>
           </div>
@@ -700,7 +695,7 @@ export default function Sala() {
               </div>
               <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
             </div>
-            <button onClick={() => mostrarLista1(1)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+            <button onClick={()=>document.getElementById('my_modal_1').showModal()} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
               Ver mais
             </button>
           </div>
@@ -711,7 +706,7 @@ export default function Sala() {
               </div>
               <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
             </div>
-            <button onClick={() => mostrarLista1(1)} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+            <button onClick={()=>document.getElementById('my_modal_1').showModal()} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
               Ver mais
             </button>
           </div>
@@ -719,160 +714,196 @@ export default function Sala() {
       )}
       {moveBar === "campeonato" && (
        <div ref={divRef} className={`w-[841px] max-w-full grid ${largura < 720 ? 'grid-cols-1 justify-items-center' : 'grid-cols-2'} gap-5 mx-auto bg-[#dbdada] p-8 rounded-3xl`}>
-      {[
-        { nome: 'Futebol Masculino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
-        { nome: 'Futebol Feminino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
-        { nome: 'Basquete', imgSrc: '/images/img-basquete.svg', status: 'Cadastrado' },
-        { nome: 'Queimada', imgSrc: '/images/img-queimada.svg', status: 'Cadastrado' },
-        { nome: 'Vôlei', imgSrc: '/images/img-volei.svg', status: 'Cadastrado' },
-        { nome: 'Ping Pong', imgSrc: '/images/img-ping-pong.svg', status: 'Não Cadastrado' },
-        { nome: 'Xadrez', imgSrc: '/images/img-xadrez.svg', status: 'Cadastrado' },
-        { nome: 'Damas', imgSrc: '/images/img-damas.svg', status: 'Não Cadastrado' }
-      ].map((atividade, index) => (
-        <div
-          key={index}
-          className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg'
-          onClick={() => mostrarLista2(2, atividade.nome)}
-        >
-          <div className='flex justify-evenly gap-2 items-center'>
-            <div className='w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg'>
-              <Image src={atividade.imgSrc} width={25} height={25} alt={atividade.nome} />
-            </div>
-            <div>
-              <p className='font-medium text-[#b1b1b1] text-lg'>{atividade.nome}</p>
-            </div>
-          </div>
-          {atividade.status === 'Cadastrado' ? (
-            <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1'>Cadastrado</div>
-          ) : (
-            <div className='text-[#D32719] bg-[#FDD5D1] h-[23px] rounded-lg px-1'>Não Cadastrado</div>
-          )}
-        </div>
-      ))}
-    </div>
-      )}
-
-      {exibirLista == 1 &&  (
-        <>
-          <div className="absolute inset-0 bg-black bg-opacity-50 z-50"></div>
-          <div className="absolute inset-0 flex items-center justify-center z-50">
-            <div className="mx-auto w-[445px]  bg-white p-6 rounded-3xl shadow-lg relative">
-                <div className='flex'>
-                  <div className='w-1/2'>
-                    <Image src="/images/fechar-menu.svg"  className="hover:scale-125 cursor-pointer duration-100 transition-all " width={30} height={25} onClick={() => mostrarLista1(0)}/>
-                  </div>
-                  <div className='w-full '>
-                    <h1 className='text-2xl text-[#005261] font-bold'>Doação</h1>
-                  </div>
+          {[
+            { nome: 'Futebol Masculino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
+            { nome: 'Futebol Feminino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
+            { nome: 'Basquete', imgSrc: '/images/img-basquete.svg', status: 'Cadastrado' },
+            { nome: 'Queimada', imgSrc: '/images/img-queimada.svg', status: 'Cadastrado' },
+            { nome: 'Vôlei', imgSrc: '/images/img-volei.svg', status: 'Cadastrado' },
+            { nome: 'Ping Pong', imgSrc: '/images/img-ping-pong.svg', status: 'Não Cadastrado' },
+            { nome: 'Xadrez', imgSrc: '/images/img-xadrez.svg', status: 'Cadastrado' },
+            { nome: 'Damas', imgSrc: '/images/img-damas.svg', status: 'Não Cadastrado' }
+          ].map((atividade, index) => (
+            <div
+              key={index}
+              className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg'
+              onClick={()=>{document.getElementById('my_modal_2').showModal(); mostrarNomeCampeonatoDialog2(atividade.nome)}} 
+            >
+              <div className='flex justify-evenly gap-2 items-center'>
+                <div className='w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg'>
+                  <Image src={atividade.imgSrc} width={25} height={25} alt={atividade.nome} />
                 </div>
-                <div className='flex justify-between mt-10'>
-                  <div className='flex gap-2 '>
-                     <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                       <Image src='/images/lacres.svg' width={25} height={25}/>
-                    
-                      </div>
-                      <div>
-                        <p className='text-lg text-[#005261] font-semibold'>Lacres</p>
-                        <p>Pontuação: <span className='text-[#3ACF1F]'>0000</span></p>
-                      </div>
-                  </div>
-                  <div className=''>
-                    <p>Data para Limite</p>
-                    <p className='text-end'>21 ago</p>
-                  </div>
-                </div>
-                <form >
-                  <label>
-                      <h2 className='mt-4 ml-4 text-lg font-medium text-[#005261]'>Adicione um Novo Jogador</h2>
-                      <div className='flex justify-evenly'>
-                         <input type="text" className='w-3/4' />
-                         <button className='bg-[#005261] w-[36px] h-[36px] grid place-items-center'>
-                            <Image src="/images/enviar.svg"  width={20} height={20}/>
-                          </button>
-                      </div>
-                  </label>
-                </form>
-                <div className='mt-4 pl-8 pt-6 h-[408px] bg-[#efefef]'>
-                  <div className='flex items-center justify-between pb-4' >
-                      <h1 className='text-lg font-medium '>Alunos que Doaram</h1>
-                      <span className='text-[#979797] mr-4'>0 Alunos</span>
-                  </div>
-                  <div className='w-full overflow-y-auto h-[300px]'>
-                    {/*nomes alunos */}
-                    <p>Fulano Ciclano Silano Beltrano</p>
-                    <p>Fulano Ciclano Silano Beltrano</p>
-                  </div>
-                </div>
-                <div className='flex justify-between items-center py-4 px-4'>
-                  <h2 className='font-semibold text-lg '>Total de Pontos</h2>
-                  <p className='text-bold text-[#3ACF1F] font-medium'>00000</p>
-                </div>
-             </div>
-          </div>
-        </>
-      )}
-
-    {exibirLista == 2 && (
-            <>
-              <div className="absolute inset-0 bg-black bg-opacity-50 z-50"></div>
-              <div className="absolute inset-0 flex items-center justify-center z-50">
-                <div className="mx-auto w-[445px]  bg-white p-6 rounded-3xl shadow-lg relative">
-                    <div className='flex'>
-                      <div className='w-1/2'>
-                        <Image src="/images/fechar-menu.svg"  className="hover:scale-125 cursor-pointer duration-100 transition-all " width={30} height={25}  onClick={() => mostrarLista2(0)}/>
-                      </div>
-                      <div className=' flex justify-between w-full '>
-                        <h1 className='text-2xl text-[#005261] font-bold'>Campeonatos</h1>
-                      </div>
-                    </div>
-                    <div className='flex justify-between mt-10'>
-                      <div className='flex gap-2 '>
-                         <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                           <Image src='/images/lacres.svg' width={25} height={25}/>
-                          </div>
-                          <div>
-                            <p className='text-lg text-[#005261] font-semibold'>{nomeCampeonato}</p>
-                            <p>Pontuação: <span className='text-[#3ACF1F]'>0000</span></p>
-                          </div>
-                       </div>
-                      <div className=''>
-                        <p>Data para Limite</p>
-                        <p className='text-end'>21 ago</p>
-                      </div>
-                    </div>
-                    <form >
-                      <label>
-                          <h2 className='mt-4 ml-4 text-lg font-medium text-[#005261]'>Adicione um Novo Jogador</h2>
-                          <div className='flex justify-evenly'>
-                            <input type="text" className='w-3/4' />
-                            <button className='bg-[#005261] w-[36px] h-[36px] grid place-items-center'>
-                              <Image src="/images/enviar.svg"  width={20} height={20}/>
-                            </button>
-                          </div>
-                      </label>
-                    </form>
-                    <div className='mt-4 pl-8 pt-6 h-[408px] bg-[#efefef] border border-orange-500'>
-                      <div className='flex items-center justify-between pb-4' >
-                        <h1 className='text-lg font-medium '>Jogadores</h1>
-                        <span className='text-[#979797] mr-4'>0 Alunos</span>
-                      </div>
-                      <div className='w-full overflow-y-auto h-[300px]'>
-                        {/*nomes alunos */}
-                        <p>Fulano Ciclano Silano Beltrano</p>
-                        <p>Fulano Ciclano Silano Beltrano</p>
-                      </div>
-                    </div>
-                    <div className='flex justify-between items-center py-4 px-4'>
-                      <h2 className='font-semibold text-lg '>Total de Pontos</h2>
-                      <p className='text-bold text-[#3ACF1F] font-medium'>00000</p>
-                    </div>
+                <div>
+                  <p className='font-medium text-[#b1b1b1] text-lg'>{atividade.nome}</p>
                 </div>
               </div>
-            </>
-          )}
+              {atividade.status === 'Cadastrado' ? (
+                <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1'>Cadastrado</div>
+              ) : (
+                <div className='text-[#D32719] bg-[#FDD5D1] h-[23px] rounded-lg px-1'>Não Cadastrado</div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      {/*modal da opção de doações */}
+
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box overflow-visible">
+          <div className="flex">
+            <form method="dialog" className='w-1/2 relative'>
+                <button className="absolute left-2 ">
+                  <Image
+                    src="/images/fechar-menu.svg"
+                    className="hover:scale-125 cursor-pointer duration-100 transition-all"
+                    width={30}
+                    height={25}
+                   />
+                </button>
+            </form>
+            <div className="w-full">
+              <h1 className="text-2xl text-[#005261] font-bold">Doação</h1>
+            </div>
+          </div>
+          <div className="flex justify-between mt-10">
+            <div className="flex gap-2">
+              <div className="w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg">
+                <Image src="/images/lacres.svg" width={25} height={25} alt="Lacres" />
+              </div>
+              <div>
+                <p className="text-lg text-[#005261] font-semibold">Lacres</p>
+                <p>
+                  Pontuação: <span className="text-[#3ACF1F]">0000</span>
+                </p>
+              </div>
+            </div>
+            <div>
+              <p>Data para Limite</p>
+              <p className="text-end">21 ago</p>
+            </div>
+          </div>
+          <form>
+            <label>
+              <h2 className="mt-4 ml-4 text-lg font-medium text-[#005261]">Adicione um Novo Jogador</h2>
+              <div className="flex justify-evenly">
+                <input type="text" className="w-3/4" />
+                <button className="bg-[#005261] w-[36px] h-[36px] grid place-items-center" type="submit">
+                  <Image src="/images/enviar.svg" width={20} height={20} alt="Enviar" />
+                </button>
+              </div>
+            </label>
+          </form>
+          <div className="mt-4 pl-3 sm:pb-20 pt-6 h-full bg-[#efefef]">
+            <div className="flex items-center justify-between pb-4">
+              <h1 className="text-lg font-medium">Alunos que Doaram</h1>
+              <span className="text-[#979797] mr-4">0 Alunos</span>
+            </div>
+            <div className="w-full overflow-auto space-y-2 h-[220px]">
+              <p>Fulano Ciclano Silano Beltrano</p>
+              <p>Fulano Ciclano Silano Beltrano</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+            </div>
+          </div>
+          <div className='flex justify-end pt-2'>
+            <button className='px-2 py-1 bg-[#005261] text-white  rounded-lg'>
+              editar
+            </button>
+          </div>
+          <div className="flex justify-between items-center py-4 px-4">
+            <h2 className="font-semibold text-lg">Total de Pontos</h2>
+            <p className="text-bold text-[#3ACF1F] font-medium">00000</p>
+          </div>
+        </div>
+      </dialog>
+      
+      {/*modal da opção de campeonatos */}
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box overflow-visible">
+          <div className="flex">
+          <form method="dialog" className='w-1/2 relative'>
+                <button className="absolute left-2 ">
+                  <Image
+                    src="/images/fechar-menu.svg"
+                    className="hover:scale-125 cursor-pointer duration-100 transition-all"
+                    width={30}
+                    height={25}
+                 
+                   />
+                </button>
+            </form>
+            <div className="flex justify-between w-full">
+              <h1 className="text-2xl text-[#005261] font-bold">Campeonatos</h1>
+            </div>
+          </div>
+          <div className="flex justify-between mt-10">
+            <div className="flex gap-2">
+              <div className="w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg">
+                <Image src="/images/lacres.svg" width={25} height={25} alt="Lacres" />
+              </div>
+              <div>
+                <p className="text-lg text-[#005261] font-semibold">{nomeCampeonato}</p>
+                <p>
+                  Pontuação: <span className="text-[#3ACF1F]">0000</span>
+                </p>
+              </div>
+            </div>
+            <div>
+              <p>Data para Limite</p>
+              <p className="text-end">21 ago</p>
+            </div>
+          </div>
+          <form>
+            <label>
+              <h2 className="mt-4 ml-4 text-lg font-medium text-[#005261]">Adicione um Novo Jogador</h2>
+              <div className="flex justify-evenly">
+                <input type="text" className="w-3/4" />
+                <button className="bg-[#005261] w-[36px] h-[36px] grid place-items-center" type="submit">
+                  <Image src="/images/enviar.svg" width={20} height={20} alt="Enviar" />
+                </button>
+              </div>
+            </label>
+          </form>
+          <div className="mt-4 pl-3 sm:pb-20 pt-6 h-full bg-[#efefef]">
+            <div className="flex items-center justify-between pb-4">
+              <h1 className="text-lg font-medium">Alunos que Doaram</h1>
+              <span className="text-[#979797] mr-4">0 Alunos</span>
+            </div>
+            <div className="w-full overflow-auto space-y-2 h-[220px]">
+              <p>Fulano Ciclano Silano Beltrano</p>
+              <p>Fulano Ciclano Silano Beltrano</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+              <p>a</p>
+            </div>
+          </div>
+          <div className='flex justify-end pt-2'>
+            <button className='px-2 py-1 bg-[#005261] text-white  rounded-lg'>
+              editar
+            </button>
+          </div>
+          <div className="flex justify-between items-center py-4 px-4">
+            <h2 className="font-semibold text-lg">Total de Pontos</h2>
+            <p className="text-bold text-[#3ACF1F] font-medium">00000</p>
+          </div>
+        </div>
+      </dialog>
     </div>
-
-
   );
 } 
 
