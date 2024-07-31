@@ -300,9 +300,9 @@ export default function Sala() {
 
   const [originalFormData, setOriginalFormData] = useState({
     horarios: ["", "", "", "", "", ""],
-    jogos: ["J1", "J2", "J3", "J4", "J5", "J6"],
-    timeA: ["1ºADM", "2ºCONT", "1ºINFO", "2ºRH", "2ºRH", "3ºADM"],
-    timeB: ["3ºADM", "1ºADM", "2ºRH", "2ºRH", "2ºINFO", "resp"],
+    jogos: ["J1", "J2", "J3", "J4", "J5", "J6","","","","","","","","","","",""],
+    timeA: ["1ºADM", "2ºCONT", "1ºINFO", "2ºRH", "2ºRH", "3ºADM","","","","",""],
+    timeB: ["3ºADM", "1ºADM", "2ºRH", "2ºRH", "2ºINFO", "resp","","","","",""],
   });
 
   const [formData, setFormData] = useState({ ...originalFormData });
@@ -427,7 +427,164 @@ export default function Sala() {
         nela tem que aparecer o nome (dentro do modalAlunsInformacao), os jogos que ela fez, pontuação, e ponto extra.
         Esse modal é editavel. Falta mostrar a tabela nela de campeonatos de quadra, campeonatos de patio, oficinas
         */}
-        {mostrarInformacoesAluno && (
+
+        <dialog id="my_modal_3" className="modal w-full">
+           <div className="modal-box relative sm:max-w-full sm:w-[762px] ">
+                   {/* <form method="dialog" className='w-1/2 relative'>
+                      <button className="absolute left-2 ">
+                        <Image
+                          src="/images/fechar-menu.svg"
+                          className="hover:scale-125 cursor-pointer duration-100 transition-all"
+                          width={30}
+                          height={25}
+                      
+                        />
+                      </button>
+                  </form> */}
+                 <div className='w-full sm:max-w-full sm:w-[667px] flex flex-col gap-4'>
+                    {/*cabeçalho */}
+                    <div className='flex sm:flex-row flex-col justify-center '>
+                      <form method="dialog" className='w-1/2 relative'>
+                        <button className="absolute left-2 ">
+                          <Icon icon="solar:arrow-left-linear"
+                            className="hover:scale-125 cursor-pointer duration-100 transition-all"
+                            style={{ color: "#005261" }} width={30} onClick={exibirModalAlunoInformacao}/>
+                          {/* <Image
+                            src="/images/fechar-menu.svg"
+                            className="hover:scale-125 cursor-pointer duration-100 transition-all"
+                            width={30}
+                            height={25}
+                        
+                          /> */}
+                        </button>
+                      </form>
+                      <div className='w-full text-center '>
+                        <h1 className='text-[#005261] text-lg font-semibold'>Quantidade de Pontos</h1>
+                      </div>
+                      {/*filtrar por dia */}
+                        <button
+                          className="mx-auto w-[300px] h-[38px]  shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center justify-evenly relative" // Adicione 'relative' para posicionar elementos filhos
+                        >
+                          <Image src="/images/img-calendario-filtro.svg"  width={20} height={20} className="ml-2 h-6 w-6" />
+                          <p className='text-[#005261] font-medium'> 28 ago</p> 
+                          <Icon icon="solar:alt-arrow-down-line-duotone" className='text-[#005261]' width={30} />
+                        </button>
+                    </div>
+                    <div className='flex justify-start bg-[#005261] w-[300px]  p-2 rounded-lg'>
+                      <p className='text-white'>Aluno:</p>
+                      <p className='text-white pl-1'>--</p>
+                    </div>
+
+                    {/*navegação das opções*/}
+                    <div className="grid grid-cols-2 gap-4 sm:flex sm:justify-center p-2 sm:gap-8 sm:mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
+                      <div
+                        onClick={() => setMoveBar2("Jogos de Pátio")}
+                        className={` underline sm:no-underline text-base flex items-center gap-2  cursor-pointer ${moveBar2 === "Jogos de Pátio" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                      >
+                        <Image src="../images/home-icon.svg" alt="" width={20} height={20} className='sm:block hidden'/>
+                        Jogos de Pátio
+                      </div>
+                      <div
+                        onClick={() => setMoveBar2("Campeonatos de Quadra")}
+                        className={` underline sm:no-underline sm:ml-2 text-base flex cursor-pointer ${moveBar2 === "Campeonatos de Quadra" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                      >
+                        Campeonatos de Quadra
+                      </div>
+                      <div
+                        onClick={() => setMoveBar2("Campeonatos de Pátio")}
+                        className={`underline sm:no-underline text-base cursor-pointer ${moveBar2 === "Campeonatos de Pátio" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                      >
+                        Campeonatos de Pátio
+                      </div>
+                      <div
+                        onClick={() => setMoveBar2("Oficinas")}
+                        className={`underline sm:no-underline text-base cursor-pointer ${moveBar2 === "Oficinas" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                      >
+                        Oficinas
+                      </div>
+                      <div
+                        className={`hidden sm:block h-[4px] w-[165px] bg-[#005261] ${transition2 ? "duration-700 delay-100" : ""}
+                          ${moveBar2 === "Jogos de Pátio" ? "left-0" : ""}
+                          ${moveBar2 === "Campeonatos de Quadra" ? "left-[180px]" : ""}
+                          ${moveBar2 === "Campeonatos de Pátio" ? "left-[380px]" : ""}
+                          ${moveBar2 === "Oficinas" ? "left-[500px]" : ""}
+                          absolute -bottom-1 font-bold`}
+                      ></div>
+                    </div>
+                  </div>
+                  <div className={`${larguraJanela < 600 ? 'overflow-x-auto' : ''} w-full`}>
+                    <table className="w-full table-auto border-collapse border border-gray-300">
+                      <thead className="bg-[#005261] text-white">
+                        <tr>
+                          <th className="w-[200px] h-[51px] border-r-4 border-white sticky left-0 bg-[#005261] z-20">Jogos</th>
+                          <th className="w-[200px] h-[51px] border-r-4 border-white">Pontuação</th>
+                          <th className="w-[200px] h-[51px] border-r-4 border-white">Extra</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {formData.jogos.map((jogo, index) => (
+                          <tr key={index} className="border-b  border-gray-300">
+                            <td className="h-[50px] border-r border-gray-300 p-1 text-center sticky left-0 bg-white z-10">
+                              {isEditing ? (
+                                <input
+                                  type="text"
+                                  value={formData.horarios[index]}
+                                  onChange={(e) => handleInputChange(index, 'horarios', e.target.value)}
+                                />
+                              ) : (
+                                formData.horarios[index]
+                              )}
+                            </td>
+                            <td className="h-[50px] border border-gray-300 p-1 text-center">
+                              {isEditing ? (
+                                <input
+                                  type="text"
+                                  value={formData.jogos[index]}
+                                  onChange={(e) => handleInputChange(index, 'jogos', e.target.value)}
+                                />
+                              ) : (
+                                formData.jogos[index]
+                              )}
+                            </td>
+                            <td className="h-[50px] border-r border-gray-300 p-1 text-center">
+                              {isEditing ? (
+                                <input
+                                  type="text"
+                                  value={formData.timeA[index]}
+                                  onChange={(e) => handleInputChange(index, 'timeA', e.target.value)}
+                                />
+                              ) : (
+                                formData.timeA[index]
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div>
+                     <div className="flex sm:justify-between items-center  flex-row gap-4 mt-4 pl-8 sm:pl-4">
+                      {isEditing ? (
+                        <>
+                          <button onClick={handleSaveClick} className="w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
+                            Salvar
+                          </button>
+                          <button onClick={handleCancelClick} className="w-[180px] h-[60px] rounded-xl bg-[#E6EFF0] text-[#005261] px-4 py-2">
+                            Cancelar
+                          </button>
+                        </>
+                      ) : (
+                        <button onClick={handleEditClick} className="w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
+                          Editar
+                        </button>
+                      )}
+                  </div>
+                 </div> 
+           </div>
+        </dialog>
+        {/*
+        
+             {mostrarInformacoesAluno && (
             <>
               <ModalAlunosInformacao 
                 moveBar2={moveBar2} 
@@ -507,6 +664,8 @@ export default function Sala() {
             </>
           )
         }
+        */}
+       
         {/*botão para selecioanr a fase */}
        <div className='mx-auto pl-5 md:pl-20 flex flex-col gap-10 m-5'>
          <div className='max-w-[1400px]  flex flex-row justify-between'>
@@ -607,7 +766,7 @@ export default function Sala() {
                 <div className="min-w-[200px]">
                   <div className="p-3 font-bold border border-white border-r-2 text-white sm:text-center">QDP</div>
                   {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className="sm:text-center pt-[10px]  h-[59px]  pl-4 Right-to-left bg-white border border-[#DADADA]" onClick={() => exibirModalAlunoInformacao(aluno.nome)}>
+                    <div key={aluno.id} className="sm:text-center pt-[10px]  h-[59px]  pl-4 Right-to-left bg-white border border-[#DADADA]" onClick={() => {document.getElementById('my_modal_3').showModal();exibirModalAlunoInformacao(aluno.nome)}}>
                       {aluno.qdp}
                     </div>
                   ))}
