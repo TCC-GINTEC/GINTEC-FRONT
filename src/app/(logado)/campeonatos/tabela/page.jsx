@@ -10,6 +10,10 @@ export default function TabelaCampeonatos() {
   const urlCampeonato = searchParams.get("campeonato");
 
   const [tabelaTimesContra, setTabelaTimesContra] = useState(false);
+  const [sorteiosRestantes, setSorteiosRestantes] = useState(3);
+  const [mensagem, setMensagem] = useState(false);
+  const [mostrarMensagemTemporaria, setMostrarMensagemTemporaria] = useState(false);
+
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [faseFilter, setFaseFilter] = useState("1 º Fase");
   const [moveBar, setMoveBar] = useState(1);
@@ -48,10 +52,45 @@ export default function TabelaCampeonatos() {
     setAlertShowFase(false);
   };
 
+  {/*funções para mostrar time contra funcionalidade de edição, salvar,cancelar */}
 
   const mostrarTabelaTimesContra = (exibir) => {
     setTabelaTimesContra(exibir);
   };
+
+  {/*função que embaralha times  e Função de Sorteio*/}
+
+  function shuffleArray(array) {
+    let shuffledArray = array.slice(); // Copia o array original
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  }
+
+    {/* Função de Sorteio*/}
+
+    const handleSortearTimes = () => {
+      if (sorteiosRestantes > 0) {
+        const shuffledTimesA = shuffleArray(formData.timeA);
+        const shuffledTimesB = shuffleArray(formData.timeB);
+    
+        setFormData(prevState => ({
+          ...prevState,
+          timeA: shuffledTimesA,
+          timeB: shuffledTimesB,
+        }));
+    
+        setSorteiosRestantes(prevCount => prevCount - 1);
+      } else {
+        setMostrarMensagemTemporaria(true);
+    
+        setTimeout(() => {
+          setMostrarMensagemTemporaria(false);
+        }, 1100); // 1 segundo
+      }
+    };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -90,7 +129,10 @@ export default function TabelaCampeonatos() {
          <h1 className='text-2xl font-bold'>{urlCampeonato}</h1>
       </div>
       <div className='w-[920px] max-w-full mx-auto'>
+        {/*texto que exibe na tela da NANE */}
         <p className=' text-center mb-4 text-[#666666]'>Para editar, clique no botão 'Editar' e faça as alterações necessárias. Para visualizar os times que vão disputar clique em uma das células da coluna Jogos </p>
+        {/*texto que exibe na tela do representante */}
+        <p className=' text-center mb-4 text-[#666666] hidden'>Para editar, clique no botão 'Editar' e faça as alterações necessárias. Para visualizar os times que vão disputar clique em uma das células da coluna Jogos </p>
         {tabelaTimesContra && (
           <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
@@ -177,6 +219,7 @@ export default function TabelaCampeonatos() {
           <div className="relative overflow-x-auto md:overflow-x-hidden rounded-3xl">
             <div className="min-w-[920px]">
               {moveBar === 1 && (
+                <>
                 <table className="w-full table-auto border-collapse border border-gray-300">
                   <thead className="bg-[#005261] text-white">
                     <tr>
@@ -229,6 +272,13 @@ export default function TabelaCampeonatos() {
                     ))}
                   </tbody>
                 </table>
+                <button 
+                  className={`block w-full text-center ${mostrarMensagemTemporaria ? 'bg-[#FDD5D1] text-[#D32719]' : 'bg-[#F5EDFD] text-purple-500'} font-semibold pt-4 pb-4 disabled`} 
+                  onClick={handleSortearTimes}
+                >
+                  {mostrarMensagemTemporaria ? 'Você atingiu o limite de sorteio' : 'sortear time'}
+                </button>
+                </>
               )}
              
             </div>
