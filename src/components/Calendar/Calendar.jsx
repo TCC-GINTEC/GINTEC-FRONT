@@ -40,9 +40,9 @@ export default function Calendar() {
     }
 
     return (
-        <div className='bg-white rounded-lg w-full p-4'>
+        <div className='mxauto bg-white rounded-lg w-[400px] h-[300px] max-w-full p-4'>
             <div className='text-[#005261] font-bold flex justify-evenly mb-5'>
-                <select value={mesSelecionado} onChange={(e) => setMesSelecionado(Number(e.target.value))}>
+                <select value={mesSelecionado} className="cursor-pointer "onChange={(e) => setMesSelecionado(Number(e.target.value))}>
                     <option value={0}>Janeiro</option>
                     <option value={1}>Fevereiro</option>
                     <option value={2}>Março</option>
@@ -56,19 +56,19 @@ export default function Calendar() {
                     <option value={10}>Novembro</option>
                     <option value={11}>Dezembro</option>
                 </select>
-                <input type="number" value={anoSelecionado} className="text-[#005261] font-bold w-[100px]" onChange={(e) => setAnoSelecionado(Number(e.target.value))} />
+                <input type="number" value={anoSelecionado} className="cursor-pointer text-[#005261] font-bold w-[100px]" onChange={(e) => setAnoSelecionado(Number(e.target.value))} />
             </div>
-            <div className="grid grid-cols-7 gap-10 mr-5">
+            <div className="grid grid-cols-7 gap-5 mr-5">
                 {renderDiasAnteriores().map((dia, index) => (
-                    <p key={index} className="text-gray-400 h-[30px] w-[30px] grid place-content-center -mt-2">{dia}</p>
+                    <p key={index} className=" cursor-pointer text-[#e7e6e6]  h-[30px] w-[30px] grid place-content-center -mt-2">{dia}</p>
                 ))}
                 {diasDoMes.map((dia) => (
-                    <p key={dia} className={dia === diaHoje && mesSelecionado === mesHoje && anoSelecionado === anoHoje ? "h-[30px] w-[30px] -mt-2  grid place-content-center rounded-full   bg-[#005261] text-white" : "grid place-content-center -mt-2 h-[30px] w-[30px]"}>
+                    <p key={dia} className={dia === diaHoje && mesSelecionado === mesHoje && anoSelecionado === anoHoje ? "cursor-pointer h-[30px] w-[30px] -mt-2  grid place-content-center rounded-full   bg-[#005261] text-white" : "cursor-pointer text-gray-500 grid place-content-center -mt-2 h-[30px] w-[30px]"}>
                         {dia}
                     </p>
                 ))}
                 {renderDiasProximos().map((dia, index) => (
-                    <p key={index} className="text-gray-400  h-[30px] w-[30px] grid place-content-center -mt-2">{dia}</p>
+                    <p key={index} className=" cursor-pointer text-[#e7e6e6]  h-[30px] w-[30px] grid place-content-center -mt-2">{dia}</p>
                 ))}
             </div>
         </div>

@@ -128,6 +128,18 @@ export default function Recados(){
 
     handleCloseForm();
   };
+  {/*quando em telas menores clicar no recado a o scrol role pra baixo*/}
+ 
+  const divRefScrollar = useRef(null);
+
+  const handleLabelClick = () => {
+    if (divRefScrollar.current) {
+      divRefScrollar.current.scrollTo({
+        top: divRefScrollar.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   {/*funções daqui pra baixo para ser possível aplicar responsividade */}
   
@@ -268,11 +280,11 @@ export default function Recados(){
              <>
               <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div> {/* Fundo preto translúcido */}
               <div className="fixed -top-8 inset-0 flex items-center justify-center z-50  ">
-                <div className=" flex flex-col gap-4 z-50 bg-white items-center w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative max-h-screen h-[700px] overflow-y-auto ">
+                <div ref={divRefScrollar}  className=" flex flex-col gap-4 z-50 bg-white items-center w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative overflow-y-auto max-h-screen h-auto ">
                   <div className='absolute left-4 top-2 cursor-pointer' onClick={() => setMostrarFormulario2(!mostrarFormulario2)}>
                     <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
                   </div>
-                  <form onSubmit={handleFormSubmit2} className='overflow-y-auto space-y-8 sm:w-3/4 h-full flex items-center flex-col z-50 bg-white'>
+                  <form onSubmit={handleFormSubmit2} className=' space-y-8 sm:w-3/4 h-auto flex items-center flex-col z-50 bg-white'>
                     <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                       Tipo de Recado  
                       <input type="text" value={tipo} name="tipoRecado" onChange={(e) => setTipo(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
@@ -291,9 +303,9 @@ export default function Recados(){
                     <label className='gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                       <input type="time" value={horario} name="horarioRecado" onChange={(e) => setHorario(e.target.value)} className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
                     </label>
-                    <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                    <label onClick={handleLabelClick} className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                       Recado 
-                      <textarea name="recado" value={mensagem} onChange={(e) => setMensagem(e.target.value)} className='bg-[#E6EFF0] w-full text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
+                      <textarea onClick={handleLabelClick} name="recado" value={mensagem} onChange={(e) => setMensagem(e.target.value)} className='bg-[#E6EFF0] w-full text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
                     </label>
                     <div className='flex sm:flex-row justify-evenly w-full gap-2'>
                       <button type='submit' className='w-1/2 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Publicar</button>
@@ -311,21 +323,21 @@ export default function Recados(){
 
       {/* div da direita */}
       <div className={
-        ` ${largura < 639 ? `${mostrarCalendario?'block z-50 fixed right-0 top-8 ':'hidden'} ` : `block`} ${mostrarModal ?'hidden':'block'}  ${largura < 1086 ? 'w-[350px] ' : larguraJanela < 916 ? ' pr-8' : 'w-[520px]'} 
-        h-[690px] rounded-l-lg bg-[#efeeee]  `}>
-        <Image src={'/images/fechar-menu.svg'} className={`relative -left-1 -top-3 ${largura>625?'hidden':'block'}`} width={40} height={30} onClick={() =>setMostrarCalendario(!mostrarCalendario)}/>
+        ` ${largura < 639 ? `${mostrarCalendario?'block z-50 fixed right-0 top-4  sm:top-8 ':'hidden'} ` : `block`} ${mostrarModal ?'hidden':'block'}  ${largura < 1086 ? 'w-[350px] ' : larguraJanela < 916 ? ' pr-8' : 'w-[520px]'} 
+        h-auto pb-4 rounded-l-lg bg-[#efeeee]  `}>
+        <Image src={'/images/fechar-menu.svg'} className={`relative -left-1 -top-2 hover:scale-110 ${largura>625?'hidden':'block'}`} width={40} height={30} onClick={() =>setMostrarCalendario(!mostrarCalendario)}/>
         
-        <div className='max-w-full w-[410px] mx-auto'>
-          <section className='border p-4'>
+        <div className='max-w-full w-[410px] h-auto mx-auto'>
+          <section className='p-4'>
               <Calendar />
           </section>
           <section>
             {/* notificacao */}
-            <p className='text-[#999999] text-center sm:pt-[56px] sm:pb-[50px]'>Escolha uma data e veja qual prazo está marcado ser entregue nela</p>
-            <hr className='border-[#005261] border-b-2'/>
+            <p className='text-[#999999] text-center md:pt-[30px] pb-[25px]'>Escolha uma data e veja qual prazo está marcado ser entregue nela</p>
+            <hr className='border-[#005261] border-b-2 w-1/2 mx-auto'/>
           </section>
           {/* botao */}
-          <button onClick={() => setMostrarModal(!mostrarModal)} className='mx-auto max-w-full w-[310px] h-[90px] rounded-2xl flex justify-center items-center gap-4 bg-white mt-10'>
+          <button onClick={() => setMostrarModal(!mostrarModal)} className='hover:scale-105 mx-auto max-w-full w-[310px] pt-4 pb-4 rounded-2xl flex justify-center items-center gap-4 bg-white mt-10'>
             <div className="w-[45px] h-[45px] rounded-lg bg-[#005261] grid place-content-center p-6">
               <Icon width={15} icon="el:plus" className="text-white" />
             </div>
@@ -363,56 +375,59 @@ export default function Recados(){
                 </div>
               </div>
                 {mostrarFormulario && (
-                   <div className={`foverflow-y-auto flex flex-col gap-4 z-50 bg-white items-center w-[350px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative  max-h-screen h-[700px] overflow-y-auto `}>
-                      <div className='absolute left-4 top-2 cursor-pointer' onClick={() => setMostrarModal(!mostrarModal), () => setMostrarFormulario(!mostrarFormulario)}>
-                        <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
-                      </div>
-                      <form onSubmit={handleFormSubmit}  className=' space-y-8 sm:w-3/4 h-[700px] flex items-center flex-col z-50 bg-white '>
-                       <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                           Tipo de Recado
-                          {opcaoForm == 1 ?(  
-                            <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Organização de Sala'}/>
-                            ):opcaoForm == 2?(
-                              <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Campeonato de Pátio'}/>
-                            ):opcaoForm == 3?(
-                              <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Campeonato de Quadra'}/>
-                            ):opcaoForm == 4?(
-                            <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Prazos'}/>
-                            ):opcaoForm == 5?(
-                            <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Doações'}/>
-                           ):(
-                            <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Oficinas'}/>
-                           )
-                          }
-                        </label>
-
-                        <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                          Titulo 
-                          <input type="text" name="titulo" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
-                        </label>
-                   
-                        <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                           <input type="radio" name="visualizacao" className='bg-[#E6EFF0] text-[#005261]  text-lg' value="representante"/> Representantes <br/>
-                          <input type="radio" name="visualizacao" className='bg-[#E6EFF0] text-[#005261] text-lg' value="aluno"/> Todos os Alunos
-                        </label>
-                        <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                         <input type="date" name="diaMarcado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
-                        </label>
-                        <label className=' gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                         <input type="time" name="horarioRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
-                        </label>
-                        <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                          Recado 
-                          <textarea name="recado" className='bg-[#E6EFF0] w-full text-[#005261] font-medium text-lg' placeholder='Digite aqui'/>
-                        </label>
-                        <div className='flex sm:flex-row justify-evenly w-full gap-2'>
-                          <button type='submit' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Publicar</button>
-                          <button type='button' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4' onClick={() => setMostrarModal(!mostrarModal), () => setMostrarFormulario(!mostrarFormulario)}>
-                            Cancelar
-                          </button>
-                        </div>
-                      </form>
-                    </div>
+                   <div ref={divRefScrollar} className={`flex flex-col gap-4 z-50 bg-white items-center w-[390px] max-w-full sm:w-[525px] p-10 m-auto shadow-lg mt-10 text-[#666666] rounded-xl relative max-h-screen h-auto overflow-y-auto overflow-x-hidden sm:overflow-visible `}>
+                   <div className='absolute left-4 top-2 cursor-pointer' onClick={() => {setMostrarModal(!mostrarModal); setMostrarFormulario(!mostrarFormulario); handleScroll();}}>
+                     <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
+                   </div>
+                   <form  onSubmit={handleFormSubmit} className='space-y-8 sm:w-3/4 h-[700px] flex items-center flex-col z-50 bg-white'>
+                     <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                       Tipo de Recado
+                       {opcaoForm == 1 ? (
+                         <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Organização de Sala'} />
+                       ) : opcaoForm == 2 ? (
+                         <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Campeonato de Pátio'} />
+                       ) : opcaoForm == 3 ? (
+                         <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Campeonato de Quadra'} />
+                       ) : opcaoForm == 4 ? (
+                         <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Prazos'} />
+                       ) : opcaoForm == 5 ? (
+                         <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Doações'} />
+                       ) : (
+                         <input type="text" name="tipoRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' value={'Oficinas'} />
+                       )}
+                     </label>
+             
+                     <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                       Titulo 
+                       <input type="text" name="titulo" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' />
+                     </label>
+             
+                     <label className='gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                       <input type="radio" name="visualizacao" className='bg-[#E6EFF0] text-[#005261] text-lg' value="representante" /> Representantes <br />
+                       <input type="radio" name="visualizacao" className='bg-[#E6EFF0] text-[#005261] text-lg' value="aluno" /> Todos os Alunos
+                     </label>
+                     
+                     <label className='gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                       <input type="date" name="diaMarcado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' />
+                     </label>
+                     
+                     <label className='gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                       <input type="time" name="horarioRecado" className='bg-[#E6EFF0] text-[#005261] font-medium text-lg' placeholder='Digite aqui' />
+                     </label>
+                     
+                     <label onClick={handleLabelClick} className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                       Recado 
+                       <textarea  onClick={handleLabelClick} name="recado" className='bg-[#E6EFF0] w-full text-[#005261] font-medium text-lg' placeholder='Digite aqui' />
+                     </label>
+                     
+                     <div className='flex sm:flex-row justify-evenly w-full gap-2'>
+                       <button type='submit' className='w-1/2 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Publicar</button>
+                       <button type='button' className='w-1/2 rounded-2xl self-start bg-[#005261] text-white font-medium p-4' onClick={() => {setMostrarModal(!mostrarModal); setMostrarFormulario(!mostrarFormulario)}}>
+                         Cancelar
+                       </button>
+                     </div>
+                   </form>
+                 </div>
                   )}
             </div>
 
