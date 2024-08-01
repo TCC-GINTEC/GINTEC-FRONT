@@ -1,6 +1,5 @@
 "use client"
 
-import "../../../globals.css";
 import { useRef, useEffect, useState } from 'react';
 import { useSearchParams } from "next/navigation";
 import ModalAlunosInformacao from '@/components/Salas/sala/ModalAlunosInformacao'

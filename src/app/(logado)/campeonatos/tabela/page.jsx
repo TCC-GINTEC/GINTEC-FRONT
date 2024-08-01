@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Icon } from '@iconify/react';
+import Image from 'next/image'
 import Link from 'next/link';
 import { useSearchParams } from "next/navigation";
 
@@ -10,7 +11,7 @@ export default function TabelaCampeonatos() {
   const urlCampeonato = searchParams.get("campeonato");
 
   const [tabelaTimesContra, setTabelaTimesContra] = useState(false);
-  const [sorteiosRestantes, setSorteiosRestantes] = useState(3);
+  const [sorteiosRestantes, setSorteiosRestantes] = useState(1);
   const [mensagem, setMensagem] = useState(false);
   const [mostrarMensagemTemporaria, setMostrarMensagemTemporaria] = useState(false);
 
@@ -58,39 +59,33 @@ export default function TabelaCampeonatos() {
     setTabelaTimesContra(exibir);
   };
 
-  {/*função que embaralha times  e Função de Sorteio*/}
-
-  function shuffleArray(array) {
-    let shuffledArray = array.slice(); // Copia o array original
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-    }
-    return shuffledArray;
+// Função para embaralhar times
+function shuffleArray(array) {
+  let shuffledArray = array.slice(); // Copia o array original
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
   }
+  return shuffledArray;
+}
 
-    {/* Função de Sorteio*/}
+// Função de Sorteio
+const handleSortearTimes = () => {
+  if (sorteiosRestantes > 0) {
+    const shuffledTimesA = shuffleArray(formData.timeA);
+    const shuffledTimesB = shuffleArray(formData.timeB);
 
-    const handleSortearTimes = () => {
-      if (sorteiosRestantes > 0) {
-        const shuffledTimesA = shuffleArray(formData.timeA);
-        const shuffledTimesB = shuffleArray(formData.timeB);
-    
-        setFormData(prevState => ({
-          ...prevState,
-          timeA: shuffledTimesA,
-          timeB: shuffledTimesB,
-        }));
-    
-        setSorteiosRestantes(prevCount => prevCount - 1);
-      } else {
-        setMostrarMensagemTemporaria(true);
-    
-        setTimeout(() => {
-          setMostrarMensagemTemporaria(false);
-        }, 1100); // 1 segundo
-      }
-    };
+    // Atualize o estado com os times sorteados
+    setFormData(prevState => ({
+      ...prevState,
+      timeA: shuffledTimesA,
+      timeB: shuffledTimesB,
+    }));
+
+    setSorteiosRestantes(prevCount => prevCount - 1);
+  }
+};
+
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -126,7 +121,15 @@ export default function TabelaCampeonatos() {
                 <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
               </Link>
           </button>
-         <h1 className='text-2xl font-bold'>{urlCampeonato}</h1>
+         <div>
+           <h1 className='text-2xl font-bold'>{urlCampeonato}</h1>
+           {isEditing?(
+            <div>
+              <Image src="/images/img-fundo-edicao.svg" alt="" />
+             </div> 
+           ):''}
+
+          </div>
       </div>
       <div className='w-[920px] max-w-full mx-auto'>
         {/*texto que exibe na tela da NANE */}
@@ -273,11 +276,13 @@ export default function TabelaCampeonatos() {
                   </tbody>
                 </table>
                 <button 
-                  className={`block w-full text-center ${mostrarMensagemTemporaria ? 'bg-[#FDD5D1] text-[#D32719]' : 'bg-[#F5EDFD] text-purple-500'} font-semibold pt-4 pb-4 disabled`} 
+                  className={`block w-full text-center ${sorteiosRestantes === 0 ? 'bg-[#DADADA] text-gray-400 disabled' : 'bg-[#F5EDFD] text-purple-500'} font-semibold pt-4 pb-4`} 
                   onClick={handleSortearTimes}
+                  disabled={sorteiosRestantes === 0}
                 >
-                  {mostrarMensagemTemporaria ? 'Você atingiu o limite de sorteio' : 'sortear time'}
+                  Sortear time
                 </button>
+
                 </>
               )}
              
@@ -299,7 +304,10 @@ export default function TabelaCampeonatos() {
               Editar
             </button>
           )}
-
+          {/*botao de proximo */}
+           <button onClick={handleEditClick} className="hidden w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
+              Editar
+            </button>
           <div className='w-[400px]  text-justify border border-[#005261] p-2'>
             OBS: utilize as abreviações : <span className="font-bold">3ºINFO</span>, <span className="font-bold">2ºINFO</span>, <span className="font-bold">1ºINFO</span>,
              <span className="font-bold">3ºADM</span>,  <span className="font-bold">2ºADM</span>, <span className="font-bold">1ºADM</span>, <span className="font-bold">1ºRH</span>, <span className="font-bold">2ºRH</span>, <span className="font-bold">1ºRH</span>, 
