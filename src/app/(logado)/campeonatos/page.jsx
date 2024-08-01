@@ -145,15 +145,15 @@ export default function Campeonatos() {
       <div ref={divRef}  className="w-[920px] max-w-full mx-auto">
         <div className="flex flex-col items-center w-full sm:gap-2 md:gap-6 sm:pr-10">
           <div className={`${largura < 800?'w-[360px]':'sm:w-[626px]'} max-w-full h-[195px] flex justify-evenly items-center shadow-2xl rounded-lg mx-auto`}>
-            <div onClick={() => informacoesDia(1)} className={`${largura < 800 ? 'w-[100px]':' sm:w-[118px] '} h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 1?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
+            <div onClick={() => informacoesDia(1)} className={`cursor-pointer  ${largura < 800 ? 'w-[100px]':' sm:w-[118px] '} h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 1?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
               <h2 className="text-3xl font-medium">28</h2>
               <p>Ago</p>
             </div>
-            <div  onClick={() => informacoesDia(2)}  className={`${largura < 800 ? 'w-[100px]':' sm:w-[118px] '} h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 2?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
+            <div  onClick={() => informacoesDia(2)}  className={`cursor-pointer ${largura < 800 ? 'w-[100px]':' sm:w-[118px] '} h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 2?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
               <h2 className="text-3xl font-medium">29</h2>
               <p>Ago</p>
             </div>
-            <div onClick={() => informacoesDia(3)} className={`${largura < 800 ? 'w-[100px]':' sm:w-[118px] '}  h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 3?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
+            <div onClick={() => informacoesDia(3)} className={`cursor-pointer ${largura < 800 ? 'w-[100px]':' sm:w-[118px] '}  h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 3?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
               <h2 className="text-3xl font-medium">30</h2>
               <p>Ago</p>
             </div>
@@ -165,7 +165,7 @@ export default function Campeonatos() {
                 const encodedText = encodeURIComponent(item.text);
 
                 return (
-                  <div key={index} className={`hover:scale-110 transition-all duration-150  ${larguraJanela < 600 && larguraJanela > 448 || largura < 700 && largura >= 501 ?'w-[200px]':' w-[275px]'}  h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4`} onClick={() => router.push(`/campeonatos/tabela?campeonato=${encodedText} `)}>
+                  <div key={index} className={`cursor-pointer hover:scale-110 transition-all duration-150  ${larguraJanela < 600 && larguraJanela > 448 || largura < 700 && largura >= 501 ?'w-[200px]':' w-[275px]'}  h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4`} onClick={() => router.push(`/campeonatos/tabela?campeonato=${encodedText} `)}>
                     <div className="bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg ">
                       <Image
                         src={`/images/img-${imageName}.svg`}
