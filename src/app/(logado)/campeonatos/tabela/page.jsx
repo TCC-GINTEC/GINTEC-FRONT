@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { Icon } from '@iconify/react';
-import Image from 'next/image'
 import Link from 'next/link';
 import { useSearchParams } from "next/navigation";
+import Image from 'next/image'
+import Modal from '@/components/formCadastro/modal';
 
 export default function TabelaCampeonatos() {
   const searchParams = useSearchParams();
   const urlCampeonato = searchParams.get("campeonato");
+
+  const [mostrarEdicaoSucesso, setMostrarEdicaoSucesso] = useState(false);
 
   const [tabelaTimesContra, setTabelaTimesContra] = useState(false);
   const [sorteiosRestantes, setSorteiosRestantes] = useState(1);
@@ -96,6 +99,13 @@ const handleSortearTimes = () => {
   const handleSaveClick = () => {
     console.log("Dados Submetidos:", formData);
     setIsEditing(false);
+    setTimeout(() => {
+      setMostrarEdicaoSucesso(true)
+    }, 200);
+  };
+
+  const closeModal = () => {
+    setMostrarEdicaoSucesso(false);
   };
 
   const handleCancelClick = () => {
@@ -121,14 +131,18 @@ const handleSortearTimes = () => {
                 <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
               </Link>
           </button>
-         <div>
-           <h1 className='text-2xl font-bold'>{urlCampeonato}</h1>
-           {isEditing?(
-            <div>
-              <Image src="/images/img-fundo-edicao.svg" alt="" />
-             </div> 
-           ):''}
-
+          <div className='flex flex-col gap-4 sm:flex-row justify-between items-center w-full pr-7'>
+            <h1 className='text-2xl font-bold'>{urlCampeonato}</h1>
+            <div className={`${isEditing?'block':'hidden'} relative flex items-center`}>
+              <Image
+                src="/images/img-fundo-edicao.svg"
+                alt="Imagem de fundo"
+                className="absolute w-[256px] h-[43px]"
+                width={256}
+                height={43}
+              />
+              <p className='relative z-10 text-center w-[256px] text-white'>Modo de Edição</p>
+            </div>
           </div>
       </div>
       <div className='w-[920px] max-w-full mx-auto'>
@@ -275,20 +289,18 @@ const handleSortearTimes = () => {
                     ))}
                   </tbody>
                 </table>
-                <button 
-                  className={`block w-full text-center ${sorteiosRestantes === 0 ? 'bg-[#DADADA] text-gray-400 disabled' : 'bg-[#F5EDFD] text-purple-500'} font-semibold pt-4 pb-4`} 
-                  onClick={handleSortearTimes}
-                  disabled={sorteiosRestantes === 0}
-                >
-                  Sortear time
-                </button>
-
                 </>
               )}
-             
             </div>
           </div>
         </div>
+        <button 
+            className={`block mx-auto w-[425px] sm:w-[600px] md:w-[900px] sm:max-w-full text-center ${sorteiosRestantes === 0 ? 'bg-[#DADADA] text-gray-400 disabled' : 'bg-[#F5EDFD] text-purple-500'} font-semibold pt-4 pb-4 rounded-b-lg`} 
+            onClick={handleSortearTimes}
+            disabled={sorteiosRestantes === 0}
+         >
+           Sortear time
+        </button>
         <div className="flex sm:justify-between items-center flex-col sm:flex-row gap-4 mt-4 pl-8 sm:pl-4">
           {isEditing ? (
             <>
@@ -315,6 +327,13 @@ const handleSortearTimes = () => {
           </div>
         </div>
       </div>
+      {mostrarEdicaoSucesso && (
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+          <Modal edicao={"edicao"} closeModal={closeModal} texto='Esse cronograma de campeonato foi editado com sucesso' />
+        </>
+      )}
     </>
+    
   );
 }
