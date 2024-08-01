@@ -105,6 +105,9 @@ img {
   gap-2;
 }
 
+
+
+
 .diasCalendario {
   @apply flex justify-center items-center p-4 border border-red-500;
 }

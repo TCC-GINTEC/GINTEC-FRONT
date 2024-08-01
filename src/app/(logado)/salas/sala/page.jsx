@@ -1,4 +1,6 @@
-"use client";
+"use client"
+
+import "../../../globals.css";
 import { useRef, useEffect, useState } from 'react';
 import { useSearchParams } from "next/navigation";
 import ModalAlunosInformacao from '@/components/Salas/sala/ModalAlunosInformacao'
@@ -12,17 +14,20 @@ export default function Sala() {
   const[mostrarInformacoesAluno, setExibirInformacoesAluno] = useState(false);
   const [nomeAluno, setNomeAluno] = useState('');
   const [mostrarOpcoesDiasParticipado, setMostrarOpcoesDiasParticipado] = useState(false);
-
+  const [diaAlertaDiaIndisponivel, setDiaAlertaDiaIndisponivel] = useState(false);
 
   const[exibirLista, setExibirLista] =useState('');
-  const [listaDeDoador, setListaDeDoadores] = useState([]) 
-  const [listaDeJogadores, setListaDeJogadores] = useState([]) 
-  const [nomeCampeonato, setNomeCampeonato]= useState('')
-  
+  const [listaDeDoador, setListaDeDoadores] = useState([]);
+  const [listaDeJogadores, setListaDeJogadores] = useState([]); 
+  const [nomeCampeonato, setNomeCampeonato]= useState('');
+  const [nomeDoacao, setNomeDoacao]= useState('');
+  const[imgDoacoesDialog1,setImgDoacoesDialog1] = useState('/images/');
+  const[imgDoacoesDialog2,setImgDoacoesDialog2] = useState('/images/');
+
   {/*selecionar a fase */}
 
   const [showFilterOptions, setShowFilterOptions] = useState(false);
-  const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false)
+  const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false);
   const [showFilterDataOptions, setShowFilterDataOptions] = useState(false);
   
   const [faseFilter, setFaseFilter] = useState("1 º Fase"); // Estado para armazenar a fase selecionada
@@ -269,7 +274,7 @@ export default function Sala() {
     setShowFilterFasesOptions(false);
   }
 
-  function handleData(diaSelecionado) {
+  function handleDataTabela(diaSelecionado) {
     setShowFilterOptions(false);
     if (diaSelecionado === "29 ago" || diaSelecionado === "30 ago") {
       setAlertShowDia(true);
@@ -277,6 +282,17 @@ export default function Sala() {
     } else {
       setDia(diaSelecionado);
       setShowFilterDataOptions(false);
+    }
+  }
+ 
+  function handleDiaInformacoes(diaSelecionado) {
+    setMostrarOpcoesDiasParticipado(false);
+    if (diaSelecionado === 29 || diaSelecionado === 30) {
+      setMostrarOpcoesDiasParticipado(true);
+      setDiaAlertaDiaIndisponivel(true);
+    } else {
+      setMostrarOpcoesDiasParticipado(true);
+      setDiaAlertaDiaIndisponivel(false);
     }
   }
 
@@ -289,9 +305,15 @@ export default function Sala() {
   };
 
 
+  function mostrarNomeDoacaoDialog1(nome, img) {
+    setNomeDoacao(nome);
+    setImgDoacoesDialog1(img);
+  }
 
-  function mostrarNomeCampeonatoDialog2(nome){
+
+  function mostrarNomeCampeonatoDialog2(nome,img){
     setNomeCampeonato(nome)
+    setImgDoacoesDialog2(img);
 
   }
 
@@ -299,10 +321,9 @@ export default function Sala() {
   const [isEditing, setIsEditing] = useState(false);
 
   const [originalFormData, setOriginalFormData] = useState({
-    horarios: ["", "", "", "", "", ""],
-    jogos: ["J1", "J2", "J3", "J4", "J5", "J6","","","","","","","","","","",""],
-    timeA: ["1ºADM", "2ºCONT", "1ºINFO", "2ºRH", "2ºRH", "3ºADM","","","","",""],
-    timeB: ["3ºADM", "1ºADM", "2ºRH", "2ºRH", "2ºINFO", "resp","","","","",""],
+    jogos: ["", "", "", "", "", "","","","","","","","","","","",""],
+    pontuacao: ["", "", "", "", "", "","","","","",""],
+    extras: ["", "", "", "", "", "","","","","",""],
   });
 
   const [formData, setFormData] = useState({ ...originalFormData });
@@ -332,23 +353,7 @@ export default function Sala() {
   };
 
     {/*função para aplicar responsividade em dispositivos com telas menores */}
-    const divRef = useRef(null);
-    const [largura, setLargura] = useState(); // Inicializa com valor maior que 700
-  
-    useEffect(() => {
-      const updateWidth = () => {
-        if (divRef.current) {
-          setLargura(divRef.current.offsetWidth);
-          console.log('Largura da div:', divRef.current.offsetWidth); // Log para depuração
-        }
-      };
-  
-      updateWidth;
-      window.addEventListener('resize', updateWidth);
-  
-      return () => window.removeEventListener('resize', updateWidth);
-    }, []);
-    
+   
     const [larguraJanela, setLarguraJanela] = useState(0);
   
     useEffect(() => {
@@ -364,7 +369,7 @@ export default function Sala() {
     }, []);
 
   return (
-    <div className=''>
+    <div className='pl-4 pr-4 '>
 
         {/*Exibe o alerta quando a 2 fase não está disponivel*/}
         {alertShowFase && (
@@ -430,17 +435,7 @@ export default function Sala() {
 
         <dialog id="my_modal_3" className="modal w-full">
            <div className="modal-box relative sm:max-w-full sm:w-[762px] ">
-                   {/* <form method="dialog" className='w-1/2 relative'>
-                      <button className="absolute left-2 ">
-                        <Image
-                          src="/images/fechar-menu.svg"
-                          className="hover:scale-125 cursor-pointer duration-100 transition-all"
-                          width={30}
-                          height={25}
-                      
-                        />
-                      </button>
-                  </form> */}
+               
                  <div className='w-full sm:max-w-full sm:w-[667px] flex flex-col gap-4'>
                     {/*cabeçalho */}
                     <div className='flex sm:flex-row flex-col justify-center '>
@@ -449,26 +444,57 @@ export default function Sala() {
                           <Icon icon="solar:arrow-left-linear"
                             className="hover:scale-125 cursor-pointer duration-100 transition-all"
                             style={{ color: "#005261" }} width={30} onClick={exibirModalAlunoInformacao}/>
-                          {/* <Image
-                            src="/images/fechar-menu.svg"
-                            className="hover:scale-125 cursor-pointer duration-100 transition-all"
-                            width={30}
-                            height={25}
-                        
-                          /> */}
+
                         </button>
                       </form>
                       <div className='w-full text-center '>
                         <h1 className='text-[#005261] text-lg font-semibold'>Quantidade de Pontos</h1>
                       </div>
                       {/*filtrar por dia */}
-                        <button
-                          className="mx-auto w-[300px] h-[38px]  shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center justify-evenly relative" // Adicione 'relative' para posicionar elementos filhos
-                        >
-                          <Image src="/images/img-calendario-filtro.svg"  width={20} height={20} className="ml-2 h-6 w-6" />
-                          <p className='text-[#005261] font-medium'> 28 ago</p> 
-                          <Icon icon="solar:alt-arrow-down-line-duotone" className='text-[#005261]' width={30} />
-                        </button>
+                        <div className='flex w-[300px] sm:w-[320px]  justify-end flex-col'>
+                          <button
+                            className="mx-auto w-full h-[38px]  shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center justify-evenly relative" // Adicione 'relative' para posicionar elementos filhos
+                            onClick={() => setMostrarOpcoesDiasParticipado(!mostrarOpcoesDiasParticipado)}
+                          >
+                            <Image src="/images/img-calendario-filtro.svg"  width={20} height={20} className="ml-2 h-6 w-6" />
+                            <p className='text-[#005261] font-medium'> 28 ago</p>
+                            <Icon icon="solar:alt-arrow-down-line-duotone" className='text-[#005261]' width={30} />
+                          </button>
+                          <div>
+                           <p className={`${diaAlertaDiaIndisponivel ? 'text-red-500' : ''} text-end`}>
+                              {diaAlertaDiaIndisponivel ? 'Dia indisponível' : ''}
+                            </p>
+                          </div>
+                        </div>
+                        {/*mudar de forma dinamica, para aparecer os dias cadastrados */}
+                        
+                        {mostrarOpcoesDiasParticipado && (
+                            <>
+                              <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                              <div className="absolute bg-white shadow-md rounded-lg mt-20 right-10 w-48 py-2 z-50">
+                                <ul>
+                                <li 
+                                    onClick={() => {handleDiaInformacoes(28); setMostrarOpcoesDiasParticipado(!mostrarOpcoesDiasParticipado) }}
+                                    className="cursor-pointer hover:bg-gray-100 py-1 px-3"
+                                  >
+                                    28
+                                  </li>
+                                  <li 
+                                    onClick={() => {handleDiaInformacoes(29); setMostrarOpcoesDiasParticipado(!mostrarOpcoesDiasParticipado)}}
+                                    className="cursor-pointer hover:bg-gray-100 py-1 px-3"
+                                  >
+                                    29
+                                  </li>
+                                  <li 
+                                    onClick={() => {handleDiaInformacoes(30); setMostrarOpcoesDiasParticipado(!mostrarOpcoesDiasParticipado)}}
+                                    className="cursor-pointer hover:bg-gray-100 py-1 px-3"
+                                  >
+                                    30
+                                  </li>
+                                </ul>
+                              </div>
+                          </>
+                         )} 
                     </div>
                     <div className='flex justify-start bg-[#005261] w-[300px]  p-2 rounded-lg'>
                       <p className='text-white'>Aluno:</p>
@@ -503,7 +529,7 @@ export default function Sala() {
                         Oficinas
                       </div>
                       <div
-                        className={`hidden sm:block h-[4px] w-[165px] bg-[#005261] ${transition2 ? "duration-700 delay-100" : ""}
+                        className={`sm:hidden xl:block h-[4px] w-[165px] bg-[#005261] ${transition2 ? "duration-700 delay-100" : ""}
                           ${moveBar2 === "Jogos de Pátio" ? "left-0" : ""}
                           ${moveBar2 === "Campeonatos de Quadra" ? "left-[180px]" : ""}
                           ${moveBar2 === "Campeonatos de Pátio" ? "left-[380px]" : ""}
@@ -528,33 +554,33 @@ export default function Sala() {
                               {isEditing ? (
                                 <input
                                   type="text"
-                                  value={formData.horarios[index]}
+                                  value={formData.jogos[index]}
                                   onChange={(e) => handleInputChange(index, 'horarios', e.target.value)}
                                 />
                               ) : (
-                                formData.horarios[index]
+                                formData.jogos[index]
                               )}
                             </td>
                             <td className="h-[50px] border border-gray-300 p-1 text-center">
                               {isEditing ? (
                                 <input
                                   type="text"
-                                  value={formData.jogos[index]}
+                                  value={formData.pontuacao[index]}
                                   onChange={(e) => handleInputChange(index, 'jogos', e.target.value)}
                                 />
                               ) : (
-                                formData.jogos[index]
+                                formData.pontuacao[index]
                               )}
                             </td>
                             <td className="h-[50px] border-r border-gray-300 p-1 text-center">
                               {isEditing ? (
                                 <input
                                   type="text"
-                                  value={formData.timeA[index]}
+                                  value={formData.extras[index]}
                                   onChange={(e) => handleInputChange(index, 'timeA', e.target.value)}
                                 />
                               ) : (
-                                formData.timeA[index]
+                                formData.extras[index]
                               )}
                             </td>
                           </tr>
@@ -582,89 +608,7 @@ export default function Sala() {
                  </div> 
            </div>
         </dialog>
-        {/*
-        
-             {mostrarInformacoesAluno && (
-            <>
-              <ModalAlunosInformacao 
-                moveBar2={moveBar2} 
-                setMoveBar2={setMoveBar2}
-                 transition2={transition2} 
-                 exibirModalAlunoInformacao={exibirModalAlunoInformacao}
-              >
-                  <div className={`${larguraJanela < 600 ? 'overflow-x-auto' : ''} w-full`}>
-                    <table className="w-full table-auto border-collapse border border-gray-300">
-                      <thead className="bg-[#005261] text-white">
-                        <tr>
-                          <th className="w-[200px] h-[51px] border-r-4 border-white sticky left-0 bg-[#005261] z-20">Jogos</th>
-                          <th className="w-[200px] h-[51px] border-r-4 border-white">Pontuação</th>
-                          <th className="w-[200px] h-[51px] border-r-4 border-white">Extra</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {formData.jogos.map((jogo, index) => (
-                          <tr key={index} className="border-b">
-                            <td className="h-[50px] border-r border-gray-300 p-1 text-center sticky left-0 bg-white z-10">
-                              {isEditing ? (
-                                <input
-                                  type="text"
-                                  value={formData.horarios[index]}
-                                  onChange={(e) => handleInputChange(index, 'horarios', e.target.value)}
-                                />
-                              ) : (
-                                formData.horarios[index]
-                              )}
-                            </td>
-                            <td className="h-[50px] border-r border-gray-300 p-1 text-center">
-                              {isEditing ? (
-                                <input
-                                  type="text"
-                                  value={formData.jogos[index]}
-                                  onChange={(e) => handleInputChange(index, 'jogos', e.target.value)}
-                                />
-                              ) : (
-                                formData.jogos[index]
-                              )}
-                            </td>
-                            <td className="h-[50px] border-r border-gray-300 p-1 text-center">
-                              {isEditing ? (
-                                <input
-                                  type="text"
-                                  value={formData.timeA[index]}
-                                  onChange={(e) => handleInputChange(index, 'timeA', e.target.value)}
-                                />
-                              ) : (
-                                formData.timeA[index]
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div>
-                     <div className="flex sm:justify-between items-center flex-col sm:flex-row gap-4 mt-4 pl-8 sm:pl-4">
-                      {isEditing ? (
-                        <>
-                          <button onClick={handleSaveClick} className="w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
-                            Salvar
-                          </button>
-                          <button onClick={handleCancelClick} className="w-[180px] h-[60px] rounded-xl bg-[#E6EFF0] text-[#005261] px-4 py-2">
-                            Cancelar
-                          </button>
-                        </>
-                      ) : (
-                        <button onClick={handleEditClick} className="w-[180px] h-[60px] rounded-xl bg-[#005261] text-white px-4 py-2 ">
-                          Editar
-                        </button>
-                      )}
-                  </div>
-                 </div> 
-               </ModalAlunosInformacao> 
-            </>
-          )
-        }
-        */}
+    
        
         {/*botão para selecioanr a fase */}
        <div className='mx-auto pl-5 md:pl-20 flex flex-col gap-10 m-5'>
@@ -713,7 +657,7 @@ export default function Sala() {
           <p className='-mt-5 text-[#DADADA]'>{faseFilter}</p>
        </div>
       {/*esta parte é a navegação das opções */}
-      <div className="flex justify-center sm:justify-start md:w-3/4  gap-4 md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
+      <div className="flex justify-center sm:justify-start sm:w-[670px] sm:max-w-full md:w-[920px] gap-4 md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
         <div
           onClick={() => setMoveBar("principal")}
           className={` sm:font-semibold text-base sm:text-xl flex items-center gap-2  cursor-pointer ${moveBar === "principal" ? "text-[#005261]" : "text-[#DADADA]"}`}
@@ -791,13 +735,13 @@ export default function Sala() {
                                 {faseDia == 1? "28 ago"  :'28 set'}
                               </li>
                               <li 
-                                onClick={() => handleData("29 ago")}
+                                onClick={() => handleDataTabela("29 ago")}
                                 className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
                               >
                                 {faseDia == 1? "29 ago": '29 set'}
                               </li>
                               <li 
-                                onClick={() => handleData("30 ago")}
+                                onClick={() => handleDataTabela("30 ago")}
                                 className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
                               >
                                 {faseDia == 1? "30 ago": '30 set' }
@@ -835,82 +779,79 @@ export default function Sala() {
         </div>
       )}
       {moveBar === "doacoes" && (
-        <div ref={divRef} className={`w-[841px] max-w-full grid ${largura < 720?'grid-cols-1 justify-items-center	':'grid-cols-2'}  gap-5 mx-auto bg-[#dbdada] p-8 rounded-3xl`}>
-          <div className='flex justify-evenly items-center w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/lacres.svg' width={25} height={25}/>
-              </div>
-              <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
-            </div>
-            <button onClick={()=>document.getElementById('my_modal_1').showModal()} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
-              Ver mais
-            </button>
-          </div>
-          <div className='flex justify-evenly items-center w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/lacres.svg' width={25} height={25}/>
-              </div>
-              <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
-            </div>
-            <button onClick={()=>document.getElementById('my_modal_1').showModal()} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
-              Ver mais
-            </button>
-          </div>
-          <div className='flex justify-evenly items-center w-[371px] max-w-full h-[105px] bg-white rounded-lg '>
-            <div>
-              <div className='w-[40px] h-[40px] flex justify-center  items-center bg-[#005261] rounded-lg'>
-                <Image src='/images/lacres.svg' width={25} height={25}/>
-              </div>
-              <span className='font-medium text-base text-[#b1b1b1]'>Vence em 21 ago</span>
-            </div>
-            <button onClick={()=>document.getElementById('my_modal_1').showModal()} className='w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
-              Ver mais
-            </button>
-          </div>
+       <div className='mx-auto p-4 w-[920px] max-w-full grid grid-cols-1 sm:grid-cols-2 gap-4 justify-items-center	bg-[#dbdada] rounded-3xl'>
+          {
+            [
+              {doacao:'Lacres',imgSrc:'/images/img-doacao-lacres.svg',vencimento:'18 ago'},
+              {doacao:'Livros',imgSrc:'/images/img-doacao-livros.svg',vencimento:'15 ago'},
+              {doacao:'Prontos Socorros',imgSrc:'/images/img-doacao-socorros.svg',vencimento:'10 ago'},
+            ].map((doacoes,index) => (            
+              <section className='flex flex-row sm:flex-col md:flex-row px-4 py-4 sm:py-0 sm:px-0 xl:py-8 xl:px-8 h-[110px] max-h-full w-[371px] max-w-full bg-white rounded-lg'>
+                <div className=' md:w-full grid grid-cols-[40px_1fr] items-center h-[75px] '>
+                  <div className='w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg'>
+                    <Image src={doacoes.imgSrc} width={25} height={25}/>
+                  </div>
+                  <h1 className='w-full text-lg text-[#005261] flex items-center pl-2 sm:text-wrap xl:text-nowrap'>
+                    {doacoes.doacao}
+                  </h1>
+                  <div className='col-span-2'>
+                    <span className='font-medium text-base text-[#b1b1b1] pl-1'>Vence em {doacoes.vencimento}</span>
+                  </div>
+                </div>
+                <div className='basis-2/3 mt-3 sm:mt-2 xl:mt-3'>
+                  <button   onClick={() => { document.getElementById('my_modal_1').showModal(); mostrarNomeDoacaoDialog1(doacoes.doacao, doacoes.imgSrc) }} className='mx-auto block w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+                    Ver mais
+                  </button>
+                </div>
+              </section>
+            ))
+
+          }
+      
         </div>
       )}
       {moveBar === "campeonato" && (
-       <div ref={divRef} className={`w-[841px] max-w-full grid ${largura < 720 ? 'grid-cols-1 justify-items-center' : 'grid-cols-2'} gap-5 mx-auto bg-[#dbdada] p-8 rounded-3xl`}>
-          {[
-            { nome: 'Futebol Masculino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
-            { nome: 'Futebol Feminino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
-            { nome: 'Basquete', imgSrc: '/images/img-basquete.svg', status: 'Cadastrado' },
-            { nome: 'Queimada', imgSrc: '/images/img-queimada.svg', status: 'Cadastrado' },
-            { nome: 'Vôlei', imgSrc: '/images/img-volei.svg', status: 'Cadastrado' },
-            { nome: 'Ping Pong', imgSrc: '/images/img-ping-pong.svg', status: 'Não Cadastrado' },
-            { nome: 'Xadrez', imgSrc: '/images/img-xadrez.svg', status: 'Cadastrado' },
-            { nome: 'Damas', imgSrc: '/images/img-damas.svg', status: 'Não Cadastrado' }
-          ].map((atividade, index) => (
-            <div
-              key={index}
-              className='flex justify-evenly items-start pt-4 w-[371px] max-w-full h-[105px] bg-white rounded-lg'
-              onClick={()=>{document.getElementById('my_modal_2').showModal(); mostrarNomeCampeonatoDialog2(atividade.nome)}} 
-            >
-              <div className='flex justify-evenly gap-2 items-center'>
-                <div className='w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg'>
-                  <Image src={atividade.imgSrc} width={25} height={25} alt={atividade.nome} />
+        
+        <div className='mx-auto p-4 w-[920px] max-w-full grid grid-cols-1 sm:grid-cols-2 gap-4 justify-items-center	bg-[#dbdada] rounded-3xl'>
+            {[
+              { nome: 'Futebol Masculino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
+              { nome: 'Futebol Feminino', imgSrc: '/images/img-futsal.svg', status: 'Cadastrado' },
+              { nome: 'Basquete', imgSrc: '/images/img-basquete.svg', status: 'Cadastrado' },
+              { nome: 'Queimada', imgSrc: '/images/img-queimada.svg', status: 'Cadastrado' },
+              { nome: 'Vôlei', imgSrc: '/images/img-volei.svg', status: 'Cadastrado' },
+              { nome: 'Ping Pong', imgSrc: '/images/img-ping-pong.svg', status: 'Não Cadastrado' },
+              { nome: 'Xadrez', imgSrc: '/images/img-xadrez.svg', status: 'Cadastrado' },
+              { nome: 'Damas', imgSrc: '/images/img-damas.svg', status: 'Não Cadastrado' }
+            ].map((atividade, index) => (
+              <section
+               onClick={()=>{document.getElementById('my_modal_2').showModal(); mostrarNomeCampeonatoDialog2(atividade.nome, atividade.imgSrc)}} 
+               className='flex flex-row sm:flex-col md:flex-row items-center justify-center  px-4 py-4 sm:py-0 sm:px-0 xl:py-8 xl:px-8 h-[110px] max-h-full w-[371px] max-w-full bg-white  rounded-lg '>
+                <div className='w-full flex sm:flex-col mt-2 md:flex-row pl-2 items-center'>
+                  <div className=' w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg'>
+                    <Image src={atividade.imgSrc} width={25} height={25} alt={atividade.nome} />
+                  </div>
+                  <div>
+                    <p className='font-medium text-base md:text-lg text-[#005261]  pl-2 sm:text-wrap xl:text-nowrap'>{atividade.nome}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className='font-medium text-[#b1b1b1] text-lg'>{atividade.nome}</p>
+                <div className='basis-2/3 mt-3 sm:mt-0 md:mt-3'>
+                  {atividade.status === 'Cadastrado' ? (
+                    <div className=' border  bg-[#E8FBE4] block md:block mx-auto text-[#3ACF1F] h-[23px] w-[91px] rounded-lg px-1'>Cadastrado</div>
+                  ) : (
+                    <div className=' text-[#D32719] block md:block mx-auto  text-nowrap bg-[#FDD5D1] h-[23px] w-[123px] rounded-lg px-1'>Não Cadastrado</div>
+                  )}
                 </div>
-              </div>
-              {atividade.status === 'Cadastrado' ? (
-                <div className='bg-[#E8FBE4] text-[#3ACF1F] h-[23px] rounded-lg px-1'>Cadastrado</div>
-              ) : (
-                <div className='text-[#D32719] bg-[#FDD5D1] h-[23px] rounded-lg px-1'>Não Cadastrado</div>
-              )}
-            </div>
-          ))}
-        </div>
+
+              </section>
+            ))}
+          </div>
       )}
       {/*modal da opção de doações */}
 
       <dialog id="my_modal_1" className="modal">
-        <div className="modal-box overflow-visible">
+        <div className="modal-box overflow-visible overflow-x-hidden">
           <div className="flex">
-            <form method="dialog" className='w-1/2 relative'>
+            <form method="dialog" className='w-1/2 relative border-none'>
                 <button className="absolute left-2 ">
                   <Image
                     src="/images/fechar-menu.svg"
@@ -927,10 +868,10 @@ export default function Sala() {
           <div className="flex justify-between mt-10">
             <div className="flex gap-2">
               <div className="w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg">
-                <Image src="/images/lacres.svg" width={25} height={25} alt="Lacres" />
+                <Image src={imgDoacoesDialog1} width={25} height={25} alt="imagem doações" />
               </div>
               <div>
-                <p className="text-lg text-[#005261] font-semibold">Lacres</p>
+                <p className="text-lg text-[#005261] font-semibold">{nomeDoacao}</p>
                 <p>
                   Pontuação: <span className="text-[#3ACF1F]">0000</span>
                 </p>
@@ -944,8 +885,8 @@ export default function Sala() {
           <form>
             <label>
               <h2 className="mt-4 ml-4 text-lg font-medium text-[#005261]">Adicione um Novo Jogador</h2>
-              <div className="flex justify-evenly">
-                <input type="text" className="w-3/4" />
+              <div className="flex justify-around gap-4 pt-2">
+                <input type="text" placeholder="Digite nome do aluno" className="w-[250px] md:w-[350px] max-w-full p-1 border border-gray-400" />
                 <button className="bg-[#005261] w-[36px] h-[36px] grid place-items-center" type="submit">
                   <Image src="/images/enviar.svg" width={20} height={20} alt="Enviar" />
                 </button>
@@ -986,9 +927,9 @@ export default function Sala() {
       
       {/*modal da opção de campeonatos */}
       <dialog id="my_modal_2" className="modal">
-        <div className="modal-box overflow-visible">
+        <div className="modal-box overflow-visible overflow-x-hidden">
           <div className="flex">
-          <form method="dialog" className='w-1/2 relative'>
+          <form method="dialog" className='w-1/2 relative border-none'>
                 <button className="absolute left-2 ">
                   <Image
                     src="/images/fechar-menu.svg"
@@ -1006,7 +947,7 @@ export default function Sala() {
           <div className="flex justify-between mt-10">
             <div className="flex gap-2">
               <div className="w-[40px] h-[40px] flex justify-center items-center bg-[#005261] rounded-lg">
-                <Image src="/images/lacres.svg" width={25} height={25} alt="Lacres" />
+              <Image src={imgDoacoesDialog2} width={25} height={25} alt="imagem esporte" />
               </div>
               <div>
                 <p className="text-lg text-[#005261] font-semibold">{nomeCampeonato}</p>
@@ -1023,8 +964,8 @@ export default function Sala() {
           <form>
             <label>
               <h2 className="mt-4 ml-4 text-lg font-medium text-[#005261]">Adicione um Novo Jogador</h2>
-              <div className="flex justify-evenly">
-                <input type="text" className="w-3/4" />
+              <div className="flex justify-around gap-4 pt-2">
+                <input type="text" placeholder="Digite nome do aluno" className="w-[250px] md:w-[350px] max-w-full p-1 border border-gray-400" />
                 <button className="bg-[#005261] w-[36px] h-[36px] grid place-items-center" type="submit">
                   <Image src="/images/enviar.svg" width={20} height={20} alt="Enviar" />
                 </button>
