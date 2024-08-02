@@ -5,11 +5,18 @@ import { Icon } from '@iconify/react';
 import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image'
 import Modal from '@/components/formCadastro/modal';
-import ContainerAtividade from '@/components/formCadastro/ContainerAtividade';
+import ContainerDoacao from '@/components/formCadastro/ContainerDoacao';
 
 export default function Quadra() {
+  const [nomeOficina, setNomeOficina] = useState('');
+  const [nomeALuno, setNomeAluno] = useState('');
+  const [dataOficina, setDataOficina] = useState('');
+  const [dataHorario1, setHorario1] = useState('');
+
   const [isModalOpen, setModalOpen] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [mostrarFormularioEdicao, setMostrarFormularioEdicao] = useState(false);
+  const [mostrarFormularioCadastro, setMostrarFormularioCadastro] = useState(false);
+
   const [moveBar, setMoveBar] = useState("28");
   const [transition, setTransition] = useState(false); // Estado para controlar a transição
   const [show, setShow] = useState(false);
@@ -21,17 +28,7 @@ export default function Quadra() {
   const [idObjetoSelecionado, setIdObjetoSelecionado] = useState(null);
   const [cursoEtec, setCursoEtec] = useState('');
   const[form1_Atv1_Dia1,setForm1Atv1Dia1] = useState('');
-  const[form1_Atv2_Dia2,setForm1Atv2Dia2] = useState('');
-  const[form1_Atv3_Dia3,setForm1Atv3Dia3] = useState('');
-  
-  const[form2_Atv1_Dia1,setForm2Atv1Dia1] = useState('');
-  const[form2_Atv2_Dia2,setForm2Atv2Dia2] = useState('');
-  const[form2_Atv3_Dia3,setForm2Atv3Dia3] = useState('');
 
-  const[form3_Atv1_Dia1,setForm3Atv1Dia1] = useState('');
-  const[form3_Atv2_Dia2,setForm3Atv2Dia2] = useState('');
-  const[form3_Atv3_Dia3,setForm3Atv3Dia3] = useState('');
- 
   const [dataCampeonato, setDataCampeonato] = useState('');
  
   const [alertShowFase, setAlertShowFase] = useState(false) 
@@ -43,28 +40,12 @@ export default function Quadra() {
       id: 1,
       curso:'1 informatica',
       form1Atv1Dia1:'labirito 3D',
-      form1Atv2Dia2:'labirito 3D',
-      form1Atv3Dia3:'labirito 3D',
-      form2Atv1Dia1:'labirito 3D',
-      form2Atv2Dia2:'labirito 3D',
-      form2Atv3Dia3:'labirito 3D',
-      form3Atv1Dia1:'labirito 3D',
-      form3Atv2Dia2:'labirito 3D',
-      form3Atv3Dia3:'labirito 3D',
       data: new Date('2024-08-01'),
     },
     {
       id: 2,
       curso:'2 informatica',
       form1Atv1Dia1:'labirito 3D',
-      form1Atv2Dia2:'labirito 3D',
-      form1Atv3Dia3:'labirito 3D',
-      form2Atv1Dia1:'labirito 3D',
-      form2Atv2Dia2:'labirito 3D',
-      form2Atv3Dia3:'labirito 3D',
-      form3Atv1Dia1:'labirito 3D',
-      form3Atv2Dia2:'labirito 3D',
-      form3Atv3Dia3:'labirito 3D',
       data: new Date('2024-07-20'),
     },
     {
@@ -77,14 +58,6 @@ export default function Quadra() {
       id: 4,
       curso:'1 admnistração',
       form1Atv1Dia1:'labirito 3D',
-      form1Atv2Dia2:'labirito 3D',
-      form1Atv3Dia3:'labirito 3D',
-      form2Atv1Dia1:'labirito 3D',
-      form2Atv2Dia2:'labirito 3D',
-      form2Atv3Dia3:'labirito 3D',
-      form3Atv1Dia1:'labirito 3D',
-      form3Atv2Dia2:'labirito 3D',
-      form3Atv3Dia3:'labirito D',
       data: new Date('2024-07-25'),
     },
   ]);
@@ -100,39 +73,28 @@ export default function Quadra() {
   };
 
   const handleShowForm = (cursosEtec) => {
-    setShowForm(true);
+    setMostrarFormularioEdicao(true);
     setIdObjetoSelecionado(cursosEtec.id);
     setCursoEtec(cursosEtec.curso);
     
     setForm1Atv1Dia1(cursosEtec.form1Atv1Dia1)
-    setForm1Atv2Dia2(cursosEtec.form1Atv2Dia2)
-    setForm1Atv3Dia3(cursosEtec.form1Atv3Dia3)
-    
-    setForm2Atv1Dia1(cursosEtec.form2Atv1Dia1)
-    setForm2Atv2Dia2(cursosEtec.form2Atv2Dia2)
-    setForm2Atv3Dia3(cursosEtec.form2Atv3Dia3)
-    
-    setForm3Atv1Dia1(cursosEtec.form3Atv1Dia1)
-    setForm3Atv2Dia2(cursosEtec.form3Atv2Dia2)
-    setForm3Atv3Dia3(cursosEtec.form3Atv3Dia3)
 
     setDataCampeonato(formatDateToBR(cursosEtec.data));
   };
 
   const handleCloseForm = () => {
-    setShowForm(false);
+    setMostrarFormularioCadastro(false);
+    setMostrarFormularioEdicao(false);
     setIdObjetoSelecionado(null);
     setCursoEtec('');
-
-   
   };
 
-  const handleForm1Submit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     const curso = cursoEtec;
-    const formulario1Atv1Dia1 = form1_Atv1_Dia1 ;
-    const formulario1Atv2Dia2 = form1_Atv2_Dia2;
-    const formulario1Atv3Dia3 = form1_Atv3_Dia3;
+    const oficina= nomeOficina ;
+    const dataof = dataOficina;
+    const hr1 = horario1;
 
     const data = parseDateFromBR(dataCampeonato);
 
@@ -145,8 +107,6 @@ export default function Quadra() {
       id: idObjetoSelecionado,
       curso: curso,
       form1Atv1Dia1:formulario1Atv1Dia1,
-      form1Atv2Dia2:formulario1Atv2Dia2,
-      form1Atv3Dia3:formulario1Atv3Dia3,
       data: data,
     };
 
@@ -159,68 +119,6 @@ export default function Quadra() {
   };
 
 
-  const handleForm2Submit = (e) => {
-    e.preventDefault();
-    const curso = cursoEtec;
-    const formulario2Atv1Dia1 = form2_Atv1_Dia1 ;
-    const formulario2Atv2Dia2 = form2_Atv2_Dia2;
-    const formulario2Atv3Dia3 = form2_Atv3_Dia3;
-    
-    const data = parseDateFromBR(dataCampeonato);
-
-    const posicao = retornoApi.findIndex(
-      (elemento) => elemento.id === idObjetoSelecionado
-    );
-
-    const novosDados = [...retornoApi];
-    novosDados[posicao] = {
-      id: idObjetoSelecionado,
-      curso: curso,
-      form2Atv1Dia1:formulario2Atv1Dia1,
-      form2Atv2Dia2:formulario2Atv2Dia2 ,
-      form2Atv3Dia3:formulario2Atv3Dia3,
-      data: data,
-    };
-
-    setRetornoApi(novosDados);
-
-    setTimeout(() => {
-      handleCloseForm()
-      setModalOpen(true);
-    }, 4000);
-  };
-
-
-  const handleForm3Submit = (e) => {
-    e.preventDefault();
-    const curso = cursoEtec;
-    const  formulario3Atv1Dia1= form3_Atv1_Dia1;
-    const formulario3Atv2Dia2 = form3_Atv2_Dia2;
-    const formulario3Atv3Dia3 = form3_Atv3_Dia3;
-
-    const data = parseDateFromBR(dataCampeonato);
-
-    const posicao = retornoApi.findIndex(
-      (elemento) => elemento.id === idObjetoSelecionado
-    );
-
-    const novosDados = [...retornoApi];
-    novosDados[posicao] = {
-      id: idObjetoSelecionado,
-      curso: curso,
-      form3Atv1Dia1: formulario3Atv1Dia1,
-      form3Atv2Dia2: formulario3Atv2Dia2 ,
-      form3Atv3Dia3: formulario3Atv3Dia3 ,
-      data: data,
-    };
-
-    setRetornoApi(novosDados);
-
-    setTimeout(() => {
-      handleCloseForm()
-      setModalOpen(true);
-    }, 4000);
-  };
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -239,7 +137,6 @@ export default function Quadra() {
   function handleFaseOpcoes() {
     setShowFilterFasesOptions(false);
   }
-
   
   const handleCloseAlertFase = () => {
     setAlertShowFase(false);
@@ -273,6 +170,7 @@ export default function Quadra() {
     setMostrarCalendario(true)
   }
 
+  //escolha de cores
   const getColorByCourse = (course) => {
     const colors = {
       '1 informatica': '#ff0000',
@@ -348,7 +246,7 @@ export default function Quadra() {
 
       <div ref={divRef} className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[1020px] max-w-full  mx-auto text-wrap bg-[#F8F8F8]'>
         {retornoApi.map((cursosEtec) => (
-          <div key={cursosEtec.id} className={`flex   gap-4 text-start sm:pl-7 pt-3 pb-5 flex-col max-w-full w-[270px] h-auto bg-white  rounded-xl`}  style={{ borderLeft: `8px solid ${getColorByCourse(cursosEtec.curso)}` }}>
+          <div key={cursosEtec.id} onClick={() => handleShowForm(cursosEtec)} className={`flex   gap-4 text-start sm:pl-7 pt-3 pb-5 flex-col max-w-full w-[270px] h-auto bg-white  rounded-xl`}  style={{ borderLeft: `8px solid ${getColorByCourse(cursosEtec.curso)}` }}>
               <div className='flex items-center sm:block flex-col'>
                 <h1 className='font-semibold  text-xl'>{cursosEtec.curso}</h1>
                 <div className={`w-[44px] p-[1.3px]  bg-[${getColorByCourse(cursosEtec.curso)}]`}>
@@ -360,6 +258,7 @@ export default function Quadra() {
            </div>
         ))}
           <section 
+          onClick={() => setMostrarFormularioCadastro(!mostrarFormularioCadastro)}
           className="  relative max-w-full w-[200px] h-[120px] xl:w-[240px] xl:h-[150px] border-4 
           rounded-lg border-dashed border-gray-600*:absolute *:w-full   hover:cursor-pointer
           duration-300 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 "
@@ -370,12 +269,121 @@ export default function Quadra() {
             </div>
           </section> 
       </div>
-      {showForm && (
+      {mostrarFormularioCadastro && (
+          <>
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+            <ContainerDoacao
+              alert={'Caso deseje editar algo, aperte do campo desejado e edite'}
+              classe={' -top-[650px] sm:-top-[500px] sm:m-auto fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}
+            > 
+              
+              {/*estagiario */}
+
+              <div className='flex jusitfy-center mt-7'>
+                <div>
+                  qnt campos de horarios
+                    <input type="text" />
+                </div>
+                <div>
+                  qnt de campos de estagiario
+                <input type="text" />
+                </div>
+              </div>
+
+              <form onSubmit={handleFormSubmit} className='space-y-8 mt-10 w-3/4 flex items-center flex-col z-50 bg-white overflow-y-auto'>
+               
+
+                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                  Nome oficina
+                  <input type="text" name="nomeOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                </label>
+                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                  Nome do aluno responsável
+                  <input type="number" name="pontoDoacao" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                </label>
+                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                  Data
+                  <input type="date" name="dataOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                </label>
+
+                <section className='w-full flex flex-col items-end'>
+                  <div className='flex w-full gap-4'>
+                    <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      1º Horário
+                      <input type="time" name="horarioOficina1" className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                    </label>
+                  </div>
+                </section>
+
+                {/*estagiario */}
+                <section className='flex flex-col gap-4 items-center w-full mt-10 text-[#666666] rounded-xl'>
+                  <div onClick={handleShow} className='flex items-center justify-between w-full h-[60px] px-9 pt-3 pb-2 text-lg rounded-full bg-[#E6EFF0] cursor-pointer transition-colors duration-300'>
+                    Estágiario
+                    <Icon icon="iconamoon:arrow-down-2-duotone" width={40} style={{ color: "#005261" }} />
+                  </div>
+                  <div className={`w-full flex flex-col gap-4 rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'max-h-[400px] duration-300' : 'max-h-0 p-0'}`}>
+                    <section className='w-full flex flex-col items-end'>
+                      <div className='flex w-full gap-4'>
+                        <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                          Nome do 1 º Estagiário
+                          <input type="time" name="horarioOficina1" className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                        </label>
+                      </div>
+                    </section>
+                    <label className='flex flex-col gap-3 w-full h-[86px] px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                      Rg do 1º Estagiário
+                      <input type="text" name="nomeOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                    </label>
+                    <section className='w-full flex flex-col sm:flex-row gap-4'>
+                      <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                        Entrada
+                        <input type="time" name="dataOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                      </label>
+                      <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                        Saída
+                        <input type="time" name="dataOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                      </label>
+                    </section>
+                  </div>
+                </section>
+
+                <div className='flex sm:flex-row justify-evenly w-full gap-2'>
+                  <button type='submit' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
+                  <button onClick={handleCloseForm} type='button' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </ContainerDoacao>
+          </>
+        )}
+
+      {mostrarFormularioEdicao && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
-          <ContainerAtividade  alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'right-80 -top-[500px] fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
-           
-          </ContainerAtividade>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+          <ContainerDoacao alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={' -top-[400px] sm:m-auto fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}>
+            <form onSubmit={handleFormSubmit} className='space-y-8 mt-10 w-3/4 flex items-center flex-col z-50 bg-white'>
+              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                Nome oficina
+                <input type="text" name="nomeOficina"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              </label>
+              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                Nome do aluno responsável
+                <input type="number" name="pontoDoacao" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              </label>
+              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                Data
+                <input type="date" name="dataOficina"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              </label>
+         
+              <div className='flex sm:flex-row justify-evenly w-full gap-2'>
+                <button type='submit' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
+                <button onClick={handleCloseForm} type='button' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </ContainerDoacao>
         </>
       )}
       {isModalOpen && (
@@ -387,3 +395,23 @@ export default function Quadra() {
     </>
   );
 }
+
+{/*
+  
+  <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                Nome da Oficina
+                <input type="text" name="nomeCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              </label>
+              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                Nome do aluno responsável 
+                <input type="text" name="nomeCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              </label>
+              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                Data
+                <input type="date" name="dataCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              </label>
+              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                1 º horário
+                <input type="time" name="qntFases" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+              </label>
+  */}
