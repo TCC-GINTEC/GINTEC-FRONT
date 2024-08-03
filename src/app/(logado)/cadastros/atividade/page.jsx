@@ -334,7 +334,8 @@ export default function Quadra() {
             </div>
         </div>
       </div>
-
+      
+      {/*aqui onde o conteudo da pagina aparece */}
       <div ref={divRef} className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[1020px] max-w-full  mx-auto text-wrap bg-[#F8F8F8]'>
         {retornoApi.map((cursosEtec) => (
           <div key={cursosEtec.id}  className='flex items-start sm:pl-7 pt-7 pb-5 flex-col max-w-full w-[270px]   text-center  bg-white rounded-xl '>

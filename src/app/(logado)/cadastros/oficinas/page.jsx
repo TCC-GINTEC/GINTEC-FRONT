@@ -8,7 +8,11 @@ import Modal from '@/components/formCadastro/modal';
 import ContainerDoacao from '@/components/formCadastro/ContainerDoacao';
 
 export default function Quadra() {
-  const [nomeOficina, setNomeOficina] = useState('');
+  const [horariosCount, setHorariosCount] = useState(1);
+  const [estagiariosCount, setEstagiariosCount] = useState(1);
+  
+  const [cursosEtec, setCursosEtec] = useState('');
+  const [nomeOficina, setNomeOficina] = useState(''); 
   const [nomeALuno, setNomeAluno] = useState('');
   const [dataOficina, setDataOficina] = useState('');
   const [dataHorario1, setHorario1] = useState('');
@@ -26,7 +30,6 @@ export default function Quadra() {
   }
 
   const [idObjetoSelecionado, setIdObjetoSelecionado] = useState(null);
-  const [cursoEtec, setCursoEtec] = useState('');
   const[form1_Atv1_Dia1,setForm1Atv1Dia1] = useState('');
 
   const [dataCampeonato, setDataCampeonato] = useState('');
@@ -39,29 +42,32 @@ export default function Quadra() {
     {
       id: 1,
       curso:'1 informatica',
-      form1Atv1Dia1:'labirito 3D',
+      estagiario:'',
       data: new Date('2024-08-01'),
     },
     {
       id: 2,
       curso:'2 informatica',
-      form1Atv1Dia1:'labirito 3D',
+      estagiario:'',
       data: new Date('2024-07-20'),
     },
     {
       id: 3,
       curso:'3 informatica',
-
+      estagiario:'',
       data: new Date('2024-07-15'),
     },
     {
       id: 4,
       curso:'1 admnistração',
-      form1Atv1Dia1:'labirito 3D',
+      estagiario:'',
       data: new Date('2024-07-25'),
     },
   ]);
 
+
+
+console.log(retornoApi)
 
   const formatDateToBR = (date) => {
     return date ? date.toLocaleDateString('pt-BR') : '';
@@ -72,56 +78,118 @@ export default function Quadra() {
     return new Date(year, month - 1, day);
   };
 
+  //os itens mapedos ao ser clicado passa suas informações para a função que envia os dados 
+
   const handleShowForm = (cursosEtec) => {
     setMostrarFormularioEdicao(true);
     setIdObjetoSelecionado(cursosEtec.id);
-    setCursoEtec(cursosEtec.curso);
     
-    setForm1Atv1Dia1(cursosEtec.form1Atv1Dia1)
-
-    setDataCampeonato(formatDateToBR(cursosEtec.data));
+    setCursosEtec(cursosEtec.curso);
+    
+    //estagiario(cursosEtec.form1Atv1Dia1)
+    //setDataCampeonato(formatDateToBR(cursosEtec.data));
   };
 
   const handleCloseForm = () => {
     setMostrarFormularioCadastro(false);
     setMostrarFormularioEdicao(false);
     setIdObjetoSelecionado(null);
-    setCursoEtec('');
+    setCursosEtec('');
   };
 
-  const handleFormSubmit = (e) => {
+  //função para enviar os dados quando salvar
+
+  const handleFormCadastro = (e) => {
     e.preventDefault();
-    const curso = cursoEtec;
-    const oficina= nomeOficina ;
-    const dataof = dataOficina;
-    const hr1 = horario1;
-
-    const data = parseDateFromBR(dataCampeonato);
-
+    const target = e.target
+    //const curso = e.target.curso; o cadastro ser identificado automaticamente pelo curso para exibir o titulo 
+    const oficina = target.nomeOficina.value;
+    //const data = parseDateFromBR(dataCampeonato); -> para quando for exibir pro usuario na edição
+    const aluno = target.nomeAluno.value;
+    const data = target.dataOficina.value; 
+    const entrada = target.entrada.value;
+    const saida = target.saida.value;
+   
     const posicao = retornoApi.findIndex(
       (elemento) => elemento.id === idObjetoSelecionado
     );
 
-    const novosDados = [...retornoApi];
+    const novosEstagiarios = []; //adicionar as informações digitadas dos campos gerado  na lista
+
+    for (let i = 1; i <= estagiariosCount; i++) {
+      const nomeEstagiario = e.target[`estagiario${i}`].value;
+      const rgEstagiario = e.target[`rgEstagiario${i}`].value;
+      novosEstagiarios.push({ nome: nomeEstagiario, rg: rgEstagiario });
+    }
+    
+    const novosDados = [...retornoApi]; //salvar a informação
     novosDados[posicao] = {
-      id: idObjetoSelecionado,
+      ...novosDados[posicao],
       curso: curso,
-      form1Atv1Dia1:formulario1Atv1Dia1,
+      oficina: oficina,
+      aluno:aluno,
       data: data,
+      entrada: entrada,
+      saida: saida,
+      estagiario: novosEstagiarios,
     };
 
     setRetornoApi(novosDados);
 
     setTimeout(() => {
-      handleCloseForm()
+      handleCloseForm();
       setModalOpen(true);
     }, 4000);
   };
 
+//---------------------------------------------------------------------------
+
+//adicionar Campos de horario dinamicamente quando digitar a quantidade 
+
+const renderHorariosCampos = () => {
+  const fields = [];
+  for (let i = 1; i <= horariosCount; i++) {
+    fields.push(
+      <label key={`horario-${i}`} className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+        {`${i}º Horário`}
+        <input type="time" name={`horarioOficina${i}`} className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+      </label>
+    );
+  }
+  return <div className="flex flex-col gap-4 w-full">{fields}</div>;
+};
+
+//adicionar Campos de horario dinamicamente quando digitar a quantidade 
+
+const renderEstagiariosCampos = () => {
+  const fields = [];
+  for (let i = 1; i <= estagiariosCount; i++) {
+    fields.push(
+      <div key={`estagiario-${i}`} className='flex flex-col gap-4'>
+        <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+          {`Nome do ${i}º Estagiário`}
+          <input type="text" name={`estagiario${i}`} className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+        </label>
+        <label className='flex flex-col gap-3 w-full h-[86px] px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+          {`RG do ${i}º Estagiário`}
+          <input type="text" name={`rgEstagiario${i}`} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+        </label>
+      </div>
+    );
+  }
+  return <div className="flex flex-col gap-4 w-full">{fields}</div>;
+};
+
+  
+ //---------------------------------------------------------------------------
+
+  //fechar o modal se sucesso
 
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  //
 
   const [faseForm, setFaseForm] = useState("");
 
@@ -134,6 +202,9 @@ export default function Quadra() {
 
     setShow(!show)
   }
+
+  //fase
+
   function handleFaseOpcoes() {
     setShowFilterFasesOptions(false);
   }
@@ -244,14 +315,14 @@ export default function Quadra() {
         </div>
       </div>
 
+      {/*aqui onde o conteudo da pagina aparece */}
+      
       <div ref={divRef} className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[1020px] max-w-full  mx-auto text-wrap bg-[#F8F8F8]'>
         {retornoApi.map((cursosEtec) => (
           <div key={cursosEtec.id} onClick={() => handleShowForm(cursosEtec)} className={`flex   gap-4 text-start sm:pl-7 pt-3 pb-5 flex-col max-w-full w-[270px] h-auto bg-white  rounded-xl`}  style={{ borderLeft: `8px solid ${getColorByCourse(cursosEtec.curso)}` }}>
               <div className='flex items-center sm:block flex-col'>
                 <h1 className='font-semibold  text-xl'>{cursosEtec.curso}</h1>
-                <div className={`w-[44px] p-[1.3px]  bg-[${getColorByCourse(cursosEtec.curso)}]`}>
-
-                </div>
+                <div className={`w-[44px] p-[1.3px]  bg-[${getColorByCourse(cursosEtec.curso)}]`}></div>
               </div>
               <p className='font-semibold text-xl text-center sm:text-start'>Capoeira</p>
               <span className='text-[#DADADA] text-center sm:text-start'>Data: 28 ago</span>
@@ -277,41 +348,39 @@ export default function Quadra() {
               classe={' -top-[650px] sm:-top-[500px] sm:m-auto fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}
             > 
               
-              {/*estagiario */}
+              {/*digitar a quantidade de campos */}
 
-              <div className='flex jusitfy-center mt-7'>
-                <div>
-                  qnt campos de horarios
-                    <input type="text" />
+              <div className='flex flex-col sm:flex-row sm:jusitfy-center gap-3 mt-7'>
+                <div className="flex flex-col gap-2 text-[#005261] font-bold">
+                  Quant. campos de horários
+                  <input type="number"  placeholder="Digite a quantidade 1,2,3..." onChange={(e) => setHorariosCount(Number(e.target.value))} className="bg-[#E6EFF0] text-[#005261] py-2 placeholder:text-base text-center placeholder:font-light  text-base rounded-lg" />
                 </div>
-                <div>
-                  qnt de campos de estagiario
-                <input type="text" />
+                <div className="flex flex-col gap-2 text-[#005261] font-bold">
+                  Quant. de campos de estagiário
+                  <input type="number"  placeholder="Digite a quantidade 1,2,3..." onChange={(e) => setEstagiariosCount(Number(e.target.value))} className="bg-[#E6EFF0] text-[#005261] py-2 placeholder:text-base text-center placeholder:font-light text- rounded-lg"/>
                 </div>
               </div>
 
-              <form onSubmit={handleFormSubmit} className='space-y-8 mt-10 w-3/4 flex items-center flex-col z-50 bg-white overflow-y-auto'>
-               
-
+              <form onSubmit={handleFormCadastro} className='space-y-8 mt-10 w-3/4 flex items-center flex-col z-50 bg-white overflow-y-auto'>
                 <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                   Nome oficina
-                  <input type="text" name="nomeOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                  <input type="text" name="nomeOficina"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
                 </label>
                 <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                   Nome do aluno responsável
-                  <input type="number" name="pontoDoacao" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                  <input type="text" name="nomeAluno"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
                 </label>
                 <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                   Data
-                  <input type="date" name="dataOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                  <input type="date" name="dataOficina"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
                 </label>
 
+                {/*horarios */}
                 <section className='w-full flex flex-col items-end'>
-                  <div className='flex w-full gap-4'>
-                    <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                      1º Horário
-                      <input type="time" name="horarioOficina1" className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-                    </label>
+                  <div className='flex w-full gap-4 h-full'>
+                    <section className='w-full flex flex-col gap-4 items-end'>
+                      {renderHorariosCampos()}
+                    </section>
                   </div>
                 </section>
 
@@ -321,27 +390,101 @@ export default function Quadra() {
                     Estágiario
                     <Icon icon="iconamoon:arrow-down-2-duotone" width={40} style={{ color: "#005261" }} />
                   </div>
-                  <div className={`w-full flex flex-col gap-4 rounded-3xl overflow-hidden transition-all duration-500 ${show ? 'max-h-[400px] duration-300' : 'max-h-0 p-0'}`}>
-                    <section className='w-full flex flex-col items-end'>
-                      <div className='flex w-full gap-4'>
-                        <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                          Nome do 1 º Estagiário
-                          <input type="time" name="horarioOficina1" className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-                        </label>
-                      </div>
-                    </section>
-                    <label className='flex flex-col gap-3 w-full h-[86px] px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                      Rg do 1º Estagiário
-                      <input type="text" name="nomeOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-                    </label>
+                  <div className={`w-full flex flex-col gap-4 rounded-3xl  overflow-hidden transition-all duration-500 ${show ? 'max-h-[400px] duration-300' : 'max-h-0 p-0'}`}>
+                    
+                    <div className={`w-full flex flex-col gap-4 rounded-3xl  overflow-y-auto transition-all duration-500 ${show ? 'max-h-[400px] duration-300' : 'max-h-0 p-0'}`}>
+                      {renderEstagiariosCampos()}
+                    </div>
+
                     <section className='w-full flex flex-col sm:flex-row gap-4'>
                       <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                         Entrada
-                        <input type="time" name="dataOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                        <input type="time" name="entrada"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
                       </label>
                       <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
                         Saída
-                        <input type="time" name="dataOficina" onChange={(e) => e.target.value} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                        <input type="time" name="saida" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                      </label>
+                    </section>
+                  </div>
+                </section>
+
+                <div className='flex sm:flex-row justify-evenly w-full gap-2'>
+                  <button type='submit' className='w-1/2  rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
+                  <button onClick={handleCloseForm} type='button' className='w-1/2 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
+                    Cancelar
+                  </button>
+                </div>
+                <input type="text" name="curso"  className="" value={cursosEtec} />
+              </form>
+            </ContainerDoacao>
+          </>
+        )}
+
+      {mostrarFormularioEdicao && (
+        <>
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+            <ContainerDoacao
+              alert={'Caso deseje editar algo, aperte do campo desejado e edite'}
+              classe={' -top-[650px] sm:-top-[500px] sm:m-auto fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}
+            > 
+              
+              {/*digitar a quantidade de campos */}
+
+              <div className='flex flex-col sm:flex-row sm:jusitfy-center gap-3 mt-7'>
+                <div className="flex flex-col gap-2 text-[#005261] font-bold">
+                  Quant. campos de horários
+                  <input type="number"  placeholder="Digite a quantidade 1,2,3..." onChange={(e) => setHorariosCount(Number(e.target.value))} className="bg-[#E6EFF0] text-[#005261] py-2 placeholder:text-base text-center placeholder:font-light  text-base rounded-lg" />
+                </div>
+                <div className="flex flex-col gap-2 text-[#005261] font-bold">
+                  Quant. de campos de estagiário
+                  <input type="number"  placeholder="Digite a quantidade 1,2,3..." onChange={(e) => setEstagiariosCount(Number(e.target.value))} className="bg-[#E6EFF0] text-[#005261] py-2 placeholder:text-base text-center placeholder:font-light text- rounded-lg"/>
+                </div>
+              </div>
+
+              <form onSubmit={handleFormCadastro} className='space-y-8 mt-10 w-3/4 flex items-center flex-col z-50 bg-white overflow-y-auto'>
+                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                  Nome oficina
+                  <input type="text" name="nomeOficina"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                </label>
+                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                  Nome do aluno responsável
+                  <input type="text" name="nomeAluno"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                </label>
+                <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                  Data
+                  <input type="date" name="dataOficina"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                </label>
+
+                {/*horarios */}
+                <section className='w-full flex flex-col items-end'>
+                  <div className='flex w-full gap-4 h-full'>
+                    <section className='w-full flex flex-col gap-4 items-end'>
+                      {renderHorariosCampos()}
+                    </section>
+                  </div>
+                </section>
+
+                {/*estagiario */}
+                <section className='flex flex-col gap-4 items-center w-full mt-10 text-[#666666] rounded-xl'>
+                  <div onClick={handleShow} className='flex items-center justify-between w-full h-[60px] px-9 pt-3 pb-2 text-lg rounded-full bg-[#E6EFF0] cursor-pointer transition-colors duration-300'>
+                    Estágiario
+                    <Icon icon="iconamoon:arrow-down-2-duotone" width={40} style={{ color: "#005261" }} />
+                  </div>
+                  <div className={`w-full flex flex-col gap-4 rounded-3xl  overflow-hidden transition-all duration-500 ${show ? 'max-h-[400px] duration-300' : 'max-h-0 p-0'}`}>
+                    
+                    <div className={`w-full flex flex-col gap-4 rounded-3xl  overflow-y-auto transition-all duration-500 ${show ? 'max-h-[400px] duration-300' : 'max-h-0 p-0'}`}>
+                      {renderEstagiariosCampos()}
+                    </div>
+
+                    <section className='w-full flex flex-col sm:flex-row gap-4'>
+                      <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                        Entrada
+                        <input type="time" name="entrada"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+                      </label>
+                      <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
+                        Saída
+                        <input type="time" name="saida" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
                       </label>
                     </section>
                   </div>
@@ -355,36 +498,8 @@ export default function Quadra() {
                 </div>
               </form>
             </ContainerDoacao>
-          </>
-        )}
-
-      {mostrarFormularioEdicao && (
-        <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-          <ContainerDoacao alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={' -top-[400px] sm:m-auto fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}>
-            <form onSubmit={handleFormSubmit} className='space-y-8 mt-10 w-3/4 flex items-center flex-col z-50 bg-white'>
-              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                Nome oficina
-                <input type="text" name="nomeOficina"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-              </label>
-              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                Nome do aluno responsável
-                <input type="number" name="pontoDoacao" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-              </label>
-              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                Data
-                <input type="date" name="dataOficina"  className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-              </label>
-         
-              <div className='flex sm:flex-row justify-evenly w-full gap-2'>
-                <button type='submit' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>Salvar</button>
-                <button onClick={handleCloseForm} type='button' className='w-1/2 sm:mt-10 rounded-2xl self-start bg-[#005261] text-white font-medium p-4'>
-                  Cancelar
-                </button>
-              </div>
-            </form>
-          </ContainerDoacao>
-        </>
+        </> 
+      
       )}
       {isModalOpen && (
         <>
@@ -395,23 +510,3 @@ export default function Quadra() {
     </>
   );
 }
-
-{/*
-  
-  <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                Nome da Oficina
-                <input type="text" name="nomeCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-              </label>
-              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                Nome do aluno responsável 
-                <input type="text" name="nomeCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-              </label>
-              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                Data
-                <input type="date" name="dataCampeonato" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-              </label>
-              <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
-                1 º horário
-                <input type="time" name="qntFases" id="" className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
-              </label>
-  */}

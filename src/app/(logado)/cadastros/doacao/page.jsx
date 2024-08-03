@@ -113,7 +113,8 @@ export default function Doacao() {
           <h1 className='text-2xl  font-medium'>Doações</h1>
         </div>
       </div>
-
+      
+      {/*aqui onde o conteudo da pagina aparece */}
       <div className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[920px] max-w-full  mx-auto text-wrap'>
         {retornoApi.map((jogo) => (
           <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='max-w-full w-[252px]  h-[63px] text-center text-lg sm:text-xl  flex items-center justify-center  border-[3px] border-[#FFC24C] text-[#FFC24C] rounded-xl font-semibold text-wrap'>
@@ -121,6 +122,7 @@ export default function Doacao() {
           </div>
         ))}
       </div>
+      
       {showForm && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>

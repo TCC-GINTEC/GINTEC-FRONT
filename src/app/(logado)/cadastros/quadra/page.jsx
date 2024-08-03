@@ -116,6 +116,9 @@ export default function Quadra() {
           <h1 className='text-2xl  font-medium  '>Campeonatos de Quadra </h1>
         </div>
       </div>
+
+      {/*aqui onde o conteudo da pagina aparece */}
+      
       <div className='gap-4 p-4 grid grid-cols-2 md:grid-cols-3 w-[920px] max-w-full  mx-auto text-wrap'>
         {retornoApi.map((jogo) => (
           <div key={jogo.id} onClick={() => handleShowForm(jogo)} className='max-w-full w-[252px]  h-[63px] text-center text-lg sm:text-xl  flex items-center justify-center border-[3px] border-[#8A29E6] text-[#8A29E6] pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>

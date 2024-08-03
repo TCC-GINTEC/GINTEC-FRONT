@@ -99,7 +99,8 @@ export default function Quadra() {
           <h1 className='text-2xl font-medium'>Calendário</h1>
         </div>
       </div>
-
+      
+      {/*aqui onde o conteudo da pagina aparece */}
       <div className='mt-6 p-1 gap-4 flex flex-wrap justify-center max-w-full w-[920px] mx-auto text-wrap'>
         {retornoApi.map((calendario) => (
           <div key={calendario.id} onClick={() => handleShowForm(calendario)} className='max-w-full w-[252px]  h-[63px]  text-center text-lg sm:text-xl  flex items-center justify-center border-[3px] border-[#A0C340] text-[#A0C340] pt-2 pb-2 pl-4 pr-4 rounded-xl font-semibold'>

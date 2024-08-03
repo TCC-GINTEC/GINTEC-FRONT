@@ -50,6 +50,7 @@ export default function Sala() {
     {
       id: 1,
       nome: "Victoria Laurinda Camargo",
+      representante:1,
       qda: 25,
       qdp: 18.436,
       dia: 28,
@@ -62,6 +63,7 @@ export default function Sala() {
     {
       id: 2,
       nome: "Ana B Almeida Silva",
+      vice:1,
       qda: 13,
       qdp: 9.896,
       dia: 28,
@@ -74,6 +76,7 @@ export default function Sala() {
     {
       id: 3,
       nome: "Ana B Buzana Silva",
+      ajudante:1,
       qda: 19,
       qdp: 18.436,
       dia: 28,
@@ -366,6 +369,27 @@ export default function Sala() {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+    const [hoveredStudent, setHoveredStudent] = useState(null);
+    const [message, setMessage] = useState('');
+
+    const handleMouseEnter = (aluno) => {
+      if (aluno.representante == 1) {
+        setMessage('Representante');
+        setHoveredStudent(aluno.id);
+      } else if (aluno.vice == 1) {
+        setMessage('Vice');
+        setHoveredStudent(aluno.id);
+      } else if (aluno.ajudante == 1) {
+        setMessage('Ajudante');
+        setHoveredStudent(aluno.id);
+      }
+    };
+  
+    const handleMouseLeave = () => {
+      setHoveredStudent(null);
+      setMessage('');
+    };
 
   return (
     <div className='pl-4 pr-4 '>
@@ -686,14 +710,24 @@ export default function Sala() {
       </div>
   
       {moveBar === "principal" && (
-        <div className="md:w-[85%] mx-auto">
-          <div className="overflow-x-auto rounded-lg bg-[#005261]">
+          <div className="md:w-[85%] mx-auto ">
+          <div className=" rounded-lg bg-[#005261]">
             <div className="flex">
-              <div className="w-[300px]">
+              <div className="w-[300px]  relative">
                 <div className="p-3 font-semibold border border-white border-r-2 text-white">Alunos</div>
                 {retornoApi.map((aluno) => (
-                  <div key={aluno.id} className="pt-[10px] pl-[4px] h-[59px] Right-to-left bg-white border border-[#DADADA]">
+                  <div
+                    key={aluno.id}
+                    onMouseEnter={() => handleMouseEnter(aluno)}
+                    onMouseLeave={handleMouseLeave}
+                    className={`relative pt-[10px] pl-[4px] h-[59px] Right-to-left ${aluno.representante == 1 || aluno.vice == 1 ? 'bg-[#E6EFF0] text-[#005261]' : aluno.ajudante == 1 ? 'bg-[#F5EDFD] text-[#8A29E6]' : 'bg-white'} border border-[#DADADA]`}
+                  >
                     {aluno.nome}
+                    {hoveredStudent === aluno.id && message && (
+                      <div className={`absolute top-1/2 transform -translate-y-1/2 p-2 bg-black text-white rounded shadow-lg  ${aluno.vice == 1?' md:-left-[65px] ':''} md:-left-[90px] left-full z-50`}>
+                       {message}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -701,7 +735,10 @@ export default function Sala() {
                 <div className="min-w-[200px]">
                   <div className="p-3 font-bold border border-white border-r-2 text-white sm:text-center">QDA</div>
                   {retornoApi.map((aluno) => (
-                    <div key={aluno.id}  className="sm:text-center pt-[10px] h-[59px] pl-4 Right-to-left bg-white border border-[#DADADA]">
+                    <div
+                      key={aluno.id}
+                      className={`sm:text-center pt-[10px] h-[59px] pl-4 Right-to-left ${aluno.representante == 1 || aluno.vice == 1 ? 'bg-[#E6EFF0] text-[#005261]' : aluno.ajudante == 1 ? 'bg-[#F5EDFD] text-[#8A29E6]' : 'bg-white'} border border-[#DADADA]`}
+                    >
                       {aluno.qda}
                     </div>
                   ))}
@@ -709,57 +746,52 @@ export default function Sala() {
                 <div className="min-w-[200px]">
                   <div className="p-3 font-bold border border-white border-r-2 text-white sm:text-center">QDP</div>
                   {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className="sm:text-center pt-[10px]  h-[59px]  pl-4 Right-to-left bg-white border border-[#DADADA]" onClick={() => {document.getElementById('my_modal_3').showModal();exibirModalAlunoInformacao(aluno.nome)}}>
+                    <div
+                      key={aluno.id}
+                      className={`sm:text-center pt-[10px] h-[59px] pl-4 Right-to-left ${aluno.representante == 1 || aluno.vice == 1 ? 'bg-[#E6EFF0] text-[#005261]' : aluno.ajudante == 1 ? 'bg-[#F5EDFD] text-[#8A29E6]' : 'bg-white'} border border-[#DADADA]`}
+                      onClick={() => { document.getElementById('my_modal_3').showModal(); exibirModalAlunoInformacao(aluno.nome) }}
+                    >
                       {aluno.qdp}
                     </div>
                   ))}
                 </div>
                 <div className="min-w-[200px]">
-                  <div 
-                  onClick={() => setShowFilterDataOptions(!showFilterDataOptions)}
-                  className="p-3 font-bold border border-white border-r-2 text-white sm:text-center relative">
+                  <div
+                    onClick={() => setShowFilterDataOptions(!showFilterDataOptions)}
+                    className="p-3 font-bold border border-white border-r-2 text-white sm:text-center relative">
                     <p className='flex justify-center items-center'>
                       DATA
-                      <Icon icon="solar:alt-arrow-down-linear" width={20}/>
+                      <Icon icon="solar:alt-arrow-down-linear" width={20} />
                     </p>
                     {showFilterDataOptions && (
-                        <>
-                          <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
-                          <div className="text-center absolute mt-7 bg-white shadow-md rounded-lg  right-0 w-48 py-2 z-50">
-                            <ul>
-                              <li 
-                                
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                {faseDia == 1? "28 ago"  :'28 set'}
-                              </li>
-                              <li 
-                                onClick={() => handleDataTabela("29 ago")}
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                {faseDia == 1? "29 ago": '29 set'}
-                              </li>
-                              <li 
-                                onClick={() => handleDataTabela("30 ago")}
-                                className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3"
-                              >
-                                {faseDia == 1? "30 ago": '30 set' }
-                              </li>
-                            </ul>
-                          </div>
-                        </>
-                      )}
+                      <>
+                        <div className="fixed inset-0 bg-black bg-opacity-20 z-50"></div>
+                        <div className="text-center absolute mt-7 bg-white shadow-md rounded-lg right-0 w-48 py-2 z-50">
+                          <ul>
+                            <li className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3">
+                              {faseDia == 1 ? "28 ago" : '28 set'}
+                            </li>
+                            <li onClick={() => handleDataTabela("29 ago")} className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3">
+                              {faseDia == 1 ? "29 ago" : '29 set'}
+                            </li>
+                            <li onClick={() => handleDataTabela("30 ago")} className="cursor-pointer font-medium text-black hover:bg-gray-100 py-1 px-3">
+                              {faseDia == 1 ? "30 ago" : '30 set'}
+                            </li>
+                          </ul>
+                        </div>
+                      </>
+                    )}
                   </div>
                   {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className="text-center pt-[10px]  h-[59px]  Right-to-left bg-white border border-[#DADADA]">
-                          {faseDia === 1 ? "28 ago" : "28 set"}
+                    <div key={aluno.id} className={`text-center pt-[10px] h-[59px] Right-to-left ${aluno.representante == 1 || aluno.vice == 1 ? 'bg-[#E6EFF0] text-[#005261]' : aluno.ajudante == 1 ? 'bg-[#F5EDFD] text-[#8A29E6]' : 'bg-white'} border border-[#DADADA]`}>
+                      {faseDia === 1 ? "28 ago" : "28 set"}
                     </div>
                   ))}
                 </div>
                 <div className="min-w-[200px]">
                   <div className="p-3 font-bold border border-white border-r-2 text-white sm:text-center">Total Geral</div>
                   {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className="sm:text-center pt-[10px] h-[59px] pl-4 Right-to-left bg-white border border-[#DADADA]">
+                    <div key={aluno.id} className={`sm:text-center pt-[10px] h-[59px] pl-4 Right-to-left ${aluno.representante == 1 || aluno.vice == 1 ? 'bg-[#E6EFF0] text-[#005261]' : aluno.ajudante == 1 ? 'bg-[#F5EDFD] text-[#8A29E6]' : 'bg-white'} border border-[#DADADA]`}>
                       {aluno.totalPontos}
                     </div>
                   ))}
@@ -767,7 +799,7 @@ export default function Sala() {
                 <div className="min-w-[200px] border border-[#DADADA] border-l-2 text-center">
                   <div className="p-3 font-bold text-white text-center">MENÇÕES</div>
                   {retornoApi.map((aluno) => (
-                    <div key={aluno.id} className={`pt-[10px] Right-to-left h-[59px]  border border-[#DADADA] ${getColorClass(aluno.mencao)}`}>
+                    <div key={aluno.id} className={`pt-[10px] Right-to-left h-[59px] border border-[#DADADA] ${getColorClass(aluno.mencao)}`}>
                       {aluno.mencao}
                     </div>
                   ))}
