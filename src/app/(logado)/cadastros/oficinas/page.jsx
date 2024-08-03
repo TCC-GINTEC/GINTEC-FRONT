@@ -5,22 +5,17 @@ import { Icon } from '@iconify/react';
 import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image'
 import Modal from '@/components/formCadastro/modal';
-import ContainerDoacao from '@/components/formCadastro/ContainerDoacao';
+import ContainerOficina from '@/components/formCadastro/ContainerOficina';
 
 export default function Quadra() {
-  const [horariosCount, setHorariosCount] = useState(1);
-  const [estagiariosCount, setEstagiariosCount] = useState(1);
   
-  const [cursosEtec, setCursosEtec] = useState('');
-  const [nomeOficina, setNomeOficina] = useState(''); 
-  const [nomeALuno, setNomeAluno] = useState('');
-  const [dataOficina, setDataOficina] = useState('');
-  const [dataHorario1, setHorario1] = useState('');
+  const [horariosCount, setHorariosCount] = useState(1);
+  const [horarios, setHorarios] = useState([]);
+
+  const [estagiariosCount, setEstagiariosCount] = useState(1);
+  const [estagiarios, setEstagiarios] = useState([]);
 
   const [isModalOpen, setModalOpen] = useState(false);
-  const [mostrarFormularioEdicao, setMostrarFormularioEdicao] = useState(false);
-  const [mostrarFormularioCadastro, setMostrarFormularioCadastro] = useState(false);
-
   const [moveBar, setMoveBar] = useState("28");
   const [transition, setTransition] = useState(false); // Estado para controlar a transição
   const [show, setShow] = useState(false);
@@ -84,10 +79,6 @@ console.log(retornoApi)
     setMostrarFormularioEdicao(true);
     setIdObjetoSelecionado(cursosEtec.id);
     
-    setCursosEtec(cursosEtec.curso);
-    
-    //estagiario(cursosEtec.form1Atv1Dia1)
-    //setDataCampeonato(formatDateToBR(cursosEtec.data));
   };
 
   const handleCloseForm = () => {
@@ -99,49 +90,51 @@ console.log(retornoApi)
 
   //função para enviar os dados quando salvar
 
-  const handleFormCadastro = (e) => {
-    e.preventDefault();
-    const target = e.target
-    //const curso = e.target.curso; o cadastro ser identificado automaticamente pelo curso para exibir o titulo 
-    const oficina = target.nomeOficina.value;
-    //const data = parseDateFromBR(dataCampeonato); -> para quando for exibir pro usuario na edição
-    const aluno = target.nomeAluno.value;
-    const data = target.dataOficina.value; 
-    const entrada = target.entrada.value;
-    const saida = target.saida.value;
-   
-    const posicao = retornoApi.findIndex(
-      (elemento) => elemento.id === idObjetoSelecionado
-    );
+const handleFormCadastro = (e) => {
+  e.preventDefault();
+  const target = e.target;
+  const oficina = target.nomeOficina.value;
+  const aluno = target.nomeAluno.value;
+  const data = target.dataOficina.value;
+  const entrada = target.entrada.value;
+  const saida = target.saida.value;
 
-    const novosEstagiarios = []; //adicionar as informações digitadas dos campos gerado  na lista
+  const posicao = retornoApi.findIndex(
+    (elemento) => elemento.id === idObjetoSelecionado
+  );
 
-    for (let i = 1; i <= estagiariosCount; i++) {
-      const nomeEstagiario = e.target[`estagiario${i}`].value;
-      const rgEstagiario = e.target[`rgEstagiario${i}`].value;
-      novosEstagiarios.push({ nome: nomeEstagiario, rg: rgEstagiario });
-    }
-    
-    const novosDados = [...retornoApi]; //salvar a informação
-    novosDados[posicao] = {
-      ...novosDados[posicao],
-      curso: curso,
-      oficina: oficina,
-      aluno:aluno,
-      data: data,
-      entrada: entrada,
-      saida: saida,
-      estagiario: novosEstagiarios,
-    };
+  const novosHorarios = [];
+  for (let i = 1; i <= horariosCount; i++) {
+    novosHorarios.push(target[`horarioOficina${i}`].value);
+  }
 
-    setRetornoApi(novosDados);
+  const novosEstagiarios = [];
+  for (let i = 1; i <= estagiariosCount; i++) {
+    const nomeEstagiario = target[`estagiario${i}`].value;
+    const rgEstagiario = target[`rgEstagiario${i}`].value;
+    novosEstagiarios.push({ nome: nomeEstagiario, rg: rgEstagiario });
+  }
 
-    setTimeout(() => {
-      handleCloseForm();
-      setModalOpen(true);
-    }, 4000);
+  const novosDados = [...retornoApi];
+  novosDados[posicao] = {
+    ...novosDados[posicao],
+    curso: cursosEtec,
+    oficina: oficina,
+    aluno: aluno,
+    data: data,
+    entrada: entrada,
+    saida: saida,
+    horarios: novosHorarios,
+    estagiarios: novosEstagiarios,
   };
 
+  setRetornoApi(novosDados);
+
+  setTimeout(() => {
+    handleCloseForm();
+    setModalOpen(true);
+  }, 4000);
+};
 //---------------------------------------------------------------------------
 
 //adicionar Campos de horario dinamicamente quando digitar a quantidade 
@@ -152,7 +145,12 @@ const renderHorariosCampos = () => {
     fields.push(
       <label key={`horario-${i}`} className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
         {`${i}º Horário`}
-        <input type="time" name={`horarioOficina${i}`} className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+        <input
+          type="time"
+          name={`horarioOficina${i}`}
+          defaultValue={horarios[i - 1] || ""}
+          className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
+        />
       </label>
     );
   }
@@ -168,11 +166,21 @@ const renderEstagiariosCampos = () => {
       <div key={`estagiario-${i}`} className='flex flex-col gap-4'>
         <label className='flex flex-col gap-3 w-full px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
           {`Nome do ${i}º Estagiário`}
-          <input type="text" name={`estagiario${i}`} className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+          <input
+            type="text"
+            name={`estagiario${i}`}
+            defaultValue={estagiarios[i - 1]?.nome || ""}
+            className='w-full bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
+          />
         </label>
         <label className='flex flex-col gap-3 w-full h-[86px] px-9 pt-3 pb-2 rounded-2xl bg-[#E6EFF0]'>
           {`RG do ${i}º Estagiário`}
-          <input type="text" name={`rgEstagiario${i}`} className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg' />
+          <input
+            type="text"
+            name={`rgEstagiario${i}`}
+            defaultValue={estagiarios[i - 1]?.rg || ""}
+            className='bg-[#E6EFF0] text-[#005261] font-semibold text-lg'
+          />
         </label>
       </div>
     );
@@ -180,9 +188,7 @@ const renderEstagiariosCampos = () => {
   return <div className="flex flex-col gap-4 w-full">{fields}</div>;
 };
 
-  
  //---------------------------------------------------------------------------
-
   //fechar o modal se sucesso
 
   const closeModal = () => {
@@ -343,8 +349,7 @@ const renderEstagiariosCampos = () => {
       {mostrarFormularioCadastro && (
           <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-            <ContainerDoacao
-              alert={'Caso deseje editar algo, aperte do campo desejado e edite'}
+            <ContainerOficina
               classe={' -top-[650px] sm:-top-[500px] sm:m-auto fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}
             > 
               
@@ -417,14 +422,14 @@ const renderEstagiariosCampos = () => {
                 </div>
                 <input type="text" name="curso"  className="" value={cursosEtec} />
               </form>
-            </ContainerDoacao>
+            </ContainerOficina>
           </>
         )}
 
       {mostrarFormularioEdicao && (
         <>
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-            <ContainerDoacao
+            <ContainerOficina
               alert={'Caso deseje editar algo, aperte do campo desejado e edite'}
               classe={' -top-[650px] sm:-top-[500px] sm:m-auto fixed inset-0 flex items-center justify-center bg-white z-50 p-4'}
             > 
@@ -497,7 +502,7 @@ const renderEstagiariosCampos = () => {
                   </button>
                 </div>
               </form>
-            </ContainerDoacao>
+            </ContainerOficina>
         </> 
       
       )}
