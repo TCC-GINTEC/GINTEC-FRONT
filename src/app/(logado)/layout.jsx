@@ -1,14 +1,25 @@
-"use client"
-
-import SideBar from "../../components/Sidebar/SideBar";
+"use client";
+import { useEffect, useState } from "react";
+import SideBarWeb from "../../components/SidebarWeb/SideBar";
+import SideBarMobile from "../../components/SidebarMobile/SideBarMobile";
+import { Icon } from '@iconify/react';
 
 export default function HomePage({ children }) {
+const [exibirSidebar,setExibirSidebarMobile] = useState(false)
+
+function exibirSidebarMobile() {
+  setExibirSidebarMobile(!exibirSidebar)
+}
+
   return (
     <html lang="pt-br">
-      <body>
+      <body className='relative'>
         <div className="flex min-h-screen w-full text-text-color">
-          <SideBar className="bg-gray-400" />
-          <main className="flex flex-col w-full items-center py-3 px-3 ">
+          <SideBarWeb className="sm:block  hidden " />
+          <main className={`w-full py-3  overflow-x-hidden ${exibirSidebar?'w-full':''}`}>
+            <SideBarMobile exibirSidebar={exibirSidebar} exibirSidebarMobile={exibirSidebarMobile} className="z-50" />
+            <button className="sm:hidden block" onClick={() => exibirSidebarMobile()}><Icon icon="majesticons:menu-line" className='text-[#005261]' width={60}/></button>
+            {/*mingcute:menu-fill*/}
             {children}
           </main>
         </div>

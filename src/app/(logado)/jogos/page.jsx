@@ -386,8 +386,7 @@ export default function Cadastro() {
               )}
             </div>
           )}
-
-
+          
           {/* fehcar modal */}
           <div className="modal-action">
             <form method="dialog">
