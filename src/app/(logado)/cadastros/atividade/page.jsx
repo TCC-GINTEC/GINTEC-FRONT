@@ -305,32 +305,32 @@ export default function Quadra() {
            </>
         )}
      <div className='ml-[5%] mt-8 mb-8 flex  flex-row sm:flex-col  sm:gap-8 w-full relative'>
-        <div className=' flex flex-row sm:justify-center sm:flex-col w-full'>
+        <div className=' flex flex-row sm:justify-center sm:flex-col w-full relative'>
           <Link href='/cadastros'>
             <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={30} />
           </Link>
-            <div className='flex flex-row justify-evenly sm:justify-between sm:pr-40 w-full '>
+            <div className='flex flex-row  w-full justify-evenly sm:justify-between md:pr-40 relative '>
                  <h1 className='flex items-center text-2xl font-medium '>Atividades </h1>
                   {/* Filtro por fases */}
-
                   <div
                     onClick={() => setShowFilterFasesOptions(!showFilterFasesOptions)}
-                    className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center"
+                    className="w-[113px] shadow-xl bg-white p-1 rounded-3xl border-[3px] border-[#005261] my-4 cursor-pointer flex items-center relative"
                   >
                     <Icon icon="mynaui:filter" className="mr-2 h-6 w-6" />
                     Fases
-                  </div>
-                  {showFilterFasesOptions && (
+                    {showFilterFasesOptions && (
                     <>
                       <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
-                      <div className="absolute bg-white shadow-md rounded-lg mt-20 ml-20 w-48 py-2 z-50">
-                        <ul>
-                          <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
-                          <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
-                        </ul>
-                      </div>
-                    </>
-                  )}
+                       <div className="absolute right-0 bg-white shadow-md rounded-lg mt-40 ml-20 w-48 py-2 z-50">
+                          <ul>
+                            <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
+                            <li onClick={() => handleFase(2)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">2ª fase</li>
+                          </ul>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                 
             </div>
         </div>
       </div>
@@ -361,36 +361,67 @@ export default function Quadra() {
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 "></div>
           <ContainerAtividade  alert={'Caso deseje editar algo, aperte do campo desejado e edite'} classe={'right-80 -top-[500px] fixed inset-0 bg-white flex items-center justify-center z-50 p-4'}>
-            <div className='absolute left-4 top-4 cursor-pointer' onClick={() => handleCloseForm()}>
-               <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
+           <div className='hidden'>
+                <div className='absolute left-4 top-4 cursor-pointer' onClick={() => handleCloseForm()}>
+                    <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
+                </div>
+                <div className="max-w-[500px] mx-auto mb-8 mt-2  flex gap-3 justify-evenly md:gap-20  border-b-4 border-b-[#DADADA] relative">
+                  <div
+                    onClick={() => setMoveBar("28")}
+                    className={ `sm:font-semibold text-xl flex items-center gap-2  cursor-pointer ${moveBar === "28" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                  >
+                    28 Agos
+                  </div>
+                  <div
+                    onClick={() => setMoveBar("29")}
+                    className={`sm:font-semibold ml-2 text-xl flex cursor-pointer ${moveBar === "29" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                  >
+                    29 Agos
+                  </div>
+                  <div
+                    onClick={() => setMoveBar("30")}
+                    className={`sm:font-semibold text-xl cursor-pointer ${moveBar === "30" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                  >
+                  30 Agos
+                  </div>
+                  <div
+                    className={`hidden sm:block h-[4px] w-[100px] md:w-[124px] bg-[#005261] ${transition ? "duration-1000 delay-700" : ""} 
+                      ${moveBar === "28" ? "left-0" : ""} 
+                      ${moveBar === "29" ? "md:left-[140px] left-30" : ""} 
+                      ${moveBar === "30" ? "md:left-[290px]" : ""} 
+                      absolute -bottom-1 font-bold transition-all`}
+                  ></div>
+                </div>
+           </div>
+            
+    
+          {/*caso seja 2 dias */}
+          <div className='block w-[400px] max-w-full'>
+                <div className='absolute left-4 top-4 cursor-pointer' onClick={() => handleCloseForm()}>
+                  <Icon icon="solar:arrow-left-linear" style={{ color: "#005261" }} width={40} />
+                </div>
+                <div className="max-w-[500px] mx-auto mb-8 mt-2  flex gap-3 justify-evenly md:gap-20  md:border-b-4 border-b-[#DADADA] relative">
+                  <div
+                    onClick={() => setMoveBar("28")}
+                    className={ `underline sm:no-underline sm:font-semibold text-xl flex items-center gap-2  cursor-pointer ${moveBar === "28" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                  >
+                    28 Agos
+                  </div>
+                  <div
+                    onClick={() => setMoveBar("29")}
+                    className={`underline sm:no-underline sm:font-semibold ml-2 text-xl flex cursor-pointer ${moveBar === "29" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                  >
+                    29 Agos
+                  </div>
+                  <div
+                    className={`hidden sm:block h-[4px] w-[200px] md:w-[200px] max-w-full bg-[#005261] ${transition ? "duration-1000 delay-700" : ""} 
+                      ${moveBar === "28" ? "left-0" : ""} 
+                      ${moveBar === "29" ? "md:left-[200px] left-[200px]" : ""} 
+                      absolute -bottom-1 font-bold transition-all`}
+                  ></div>
+              </div>
             </div>
-            <div className="max-w-[500px] mx-auto mb-8 mt-2  flex gap-3 justify-evenly md:gap-20  border-b-4 border-b-[#DADADA] relative">
-              <div
-                onClick={() => setMoveBar("28")}
-                className={ `sm:font-semibold text-xl flex items-center gap-2  cursor-pointer ${moveBar === "28" ? "text-[#005261]" : "text-[#DADADA]"}`}
-              >
-                28 Agos
-              </div>
-              <div
-                onClick={() => setMoveBar("29")}
-                className={`sm:font-semibold ml-2 text-xl flex cursor-pointer ${moveBar === "29" ? "text-[#005261]" : "text-[#DADADA]"}`}
-              >
-                29 Agos
-              </div>
-              <div
-                onClick={() => setMoveBar("30")}
-                className={`sm:font-semibold text-xl cursor-pointer ${moveBar === "30" ? "text-[#005261]" : "text-[#DADADA]"}`}
-              >
-              30 Agos
-              </div>
-              <div
-                className={`hidden sm:block h-[4px] w-[100px] md:w-[124px] bg-[#005261] ${transition ? "duration-1000 delay-700" : ""} 
-                  ${moveBar === "28" ? "left-0" : ""} 
-                  ${moveBar === "29" ? "md:left-[140px] left-30" : ""} 
-                  ${moveBar === "30" ? "md:left-[290px]" : ""} 
-                  absolute -bottom-1 font-bold transition-all`}
-              ></div>
-          </div>
+         
             <div className='flex flex-col w-3/4 sm:h-[70px] px-6 pt-2 text-lg rounded-2xl bg-[#E6EFF0]'>
                 <div className='flex text-sm text-[#666666] pt-1'>
                   <p className='flex-1'>Tipo de cadastro</p>
@@ -398,7 +429,7 @@ export default function Quadra() {
                 </div>
                 <p className='text-[#005261] font-semibold'>Atividades</p>
              </div>
-
+            
            {moveBar === "28" && (
             <>
              

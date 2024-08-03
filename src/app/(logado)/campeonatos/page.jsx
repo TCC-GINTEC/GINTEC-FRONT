@@ -3,12 +3,18 @@ import { Icon } from '@iconify/react';
 import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
+import AlertaAmareloAviso from '@/components/alert/AlertaAmareloAviso'
+import AlertaVermelhoAviso from '@/components/alert/AlertaVermelhoAviso'
 
 export default function Campeonatos() {
   const router = useRouter();
 
-  const [showFilterFasesOptions, setShowFilterFasesOptions] = useState(false);
-  const [alertShowFase, setAlertShowFase] = useState(false);
+  const [showFilterFasesOptions, setMostrarFiltroFasesOpcoes] = useState(false);
+  
+  const [mostrarAlertaFase, setMostrarAlertaFase] = useState(false);
+  const[alertaAvisoAmarelo,setAlertaAvisoAmarelo] = useState(false);
+  const[alertaAvisoVermelho,setAlertaAvisoVermelho] = useState(false);
+
   const [itens, setItens] = useState([]);
   const [indexFiltroDia, setIndexFiltroDia] = useState(1)
 
@@ -33,14 +39,27 @@ export default function Campeonatos() {
 
   function handleFase(fase) {
     if (fase === 2) {
-      setAlertShowFase(true);
+      setMostrarAlertaFase(true);
     }
-    setShowFilterFasesOptions(false);
+    setMostrarFiltroFasesOpcoes(false);
   }
 
   const handleCloseAlertFase = () => {
-    setAlertShowFase(false);
+    setMostrarAlertaFase(false);
   };
+
+  {/*alertas para orientar o usuário */}
+
+  const  handleAlertaAvisoVermelho = () => {
+    setAlertaAvisoVermelho(!alertaAvisoVermelho);
+  };
+ 
+
+  const  handleAlertaAvisoAmarelo = () => {
+    setAlertaAvisoAmarelo(!alertaAvisoAmarelo);
+  };
+ 
+
 
   {/*largura da janela*/}
 
@@ -88,7 +107,7 @@ export default function Campeonatos() {
   return (
     <>
       {/* Exibe o alerta quando a 2 fase não está disponível */}
-      {alertShowFase && (
+      {mostrarAlertaFase && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
           <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -129,7 +148,7 @@ export default function Campeonatos() {
           Fases
           {showFilterFasesOptions && (
           <>
-            <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setShowFilterFasesOptions(false)}></div>
+            <div className="fixed inset-0 bg-black bg-opacity-20 z-50" onClick={() => setMostrarFiltroFasesOpcoes(false)}></div>
             <div className="absolute top-10 right-1 bg-white shadow-md rounded-lg  w-48 py-2 z-50">
               <ul>
                 <li onClick={() => handleFase(1)} className="cursor-pointer hover:bg-gray-100 py-1 px-3">1ª fase</li>
@@ -149,11 +168,11 @@ export default function Campeonatos() {
               <h2 className="text-3xl font-medium">28</h2>
               <p>Ago</p>
             </div>
-            <div  onClick={() => informacoesDia(2)}  className={`cursor-pointer ${largura < 800 ? 'w-[100px]':' sm:w-[118px] '} h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 2?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
+            <div  onClick={() => {informacoesDia(2);handleAlertaAvisoAmarelo()}}  className={`cursor-pointer ${largura < 800 ? 'w-[100px]':' sm:w-[118px] '} h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 2?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
               <h2 className="text-3xl font-medium">29</h2>
               <p>Ago</p>
             </div>
-            <div onClick={() => informacoesDia(3)} className={`cursor-pointer ${largura < 800 ? 'w-[100px]':' sm:w-[118px] '}  h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 3?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
+            <div onClick={() => {informacoesDia(3);handleAlertaAvisoAmarelo()}} className={`cursor-pointer ${largura < 800 ? 'w-[100px]':' sm:w-[118px] '}  h-[138px] text-center flex flex-col justify-center rounded-lg ${indexFiltroDia == 3?'bg-[#005261] text-[#FFFFFF]':'bg-[#F8F8F8] text-[#005261]'} transition-all duration-200`}>
               <h2 className="text-3xl font-medium">30</h2>
               <p>Ago</p>
             </div>
@@ -164,9 +183,21 @@ export default function Campeonatos() {
                 const imageName = item.text.split(' ')[0].toLowerCase().replace(/\s+/g, '-');
                 const encodedText = encodeURIComponent(item.text);
 
+                const naotemCronogramaCampeonato= item.text == 'xadrez' ;
+
+                const handleClick = () => {
+                  if (naotemCronogramaCampeonato) {
+                    handleAlertaAvisoVermelho();
+                  } else {
+                    router.push(`/campeonatos/tabela?campeonato=${encodedText}`);
+                  }
+                };
+        
                 return (
-                  <div key={index} className={`hover:border-2 hover:border-[#9747FF] cursor-pointer hover:scale-110 transition-all duration-150  ${larguraJanela < 600 && larguraJanela > 448 || largura < 700 && largura >= 501 ?'w-[200px]':' w-[275px]'}  h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4`} onClick={() => router.push(`/campeonatos/tabela?campeonato=${encodedText} `)}>
-                    <div className=" bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg ">
+                  <div key={index} className={`hover:border-2 hover:border-[#9747FF] cursor-pointer hover:scale-110 transition-all duration-150  ${larguraJanela < 600 && larguraJanela > 448 || largura < 700 && largura >= 501 ?'w-[200px]':' w-[275px]'}  h-[119px] shadow-2xl rounded-lg flex items-center gap-4 pl-4`} 
+                  onClick={handleClick}
+                  >
+                    <div   className=" bg-[#9747FF] w-[49px] h-[51px] flex justify-center items-center rounded-lg ">
                       <Image
                         src={`/images/img-${imageName}.svg`}
                         width={30}
@@ -181,6 +212,22 @@ export default function Campeonatos() {
             </div>
         </div>
       </div>
+      {alertaAvisoAmarelo && (
+        <>
+          <AlertaAmareloAviso 
+            texto={"Crie o cronograma deste campeonato para que os demais tenham acesso."} 
+            fecharModal={ handleAlertaAvisoAmarelo}
+          />
+        </>
+       )}
+       {alertaAvisoVermelho && (
+        <>
+          <AlertaVermelhoAviso 
+            texto={"Não é possível visualizar este campeonato porque a sala responsável não criou o cronograma"} 
+            fecharModal={ handleAlertaAvisoVermelho}
+          />
+        </>
+       )}
     </>
   );
 }

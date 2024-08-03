@@ -6,7 +6,7 @@ import ModalAlunosInformacao from '@/components/Salas/sala/ModalAlunosInformacao
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import Image from 'next/image'
-
+import AlertaVermelhoAviso from '@/components/alert/AlertaVermelhoAviso'
 
 export default function Sala() {
 
@@ -28,7 +28,8 @@ export default function Sala() {
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [showFilterFasesOptions,setShowFilterFasesOptions]= useState(false);
   const [showFilterDataOptions, setShowFilterDataOptions] = useState(false);
-  
+  const[alertaAvisoVermelho,setAlertaAvisoVermelho] = useState(false);
+
   const [faseFilter, setFaseFilter] = useState("1 º Fase"); // Estado para armazenar a fase selecionada
   const [faseDia,setFaseDia]= useState("");
   const [dia,setDia]= useState("");
@@ -319,6 +320,14 @@ export default function Sala() {
 
   }
 
+
+  {/*alertas para orientar o usuário */}
+
+  const  handleAlertaAvisoVermelho = () => {
+    setAlertaAvisoVermelho(!alertaAvisoVermelho);
+  };
+
+  {/*quando o usuario entrar no modo edição */}
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -830,7 +839,9 @@ export default function Sala() {
                   </div>
                 </div>
                 <div className='basis-2/3 mt-3 sm:mt-2 xl:mt-3'>
-                  <button   onClick={() => { document.getElementById('my_modal_1').showModal(); mostrarNomeDoacaoDialog1(doacoes.doacao, doacoes.imgSrc) }} className='mx-auto block w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
+                  <button   
+                     onClick={ doacoes.doacao == "Lacres"?() => {handleAlertaAvisoVermelho()} : () => { document.getElementById('my_modal_1').showModal(); mostrarNomeDoacaoDialog1(doacoes.doacao, doacoes.imgSrc); }}
+                     className='mx-auto block w-[80px] h-[32px] bg-[#E6EFF0] text-[#005261] font-semibold rounded-lg'>
                     Ver mais
                   </button>
                 </div>
@@ -838,7 +849,14 @@ export default function Sala() {
             ))
 
           }
-      
+          {alertaAvisoVermelho && (
+            <>
+              <AlertaVermelhoAviso 
+                texto={"A data limite para doação expirou"}
+                fecharModal={ handleAlertaAvisoVermelho}
+              />
+            </>
+           )}
         </div>
       )}
       {moveBar === "campeonato" && (

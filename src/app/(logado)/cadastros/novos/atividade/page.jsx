@@ -191,8 +191,8 @@ export default function Quadra() {
               <h1 className='text-2xl font-medium'>Novo Cadastro</h1>
             </div>
           </div>
-         
-          <div className="max-w-[500px] flex gap-3 justify-evenly md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
+          {/*          
+          <div className="hidden max-w-[500px] flex gap-3 justify-evenly md:gap-20 mx-auto mb-4 border-b-4 border-b-[#DADADA] relative">
             <div
               onClick={() => setMoveBar("28")}
               className={ `sm:font-semibold text-xl flex items-center gap-2  cursor-pointer ${moveBar === "28" ? "text-[#005261]" : "text-[#DADADA]"}`}
@@ -219,7 +219,32 @@ export default function Quadra() {
                 ${moveBar === "30" ? "md:left-[380px]" : ""} 
                 absolute -bottom-1 font-bold transition-all`}
             ></div>
-          </div>
+          </div> 
+          */}
+
+          {/*caso seja 2 dias */}
+            <div className="w-[400px] md:w-[525px] max-w-full flex gap-3 justify-evenly md:gap-20 mx-auto mb-4 relative">
+                <div className=" w-full mx-auto mb-8 mt-2  flex gap-3 justify-evenly md:gap-20  border-b-4 sm:border-b-[#DADADA] relative">
+                  <div
+                    onClick={() => setMoveBar("28")}
+                    className={ `underline sm:no-underline sm:font-semibold text-xl flex items-center gap-2  cursor-pointer ${moveBar === "28" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                  >
+                    28 Agos
+                  </div>
+                  <div
+                    onClick={() => setMoveBar("29")}
+                    className={`underline sm:no-underline sm:font-semibold ml-2 text-xl flex cursor-pointer ${moveBar === "29" ? "text-[#005261]" : "text-[#DADADA]"}`}
+                  >
+                    29 Agos
+                  </div>
+                  <div
+                    className={`hidden sm:block h-[4px] w-[200px] md:w-[263px]  max-w-full bg-[#005261] ${transition ? "duration-1000 delay-700" : ""} 
+                      ${moveBar === "28" ? "left-0" : ""} 
+                      ${moveBar === "29" ? "md:left-[263px] left-[200px]" : ""} 
+                      absolute -bottom-1 font-bold transition-all`}
+                  ></div>
+              </div>
+            </div>
 
          {moveBar === "28" && (
           

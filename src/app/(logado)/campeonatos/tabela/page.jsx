@@ -22,8 +22,10 @@ export default function TabelaCampeonatos() {
   const [faseFilter, setFaseFilter] = useState("1 º Fase");
   const [moveBar, setMoveBar] = useState(1);
   const [transition, setTransition] = useState(false);
+
   const [alertShowFase, setAlertShowFase] = useState(false);
   const [alertShowDia, setAlertShowDia] = useState(false);
+
   const [isEditing, setIsEditing] = useState(false);
 
   const [originalFormData, setOriginalFormData] = useState({
@@ -327,6 +329,8 @@ const handleSortearTimes = () => {
           </div>
         </div>
       </div>
+          
+      
       {mostrarEdicaoSucesso && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
