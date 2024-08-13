@@ -12,7 +12,7 @@ export default function SideBarProfile({active, src, username}) {
             </div>
 
             <button className="p-3 rounded-xl hover:bg-green">
-                <img className="h-6 w-6" src="/images/icon.svg" />
+                <img className="h-6 w-6" src="/images/icon.png" />
             </button>
         </div>
     )

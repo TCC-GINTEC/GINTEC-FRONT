@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import {
     Table,
@@ -17,7 +19,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
     const [columns, setColumns] = useState(React.Children.toArray(children).filter(
         (child) => child.type === Column
     ));
-    const [rows, setRows] = useState(data);
+    const rows = data;
     let filters = []
     columns.map((filter) => {
         filters[filter.props.field] = ""
@@ -31,7 +33,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
     let filteredItens = rows.filter(row => {
         let retorno = true;
         columns.forEach((column) => {
-            if (!String(row[column.props.field]).includes(String(filtros[column.props.field]))) {
+            if (!String(row[column.props.field]).toLowerCase().includes(String(filtros[column.props.field]).toLowerCase())) {
                 retorno = false;
                 return;
             }
@@ -43,13 +45,12 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
     const indexOfFirstItem = indexOfLastItem - pageNumberItens;
 
     const currentItems = filteredItens.slice(indexOfFirstItem, indexOfLastItem);
-    console.log(currentItems.length)
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <>
-            <Table>                            
+            <Table>
                 <TableHeader>
                     <TableRow>
                         {columns.map((column, index) => {
@@ -76,7 +77,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                 </TableHeader>
                 <TableBody>
                     {currentItems.map((row, index) => {
-                        console.log(index)
+                        console.log(row)
                         return (
                             <TableRow key={index}>
                                 {columns.map((column) => {
@@ -91,7 +92,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                     </TableRow>
                 </TableBody>
             </Table>
-            <div className="flex w-full h-full justify-center gap-6" colspan="3">
+            <div className="flex w-full h-full justify-center gap-6" colSpan="3">
                 {Array.from({ length: Math.ceil(filteredItens.length / pageNumberItens) }, (_, index) => (
                     <button key={index} onClick={() => paginate(index + 1)} className="button-paginacao">{index + 1}</button>
                 ))}

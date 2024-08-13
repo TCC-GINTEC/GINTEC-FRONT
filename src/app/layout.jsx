@@ -2,7 +2,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'sonner'
 
-const roboto = Roboto({ subsets: ["latin"] , weight:['300','400','500','700','900']});
+const roboto = Roboto({ subsets: ["latin"], weight: ['300', '400', '500', '700', '900'] });
 
 export const metadata = {
   title: "Gintec",
@@ -12,8 +12,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
+      <head>
+        <link rel="icon" type="image/x-icon" href="/images/icon.png"/>
+      </head>
       <body className={roboto.className}>
-          {children}
+        {children}
         <Toaster position="top-right" richColors expand={true} />
       </body>
     </html>

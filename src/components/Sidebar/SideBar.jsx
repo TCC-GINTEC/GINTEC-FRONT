@@ -21,20 +21,35 @@ export default function SideBar({ className }) {
   function handleGetItens() {
     const lst = [
       {
-        text: "Alunos",
-        img: "https://cdn-icons-png.flaticon.com/512/5956/5956845.png",
-        link: "/alunos"
+        text: "Home",
+        img: "/images/Home.png",
+        link: "/home"
       },
       {
-        text: "Prazos",
-        img: "https://cdn-icons-png.flaticon.com/512/149/149322.png",
-        link: "/prazos"
+        text: "Organização das salas",
+        img: "/images/OrgSalas.png",
+        link: "/OrgSalas"
       },
       {
-        text: "Ranking",
-        img: "https://cdn-icons-png.flaticon.com/512/4425/4425124.png",
+        text: "Cadastro",
+        img: "/images/Cadastro.png",
+        link: "/cadastros"
+      },
+      {
+        text: "Campeonatos",
+        img: "/images/Campeonatos.png",
+        link: "/campeonatos"
+      },
+      {
+        text: "Pontuação Geral",
+        img: "/images/PontuacaoGeral.png",
         link: "/ranking"
-      }
+      },
+      {
+        text: "Recados",
+        img: "/images/Recados.png",
+        link: "/ranking"
+      }      
     ]
 
     setItens(lst)
@@ -43,12 +58,11 @@ export default function SideBar({ className }) {
     <SideBarContainer active={active} className={className}>
       <SideBarSection>
         <SideBarHead Action={toggleSidebar} active={active} />
-        <Search Action={toggleSidebar} active={active} />
         <SideBarContainerItens>
           {Itens.map((item, index) => <Link key={index} href={item.link}><SideBarItem active={active} text={item.text} src={item.img} /> </Link>)}
         </SideBarContainerItens>
       </SideBarSection>
-      <SideBarProfile active={active} src={"/images/icon.svg"} username={"Nathan Silva"} />
+      <SideBarProfile active={active} src={"/images/icon.png"} username={"Nathan Silva"} />
     </SideBarContainer>
   )
 }
