@@ -24,9 +24,9 @@ export default function OrgSalas() {
             <h1 className="text-[32px] font-[500]">Organização das salas</h1>
             <p className="text-[#666666]">Todos os cursos</p>
             <div className="flex gap-4 p-2 flex-wrap">
-                {classroom.map((item) => {
+                {classroom.map((item, index) => {
                     return (
-                        <Link href={"/OrgSalas/sala?id=" + item.codigo}>
+                        <Link href={"/OrgSalas/sala?id=" + item.codigo} key={index}>
                             <div className="shadow-md flex w-60 items-center p-6 gap-4" >
                                 <img src="/images/salaIcon.png" />
                                 <h2>{item.descricao}</h2>

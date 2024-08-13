@@ -45,9 +45,9 @@ export default function Campeonatos() {
                 })}
             </div>
             <div className="flex mt-8 justify-center gap-4">
-                {dates.find(x => x.codigo == selectedDate)?.campeonatos.map((camp) => {
+                {dates.find(x => x.codigo == selectedDate)?.campeonatos.map((camp, index) => {
                     return (
-                        <div className="shadow-md flex w-60 items-center p-6 gap-4">
+                        <div className="shadow-md flex w-60 items-center p-6 gap-4" key={index}>
                             <img src="/images/salaIcon.png" />
                             <h2>{camp.descricao}</h2>
                         </div>
