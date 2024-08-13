@@ -1,13 +1,11 @@
 export default function SideBarHead({ active, Action }) {
     return (
         <div className="flex items-center justify-between">
-            <img className={`
+            <img className={`ml-3
             ${active ? 'block' : 'hidden'}
           `}
-                src="/images/icon.svg" width={100} />
-            <button className="p-3 rounded-xl hover:bg-light-green" onClick={Action}>
-                <img className="h-8 w-8" src="https://cdn-icons-png.flaticon.com/512/7216/7216128.png"/>
-            </button>
+                src="/images/icon.png" width={100} />
+            <img className={`h-8 w-8 relative ${active ? 'left-8' : 'left-12'}`} src="/images/setaesquerda.png" onClick={Action} />
         </div>
     )
 }
