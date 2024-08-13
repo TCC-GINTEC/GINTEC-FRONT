@@ -5,7 +5,7 @@ const httpClient = axios.create({
     //baseURL: 'https://localhost:44397'
     //baseURL: 'http://192.168.0.25:5019'
     //baseURL: 'http://172.20.10.2:5019'
-    
+
 });
 
 httpClient.interceptors.request.use(
@@ -21,7 +21,7 @@ httpClient.interceptors.request.use(
         if (config.url.includes('auth'))
             return config;
 
-        if (!token) {            
+        if (!token) {
             window.location.href = '/login';
         }
         return config;

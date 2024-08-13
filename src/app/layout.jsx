@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
       <head>
-        <link rel="icon" type="image/x-icon" href="/images/icon.png"/>
+        <link rel="icon" type="image/x-icon" href="/images/icon.svg"/>
       </head>
       <body className={roboto.className}>
         {children}

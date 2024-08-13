@@ -13,8 +13,8 @@ export default function Campeonatos() {
     }, [])
     const handleGetDates = async () => {
         httpClient.get("/Calendario").then((response) => {
-            setDates(response.data)
-            setSelectedDate(response.data[0]?.codigo)
+            setDates(response?.data ?? [])
+            setSelectedDate(response?.data[0]?.codigo ?? [])
         })
     }
 

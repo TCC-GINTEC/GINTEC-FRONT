@@ -22,32 +22,32 @@ export default function SideBar({ className }) {
     const lst = [
       {
         text: "Home",
-        img: "/images/Home.png",
+        img: "/images/Home.svg",
         link: "/home"
       },
       {
         text: "Organização das salas",
-        img: "/images/OrgSalas.png",
+        img: "/images/OrgSalas.svg",
         link: "/OrgSalas"
       },
       {
         text: "Cadastro",
-        img: "/images/Cadastro.png",
+        img: "/images/Cadastro.svg",
         link: "/cadastros"
       },
       {
         text: "Campeonatos",
-        img: "/images/Campeonatos.png",
+        img: "/images/Campeonatos.svg",
         link: "/campeonatos"
       },
       {
         text: "Pontuação Geral",
-        img: "/images/PontuacaoGeral.png",
+        img: "/images/PontuacaoGeral.svg",
         link: "/ranking"
       },
       {
         text: "Recados",
-        img: "/images/Recados.png",
+        img: "/images/Recados.svg",
         link: "/ranking"
       }      
     ]
@@ -62,7 +62,7 @@ export default function SideBar({ className }) {
           {Itens.map((item, index) => <Link key={index} href={item.link}><SideBarItem active={active} text={item.text} src={item.img} /> </Link>)}
         </SideBarContainerItens>
       </SideBarSection>
-      <SideBarProfile active={active} src={"/images/icon.png"} username={"Nathan Silva"} />
+      <SideBarProfile active={active} src={"/images/icon.svg"} username={"Nathan Silva"} />
     </SideBarContainer>
   )
 }
