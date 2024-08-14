@@ -30,7 +30,6 @@ export default function Campeonatos() {
                 {dates.map((date, index) => {
                     const day = new Date(date.dataGincana).getDate();
                     const isSelected = index === selectedIndex;
-
                     return (
                         <div key={index}
                             className={`w-24 h-32 flex items-center justify-center rounded-md ${isSelected ? 'bg-[#005261]' : 'bg-[#E6EFF0]'
