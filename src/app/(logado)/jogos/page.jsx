@@ -38,9 +38,15 @@ export default function Jogos() {
     <div>
       <h1 className="text-[32px] font-[500]">Jogos de Pátio</h1>
       <div className="flex gap-4 flex-wrap">
+<<<<<<< HEAD
         {games.map((game, index) => {
           return (
             <div key={index} className="border-2 border-[#4C7EFF] h-16 w-52 flex items-center justify-center rounded-md" onClick={() => { openModal(game) }}>
+=======
+        {games.map((game) => {
+          return (
+            <div className="border-2 border-[#4C7EFF] h-16 w-52 flex items-center justify-center rounded-md" onClick={() => { openModal(game) }}>
+>>>>>>> 04eec98a9f274471e841f3cc0eda0c72ee30c3f6
               <h2 className="break-keep text-[#4C7EFF] font-[600]">{game.descricao}</h2>
             </div>
           )
