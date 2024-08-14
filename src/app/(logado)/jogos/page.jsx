@@ -1,409 +1,128 @@
 "use client"
 
-import { Icon } from "@iconify/react";
-import { useState } from "react";
+import httpClient from "@/service/api";
+import { useEffect, useRef, useState } from "react";
 
-export default function Cadastro() {
+export default function Jogos() {
+  const [games, setGames] = useState([]);
+  const [item, setItem] = useState([]);
 
-  const [tipoCadastro, setTipoCadastro] = useState(null);
-  const [finalizar, setFinalizar] = useState(false);
-  const [secaoAnterior, setSecaoAnterior] = useState(true);
-  const [listaInformacoes, setListaInformacoes] = useState([]);
+  const modalRef = useRef(null); // Cria uma referência para o modal
 
-  const [nomeJogo, setNomeJogo] = useState("");
-  const [nomeCampeonatoQuadra, setNomeCampeonatoQuadra] = useState("");
-  const [nomeCampeonatoPatio,setNomeCampeonatoPatio] = useState("");
+  useEffect(() => {
+    handleGetGames();
+  }, [])
 
-  const [data, setData] = useState(0);
-  const [fase, setFase] = useState(0);
-  const [pontuacao, setPontuacao] = useState(0);
-  const [pontucaoExtra, setPontuacaoExtra] = useState(0);
-  const [qntJogos, setQntJogos] = useState(0);
-  const [qntFases, setQntFases] = useState(0);
-  const [qntJogadoresPorTime, setQntJogadoresPorTime] = useState(0);
-
-  function voltarSecao() {
-    setSecaoAnterior(true);
-    setFinalizar(false);
+  const handleGetGames = async () => {
+    httpClient.get("/Atividade").then((response) => {
+      setGames(response?.data ?? []);
+    })
   }
+  const openModal = (item) => {
+    if (modalRef.current) {
+      setItem(item)
+      modalRef.current.classList.remove("hidden");
+      modalRef.current.classList.add("flex");
+    }
+  };
 
-  function finalizarRegistro() {
-    setFinalizar(true);
-    setSecaoAnterior(false);
-  }
-
- 
-
-   
-  function gerarCards(tipo) {
-    let novoCampeonato;
-
-    setListaInformacoes([...listaInformacoes, novoCampeonato]);
-  }
-  console.log(listaInformacoes)
-  function renderizarCards() {
-    return listaInformacoes.map((campeonato, index) => (
-      <div
-        key={index}
-        className="w-full sm:w-96 pt-4 px-11 pb-4 flex flex-col gap-2 bg-gray-300 rounded-2xl"
-      >
-        <div className="flex flex-row-reverse">
-          <Icon icon="charm:menu-kebab" width={30} style={{ color: "#000000" }} />
-        </div>
-        <h2></h2>
-        <h2 className="font-semibold">
-          {campeonato.nomeCampeonato || campeonato.nomeJogo || campeonato.nomeCampeonatoPatio}
-        </h2>
-        <h2 className="font-semibold">{campeonato.pontuacao}</h2>
-       { campeonato.data && <h2 className="font-semibold">{ campeonato.data}</h2>}
-       { campeonato.pontucaoExtra && <h2 className="font-semibold">{ campeonato.pontucaoExtra}</h2>}
-        <a href="#">Mais informações</a>
-      </div>
-    ));
-  }
-
-  console.log("tipoCadastro:", tipoCadastro);
+  const closeModal = () => {
+    if (modalRef.current) {
+      modalRef.current.classList.add("hidden");
+      modalRef.current.classList.remove("flex");
+    }
+  };
 
   return (
-    <div className="flex flex-col gap-5 pt-5">
-      <div className="flex flex-row-reverse group">
-        <button
-          className="p-3 w-64 flex justify-center group-hover:bg-gray-300 bg-gray-200 rounded-2xl"
-          onClick={() => document.getElementById("my_modal_1").showModal()}
-        >
-          <Icon icon="charm:plus" width={30} style={{ color: "#A7A7A7" }} />
-        </button>
+
+    <div>
+      <h1 className="text-[32px] font-[500]">Jogos de Pátio</h1>
+      <div className="flex gap-4 flex-wrap">
+        {games.map((game, index) => {
+          return (
+            <div key={index} className="border-2 border-[#4C7EFF] h-16 w-52 flex items-center justify-center rounded-md" onClick={() => { openModal(game) }}>
+              <h2 className="break-keep text-[#4C7EFF] font-[600]">{game.descricao}</h2>
+            </div>
+          )
+        })}
       </div>
 
-      <div>
-        <div className="flex flex-col gap-4 border-red-500">{renderizarCards()}</div>
-      </div>
+      <div
+        id="default-modal"
+        ref={modalRef} // Atribui a referência ao elemento modal
+        tabIndex="-1"
+        aria-hidden="true"
+        className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      >
+        <div className="relative p-4 w-full max-w-2xl max-h-full">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 
-      {/* modal */}
-      <dialog id="my_modal_1" className="modal">
-        <div className="modal-box p-0 max-w-6xl">
-          <div>
-            {/* escolhendo cadastro */}
-            <h2>Escolha o tipo de cadastro</h2>
-            <select onChange={(e) => setTipoCadastro(e.target.value)}>
-              <option value="campQuadra">Campeonato de quadra</option>
-              <option value="campPatio">Campeonato de pátio</option>
-              <option value="jogos">Jogos</option>
-            </select>
-          </div>
-
-          <div className="w-full flex gap-5 p-5">
-            <button onClick={voltarSecao} className="underline underline-offset-1">
-              {tipoCadastro == "campQuadra" || tipoCadastro == "campPatio"?"dados do campeonato":"Dados do Jogo"   }
-            </button>
-            <button onClick={finalizarRegistro} className="underline underline-offset-1">
-              Finalizar
-            </button>
-          </div>
-          {/* exibindo modal de jogos */}
-          {tipoCadastro === "jogos" && (
-            <div className={`max-w-full flex justify-center bg-slate-300`}>
-              {secaoAnterior && (
-                <div className="m-auto sm:inline-grid md:grid-cols-2 md:justify-items-center">
-                  <label className="p-3 rounded-2xl  flex flex-col ">
-                    Nome do jogo
-                    <input
-                      className="p-3 rounded-2xl flex flex-col"
-                      type="text"
-                      placeholder="Digite o nome do jogo"
-                      onChange={(e) => setNomeJogo(e.target.value)}
-                    />
-                  </label>
-                  <label className="p-3 rounded-2xl flex flex-col ">
-                    Pontuação
-                    <input
-                      className="p-3 rounded-2xl flex flex-col"
-                      type="number"
-                      onChange={(e) => setPontuacao(e.target.value)}
-                    />
-                  </label>
-                  <label className="p-3 rounded-2xl flex flex-col">
-                    Pontuação extra
-                    <input
-                      className="p-3 rounded-2xl flex flex-col"
-                      type="text"
-                      placeholder="Digite a pontuação extra"
-                      onChange={(e) => setPontuacaoExtra(e.target.value)}
-                    />
-                  </label>
-                </div>
-              )}
-              {finalizar && (
-                <div>
-                  <div className="flex gap-20 p-9">
-                    <div>
-                      <h2>Nome do jogo</h2>
-                      <p>{nomeJogo}</p>
-                    </div>
-                    <div>
-                      <h2>Pontuação</h2>
-                      <p>{pontuacao}</p>
-                    </div>
-                    <div>
-                      <h2>Pontuação Extra</h2>
-                      <p>{pontucaoExtra}</p>
-                    </div>
-                  </div>
-                  <button
-                    className="p-4 m-auto block bg-green-200  hover:bg-green-400 rounded-xl"
-                    onClick={() => gerarCards("jogos")}
-                  >
-                    Enviar
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* exibindo modal campeonato */}
-          {tipoCadastro === "campQuadra" && (
-            <div className={`p-5 sm:grid sm:grid-cols-5 sm:gap-7 sm:items-center sm:justify-center sm:max-w-full bg-slate-300`}>
-              {secaoAnterior && (
-                <>
-                  <label className="flex flex-col col-span-2 gap-2 font-bold text-lg">
-                    Nome do campeonato de Quadra
-                    <input
-                      className="p-3 rounded-2xl"
-                      placeholder="Digite o nome"
-                      onChange={(e) => setNomeCampeonatoQuadra(e.target.value)}
-                    />
-                  </label>
-                  <label
-                    className="flex flex-col gap-2 font-bold text-lg"
-                    onChange={(e) => setData(e.target.value)}
-                  >
-                    Data
-                    <input className="p-3 rounded-2xl " placeholder="Data" type="date" />
-                  </label>
-                  <label className="flex flex-col gap-2 font-bold text-lg">
-                    Fase
-                    <input
-                      className="p-3 rounded-2xl"
-                      min="1"
-                      type="number"
-                      placeholder="ex: 1 , 2, 3"
-                      onChange={(e) => setFase(e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2 font-bold text-lg">
-                    Pontuação
-                    <input
-                      placeholder="exe: 500"
-                      type="number"
-                      className="p-3 rounded-2xl"
-                      onChange={(e) => setPontuacao(e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2 font-bold text-lg">
-                    Quantidades de Jogos
-                    <input
-                      placeholder=" exe: 1, 2, 3..."
-                      type="number"
-                      className="p-3 rounded-2xl"
-                      onChange={(e) => setQntJogos(e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col col-span-1 gap-2 font-bold text-lg">
-                    Quantidade de Fases
-                    <input
-                      className="p-3 rounded-2xl"
-                      min="1"
-                      max="5"
-                      type="number"
-                      placeholder="exe: 1, 2, 3..."
-                      onChange={(e) => setQntFases(e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2 text-center font-bold text-lg">
-                    Jogadores por time
-                    <input
-                      className="p-3 rounded-2xl"
-                      min="10"
-                      max="15"
-                      type="number"
-                      placeholder="exe: 10"
-                      onChange={(e) => setQntJogadoresPorTime(e.target.value)}
-                    />
-                  </label>
-                </>
-              )}
-
-              {finalizar && (
-                <>
-                  <div>
-                    <h2>Nome do campeonato de quadra</h2>
-                    <p>{ nomeCampeonatoQuadra}</p>
-                  </div>
-                  <div>
-                    <h2>Data</h2>
-                    <p>{data}</p>
-                  </div>
-                  <div>
-                    <h2>Fase</h2>
-                    <p>{fase}</p>
-                  </div>
-                  <div>
-                    <h2>Pontuação</h2>
-                    <p>{pontuacao}</p>
-                  </div>
-                  <div>
-                    <h2>Quantidade de jogos</h2>
-                    <p>{qntJogos}</p>
-                  </div>
-                  <div>
-                    <h2>Quantidade de fases</h2>
-                    <p>{qntFases}</p>
-                  </div>
-                  <div>
-                    <h2>Quantidade jogadores por time</h2>
-                    <p>{qntJogadoresPorTime}</p>
-                  </div>
-                  <button
-                    className="p-4 bg-green-200  hover:bg-green-400 rounded-xl"
-                    onClick={() => gerarCards("campQuadra")}
-                  >
-                    Enviar
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-
-          {tipoCadastro === "campPatio" && (
-            <div  className={`p-5 sm:grid sm:grid-cols-5 sm:gap-7 sm:items-center sm:justify-center sm:max-w-full bg-slate-300`}>
-              {secaoAnterior && (
-                <>
-                  <label className="flex flex-col col-span-2 gap-2 font-bold text-lg">
-                    Nome do campeonato de pátio
-                    <input
-                      className="p-3 rounded-2xl"
-                      placeholder="Digite o nome"
-                      onChange={(e) => setNomeCampeonatoPatio(e.target.value)}
-                    />
-                  </label>
-                  <label
-                    className="flex flex-col gap-2 font-bold text-lg"
-                    onChange={(e) => setData(e.target.value)}
-                  >
-                    Data
-                    <input className="p-3 rounded-2xl " placeholder="Data" type="date" />
-                  </label>
-                  <label className="flex flex-col gap-2 font-bold text-lg">
-                    Fase
-                    <input
-                      className="p-3 rounded-2xl"
-                      min="1"
-                      type="number"
-                      placeholder="ex: 1 , 2, 3"
-                      onChange={(e) => setFase(e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2 font-bold text-lg">
-                    Pontuação
-                    <input
-                      placeholder="exe: 500"
-                      type="number"
-                      className="p-3 rounded-2xl"
-                      onChange={(e) => setPontuacao(e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2 font-bold text-lg">
-                    Quantidades de Jogos
-                    <input
-                      placeholder=" exe: 1, 2, 3..."
-                      type="number"
-                      className="p-3 rounded-2xl"
-                      onChange={(e) => setQntJogos(e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col col-span-1 gap-2 font-bold text-lg">
-                    Quantidade de Fases
-                    <input
-                      className="p-3 rounded-2xl"
-                      min="1"
-                      max="5"
-                      type="number"
-                      placeholder="exe: 1, 2, 3..."
-                      onChange={(e) => setQntFases(e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2 text-center font-bold text-lg">
-                    Jogadores por time
-                    <input
-                      className="p-3 rounded-2xl"
-                      min="10"
-                      max="15"
-                      type="number"
-                      placeholder="exe: 10"
-                      onChange={(e) => setQntJogadoresPorTime(e.target.value)}
-                    />
-                  </label>
-                </>
-              )}
-
-              {finalizar && (
-                <>
-                  <div>
-                    <h2>Nome do campeonato de pátio</h2>
-                    <p>{ nomeCampeonatoPatio}</p>
-                  </div>
-                  <div>
-                    <h2>Data</h2>
-                    <p>{data}</p>
-                  </div>
-                  <div>
-                    <h2>Fase</h2>
-                    <p>{fase}</p>
-                  </div>
-                  <div>
-                    <h2>Pontuação</h2>
-                    <p>{pontuacao}</p>
-                  </div>
-                  <div>
-                    <h2>Quantidade de jogos</h2>
-                    <p>{qntJogos}</p>
-                  </div>
-                  <div>
-                    <h2>Quantidade de fases</h2>
-                    <p>{qntFases}</p>
-                  </div>
-                  <div>
-                    <h2>Quantidade jogadores por time</h2>
-                    <p>{qntJogadoresPorTime}</p>
-                  </div>
-                  <button
-                    className="p-4 bg-green-200  hover:bg-green-400 rounded-xl"
-                    onClick={() => gerarCards("campQuadra")}
-                  >
-                    Enviar
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-
-
-          {/* fehcar modal */}
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button 
-                className="p-4 w-64 hover:bg-red-400 hover:text-white text-gray-400 bg-red-200 rounded-xl" 
+              </h3>
+              <button
+                type="button"
+                onClick={closeModal} // Chama a função para fechar o modal
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="default-modal"
               >
-                Fechar
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span className="sr-only">Close modal</span>
               </button>
-            </form>
+            </div>
+            <div className="p-4 md:p-5 space-y-4">
+              <div>
+                <div className="relative z-0">
+                  <input onChange={(e) => { setEmail(e.target.value) }} name="email" type="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" " />
+                  <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                    E-mail
+                  </label>
+                </div>
+                <div className="relative z-0">
+                  <input onChange={(e) => { setEmail(e.target.value) }} name="email" type="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" " />
+                  <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                    E-mail
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+              <button
+                data-modal-hide="default-modal"
+                type="button"
+                onClick={closeModal} // Fecha o modal ao clicar em "I accept"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                I accept
+              </button>
+              <button
+                data-modal-hide="default-modal"
+                type="button"
+                onClick={closeModal} // Fecha o modal ao clicar em "Decline"
+                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              >
+                Decline
+              </button>
+            </div>
           </div>
         </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+      </div>
     </div>
   );
 }
+
+

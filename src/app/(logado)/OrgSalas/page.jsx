@@ -15,7 +15,7 @@ export default function OrgSalas() {
 
     const handleGetClassRoom = async () => {
         httpClient.get("/Sala").then((response) => {
-            setClassroom(response.data)
+            setClassroom(response?.data)
         })
     }
 
@@ -29,7 +29,7 @@ export default function OrgSalas() {
                         <Link href={"/OrgSalas/sala?id=" + item.codigo} key={index}>
                             <div className="shadow-md flex w-60 items-center p-6 gap-4" >
                                 <img src="/images/salaIcon.png" />
-                                <h2>{item.descricao}</h2>
+                                <h2>{item.serie}° {item.descricao}</h2>
                             </div>
                         </Link>
                     )
