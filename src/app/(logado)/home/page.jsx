@@ -9,8 +9,8 @@ export default function Home() {
 
   return (
     <div>
-      <h1 className="text-[32px] font-[500]">Home</h1>
-      <section className="py-6 px-12 bg-[#F3EAFC] rounded-[20px] flex justify-between md:max-h-[120px]">
+      <h1 className="text-[32px] font-[600]">Home</h1>
+      <section className="py-6 px-12 border-1 rounded-[20px] flex justify-between md:max-h-[120px]">
         <div>
           <h2>Olá, seja Bem Vindo !</h2>
           <p>Sinta-se a vontade para navegar pela nossa plataforma</p>

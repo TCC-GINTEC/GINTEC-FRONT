@@ -1,5 +1,6 @@
 "use client"
 import httpClient from "@/service/api"
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
@@ -28,7 +29,13 @@ export default function OrgSalas() {
                     return (
                         <Link href={"/OrgSalas/sala?id=" + item.codigo} key={index}>
                             <div className="shadow-md flex w-60 items-center p-6 gap-4" >
-                                <img src="/images/salaIcon.png" />
+                                {item.fotoSala ? 
+                                
+                                <img src={item.fotoSala} width={50} height={50} className="rounded-full"/>
+                                :
+                                <div className="rounded-full bg-[#FFC24C] w-[50px] h-[50px]"></div>
+                            }
+                                
                                 <h2>{item.serie}° {item.descricao}</h2>
                             </div>
                         </Link>

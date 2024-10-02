@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const httpClient = axios.create({
-    //baseURL: 'https://api-faisca.online/Gintec'
+    baseURL: 'https://api-faisca.online/GintecProd'
     //baseURL: 'https://localhost:44397'
     //baseURL: 'http://192.168.0.25:5019'
-    baseURL: 'http://172.20.10.4:5019'
+    //baseURL: 'http://172.20.10.4:5019'
 
 });
 
@@ -40,13 +40,11 @@ httpClient.interceptors.response.use(async (response) => {
     if (!error.response)
         return error.response
     if (error.response.status == 401) {
-        window.location.href = '/login';
-        alert("oii")
+        window.location.href = '/login';        
     }
 
     if (error.response.status == 403) {
-        window.location.href = '/login';
-        alert("oii")
+        window.location.href = '/login';        
     }
 
 })
