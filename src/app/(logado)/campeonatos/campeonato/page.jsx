@@ -50,7 +50,7 @@ export default function Campeonato() {
         <div>
             <h1 className="text-[32px] font-[500]">{championship.descricao}</h1>
             <p className="text-[#666666]">
-                Para editar, clique no botão 'Editar' e faça as alterações necessárias.
+                Para editar, clique no botão Editar e faça as alterações necessárias.
                 Para visualizar os times que vão disputar o jogo, selecione a opção desejada.
             </p>
 

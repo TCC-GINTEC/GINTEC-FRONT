@@ -47,8 +47,8 @@ export default function Campeonatos() {
             <div className="flex mt-8 justify-center gap-4 flex-wrap">
                 {dates.find(x => x.codigo == selectedDate)?.campeonatos.map((camp, index) => {
                     return (
-                        <Link href={"/campeonatos/campeonato?id=" + camp.codigo}>
-                            <div className="shadow-md flex w-60 items-center p-6 gap-4" key={index}>
+                        <Link href={"/campeonatos/campeonato?id=" + camp.codigo} key={index}>
+                            <div className="shadow-md flex w-60 items-center p-6 gap-4" >
                                 <img src="/images/salaIcon.png" />
                                 <h2>{camp.descricao}</h2>
                             </div>
