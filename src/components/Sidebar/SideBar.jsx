@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react'
 import Search from '@/components/Sidebar/Search'
 import SideBarContainerItens from '@/components/Sidebar/SideBarContainerItens'
@@ -21,54 +23,23 @@ export default function SideBar({ className }) {
     handleGetItens();
     handleGetPhotoProfile();
   }, [])
-  function handleGetPhotoProfile(){
+  function handleGetPhotoProfile() {
     const userID = localStorage.getItem("user_code")
     httpClient.get("/Usuario/" + userID).then((response) => {
-      setUser(response.data);      
-  });
+      setUser(response.data);
+    });
   }
   function handleGetItens() {
-    const lst = [
-      {
-        text: "Home",
-        img: "/images/Home.svg",
-        link: "/home"
-      },
-      {
-        text: "Organização das salas",
-        img: "/images/OrgSalas.svg",
-        link: "/OrgSalas"
-      },
-      {
-        text: "Cadastro",
-        img: "/images/Cadastro.svg",
-        link: "/cadastros"
-      },
-      {
-        text: "Campeonatos",
-        img: "/images/Campeonatos.svg",
-        link: "/campeonatos"
-      },
-      {
-        text: "Pontuação Geral",
-        img: "/images/PontuacaoGeral.svg",
-        link: "/ranking"
-      },
-      // {
-      //   text: "Recados",
-      //   img: "/images/Recados.svg",
-      //   link: "/ranking"
-      // }      
-    ]
-
-    setItens(lst)
+    httpClient.get("Usuario/Permissoes").then((response) => {
+      setItens(response.data);
+    })
   }
   return (
     <SideBarContainer active={active} className={className}>
       <SideBarSection>
         <SideBarHead Action={toggleSidebar} active={active} />
         <SideBarContainerItens>
-          {Itens.map((item, index) => <Link key={index} href={item.link}><SideBarItem active={active} text={item.text} src={item.img} /> </Link>)}
+          {Itens.map((item, index) => <Link key={index} href={item.pathScreen}><SideBarItem active={active} text={item.nome} src={item.icon} /> </Link>)}
         </SideBarContainerItens>
       </SideBarSection>
       <SideBarProfile active={active} src={user.fotoPerfil} username={user.nome} />

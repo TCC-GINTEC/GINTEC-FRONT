@@ -40,7 +40,7 @@ export default function Ranking() {
           }) ?? []).sort((a, b) => b.pontuacao - a.pontuacao))
           })
           break;
-        case 'Aluno':
+        case 'Aluno':          
           httpClient.get("/Usuario/ObterPontuacaoGeral").then((response) => {
             setData((response.data?.filter(p => !p.isPadrinho).map((item) => {
               return ({
@@ -70,7 +70,7 @@ export default function Ranking() {
           <option value="Sala">Melhores Salas</option>
         </select>
       </div>
-      <div className="bg-slate-100 rounded-xl sm:w-3/4 mb-5 p-3 flex items-center gap-5 flex-col sm:flex-row">
+      <div className="bg-[url('/images/fundoPontuacaoGeral.svg')] w-3/4 bg-cover rounded-xl sm:w-full mb-5 p-3 flex items-center gap-5 flex-col sm:flex-row">
         {/* os 3 pontuadores */}
         <Placed users={data.slice(0, 3)} />
       </div>

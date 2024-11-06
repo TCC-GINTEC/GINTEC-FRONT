@@ -31,21 +31,25 @@ export default function Login() {
                 password: password
             });
             setLoading(false)
-            if (response.status == 200) {
-                localStorage.setItem("user_token", response.data.token)
-                localStorage.setItem("user_code", response.data.usuarioCodigo)
-                httpClient.defaults.headers.authorization = `Bearer ${response.data.token}`;
-                router.push('/home', { scroll: false });
+            if (response.status == 200) {                
+                if (response.data.status == 3) {
+
+                    localStorage.setItem("user_token", response.data.token)
+                    localStorage.setItem("user_code", response.data.usuarioCodigo)
+                    httpClient.defaults.headers.authorization = `Bearer ${response.data.token}`;
+                    router.push('/home', { scroll: false });
+                }
+                else
+                    toast.warning("Usuário não é administrador.");
             }
             else if (response.status == 401)
-                toast.warning("E-mail ou senha inválido :(");
+                toast.warning("E-mail ou senha inválido.");
             else
                 toast.error("Algo deu errado, por favor contate um administrator!")
 
         }
         catch (error) {
             setLoading(false)
-            var erro = await error;
         }
     }
 
@@ -87,7 +91,7 @@ export default function Login() {
                                         </div>
                                     </div>
                                     <div className="text-sm mt-5 ">
-                                        <a href="#" className="font-semibold text-gray-600 hover:text-[#005C6D]">Esqueceu a senha?</a>
+                                        {/* <a href="#" className="font-semibold text-gray-600 hover:text-[#005C6D]">Esqueceu a senha?</a> */}
                                     </div>
                                     {/* <div className="mt-2">
                                         <input onChange={(e) => { setPassword(e.target.value) }} name="password" type="password" autoComplete="current-password" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />

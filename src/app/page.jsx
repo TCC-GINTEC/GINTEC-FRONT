@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Icon } from "@iconify/react";
 import "./globals.css";
 
 export default function Home() {
@@ -59,7 +58,7 @@ export default function Home() {
         </div>
       </section>
       <section className="bg-white  py-8 px-24 mt-12 mx-8 flex justify-evenly mb-24">
-        <div className="">
+        <div>
           <h3 className="text-[32px] font-semibold">
           A Tecnologia a Favor da Gincana
           </h3>

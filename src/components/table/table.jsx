@@ -82,7 +82,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                             <TableRow key={index}>
                                 {columns.map((column) => {
                                     return (
-                                        <TableCell key={index}>{row[column.props.field]}</TableCell>
+                                        <TableCell key={index}>{column.props.OnPress ? <span onClick={column.props.OnPress}>{row[column.props.field]}</span> : row[column.props.field]}</TableCell>
                                     );
                                 })}
                             </TableRow>
@@ -92,11 +92,6 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                     </TableRow>
                 </TableBody>
             </Table>
-            <div className="flex w-full h-full justify-center gap-6" colSpan="3">
-                {Array.from({ length: Math.ceil(filteredItens.length / pageNumberItens) }, (_, index) => (
-                    <button key={index} onClick={() => paginate(index + 1)} className="button-paginacao">{index + 1}</button>
-                ))}
-            </div>
         </>
     )
 }
