@@ -140,10 +140,10 @@ export default function Jogos() {
           setCalendariosCheck(e.target.value)
           setGamesfilter(games.filter(x => x.calendarioCodigo == e.target.value))
         }}>
-          {calendarios.map((calendario, ) => {
+          {calendarios.map((calendario) => {
             var date = new Date(calendario.dataGincana)
             return (
-              <option key={index} value={calendario.codigo}>{`${date.getDate()}/${date.getMonth() + 1}`}</option>
+              <option value={calendario.codigo}>{`${date.getDate()}/${date.getMonth() + 1}`}</option>
             )
           })}
         </select>
@@ -216,8 +216,8 @@ export default function Jogos() {
                 </div>
                 <div className="relative z-0 my-5">
                   <select onChange={(e) => { setCalendarioCodigo(e.target.value) }} value={calendarioCodigo} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
-                    {calendarios.map((calendario, index) => {
-                      return (<option key={index} value={calendario.codigo}>{calendario.dataGincana}</option>)
+                    {calendarios.map((calendario) => {
+                      return (<option value={calendario.codigo}>{calendario.dataGincana}</option>)
                     })}
                   </select>
                   <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
@@ -353,8 +353,8 @@ export default function Jogos() {
                 </div>
                 <div className="relative z-0 my-5">
                   <select onChange={(e) => { setCalendarioCodigo(e.target.value) }} value={calendarioCodigo} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
-                    {calendarios.map((calendario, index) => {
-                      return (<option key={index} value={calendario.codigo}>{calendario.dataGincana}</option>)
+                    {calendarios.map((calendario) => {
+                      return (<option value={calendario.codigo}>{calendario.dataGincana}</option>)
                     })}
                   </select>
                   <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
@@ -444,5 +444,3 @@ export default function Jogos() {
     </div>
   );
 }
-
-
