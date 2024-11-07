@@ -62,7 +62,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                     <TableRow>
                         {columns.map((column, index) => {
                             if (column.props.filter == false)
-                                return <TableCell />
+                                return <TableCell key={index}/>
                             return (
                                 <TableCell key={index} className="relative mb-3">
                                     <input
@@ -78,8 +78,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {currentItems.map((row, index) => {
-                        console.log(row)
+                    {currentItems.map((row, index) => {                        
                         return (
                             <TableRow key={index}>
                                 {columns.map((column) => {
