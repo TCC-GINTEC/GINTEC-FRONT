@@ -83,7 +83,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                             <TableRow key={index}>
                                 {columns.map((column) => {
                                     return (
-                                        <TableCell key={index}>{column.props.OnPress ? <span className="font-bold" onClick={column.props.OnPress()}>{column.props.textFixed ? column.props.textFixed : row[column.props.field]}</span> : row[column.props.field]}</TableCell>
+                                        <TableCell key={index}>{column.props.OnPress ? <span className="font-bold" onClick={(e) => {column.props.OnPress(e)}}>{column.props.textFixed ? column.props.textFixed : row[column.props.field]}</span> : row[column.props.field]}</TableCell>
                                     );
                                 })}
                             </TableRow>
