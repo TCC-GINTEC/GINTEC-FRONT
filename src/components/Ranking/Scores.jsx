@@ -3,7 +3,7 @@ export default function Scores({ users }) {
   return (
     users.map((user, index) => {
       return (
-        <div className='container-score mb-4 p-4 border rounded-2xl bg-gray-100 flex flex-col gap-3'>
+        <div className='container-score mb-4 p-4 border rounded-2xl bg-gray-100 flex flex-col gap-3' key={index}>
           <div className='container-score-l'>
             <span className='lugar'>{index + 1}</span>
             <img alt="Imagem" src={user.foto ? user.foto : "https://cdn-icons-png.flaticon.com/512/3106/3106921.png"}/>
