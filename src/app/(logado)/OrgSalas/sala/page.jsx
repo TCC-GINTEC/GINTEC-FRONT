@@ -92,7 +92,7 @@ export default function Sala() {
 
               {championships.map((item, index) => {
                 return (
-                  <Link href={"/campeonatos/campeonato?id=" + item.codigo} className="shadow-md flex w-60 items-center p-6 gap-4" >
+                  <Link href={"/campeonatos/campeonato?id=" + item.codigo} className="shadow-md flex w-60 items-center p-6 gap-4" key={index}>
                     {item.fotoSala ?
 
                       <img src={item.fotoSala} width={50} height={50} className="rounded-full" />

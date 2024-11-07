@@ -27,8 +27,8 @@ export default function Jogos() {
       <div className="flex gap-4 flex-wrap">
         {games.map((game, index) => {
           return (
-            <Link href={"/campeonatos/campeonato?id=" + game.codigo}>
-            <div key={index} className="border-2 border-[#FF4C4D] h-16 w-52 flex items-center justify-center rounded-md" onClick={() => { openModal(game) }}>
+            <Link href={"/campeonatos/campeonato?id=" + game.codigo} key={index}>
+            <div className="border-2 border-[#FF4C4D] h-16 w-52 flex items-center justify-center rounded-md" onClick={() => { openModal(game) }}>
               <h2 className="break-keep text-[#FF4C4D] font-[600]">{game.descricao}</h2>
             </div>
             </Link>
@@ -37,6 +37,6 @@ export default function Jogos() {
       </div>
     </div>
   );
-}
+}   
 
 

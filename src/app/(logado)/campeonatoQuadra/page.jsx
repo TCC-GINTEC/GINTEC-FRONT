@@ -24,8 +24,8 @@ export default function Jogos() {
       <div className="flex gap-4 flex-wrap">
         {games.map((game, index) => {
           return (
-            <Link href={"/campeonatos/campeonato?id=" + game.codigo}>
-              <div key={index} className="border-2 border-[#8A29E6] h-16 w-52 flex items-center justify-center rounded-md">
+            <Link href={"/campeonatos/campeonato?id=" + game.codigo} key={index}>
+              <div className="border-2 border-[#8A29E6] h-16 w-52 flex items-center justify-center rounded-md">
                 <h2 className="break-keep text-[#8A29E6] font-[600]">{game.descricao}</h2>
               </div>
             </Link>
