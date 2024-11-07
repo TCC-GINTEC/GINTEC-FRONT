@@ -1,0 +1,46 @@
+.container-ranking{
+  margin-top: 4vh;
+
+  .header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header-l{
+
+      h1{
+        font-size: 1.8rem;
+      }
+
+      p{
+        color: #808080;
+      }
+    }
+
+    .header-r{
+      select{
+        width: 20vw;
+      }
+    }
+  }
+
+  .top-ranking {
+    background-image: url('/images/fundoPontuacaoGeral.svg');
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    display: flex;
+    width: auto;
+    height: 74vh;
+  }  
+
+  .scores{
+    margin-top: -8vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-ranking {
+    background-image: none !important;
+  }
+}
