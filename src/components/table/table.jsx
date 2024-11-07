@@ -61,6 +61,8 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                     </TableRow>
                     <TableRow>
                         {columns.map((column, index) => {
+                            if (column.props.filter == false)
+                                return <TableCell key={index}/>
                             return (
                                 <TableCell key={index} className="relative mb-3">
                                     <input
@@ -76,13 +78,12 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {currentItems.map((row, index) => {
-                        console.log(row)
+                    {currentItems.map((row, index) => {                        
                         return (
                             <TableRow key={index}>
                                 {columns.map((column) => {
                                     return (
-                                        <TableCell key={index}>{column.props.OnPress ? <span onClick={column.props.OnPress}>{row[column.props.field]}</span> : row[column.props.field]}</TableCell>
+                                        <TableCell key={index}>{column.props.OnPress ? <span className="font-bold" onClick={column.props.OnPress}>{column.props.textFixed ? column.props.textFixed : row[column.props.field]}</span> : row[column.props.field]}</TableCell>
                                     );
                                 })}
                             </TableRow>
