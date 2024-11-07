@@ -49,7 +49,7 @@ export default function Campeonatos() {
                     return (
                         <Link href={"/campeonatos/campeonato?id=" + camp.codigo} key={index}>
                             <div className="shadow-md flex w-60 items-center p-6 gap-4" >
-                                <img src="/images/salaIcon.png" />
+                            <div className="rounded-full bg-[#005261] w-[50px] h-[50px]"></div>
                                 <h2>{camp.descricao}</h2>
                             </div>
                         </Link>
