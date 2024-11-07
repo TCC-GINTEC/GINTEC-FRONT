@@ -84,7 +84,7 @@ export default function Home() {
             <p className="font-bold text-lg">{pontuacaoTotal && totaldias.length ? (pontuacaoTotal / totaldias.length).toFixed(2) : 0}</p>
           </div>
           <div className="bg-yellow-50 p-4 sm:p-6 rounded-xl shadow-md text-center">
-            <img src="images/iconEPontos.svg" className="mx-auto w-6 sm:w-8 h-6 sm:h-8" alt="Pontos Extras Icon" />
+            <img src="images/IconEPontos.svg" className="mx-auto w-6 sm:w-8 h-6 sm:h-8" alt="Pontos Extras Icon" />
             <h2 className="text-yellow-500 font-semibold mt-2">Pontos Extras</h2>
             <p className="font-bold text-lg">{pontuacaoExtraTotal}</p>
           </div>
