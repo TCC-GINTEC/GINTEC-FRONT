@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 const httpClient = axios.create({
-    baseURL: 'https://api-faisca.online/GintecPROD'
+    //baseURL: 'https://api-faisca.online/GintecHML'
     //baseURL: 'https://localhost:44397'
-    //baseURL: 'http://192.168.0.3:5019'
+    baseURL: 'http://192.168.0.3:5019'
     //baseURL: 'http://172.20.10.2:5019'
 
 });
