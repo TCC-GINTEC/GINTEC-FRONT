@@ -5,9 +5,10 @@ const httpClient = axios.create({
     //baseURL: 'https://localhost:44397',
     //baseURL: 'http://192.168.0.3:5019'
     //baseURL: 'http://172.20.10.2:5019'
+    //baseURL: 'http://localhost:5019'
 });
 
-httpClient.interceptors.request.use(    
+httpClient.interceptors.request.use(
     async (config) => {
 
         var token = localStorage.getItem("user_token");
@@ -32,18 +33,16 @@ httpClient.interceptors.request.use(
 
 httpClient.interceptors.response.use(async (response) => {
     return response
-}, async (error) => {
-    console.log(error)
+}, async (error) => {    
     if (error.config.url.includes('auth'))
         return error.response;
-    if (!error.response)
+    if (error.response)
         return error.response
     if (error.response.status == 401) {
-        window.location.href = '/login';        
+        window.location.href = '/login';
     }
-
     if (error.response.status == 403) {
-        window.location.href = '/login';        
+        window.location.href = '/login';
     }
 
 })
