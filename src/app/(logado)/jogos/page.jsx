@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import httpClient from "@/service/api";
 import { useEffect, useRef, useState } from "react";
@@ -23,6 +23,7 @@ export default function Jogos() {
       setExtraInput('');
     }
   };
+
   const handleAddExtra2 = () => {
     if (extraInput.trim() !== '') {
       setPontuacaoExtraItems([...item.atividadePontuacaoExtra.map(x => x.pontuacao), extraInput]);
@@ -37,37 +38,53 @@ export default function Jogos() {
     handleGetGames();
     handleGetClassrooms();
     handleGetCalendarios();
-  }, [])
+  }, []);
 
   const handleGetClassrooms = async () => {
-    httpClient.get("/Sala").then((response) => {
-      setSalas(response.data)
-      setSalaCodigo(response.data[0].codigo)
-    })
-  }
+    try {
+      const response = await httpClient.get("/Sala");
+      setSalas(response.data);
+      setSalaCodigo(response.data[0]?.codigo ?? 0);
+    } catch (error) {
+      console.error("Error fetching classrooms:", error);
+    }
+  };
+
   const handleGetGames = async () => {
-    httpClient.get("/Atividade").then((response) => {
-      setGames(response?.data ?? []);
-      setGamesfilter(response?.data ?? [])
-    })
-  }
+    try {
+      const response = await httpClient.get("/Atividade");
+      const data = response?.data ?? [];
+      setGames(data);
+      setGamesfilter(calendariosCheck ? data.filter(x => x.calendarioCodigo == calendariosCheck) : data);
+    } catch (error) {
+      console.error("Error fetching games:", error);
+    }
+  };
+
   const handleGetCalendarios = async () => {
-    httpClient.get("/Calendario").then((response) => {
+    try {
+      const response = await httpClient.get("/Calendario");
       setCalendarios(response.data);
-      setCalendarioCodigo(response.data[0].codigo)
-    })
-  }
+      setCalendarioCodigo(response.data[0]?.codigo ?? 0);
+    } catch (error) {
+      console.error("Error fetching calendars:", error);
+    }
+  };
+
   const openModal = (item) => {
     if (modalRef.current) {
-      setItem({ ...item, pontuacaoExtra: item.atividadePontuacaoExtra > 0 });
+      setItem({ ...item, pontuacaoExtra: item.atividadePontuacaoExtra.length > 0 });
       setSalaCodigo(item.salaCodigo);
       setCalendarioCodigo(item.calendarioCodigo);
+      console.log(item.atividadePontuacaoExtra)
+      setPontuacaoExtraItems(item.atividadePontuacaoExtra.map(i => i.pontuacao))
       modalRef.current.classList.remove("hidden");
       modalRef.current.classList.add("flex");
     }
   };
-  const openModal2 = (item) => {
-    if (modalRef.current) {
+
+  const openModal2 = () => {
+    if (modalRef2.current) {
       modalRef2.current.classList.remove("hidden");
       modalRef2.current.classList.add("flex");
     }
@@ -79,23 +96,7 @@ export default function Jogos() {
       modalRef.current.classList.remove("flex");
     }
   };
-  const handleUpdateActivity = () => {    
-    httpClient.put("/Atividade/" + item.codigo, {
-      Descricao: item.descricao,
-      IsPontuacaoExtra: item.pontuacaoExtra,
-      SalaCodigo: salaCodigo,
-      CalendarioCodigo: calendarioCodigo
-    }).then((response) => {
-      handleGetGames();
-      closeModal();
-    })
-  }
-  const handleDeleteActivity = () => {    
-    httpClient.delete("/Atividade/" + item.codigo).then((response) => {
-      handleGetGames();
-      closeModal();
-    })
-  }
+
   const closeModal2 = () => {
     if (modalRef2.current) {
       modalRef2.current.classList.add("hidden");
@@ -103,31 +104,60 @@ export default function Jogos() {
     }
   };
 
-  const handleAddAticvity = () => {
-    console.log(item2)
+  const handleUpdateActivity = async () => {
+    try {
+      var response = await httpClient.put(`/Atividade/${item.codigo}`, {
+        Descricao: item.descricao,
+        IsPontuacaoExtra: item.pontuacaoExtra,
+        SalaCodigo: salaCodigo,
+        CalendarioCodigo: calendarioCodigo
+      })
+      await httpClient.put("/Atividade/Pontuacao", {
+        atividadeCodigo: response.data.codigo,
+        Pontuacao: pontuacaoExtraItems
+      });
+
+      handleGetGames();
+      closeModal();
+    } catch (error) {
+      console.error("Error updating activity:", error);
+    }
+  };
+
+  const handleDeleteActivity = async () => {
+    try {
+      await httpClient.delete(`/Atividade/${item.codigo}`);
+      handleGetGames();
+      closeModal();
+    } catch (error) {
+      console.error("Error deleting activity:", error);
+    }
+  };
+
+  const handleAddActivity = async () => {
     if (!item2.descricao) {
-      toast.warning("Por favor, defina um nome pra atividade.")
+      toast.warning("Por favor, defina um nome para a atividade.");
       return;
     }
-    if (item2.pontuacaoExtra) {
-      if (pontuacaoExtraItems.length <= 0) {
-        toast.warning("Por favor, adicione pontuações extra pra atividade.")
-        return;
-      }
+    if (item2.pontuacaoExtra && pontuacaoExtraItems.length <= 0) {
+      toast.warning("Por favor, adicione pontuações extra para a atividade.");
+      return;
     }
 
-    httpClient.post("/Atividade", {
-      Descricao: item2.descricao,
-      IsPontuacaoExtra: item2.pontuacaoExtra,
-      SalaCodigo: salaCodigo,
-      CalendarioCodigo: calendarioCodigo
-    }).then((response) => {
-      toast.success("Atividade cadastrada com sucesso!")
+    try {
+      await httpClient.post("/Atividade", {
+        Descricao: item2.descricao,
+        IsPontuacaoExtra: item2.pontuacaoExtra,
+        SalaCodigo: salaCodigo,
+        CalendarioCodigo: calendarioCodigo
+      });
+      toast.success("Atividade cadastrada com sucesso!");
       handleGetGames();
-      closeModal2()
-    })
-  }
-
+      closeModal2();
+    } catch (error) {
+      console.error("Error adding activity:", error);
+    }
+  };
   return (
 
     <div>
@@ -196,7 +226,7 @@ export default function Jogos() {
             <div className="p-4 md:p-5 space-y-4">
               <div>
                 <div className="relative z-0 my-5">
-                  <input onChange={(e) => { setItem2({ ...item2, descricao: e.target.value }) }} value={item.descricao} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" " />
+                  <input onChange={(e) => { setItem2({ ...item2, descricao: e.target.value }) }} value={item2.descricao} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" " />
                   <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                     Atividade
                   </label>
@@ -214,7 +244,8 @@ export default function Jogos() {
                 <div className="relative z-0 my-5">
                   <select onChange={(e) => { setCalendarioCodigo(e.target.value) }} value={calendarioCodigo} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
                     {calendarios.map((calendario, index) => {
-                      return (<option key={index} value={calendario.codigo}>{calendario.dataGincana}</option>)
+                      const date = new Date(calendario.dataGincana);
+                      return (<option key={index} value={calendario.codigo}>{`${date.getDate().toString().padStart(2, "0")}/${(date.getMonth().toString().padStart(2, "0"))}`}</option>)
                     })}
                   </select>
                   <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
@@ -227,8 +258,8 @@ export default function Jogos() {
                   <span className="text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca]">Atividade tem pontuação extra?</span>
                   <input
                     type="checkbox"
-                    checked={item.pontuacaoExtra}
-                    onChange={(e) => setItem2({ ...item2, pontuacaoExtra: e.target.checked })}
+                    checked={item2.pontuacaoExtra}
+                    onChange={(e) => setItem2({ ...item, pontuacaoExtra: e.target.checked })}
                     className="form-checkbox h-5 w-5 text-[#b7b7b7] focus:ring-0"
                   />
                 </label>
@@ -276,7 +307,7 @@ export default function Jogos() {
               <button
                 data-modal-hide="default-modal"
                 type="button"
-                onClick={handleAddAticvity}
+                onClick={handleAddActivity}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Adicionar
@@ -351,7 +382,8 @@ export default function Jogos() {
                 <div className="relative z-0 my-5">
                   <select onChange={(e) => { setCalendarioCodigo(e.target.value) }} value={calendarioCodigo} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
                     {calendarios.map((calendario, index) => {
-                      return (<option key={index} value={calendario.codigo}>{calendario.dataGincana}</option>)
+                      const date = new Date(calendario.dataGincana);
+                      return (<option key={index} value={calendario.codigo}>{`${date.getDate().toString().padStart(2, "0")}/${(date.getMonth().toString().padStart(2, "0"))}`}</option>)
                     })}
                   </select>
                   <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
@@ -383,7 +415,7 @@ export default function Jogos() {
                       placeholder="Insira um valor"
                     />
                     <button
-                      onClick={handleAddExtra2}
+                      onClick={handleAddExtra}
                       className="px-4 py-2 bg-[#b7b7b7] text-white text-sm rounded"
                     >
                       Adicionar
@@ -398,8 +430,8 @@ export default function Jogos() {
                       </tr>
                     </thead>
                     <tbody>
-                      {item.atividadePontuacaoExtra.map(x => x.pontuacao).map((value, index) => (
-                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" onClick={() => { setItem({ ...item, atividadePontuacaoExtra: item.atividadePontuacaoExtra.filter(x => x != value) }) }}>
+                      {pontuacaoExtraItems.map((value, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" onClick={() => { setPontuacaoExtraItems(pontuacaoExtraItems.filter(x => x != value)) }}>
                           <td className="px-6 py-4">{value}</td>
                           <td className="px-6 py-4">X</td>
                         </tr>
