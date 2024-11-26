@@ -23,14 +23,6 @@ export default function Jogos() {
       setExtraInput('');
     }
   };
-
-  const handleAddExtra2 = () => {
-    if (extraInput.trim() !== '') {
-      setPontuacaoExtraItems([...item.atividadePontuacaoExtra.map(x => x.pontuacao), extraInput]);
-      setExtraInput('');
-    }
-  };
-
   const modalRef = useRef(null);
   const modalRef2 = useRef(null);
 
@@ -245,7 +237,7 @@ export default function Jogos() {
                   <select onChange={(e) => { setCalendarioCodigo(e.target.value) }} value={calendarioCodigo} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
                     {calendarios.map((calendario, index) => {
                       const date = new Date(calendario.dataGincana);
-                      return (<option key={index} value={calendario.codigo}>{`${date.getDate().toString().padStart(2, "0")}/${(date.getMonth().toString().padStart(2, "0"))}`}</option>)
+                      return (<option key={index} value={calendario.codigo}>{`${date.getDate().toString().padStart(2, "0")}/${((date.getMonth() + 1).toString().padStart(2, "0"))}`}</option>)
                     })}
                   </select>
                   <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
@@ -383,7 +375,7 @@ export default function Jogos() {
                   <select onChange={(e) => { setCalendarioCodigo(e.target.value) }} value={calendarioCodigo} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
                     {calendarios.map((calendario, index) => {
                       const date = new Date(calendario.dataGincana);
-                      return (<option key={index} value={calendario.codigo}>{`${date.getDate().toString().padStart(2, "0")}/${(date.getMonth().toString().padStart(2, "0"))}`}</option>)
+                      return (<option key={index} value={calendario.codigo}>{`${date.getDate().toString().padStart(2, "0")}/${((date.getMonth() + 1).toString().padStart(2, "0"))}`}</option>)
                     })}
                   </select>
                   <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
