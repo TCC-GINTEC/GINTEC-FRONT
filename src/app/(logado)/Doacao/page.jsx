@@ -36,26 +36,35 @@ export default function Doacao() {
     }
 
 
-    const handleUpdateActivity = () => {        
+    const handleUpdateActivity = () => {
         httpClient.put("/AtualizarDoacao/" + item.codigo, {
             Nome: item.nome,
             DataLimite: item.dateLimite,
-            Pontuacao: item.pontuacao            
+            Pontuacao: item.pontuacao
         }).then((response) => {
             handleGetdoacao();
             closeModal();
         })
     }
-    const handleDeleteActivity = () => {        
+    const handleDeleteActivity = () => {
         httpClient.delete("/DeletarDoacao/" + item.codigo).then((response) => {
             handleGetGames();
             closeModal();
         })
     }
+    const openModal2 = (item) => {
+        if (modalRef.current) {
+            modalRef2.current.classList.remove("hidden");
+            modalRef2.current.classList.add("flex");
+        }
+    };
     return (
 
         <div>
             <h1 className="text-[32px] font-[500]">Doações</h1>
+            <div className="w-full flex justify-end pr-32 gap-4">
+                <button className="text-[30px] bg-gray-300 px-8 rounded-lg my-4" onClick={openModal2}>+</button>
+            </div>
             <div
                 id="default-modal"
                 ref={modalRef}

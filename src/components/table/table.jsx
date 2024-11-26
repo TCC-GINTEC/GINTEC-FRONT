@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useState } from "react";
 import {
     Table,
@@ -10,9 +8,8 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "./../ui/table"
+} from "./../ui/table";
 import Column from "./column";
-
 
 export default function TableData({ data, children, pageNumberItens = 10 }) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -20,16 +17,17 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
         (child) => child.type === Column
     ));
     const rows = data;
-    let filters = []
+    let filters = [];
     columns.map((filter) => {
-        filters[filter.props.field] = ""
-    })
+        filters[filter.props.field] = "";
+    });
     const [filtros, setFiltros] = useState(filters);
 
     const handleFilterCell = (e) => {
         const { name, value } = e.target;
         setFiltros({ ...filtros, [name]: value });
-    }
+    };
+
     let filteredItens = rows.filter(row => {
         let retorno = true;
         columns.forEach((column) => {
@@ -37,7 +35,7 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                 retorno = false;
                 return;
             }
-        })
+        });
         return retorno;
     });
 
@@ -45,6 +43,8 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
     const indexOfFirstItem = indexOfLastItem - pageNumberItens;
 
     const currentItems = filteredItens.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(filteredItens.length / pageNumberItens);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -56,13 +56,13 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                         {columns.map((column, index) => {
                             return (
                                 <TableHead key={index}>{column.props.header}</TableHead>
-                            )
+                            );
                         })}
                     </TableRow>
                     <TableRow>
                         {columns.map((column, index) => {
-                            if (column.props.filter == false)
-                                return <TableCell key={index}/>
+                            if (column.props.filter === false)
+                                return <TableCell key={index} />;
                             return (
                                 <TableCell key={index} className="relative mb-3">
                                     <input
@@ -73,26 +73,58 @@ export default function TableData({ data, children, pageNumberItens = 10 }) {
                                         {"Filtrar " + column.props.header}
                                     </label>
                                 </TableCell>
-                            )
+                            );
                         })}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {currentItems.map((row, index) => {                        
-                        return (
-                            <TableRow key={index}>
-                                {columns.map((column) => {
-                                    return (
-                                        <TableCell key={index}>{column.props.OnPress ? <span className="font-bold" onClick={(e) => {column.props.OnPress(e)}}>{column.props.textFixed ? column.props.textFixed : row[column.props.field]}</span> : row[column.props.field]}</TableCell>
-                                    );
-                                })}
-                            </TableRow>
-                        )
-                    })}
-                    <TableRow>
-                    </TableRow>
+                    {currentItems.map((row, rowIndex) => (
+                        <TableRow key={rowIndex}>
+                            {columns.map((column, colIndex) => (
+                                <TableCell key={colIndex}>
+                                    {column.props.OnPress ? (
+                                       <span
+                                       className="font-bold cursor-pointer"
+                                       onClick={() => column.props.OnPress(row[column.props.field])}
+                                   >
+                                       {column.props.textFixed
+                                           ? column.props.textFixed
+                                           : row[column.props.field]}
+                                   </span>
+                                    ) : (
+                                        row[column.props.field]
+                                    )}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    ))}
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TableCell colSpan={columns.length} className="text-center">
+                            <div className="flex justify-center items-center space-x-2">                                
+                                <button
+                                    className="p-2 bg-gray-300 rounded disabled:opacity-50"
+                                    onClick={() => paginate(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                >
+                                    {"<"}
+                                </button>
+                                <span>
+                                    Página {currentPage} de {totalPages}
+                                </span>
+                                <button
+                                    className="p-2 bg-gray-300 rounded disabled:opacity-50"
+                                    onClick={() => paginate(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    {">"}
+                                </button>                               
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                </TableFooter>
             </Table>
         </>
-    )
+    );
 }

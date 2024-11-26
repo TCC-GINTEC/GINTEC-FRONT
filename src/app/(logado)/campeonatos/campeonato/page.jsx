@@ -5,11 +5,12 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import TableData from "@/components/table/table";
 import Column from "@/components/table/column";
+import { toast } from "sonner";
 
 export default function Campeonato() {
     const [activeTab, setActiveTab] = useState('1° Fase');
+    const [phase, setPhase] = useState(0);
     const [championship, setChampionship] = useState({});
-    const [salas, setSalas] = useState([]);
     const [jogos, setJogos] = useState([]);
 
     const searchParams = useSearchParams();
@@ -17,25 +18,23 @@ export default function Campeonato() {
 
     useEffect(() => {
         handleGetChampion();
-        handleGetSalas();
     }, []);
-
-    const handleGetSalas = () => {
-        httpClient.get("Sala").then((response) => {
-            setSalas(response.data);
-        });
-    };
+    useEffect(() => {
+        console.log(phase);
+    }, [phase]);
 
     const handleTabChange = (tab) => {
-        setActiveTab(tab.descricao);
-        handleGetGames(tab.codigo);
+        setActiveTab(tab.descricao);        
+        handleGetGames(tab.codigo); // Usa o valor diretamente
     };
 
     const handleGetChampion = () => {
         httpClient.get("Campeonato/" + search).then((response) => {
             setChampionship(response.data);
             if (response.data?.fases?.length > 0) {
-                handleGetGames(response.data.fases[0].codigo);
+                const firstPhase = response.data.fases[0].codigo;
+                setPhase(firstPhase);
+                handleGetGames(firstPhase);
             }
         });
     };
@@ -43,6 +42,20 @@ export default function Campeonato() {
     const handleGetGames = (codigo) => {
         httpClient.get("Campeonato/jogos/" + codigo).then((response) => {
             setJogos(response.data);
+        });
+    };
+
+    const handleDefineWinner = (timecode, currentPhase) => {
+        httpClient.post("Campeonato/Vencedor/" + timecode + "/" + currentPhase).then((response) => {
+            if (response.status === 204) {
+                toast.success("Vencedor definido com sucesso!");
+            } else {
+                if (response.data.mensagem === "scored has marked")
+                    toast.warning("Já foi definido um vencedor para este jogo.");
+                else if (response.data.mensagem === "champshion end")
+                    toast.warning("Campeonato já acabou.");
+            }
+            handleGetGames(currentPhase); // Usa o valor atualizado diretamente
         });
     };
 
@@ -58,11 +71,14 @@ export default function Campeonato() {
             <div className="flex gap-3 border-b-4 pb-2">
                 {championship?.fases?.map((fase) => (
                     <div
-                        key={fase.codigo} // Adiciona a key para evitar erros de renderização
-                        className={`flex mt-4 gap-2 items-center cursor-pointer ${
-                            activeTab === fase.descricao ? 'text-[#005261]' : 'text-[#666666]'
-                        }`}
-                        onClick={() => handleTabChange(fase)}
+                        key={fase.codigo}
+                        className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === fase.descricao ? 'text-[#005261]' : 'text-[#666666]'
+                            }`}
+                        onClick={() => {
+                            setPhase(fase.codigo); // Atualiza o estado
+                            handleTabChange(fase)
+                        }
+                        }
                     >
                         <h2>{fase.descricao}</h2>
                     </div>
@@ -70,17 +86,49 @@ export default function Campeonato() {
             </div>
 
             <div>
-                {(jogos && jogos.length > 0) ? (
-                    <TableData data={jogos.map((x) => {
-                        const sala1Info = salas.find(i => i.codigo === x.sala1Codigo);
-                        const sala2Info = salas.find(i => i.codigo === x.sala2Codigo);
-                        const sala1 = sala1Info ? `${sala1Info.serie}° ${sala1Info.descricao}` : "Desconhecido";
-                        const sala2 = sala2Info ? `${sala2Info.serie}° ${sala2Info.descricao}` : "Desconhecido";
-                        return { dataJogo: x.dataJogo, sala1, sala2 };
-                    })} pageNumberItens={15}>
+                {jogos && jogos.length > 0 ? (
+                    <TableData
+                        data={jogos.map((x) => {
+                            const sala1 = x.nome1 ?? "Desconhecido";
+                            const sala2 = x.nome2 ?? "Desconhecido";
+                            const date = new Date(x.dataJogo);
+                            return {
+                                definirvencedor1: x.timeCodigo1,
+                                definirvencedor2: x.timeCodigo2,
+                                dataJogo: `${date.getDate().toString().padStart(2, "0")}/${(
+                                    date.getMonth() + 1
+                                )
+                                    .toString()
+                                    .padStart(2, "0")}`,
+                                sala1,
+                                sala2,
+                                status: x.vencedor ? "Finalizado" : "Em Andamento",
+                                vencedor: x.vencedor ?? "",
+                            };
+                        })}
+                        pageNumberItens={15}
+                    >
                         <Column field="dataJogo" header="Data" />
                         <Column field="sala1" header="Sala 1" />
+                        <Column
+                            field={"definirvencedor1"}
+                            textFixed={"X"}
+                            header="Definir Vencedor"
+                            OnPress={(e) => {
+                                handleDefineWinner(e, phase);
+                            }}
+                        />
                         <Column field="sala2" header="Sala 2" />
+                        <Column
+                            field={"definirvencedor2"}
+                            textFixed={"X"}
+                            header="Definir Vencedor"
+                            OnPress={(e) => {
+                                handleDefineWinner(e, phase);
+                            }}
+                        />
+                        <Column field="status" header="Status" />
+                        <Column field="vencedor" header="Vencedor" />
                     </TableData>
                 ) : (
                     <h2>Campeonato não iniciado</h2>

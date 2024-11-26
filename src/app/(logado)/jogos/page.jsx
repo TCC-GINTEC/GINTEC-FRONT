@@ -79,8 +79,7 @@ export default function Jogos() {
       modalRef.current.classList.remove("flex");
     }
   };
-  const handleUpdateActivity = () => {
-    console.log(item)
+  const handleUpdateActivity = () => {    
     httpClient.put("/Atividade/" + item.codigo, {
       Descricao: item.descricao,
       IsPontuacaoExtra: item.pontuacaoExtra,
@@ -91,8 +90,7 @@ export default function Jogos() {
       closeModal();
     })
   }
-  const handleDeleteActivity = () => {
-    console.log(item)
+  const handleDeleteActivity = () => {    
     httpClient.delete("/Atividade/" + item.codigo).then((response) => {
       handleGetGames();
       closeModal();
@@ -133,7 +131,6 @@ export default function Jogos() {
   return (
 
     <div>
-
       <h1 className="text-[32px] font-[500]">Jogos de Pátio</h1>
       <div className="w-full flex justify-end pr-32 gap-4">
         <select className="text-[15px] bg-gray-300 px-8 rounded-lg my-4" value={calendariosCheck} onChange={(e) => {
