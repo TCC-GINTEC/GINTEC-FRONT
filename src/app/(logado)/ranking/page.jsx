@@ -75,9 +75,11 @@ export default function Ranking() {
         </div>
       </div>
 
-      <div className="top-ranking">
-        {/* os 3 pontuadores */}
-        <Placed users={data.slice(0, 3)} /> 
+      <div className='w-full flex justify-center'>
+        <div className="top-ranking">
+          {/* os 3 pontuadores */}
+          <Placed users={data.slice(0, 3)} />
+        </div>
       </div>
 
       <div className='scores'>

@@ -25,17 +25,20 @@
   }
 
   .top-ranking {
-    background-image: url('/images/fundoPontuacaoGeral.svg');
-    background-size: contain; 
-    background-position: center; 
-    background-repeat: no-repeat; 
+    background-color: #005261;    
+    overflow: hidden;    
     display: flex;
-    width: auto;
-    height: 74vh;
-  }  
+    width: 100%; 
+    height: 64vh;
+    border-radius: 80px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
 
   .scores{
-    margin-top: -8vh;
+    margin-top: 5vh;
   }
 }
 

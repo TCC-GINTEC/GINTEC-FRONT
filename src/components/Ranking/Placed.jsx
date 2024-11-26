@@ -2,7 +2,7 @@ import './style.css'
 
 export default function Placed({ users }) {
   return (
-    <div className='container-placed'>
+    <div className='container-placed text-xs'>
       {users.map((user, index) => {
           return (
             <div key={index} className="placed">
