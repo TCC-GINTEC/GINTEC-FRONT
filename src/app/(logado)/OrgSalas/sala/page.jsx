@@ -127,7 +127,7 @@ export default function Sala() {
         isPadrinho: userEdit.isPadrinho,
         atividadeCodigo: userEdit.atividadeCodigo || null,
         campeonatoCodigo: userEdit.campeonatocodigo || null,
-        oficinaCodigo: userEdit.oficinaCodigo || null
+        oficinacodigo: userEdit.oficinacodigo || null
       };
 
       httpClient.put("Usuario/" + userEdit.codigo, userRequest).then((response) => {
@@ -292,7 +292,7 @@ export default function Sala() {
                 <div>
                   <span className="text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca]">Selecione uma estação?</span>
                   <div className="relative z-0 my-5">
-                    <select onChange={(e) => setUserEdit({ ...userEdit, atividadeCodigo: e.target.value, campeonatocodigo: null, oficinaCodigo: null })} value={userEdit?.atividadeCodigo || ''} className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
+                    <select onChange={(e) => setUserEdit({ ...userEdit, atividadeCodigo: e.target.value, campeonatocodigo: null, oficinacodigo: null })} value={userEdit?.atividadeCodigo || ''} className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
                       <option value={""}>Nenhuma Atividade</option>
                       {atividades.toSorted((a, b) => a.calendarioCodigo - b.calendarioCodigo).map((atividade, index) => {                        
                         return (<option key={index} value={atividade.codigo}>{atividade.descricao} - {atividade.calendarioCodigo}° dia</option>)
@@ -302,7 +302,7 @@ export default function Sala() {
                       Atividades
                     </label>
                   </div><div className="relative z-0 my-5">
-                    <select onChange={(e) => setUserEdit({ ...userEdit, campeonatocodigo: e.target.value, oficinaCodigo: null, atividadeCodigo: null })} value={userEdit?.campeonatocodigo || ''} className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
+                    <select onChange={(e) => setUserEdit({ ...userEdit, campeonatoCodigo: e.target.value, oficinacodigo: null, atividadeCodigo: null })} value={userEdit?.campeonatoCodigo || ''} className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
                       <option value={""}>Nenhum Campeonato</option>
                       {Campeonatos.map((campeonato, index) => {
                         return (<option key={index} value={campeonato.codigo}>{campeonato.descricao}</option>)
@@ -385,9 +385,9 @@ export default function Sala() {
             <Column field="nome" header="Nome do Aluno" />
             <Column field="email" header="Email" />
             <Column field="senha" header="Senha" />
-            <Column textFixed={"Editar"} filter={false} header="Editar" OnPress={(e) => {
-              const rm = e.target.parentElement.parentElement.querySelector("td").textContent;
-              handleGetUserByRM(rm);
+            <Column textFixed={"Editar"} field={"rm"} filter={false} header="Editar" OnPress={(e) => {
+              
+              handleGetUserByRM(e);
             }} />
           </TableData>
         </div>
