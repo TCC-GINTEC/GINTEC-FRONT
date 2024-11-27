@@ -23,10 +23,13 @@ export default function Cadastros() {
                         <h2 className="z-10 text-white font-[500]">Campeonatos <br />de pátio</h2>
                     </div>
                 </Link>
-                <div className="w-52 h-32 flex justify-center relative items-center p-6 gap-4 ">
-                    <img src="/images/bgDoacoes.svg" className="absolute z-0 rounded-3xl h-full w-full" />
-                    <h2 className="z-10 text-white font-[500]">Doações</h2>
-                </div>
+                <Link href={"/Doacao"}>
+                    <div className="w-52 h-32 flex justify-center relative items-center p-6 gap-4 ">
+                        <img src="/images/bgDoacoes.svg" className="absolute z-0 rounded-3xl h-full w-full" />
+                        <h2 className="z-10 text-white font-[500]">Doações</h2>
+                    </div>
+                </Link>
+                
                 <div className="w-52 h-32 flex justify-center relative items-center p-6 gap-4 ">
                     <img src="/images/bgCalendario.svg" className="absolute z-0 rounded-3xl h-full w-full" />
                     <h2 className="z-10 text-white font-[500]">Calendário</h2>
