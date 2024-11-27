@@ -182,6 +182,7 @@ export default function Jogos() {
       </div>
 
       <div className="flex items-center justify-between">
+        
         <h1 className="text-[32px] font-[500]">Campeonato de Pátio</h1>
         <Link href={"/cadastros"}>
 
