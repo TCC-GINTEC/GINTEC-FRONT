@@ -37,6 +37,7 @@ export default function SideBar({ className }) {
   return (
     <SideBarContainer active={active} className={className}>
       <SideBarSection>
+        {/* <Search active={active}/> */}
         <SideBarHead Action={toggleSidebar} active={active} />
         <SideBarContainerItens>
           {Itens.map((item, index) => <Link key={index} href={item.pathScreen}><SideBarItem active={active} text={item.nome} src={item.icon} /> </Link>)}

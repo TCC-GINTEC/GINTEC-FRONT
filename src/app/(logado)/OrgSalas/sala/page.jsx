@@ -20,7 +20,7 @@ export default function Sala() {
   const [roles, setRoles] = useState([]);
   const [atividades, setAtividades] = useState([]);
   const [Campeonatos, setCampeonatos] = useState([]);
-  const [Campeonato, setCampeonato] = useState("");
+  const [campeonato, setCampeonato] = useState("");
   const [oficinas, setOficinas] = useState([]);
   const [isAjudante, setisAjudante] = useState(false);
   const [doacoes, setDoacoes] = useState([]);
@@ -548,10 +548,8 @@ export default function Sala() {
               <img src="/images/Home.png" />
               <h2>Campeonatos</h2>
             </div>
-          </div>
-
-          {/* Renderizando conteúdo com base na aba ativa */}
-          {activeTab === 'principal' && (
+          </div>          
+          {activeTab == 'principal' && (
             <div>
               <TableData data={studants} pageNumberItens={15}>
                 <Column field="rm" header="RM do Aluno" />
@@ -565,7 +563,7 @@ export default function Sala() {
               </TableData>
             </div>
           )}
-          {activeTab === 'campeonatos' && (
+          {activeTab == 'campeonatos' && (
             <div>
               {championships.length > 0 ?
                 <div className="flex gap-4 p-2 flex-wrap">
@@ -592,7 +590,7 @@ export default function Sala() {
               }
             </div>
           )}
-          {activeTab === 'doacoes' && (
+          {activeTab == 'doacoes' && (
             <div>
               <h3>Lista de Doações</h3>
             </div>
