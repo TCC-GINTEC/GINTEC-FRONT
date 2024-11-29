@@ -4,7 +4,6 @@ import Scores from "@/components/Ranking/Scores"
 import { useState, useEffect } from "react"
 import httpClient from "@/service/api"
 import { toast } from 'sonner'
-import './style.css'
 
 export default function Ranking() {
   const [selectRanking, setSelectRanking] = useState("Aluno")
@@ -31,7 +30,8 @@ export default function Ranking() {
               return ({
                 foto: item.fotoPerfil,
                 descricao: item.nome,
-                pontuacao: item.pontos.pontuacaGeral
+                pontuacao: item.pontos.pontuacaGeral,
+                turma: item.turma
               })
             }) ?? []).sort((a, b) => b.pontuacao - a.pontuacao))
           })
@@ -42,7 +42,8 @@ export default function Ranking() {
               return ({
                 foto: item.fotoPerfil,
                 descricao: item.nome,
-                pontuacao: item.pontos.pontuacaGeral
+                pontuacao: item.pontos.pontuacaGeral,
+                turma: item.turma
               })
             }) ?? []).sort((a, b) => b.pontuacao - a.pontuacao))
           })
@@ -59,32 +60,26 @@ export default function Ranking() {
   }, [selectRanking])
 
   return (
-    <main className='container-ranking'>
-      <div className='header'>
-        <div className='header-l'>
-          <h1>Pontuação Geral</h1>
-          <p>Ranking geral</p>
-        </div>
-
-        <div className='header-r'>
-          <select className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2" value={selectRanking} onChange={(evt) => { setSelectRanking(evt.target.value) }}>
-            <option value="Aluno">Melhores jogadores</option>
-            <option value="Padrinho">Melhores padrinhos</option>
-            <option value="Sala">Melhores Salas</option>
-          </select>
-        </div>
+    <div className='p-4 md:p-8 max-w-[80%]'>
+      <h1 className="text-[32px] font-[600]">Pontuação Geral</h1>
+      <p className="text-[#666666]">Ranking geral</p>
+      <div className='flex sm:justify-end flex-col sm:flex-row gap-4 w-3/4 p-4'>
+        <select className="bg-slate-200 sm:w-1/2 w-full rounded-lg p-2" value={selectRanking} onChange={(evt) => { setSelectRanking(evt.target.value) }}>
+          <option value="Aluno">Melhores jogadores</option>
+          <option value="Padrinho">Melhores padrinhos</option>
+          <option value="Sala">Melhores Salas</option>
+        </select>
       </div>
-
+      {/* <div className="bg-[url('/images/fundoPontuacaoGeral.svg')] w-3/4 bg-cover rounded-xl sm:w-full mb-5 p-3 flex items-center gap-5 flex-col sm:flex-row"> */}
+      {/* os 3 pontuadores */}
       <div className='w-full flex justify-center'>
-        <div className="top-ranking">
-          {/* os 3 pontuadores */}
-          <Placed users={data.slice(0, 3)} />
-        </div>
+      <Placed users={data.slice(0, 3)} />
       </div>
-
-      <div className='scores'>
+      {/* </div> */}
+      <div className={`border w-full `}>
+        {/* pontuadores em geral -1 div de base feita*/}
         <Scores users={data} />
       </div>
-    </main>
+    </div>
   )
 }

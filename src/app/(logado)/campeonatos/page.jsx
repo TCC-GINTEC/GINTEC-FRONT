@@ -25,8 +25,7 @@ export default function Campeonatos() {
     };
     return (
         <div className="w-full max-w-72 md:max-w-full">
-            <h1 className="text-[32px] font-[500]">Campeonatos</h1>
-            <p className="text-[#666666]">1° Fase</p>
+            <h1 className="text-[32px] font-[500]">Campeonatos</h1>            
             <div className="flex gap-4 justify-center mt-6 flex-wrap">
                 {dates.map((date, index) => {
                     const day = new Date(date.dataGincana).getDate();

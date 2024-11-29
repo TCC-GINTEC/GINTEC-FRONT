@@ -20,11 +20,10 @@ export default function Campeonato() {
         handleGetChampion();
     }, []);
     useEffect(() => {
-        console.log(phase);
     }, [phase]);
 
     const handleTabChange = (tab) => {
-        setActiveTab(tab.descricao);        
+        setActiveTab(tab.descricao);
         handleGetGames(tab.codigo); // Usa o valor diretamente
     };
 
@@ -45,8 +44,8 @@ export default function Campeonato() {
         });
     };
 
-    const handleDefineWinner = (timecode, currentPhase) => {
-        httpClient.post("Campeonato/Vencedor/" + timecode + "/" + currentPhase).then((response) => {
+    const handleDefineWinner = (timecode) => {        
+        httpClient.post("Campeonato/Vencedor/" + timecode.time + "/" + timecode.phase).then((response) => {
             if (response.status === 204) {
                 toast.success("Vencedor definido com sucesso!");
             } else {
@@ -55,7 +54,7 @@ export default function Campeonato() {
                 else if (response.data.mensagem === "champshion end")
                     toast.warning("Campeonato já acabou.");
             }
-            handleGetGames(currentPhase); // Usa o valor atualizado diretamente
+            handleGetGames(timecode.phase);
         });
     };
 
@@ -93,8 +92,8 @@ export default function Campeonato() {
                             const sala2 = x.nome2 ?? "Desconhecido";
                             const date = new Date(x.dataJogo);
                             return {
-                                definirvencedor1: x.timeCodigo1,
-                                definirvencedor2: x.timeCodigo2,
+                                definirvencedor1: { time: x.timeCodigo1, phase: x.faseCodigo },
+                                definirvencedor2: { time: x.timeCodigo1, phase: x.faseCodigo },
                                 dataJogo: `${date.getDate().toString().padStart(2, "0")}/${(
                                     date.getMonth() + 1
                                 )
@@ -115,7 +114,7 @@ export default function Campeonato() {
                             textFixed={"X"}
                             header="Definir Vencedor"
                             OnPress={(e) => {
-                                handleDefineWinner(e, phase);
+                                handleDefineWinner(e);
                             }}
                         />
                         <Column field="sala2" header="Sala 2" />

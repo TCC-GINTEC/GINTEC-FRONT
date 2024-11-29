@@ -18,6 +18,7 @@ export default function Sala() {
   const [roles, setRoles] = useState([]);
   const [atividades, setAtividades] = useState([]);
   const [Campeonatos, setCampeonatos] = useState([]);
+  const [Campeonato, setCampeonato] = useState("");
   const [oficinas, setOficinas] = useState([]);
   const [isAjudante, setisAjudante] = useState(false);
 
@@ -25,6 +26,7 @@ export default function Sala() {
   const search = searchParams.get('id')
 
   const modalRef = useRef(null);
+  const modalRef2 = useRef(null);
 
 
 
@@ -35,12 +37,24 @@ export default function Sala() {
       modalRef.current.classList.add("flex");
     }
   };
+  const openModal2 = () => {
+    if (modalRef.current) {
+      modalRef2.current.classList.remove("hidden");
+      modalRef2.current.classList.add("flex");
+    }
+  };
 
   const closeModal = () => {
     if (modalRef.current) {
       modalRef.current.classList.add("hidden");
       modalRef.current.classList.remove("flex");
       setisAjudante(false)
+    }
+  };
+  const closeModal2 = () => {
+    if (modalRef2.current) {
+      modalRef2.current.classList.add("hidden");
+      modalRef2.current.classList.remove("flex");
     }
   };
   useEffect(() => {
@@ -54,6 +68,7 @@ export default function Sala() {
     handleObterOficina();
   }, [])
 
+
   const handleGetClassRoom = async () => {
     httpClient.get("/Sala/" + search).then((response) => {
       setClassroom(response.data)
@@ -61,7 +76,7 @@ export default function Sala() {
   }
   const handleGetChampionship = async () => {
     httpClient.get("/Campeonato").then((response) => {
-      setChampionships(response.data.filter(x => x.salaCodigo == search))
+      setChampionships(response.data)
     })
   }
   const handleGetStudants = async () => {
@@ -294,7 +309,7 @@ export default function Sala() {
                   <div className="relative z-0 my-5">
                     <select onChange={(e) => setUserEdit({ ...userEdit, atividadeCodigo: e.target.value, campeonatocodigo: null, oficinacodigo: null })} value={userEdit?.atividadeCodigo || ''} className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
                       <option value={""}>Nenhuma Atividade</option>
-                      {atividades.toSorted((a, b) => a.calendarioCodigo - b.calendarioCodigo).map((atividade, index) => {                        
+                      {atividades.toSorted((a, b) => a.calendarioCodigo - b.calendarioCodigo).map((atividade, index) => {
                         return (<option key={index} value={atividade.codigo}>{atividade.descricao} - {atividade.calendarioCodigo}° dia</option>)
                       })}
                     </select>
@@ -349,79 +364,156 @@ export default function Sala() {
           </div>
         </div>
       </div>
-      <h1 className="text-[32px] font-[500]">{classroom.descricao}</h1>
-      <p className="text-[#666666]">1° Fase</p>
+      <div
+        id="default-modal"
+        ref={modalRef2}
+        tabIndex="-1"
+        aria-hidden="true"
+        className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      >
+        <div className="relative p-4 w-full max-w-2xl max-h-full">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 
-      {/* Abas para alternar entre telas */}
-      <div className="flex gap-3 border-b-4 pb-2">
-        <div
-          className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'principal' ? 'text-[#005261]' : 'text-[#666666]'}`}
-          onClick={() => handleTabChange('principal')}
-        >
-          <img src="/images/Home.png" />
-          <h2>Principal</h2>
-        </div>
-        <div
-          className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'doacoes' ? 'text-[#005261]' : 'text-[#666666]'}`}
-          onClick={() => handleTabChange('doacoes')}
-        >
-          <img src="/images/Home.png" />
-          <h2>Doações</h2>
-        </div>
-        <div
-          className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'campeonatos' ? 'text-[#005261]' : 'text-[#666666]'}`}
-          onClick={() => handleTabChange('campeonatos')}
-        >
-          <img src="/images/Home.png" />
-          <h2>Campeonatos</h2>
+              </h3>
+              <button
+                type="button"
+                onClick={closeModal2}
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="default-modal"
+              >
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+            </div>
+            <div className="p-4 md:p-5 space-y-4">
+              <div>
+                <div className="relative z-0 my-5">
+                  <input
+                    type="text"
+                    value={campeonato?.descricao || ''}
+                    onChange={(e) => setUserEdit({ ...campeonato, campeonato: e.target.value })}
+                    name="nome"
+                    id="nome"
+                    className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer"
+                    placeholder=" "
+                  />
+                  <label htmlFor="nome" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                    Nome
+                  </label>
+                </div>
+                <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                  <button
+                    data-modal-hide="default-modal"
+                    type="button"
+                    onClick={handleAtualizarUsuario}
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Atualizar
+                  </button>
+                  <button
+                    data-modal-hide="default-modal"
+                    type="button"
+                    onClick={closeModal2}
+                    className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  >
+                    Voltar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h1 className="text-[32px] font-[500]">{classroom.serie}° {classroom.descricao}</h1>
+          <div className="flex gap-3 border-b-4 pb-2">
+            <div
+              className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'principal' ? 'text-[#005261]' : 'text-[#666666]'}`}
+              onClick={() => handleTabChange('principal')}
+            >
+              <img src="/images/Home.png" />
+              <h2>Principal</h2>
+            </div>
+            <div
+              className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'doacoes' ? 'text-[#005261]' : 'text-[#666666]'}`}
+              onClick={() => handleTabChange('doacoes')}
+            >
+              <img src="/images/Home.png" />
+              <h2>Doações</h2>
+            </div>
+            <div
+              className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'campeonatos' ? 'text-[#005261]' : 'text-[#666666]'}`}
+              onClick={() => handleTabChange('campeonatos')}
+            >
+              <img src="/images/Home.png" />
+              <h2>Campeonatos</h2>
+            </div>
+          </div>
+
+          {/* Renderizando conteúdo com base na aba ativa */}
+          {activeTab === 'principal' && (
+            <div>
+              <TableData data={studants} pageNumberItens={15}>
+                <Column field="rm" header="RM do Aluno" />
+                <Column field="nome" header="Nome do Aluno" />
+                <Column field="email" header="Email" />
+                <Column field="senha" header="Senha" />
+                <Column textFixed={"Editar"} field={"rm"} filter={false} header="Editar" OnPress={(e) => {
+
+                  handleGetUserByRM(e);
+                }} />
+              </TableData>
+            </div>
+          )}
+          {activeTab === 'campeonatos' && (
+            <div>
+              {championships.length > 0 ?
+                <div className="flex gap-4 p-2 flex-wrap">
+
+                  {championships.map((item, index) => {
+                    return (
+                      <div className="shadow-md flex w-60 items-center p-6 gap-4" onClick={() => {
+                        setCampeonato(item);
+                        openModal2();
+                      }} key={index}>
+                        {item.fotoSala ?
+
+                          <img src={item.fotoSala} width={50} height={50} className="rounded-full" />
+                          :
+                          <div className="rounded-full bg-[#005261] w-[50px] h-[50px]"></div>
+                        }
+                        <h2>{item.descricao}</h2>
+                      </div>
+                    )
+                  })}
+                </div>
+                :
+                <p>Não tem campeonatos</p>
+              }
+            </div>
+          )}
+          {activeTab === 'doacoes' && (
+            <div>
+              <h3>Lista de Doações</h3>
+            </div>
+          )}
+
         </div>
       </div>
-
-      {/* Renderizando conteúdo com base na aba ativa */}
-      {activeTab === 'principal' && (
-        <div>
-          <TableData data={studants} pageNumberItens={15}>
-            <Column field="rm" header="RM do Aluno" />
-            <Column field="nome" header="Nome do Aluno" />
-            <Column field="email" header="Email" />
-            <Column field="senha" header="Senha" />
-            <Column textFixed={"Editar"} field={"rm"} filter={false} header="Editar" OnPress={(e) => {
-              
-              handleGetUserByRM(e);
-            }} />
-          </TableData>
-        </div>
-      )}
-      {activeTab === 'campeonatos' && (
-        <div>
-          {championships.length > 0 ?
-            <div className="flex gap-4 p-2 flex-wrap">
-
-              {championships.map((item, index) => {
-                return (
-                  <Link href={"/campeonatos/campeonato?id=" + item.codigo} className="shadow-md flex w-60 items-center p-6 gap-4" key={index}>
-                    {item.fotoSala ?
-
-                      <img src={item.fotoSala} width={50} height={50} className="rounded-full" />
-                      :
-                      <div className="rounded-full bg-[#005261] w-[50px] h-[50px]"></div>
-                    }
-                    <h2>{item.descricao}</h2>
-                  </Link>
-                )
-              })}
-            </div>
-            :
-            <p>Não tem campeonatos</p>
-          }
-        </div>
-      )}
-      {activeTab === 'doacoes' && (
-        <div>
-          <h3>Lista de Doações</h3>
-        </div>
-      )}
-
     </div>
   )
 }
+
