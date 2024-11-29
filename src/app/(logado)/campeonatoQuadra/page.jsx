@@ -179,7 +179,15 @@ export default function Jogos() {
           </div>
         </div>
       </div>
-      <h1 className="text-[32px] font-[500]">Campeonato de Quadra</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-[32px] font-[500]">Campeonato de Quadra</h1>
+        <Link href={"/cadastros"}>
+          <span className="flex flex-col items-center gap-1 ">
+            <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
+            <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
+          </span>
+        </Link>
+      </div>
       <div className="w-full flex justify-end pr-32 gap-4">
         <button className="text-[30px] bg-gray-300 px-8 rounded-lg my-4" onClick={openModal2}>+</button>
       </div>

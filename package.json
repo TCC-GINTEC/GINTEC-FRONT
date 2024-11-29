@@ -21,9 +21,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sonner": "^1.4.41",
-    "tailwind-merge": "^2.2.2",
-    "tailwindcss-animate": "^1.0.7",
-    "vlibras-nextjs": "^1.1.2"
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@iconify/react": "^4.1.1",

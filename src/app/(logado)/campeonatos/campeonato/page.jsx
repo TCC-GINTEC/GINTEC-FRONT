@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import TableData from "@/components/table/table";
 import Column from "@/components/table/column";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function Campeonato() {
     const [activeTab, setActiveTab] = useState('1° Fase');
@@ -60,7 +61,14 @@ export default function Campeonato() {
 
     return (
         <div>
-            <h1 className="text-[32px] font-[500]">{championship.descricao}</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-[32px] font-[500]">{championship.descricao}</h1>
+
+                <span className="flex flex-col items-center gap-1" onClick={() => { window.history.back() }}>
+                    <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
+                    <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
+                </span>
+            </div>
             <p className="text-[#666666]">
                 Para editar, clique no botão Editar e faça as alterações necessárias.
                 Para visualizar os times que vão disputar o jogo, selecione a opção desejada.

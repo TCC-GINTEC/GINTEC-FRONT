@@ -7,6 +7,8 @@ import TableData from "@/components/table/table"
 import Column from "@/components/table/column"
 import Link from "next/link"
 import { toast } from "sonner"
+import { twMerge } from 'tailwind-merge';
+import { Icon } from "@iconify/react"
 
 export default function Sala() {
   const [classroom, setClassroom] = useState({});
@@ -21,6 +23,10 @@ export default function Sala() {
   const [Campeonato, setCampeonato] = useState("");
   const [oficinas, setOficinas] = useState([]);
   const [isAjudante, setisAjudante] = useState(false);
+  const [doacoes, setDoacoes] = useState([]);
+
+  const [alunosDoacao, setAlunosDoacao] = useState([]);
+  const [alunosDoacaoCodigo, setAlunosDoacaoCodigo] = useState([]);
 
   const searchParams = useSearchParams()
   const search = searchParams.get('id')
@@ -66,6 +72,7 @@ export default function Sala() {
     handleObterAtividades()
     handleObterCampeonato();
     handleObterOficina();
+    handleGetDoacoes();
   }, [])
 
 
@@ -84,6 +91,11 @@ export default function Sala() {
       setStudants(response.data)
     })
   }
+  const handleGetDoacoes = async () => {
+    httpClient.get("/Doacao/ObterDoacao").then((response) => {
+      setDoacoes(response.data)
+    })
+  }
 
   // Função para trocar de aba
   const handleTabChange = (tab) => {
@@ -100,31 +112,26 @@ export default function Sala() {
 
   const handleGetSalas = () => {
     httpClient.get("Sala").then((response) => {
-      console.log(response.data)
       setSalas(response.data)
     })
   }
   const handleObterRoles = () => {
     httpClient.get("Usuario/ObterRoles").then((response) => {
-      console.log(response.data)
       setRoles(response.data)
     })
   }
   const handleObterAtividades = () => {
     httpClient.get("Atividade").then((response) => {
-      console.log(response.data)
       setAtividades(response.data)
     })
   }
   const handleObterCampeonato = () => {
     httpClient.get("Campeonato").then((response) => {
-      console.log(response.data)
       setCampeonatos(response.data)
     })
   }
   const handleObterOficina = () => {
     httpClient.get("Oficina").then((response) => {
-      console.log(response.data)
       setOficinas(response.data)
     })
   }
@@ -153,6 +160,52 @@ export default function Sala() {
       closeModal()
     } catch (error) {
       console.error("Erro ao atualizar usuário:", error);
+    }
+  };
+
+  const appendUserByRM = async (doacao, rm) => {
+    let usuario;
+
+    try {
+      const { data } = await httpClient.get("Usuario/rm/" + rm)
+      usuario = data;
+    } catch (e) {
+      toast("Erro ao adicionar usuário!");
+      return;
+    }
+
+    if (usuario.status === 400) return toast("Erro ao adicionar usuário!");
+
+    try {
+      await httpClient.post("Doacao/FazerDoacao", { usuarioCodigo: usuario.codigo, doacaoCodigo: doacao });
+      setAlunosDoacao([...alunosDoacao, usuario]);
+    } catch (e) {
+    }
+  };
+
+  const handleObterUsuarios = async (codigo) => {
+    const { data } = await httpClient.get("Doacao/ObterDoacaoPorCodigo/" + codigo);
+    const ret = [];
+    const cod = [];
+
+    for (const doacao of data.doacaoAluno) {
+      cod.push({ usuario: doacao.usuario.codigo, codigo: doacao.codigo });
+      ret.push(doacao.usuario);
+    }
+
+    setAlunosDoacaoCodigo(cod);
+    setAlunosDoacao(ret);
+  };
+
+  const removerUsuarioDoacao = async (usuario) => {
+    const index = alunosDoacaoCodigo.findIndex((x) => x.usuario === usuario.codigo);
+    
+    if (index !== -1) {
+        const codigo = alunosDoacaoCodigo[index].codigo;
+        await httpClient.delete(`Doacao/DeletarDoacaoAluno/${codigo}`);
+
+        // Remove only the first match
+        setAlunosDoacao(alunosDoacao.filter((_, i) => i !== index));
     }
   };
 
@@ -362,6 +415,40 @@ export default function Sala() {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+      
+      <div className="flex items-center justify-between">
+        <h1 className="text-[32px] font-[500]">{classroom.descricao}</h1>
+            <span className="flex flex-col items-center gap-1" onClick={() => { window.history.back() }}>
+                <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
+                <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
+             </span>
+       </div>
+      <p className="text-[#666666]">1° Fase</p>
+
+      {/* Abas para alternar entre telas */}
+      <div className="flex gap-3 border-b-4 pb-2">
+        <div
+          className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'principal' ? 'text-[#005261]' : 'text-[#666666]'}`}
+          onClick={() => handleTabChange('principal')}
+        >
+          <img src="/images/Home.png" />
+          <h2>Principal</h2>
+        </div>
+        <div
+          className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'doacoes' ? 'text-[#005261]' : 'text-[#666666]'}`}
+          onClick={() => handleTabChange('doacoes')}
+        >
+          <img src="/images/Home.png" />
+          <h2>Doações</h2>
+        </div>
+        <div
+          className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'campeonatos' ? 'text-[#005261]' : 'text-[#666666]'}`}
+          onClick={() => handleTabChange('campeonatos')}
+        >
+          <img src="/images/Home.png" />
+          <h2>Campeonatos</h2>
         </div>
       </div>
       <div
