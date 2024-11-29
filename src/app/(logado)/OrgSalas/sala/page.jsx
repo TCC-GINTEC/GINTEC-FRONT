@@ -7,6 +7,8 @@ import TableData from "@/components/table/table"
 import Column from "@/components/table/column"
 import Link from "next/link"
 import { toast } from "sonner"
+import { twMerge } from 'tailwind-merge';
+import { Icon } from "@iconify/react"
 
 export default function Sala() {
   const [classroom, setClassroom] = useState({});
@@ -20,6 +22,10 @@ export default function Sala() {
   const [Campeonatos, setCampeonatos] = useState([]);
   const [oficinas, setOficinas] = useState([]);
   const [isAjudante, setisAjudante] = useState(false);
+  const [doacoes, setDoacoes] = useState([]);
+
+  const [alunosDoacao, setAlunosDoacao] = useState([]);
+  const [alunosDoacaoCodigo, setAlunosDoacaoCodigo] = useState([]);
 
   const searchParams = useSearchParams()
   const search = searchParams.get('id')
@@ -52,6 +58,7 @@ export default function Sala() {
     handleObterAtividades()
     handleObterCampeonato();
     handleObterOficina();
+    handleGetDoacoes();
   }, [])
 
   const handleGetClassRoom = async () => {
@@ -67,6 +74,11 @@ export default function Sala() {
   const handleGetStudants = async () => {
     httpClient.get("/Usuario/Sala/" + search).then((response) => {
       setStudants(response.data)
+    })
+  }
+  const handleGetDoacoes = async () => {
+    httpClient.get("/Doacao/ObterDoacao").then((response) => {
+      setDoacoes(response.data)
     })
   }
 
@@ -85,31 +97,26 @@ export default function Sala() {
 
   const handleGetSalas = () => {
     httpClient.get("Sala").then((response) => {
-      console.log(response.data)
       setSalas(response.data)
     })
   }
   const handleObterRoles = () => {
     httpClient.get("Usuario/ObterRoles").then((response) => {
-      console.log(response.data)
       setRoles(response.data)
     })
   }
   const handleObterAtividades = () => {
     httpClient.get("Atividade").then((response) => {
-      console.log(response.data)
       setAtividades(response.data)
     })
   }
   const handleObterCampeonato = () => {
     httpClient.get("Campeonato").then((response) => {
-      console.log(response.data)
       setCampeonatos(response.data)
     })
   }
   const handleObterOficina = () => {
     httpClient.get("Oficina").then((response) => {
-      console.log(response.data)
       setOficinas(response.data)
     })
   }
@@ -138,6 +145,52 @@ export default function Sala() {
       closeModal()
     } catch (error) {
       console.error("Erro ao atualizar usuário:", error);
+    }
+  };
+
+  const appendUserByRM = async (doacao, rm) => {
+    let usuario;
+
+    try {
+      const { data } = await httpClient.get("Usuario/rm/" + rm)
+      usuario = data;
+    } catch (e) {
+      toast("Erro ao adicionar usuário!");
+      return;
+    }
+
+    if (usuario.status === 400) return toast("Erro ao adicionar usuário!");
+
+    try {
+      await httpClient.post("Doacao/FazerDoacao", { usuarioCodigo: usuario.codigo, doacaoCodigo: doacao });
+      setAlunosDoacao([...alunosDoacao, usuario]);
+    } catch (e) {
+    }
+  };
+
+  const handleObterUsuarios = async (codigo) => {
+    const { data } = await httpClient.get("Doacao/ObterDoacaoPorCodigo/" + codigo);
+    const ret = [];
+    const cod = [];
+
+    for (const doacao of data.doacaoAluno) {
+      cod.push({ usuario: doacao.usuario.codigo, codigo: doacao.codigo });
+      ret.push(doacao.usuario);
+    }
+
+    setAlunosDoacaoCodigo(cod);
+    setAlunosDoacao(ret);
+  };
+
+  const removerUsuarioDoacao = async (usuario) => {
+    const index = alunosDoacaoCodigo.findIndex((x) => x.usuario === usuario.codigo);
+    
+    if (index !== -1) {
+        const codigo = alunosDoacaoCodigo[index].codigo;
+        await httpClient.delete(`Doacao/DeletarDoacaoAluno/${codigo}`);
+
+        // Remove only the first match
+        setAlunosDoacao(alunosDoacao.filter((_, i) => i !== index));
     }
   };
 
@@ -417,8 +470,118 @@ export default function Sala() {
         </div>
       )}
       {activeTab === 'doacoes' && (
-        <div>
-          <h3>Lista de Doações</h3>
+        <div class="p-6 mt-4 bg-gray-100 rounded-xl grid grid-cols-[repeat(auto-fill,minmax(600px,1fr))] gap-4">
+          {doacoes.map((item, index) => {
+            const hasExpired = new Date(item.dateLimite) < Date.now();
+            const modalId =  `modal-doacao-${item.codigo}`;
+
+            return (
+              <>
+                <div class="bg-white p-4 rounded-lg shadow-lg space-y-2" key={index}>
+                  <section class="flex items-center gap-4">
+                    <div class="size-12 rounded-lg bg-[#005261]" />
+                    <h2 class="font-bold text-[#005261]">{item.nome}</h2>
+
+                    <div class="grow" />
+
+                    <button class="w-fit px-2 py-1 bg-gray-200 rounded-lg font-bold text-sm text-[#005261]" onClick={() => {
+                      handleObterUsuarios(item.codigo);
+                      document.getElementById(modalId).showModal()
+                    }}>Ver mais</button>
+                  </section>
+
+                  <p class={twMerge("space-x-1", hasExpired ? 'text-error' : 'text-success')}>
+                    {!hasExpired ? <span>Vence em</span> : <span>Venceu em</span>}
+
+                    <span>
+                      {new Date(item.dateLimite).toLocaleString('pt-br', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}
+                    </span>
+                  </p>
+                </div>
+
+                <dialog id={modalId} className="modal">
+                  <div className="modal-box bg-white space-y-4">
+                    <section class="flex items-center">
+                      <form method="dialog" onSubmit={()=>setAlunosDoacao([])}>
+                        <button class="bg-gray-200 size-8 text-[#005261] rounded-full">✕</button>
+                      </form>
+
+                      <h2 class="text-[#005261] font-bold text-xl grow text-center">Doação</h2>
+                    </section>
+
+                    <section class="mt-4 flex gap-2 items-center w-full">
+                      <div class="size-12 rounded-lg bg-[#005261] shrink-0" />
+                      <div class="flex justify-between grow">
+                        <div>
+                          <h2 class="text-[#005261] font-bold text-xl">{item.nome}</h2>
+                          <p>Pontuação: <span class="text-success">{item.pontuacao}</span></p>
+                        </div>
+                        
+                        <div>
+                          <p class="text-gray-700">Data limite para doar</p>
+                          <p class="text-end text-gray-500">
+                            {new Date(item.dateLimite).toLocaleString('pt-br', {
+                              day: 'numeric',
+                              month: 'short'
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    </section>
+
+                    <div className="divider before:bg-gray-300 after:bg-gray-300" />
+
+                    {!hasExpired && (
+                      <form class="flex gap-2" onSubmit={(event) => {
+                        event.preventDefault();
+                        appendUserByRM(item.codigo, event.target.rm.value);
+                        event.target.rm.value = "";
+                      }}>
+                        <input type="text" name="rm" class="bg-transparent border-b-2 grow focus:outline-none" placeholder="RM do aluno" required />
+
+                        <button class="size-8 bg-[#005261] text-white grid place-items-center rounded-lg">
+                          <Icon icon="fe:paper-plane" />
+                        </button>
+                      </form>
+                    )}
+
+                    <section class="bg-gray-200 p-4 rounded-lg">
+                      <div class="flex justify-between">
+                        <h1>Alunos que doaram</h1>
+                        <p class="text-gray-500">{alunosDoacao.length} aluno{alunosDoacao.length > 1 || alunosDoacao.length === 0 ? 's' : ''}</p>
+                      </div>
+                    
+                      <ul class="space-y-2 mt-2 w-full">
+                        {alunosDoacao.length > 0 ? alunosDoacao.map(((usuario, index) => {
+                          return (
+                            <li class="text-gray-500 flex items-center justify-between gap-2" key={index}>
+                              <span class="line-clamp-1">{usuario.nome}</span>
+                              {!hasExpired &&
+                                <button class="size-6 bg-error text-white shrink-0 rounded-lg grid place-items-center" onClick={() => removerUsuarioDoacao(usuario)}>
+                                  <Icon icon="mdi:trash" />
+                                </button>
+                              }
+                            </li>
+                          );
+                        })) : (
+                          <li class="text-gray-500">Nenhum usuário doou</li>
+                        )}
+                      </ul>
+                    </section>
+
+                    <section class="flex justify-between">
+                      <h2 class="text-lg font-bold">Total de pontos</h2>
+
+                      <p class="text-success">{alunosDoacao.length * item.pontuacao}</p>
+                    </section>
+                  </div>
+                </dialog>
+              </>
+            )
+          })}
         </div>
       )}
 
