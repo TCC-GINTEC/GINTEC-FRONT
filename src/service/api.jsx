@@ -33,7 +33,7 @@ httpClient.interceptors.request.use(
 
 httpClient.interceptors.response.use(async (response) => {
     return response
-}, async (error) => {    
+}, async (error) => {
     if (error.config.url.includes('auth'))
         return error.response;
     if (error.response)

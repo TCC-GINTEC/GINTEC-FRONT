@@ -16,7 +16,7 @@ export default function SideBarProfile({active, src, username}) {
             </div>
 
             <button className="p-3 rounded-xl hover:bg-green">
-                <img className={`h-6 w-6  ${active ? 'hidden' : 'block'}`} src="/images/icon.svg" />
+                <img className={`h-6 w-6  ${active ? 'hidden' : 'block'}`} src={src ? src : "https://cdn-icons-png.flaticon.com/512/3106/3106921.png"} />
             </button>
         </div>
     )

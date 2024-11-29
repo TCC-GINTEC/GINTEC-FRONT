@@ -91,7 +91,7 @@ export default function Home() {
         </section>
 
 
-        <section className="py-4 sm:py-6 px-4 md:px-12 col-span-1 sm:col-span-2 md:col-span-2 flex flex-col gap-5 shadow-xl rounded-2xl h-40 sm:h-52 mb-24 sm:mb-48">
+        <section className="py-4 sm:py-6 px-4 md:px-12 col-span-1 sm:col-span-2 md:col-span-2 flex flex-col gap-5 shadow-xl rounded-2xl h-40 sm:min-h-64 mb-24 sm:mb-48">
           <div className="flex items-center">
             <img src="images/IconAlunosAtv.svg" className="w-12 sm:w-16 h-8 sm:h-12 object-cover" />
             <h2 className="text-red-500 font-medium ml-2">Alunos Ativos</h2>
@@ -102,9 +102,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-4 sm:py-6 px-4 md:px-12 col-span-1 sm:col-span-2 md:col-span-2 flex flex-col gap-5 shadow-xl rounded-2xl h-40 sm:h-52 mb-24 sm:mb-48">
+        <section className="py-4 sm:py-6 px-4 md:px-12 col-span-1 sm:col-span-2 md:col-span-3 flex flex-col gap-5 shadow-xl rounded-2xl h-40 sm:min-h-64 mb-24 sm:mb-48">
           <h2 className="text-teal-950 font-medium">Calendário</h2>
-          <div className="flex gap-2 sm:gap-4">
+          <div className="flex gap-2 sm:gap-4 flex-wrap">
             {totaldias.map((dia, index) => {
               const date = new Date(dia.dataGincana);
               return (
@@ -115,8 +115,6 @@ export default function Home() {
             })}
           </div>
         </section>
-
-
       </div>
     </div>
 
