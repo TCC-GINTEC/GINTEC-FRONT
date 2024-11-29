@@ -159,7 +159,7 @@ export default function Jogos() {
               <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
               <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
           </span>
-      </div>
+       </div>
       <div className="w-full flex justify-end pr-32 gap-4">
         <select className="text-[15px] bg-gray-300 px-8 rounded-lg my-4" value={calendariosCheck} onChange={(e) => {
           setCalendariosCheck(e.target.value)

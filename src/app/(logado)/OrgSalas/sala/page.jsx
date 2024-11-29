@@ -402,7 +402,14 @@ export default function Sala() {
           </div>
         </div>
       </div>
-      <h1 className="text-[32px] font-[500]">{classroom.descricao}</h1>
+      
+      <div className="flex items-center justify-between">
+        <h1 className="text-[32px] font-[500]">{classroom.descricao}</h1>
+            <span className="flex flex-col items-center gap-1" onClick={() => { window.history.back() }}>
+                <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
+                <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
+             </span>
+       </div>
       <p className="text-[#666666]">1° Fase</p>
 
       {/* Abas para alternar entre telas */}
