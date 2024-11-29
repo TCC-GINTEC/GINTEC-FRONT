@@ -3,7 +3,6 @@
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'sonner';
-import VLibras from 'vlibras-nextjs';
 
 const roboto = Roboto({
   subsets: ["latin"],
