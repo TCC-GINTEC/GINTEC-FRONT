@@ -43,7 +43,7 @@ export default function Login() {
                     toast.warning("Usuário não é administrador.");
             }
             else if (response.status == 401)
-                toast.warning("E-mail ou senha inválido.");
+                toast.warning("Login ou senha inválido.");
             else
                 toast.error("Algo deu errado, por favor contate um administrator!")
 
@@ -64,7 +64,7 @@ export default function Login() {
                         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
 
                             <h2 className="mt-10  text-3xl font-semibold leading-9 tracking-tight text-black mb-7">Faça seu login</h2>
-                            <p className='text-2x 1 text-[#b7b7b7]'>Digite seu Email institucional e o seu RM nos campos abaixo e clique em entrar para fazer seu login</p>
+                            <p className='text-2x 1 text-[#b7b7b7]'>Digite seu Email institucional ou o seu RM nos campos abaixo e clique em entrar para fazer seu login</p>
                         </div>
 
                         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
