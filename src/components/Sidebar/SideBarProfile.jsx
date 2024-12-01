@@ -5,10 +5,12 @@ import { Icon } from "@iconify/react";
 
 export default function SideBarProfile({ active, src, username }) {
     const handleLogout = () => {
+        
         localStorage.clear();
         toast.success("Logout realizado com sucesso!");
-        window.location.href = "/";
-
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 500); 
     };
 
     return (
