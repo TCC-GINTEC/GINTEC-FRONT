@@ -32,7 +32,7 @@ export default function Login() {
             });
             setLoading(false)
             if (response.status == 200) {                
-                if (response.data.status == 3) {
+                if (response.data.status == 3 || response.data.status == 4) {
 
                     localStorage.setItem("user_token", response.data.token)
                     localStorage.setItem("user_code", response.data.usuarioCodigo)
