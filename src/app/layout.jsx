@@ -17,6 +17,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/x-icon" href="/images/icon.svg" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3455907849850728"
           crossOrigin="anonymous"></script>
+          <title>Gintec</title>
       </head>
       <body className={roboto.variable}>        
         {children}        

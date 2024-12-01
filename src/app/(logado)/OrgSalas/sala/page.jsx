@@ -20,7 +20,6 @@ export default function Sala() {
   const [roles, setRoles] = useState([]);
   const [atividades, setAtividades] = useState([]);
   const [Campeonatos, setCampeonatos] = useState([]);
-  const [campeonato, setCampeonato] = useState("");
   const [oficinas, setOficinas] = useState([]);
   const [isAjudante, setisAjudante] = useState(false);
   const [doacoes, setDoacoes] = useState([]);
@@ -28,11 +27,13 @@ export default function Sala() {
   const [alunosDoacao, setAlunosDoacao] = useState([]);
   const [alunosDoacaoCodigo, setAlunosDoacaoCodigo] = useState([]);
 
+  const [alunosCampeonato, setAlunosCampeonato] = useState([]);
+  const [timeCampeonato, setTimeCampeonato] = useState([]);
+
   const searchParams = useSearchParams()
   const search = searchParams.get('id')
 
   const modalRef = useRef(null);
-  const modalRef2 = useRef(null);
 
 
 
@@ -43,24 +44,12 @@ export default function Sala() {
       modalRef.current.classList.add("flex");
     }
   };
-  const openModal2 = () => {
-    if (modalRef.current) {
-      modalRef2.current.classList.remove("hidden");
-      modalRef2.current.classList.add("flex");
-    }
-  };
 
   const closeModal = () => {
     if (modalRef.current) {
       modalRef.current.classList.add("hidden");
       modalRef.current.classList.remove("flex");
       setisAjudante(false)
-    }
-  };
-  const closeModal2 = () => {
-    if (modalRef2.current) {
-      modalRef2.current.classList.add("hidden");
-      modalRef2.current.classList.remove("flex");
     }
   };
   useEffect(() => {
@@ -74,7 +63,6 @@ export default function Sala() {
     handleObterOficina();
     handleGetDoacoes();
   }, [])
-
 
   const handleGetClassRoom = async () => {
     httpClient.get("/Sala/" + search).then((response) => {
@@ -182,6 +170,24 @@ export default function Sala() {
     } catch (e) {
     }
   };
+  const appendUserByRM2 = async (doacao, rm) => {
+    let usuario;
+
+    try {
+      const { data } = await httpClient.get("Usuario/rm/" + rm)
+      usuario = data;
+    } catch (e) {
+      toast("Erro ao adicionar usuário!");
+      return;
+    }
+
+    if (usuario.status === 400) return toast("Erro ao adicionar usuário!");
+
+    try {
+      setAlunosCampeonato([...alunosCampeonato, usuario]);
+    } catch (e) {
+    }
+  };
 
   const handleObterUsuarios = async (codigo) => {
     const { data } = await httpClient.get("Doacao/ObterDoacaoPorCodigo/" + codigo);
@@ -196,19 +202,54 @@ export default function Sala() {
     setAlunosDoacaoCodigo(cod);
     setAlunosDoacao(ret);
   };
+  const handleObterUsuarios2 = async (codigo) => {
+    const { data } = await httpClient.get("Campeonato/ObterJogadores/" + codigo + "/" + search);
+
+    setTimeCampeonato(data);
+  };
 
   const removerUsuarioDoacao = async (usuario) => {
     const index = alunosDoacaoCodigo.findIndex((x) => x.usuario === usuario.codigo);
-    
-    if (index !== -1) {
-        const codigo = alunosDoacaoCodigo[index].codigo;
-        await httpClient.delete(`Doacao/DeletarDoacaoAluno/${codigo}`);
 
-        // Remove only the first match
-        setAlunosDoacao(alunosDoacao.filter((_, i) => i !== index));
+    if (index !== -1) {
+      const codigo = alunosDoacaoCodigo[index].codigo;
+      await httpClient.delete(`Doacao/DeletarDoacaoAluno/${codigo}`);
+
+      // Remove only the first match
+      setAlunosDoacao(alunosDoacao.filter((_, i) => i !== index));
+    }
+  };
+  const removerUsuarioCampeonato = async (usuario) => {
+    const index = alunosCampeonato.findIndex((x) => x.codigo === usuario.codigo);
+
+    if (index !== -1) {
+      setAlunosCampeonato(alunosCampeonato.filter((_, i) => i !== index));
     }
   };
 
+  const adicionarTimeCampeonato = (campeonatocodigo) => {
+    if (alunosCampeonato.length > 0) {
+      alunosCampeonato.map((aluno) => {
+        httpClient.post("Campeonato/CadastrarJogador", {
+          usuarioCodigo: aluno.codigo,
+          campeonatoCodigo: campeonatocodigo,
+          timeCodigo: alunosCampeonato[0].codigo,
+          salaCodigo: Number(search)
+        }).then(() => {
+          handleObterUsuarios2(campeonatocodigo, search)
+          setAlunosCampeonato([])
+        })
+      })
+    }
+  }
+
+  const removerTime = (time, campeonatocodigo) => {
+    console.log(time)
+    httpClient.delete("Campeonato/RemoverTime/" + campeonatocodigo + "/" + time.timeCodigo)
+      .then(() => {
+        handleObterUsuarios2(campeonatocodigo, search)        
+      })
+  }
 
 
   return (
@@ -417,14 +458,7 @@ export default function Sala() {
           </div>
         </div>
       </div>
-      
-      <div className="flex items-center justify-between">
-        <h1 className="text-[32px] font-[500]">{classroom.descricao}</h1>
-            <span className="flex flex-col items-center gap-1" onClick={() => { window.history.back() }}>
-                <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
-                <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
-             </span>
-       </div>
+      <h1 className="text-[32px] font-[500]">{classroom.serie}° {classroom.descricao}</h1>
       <p className="text-[#666666]">1° Fase</p>
 
       {/* Abas para alternar entre telas */}
@@ -451,154 +485,259 @@ export default function Sala() {
           <h2>Campeonatos</h2>
         </div>
       </div>
-      <div
-        id="default-modal"
-        ref={modalRef2}
-        tabIndex="-1"
-        aria-hidden="true"
-        className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-      >
-        <div className="relative p-4 w-full max-w-2xl max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 
-              </h3>
-              <button
-                type="button"
-                onClick={closeModal2}
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="default-modal"
-              >
-                <svg
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-            <div className="p-4 md:p-5 space-y-4">
-              <div>
-                <div className="relative z-0 my-5">
-                  <input
-                    type="text"
-                    value={campeonato?.descricao || ''}
-                    onChange={(e) => setUserEdit({ ...campeonato, campeonato: e.target.value })}
-                    name="nome"
-                    id="nome"
-                    className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer"
-                    placeholder=" "
-                  />
-                  <label htmlFor="nome" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    Nome
-                  </label>
-                </div>
-                <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                  <button
-                    data-modal-hide="default-modal"
-                    type="button"
-                    onClick={handleAtualizarUsuario}
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Atualizar
-                  </button>
-                  <button
-                    data-modal-hide="default-modal"
-                    type="button"
-                    onClick={closeModal2}
-                    className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  >
-                    Voltar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h1 className="text-[32px] font-[500]">{classroom.serie}° {classroom.descricao}</h1>
-          <div className="flex gap-3 border-b-4 pb-2">
-            <div
-              className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'principal' ? 'text-[#005261]' : 'text-[#666666]'}`}
-              onClick={() => handleTabChange('principal')}
-            >
-              <img src="/images/Home.png" />
-              <h2>Principal</h2>
-            </div>
-            <div
-              className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'doacoes' ? 'text-[#005261]' : 'text-[#666666]'}`}
-              onClick={() => handleTabChange('doacoes')}
-            >
-              <img src="/images/Home.png" />
-              <h2>Doações</h2>
-            </div>
-            <div
-              className={`flex mt-4 gap-2 items-center cursor-pointer ${activeTab === 'campeonatos' ? 'text-[#005261]' : 'text-[#666666]'}`}
-              onClick={() => handleTabChange('campeonatos')}
-            >
-              <img src="/images/Home.png" />
-              <h2>Campeonatos</h2>
-            </div>
-          </div>          
-          {activeTab == 'principal' && (
-            <div>
-              <TableData data={studants} pageNumberItens={15}>
-                <Column field="rm" header="RM do Aluno" />
-                <Column field="nome" header="Nome do Aluno" />
-                <Column field="email" header="Email" />
-                <Column field="senha" header="Senha" />
-                <Column textFixed={"Editar"} field={"rm"} filter={false} header="Editar" OnPress={(e) => {
+      {/* Renderizando conteúdo com base na aba ativa */}
+      {activeTab === 'principal' && (
+        <div>
+          <TableData data={studants} pageNumberItens={15}>
+            <Column field="rm" header="RM do Aluno" />
+            <Column field="nome" header="Nome do Aluno" />
+            <Column field="email" header="Email" />
+            <Column field="senha" header="Senha" />
+            <Column textFixed={"Editar"} field={"rm"} filter={false} header="Editar" OnPress={(e) => {
 
-                  handleGetUserByRM(e);
-                }} />
-              </TableData>
-            </div>
-          )}
-          {activeTab == 'campeonatos' && (
-            <div>
-              {championships.length > 0 ?
-                <div className="flex gap-4 p-2 flex-wrap">
-
-                  {championships.map((item, index) => {
-                    return (
-                      <div className="shadow-md flex w-60 items-center p-6 gap-4" onClick={() => {
-                        setCampeonato(item);
-                        openModal2();
-                      }} key={index}>
-                        {item.fotoSala ?
-
-                          <img src={item.fotoSala} width={50} height={50} className="rounded-full" />
-                          :
-                          <div className="rounded-full bg-[#005261] w-[50px] h-[50px]"></div>
-                        }
-                        <h2>{item.descricao}</h2>
-                      </div>
-                    )
-                  })}
-                </div>
-                :
-                <p>Não tem campeonatos</p>
-              }
-            </div>
-          )}
-          {activeTab == 'doacoes' && (
-            <div>
-              <h3>Lista de Doações</h3>
-            </div>
-          )}
-
+              handleGetUserByRM(e);
+            }} />
+          </TableData>
         </div>
-      </div>
+      )}
+      {activeTab === 'campeonatos' && (
+        <div>
+          {championships.length > 0 ?
+            <div className="flex gap-4 p-2 flex-wrap">
+
+              {championships.map((item, index) => {
+                const modalId = `modal-campeonato-${item.codigo}`;
+                return (
+                  <>
+                    <div className="shadow-md flex w-60 items-center p-6 gap-4" key={index} onClick={() => {
+                      handleObterUsuarios2(item.codigo);
+                      document.getElementById(modalId).showModal()
+                    }}>
+                      {item.fotoSala ?
+
+                        <img src={item.fotoSala} width={50} height={50} className="rounded-full" />
+                        :
+                        <div className="rounded-full bg-[#005261] w-[50px] h-[50px]"></div>
+                      }
+                      <h2>{item.descricao}</h2>
+                    </div>
+                    <dialog id={modalId} className="modal">
+                      <div className="modal-box bg-white space-y-4">
+                        <section class="flex items-center">
+                          <form method="dialog" onSubmit={() => setAlunosCampeonato([])}>
+                            <button class="bg-gray-200 size-8 text-[#005261] rounded-full">✕</button>
+                          </form>
+
+                          <h2 class="text-[#005261] font-bold text-xl grow text-center">Cadastrar Jogador</h2>
+                        </section>
+
+                        <section class="mt-4 flex gap-2 items-center w-full">
+                          <div class="size-12 rounded-lg bg-[#005261] shrink-0" />
+                          <div class="flex justify-between grow">
+                            <div>
+                              <h2 class="text-[#005261] font-bold text-xl">{item.descricao}</h2>
+                            </div>
+
+                          </div>
+                        </section>
+
+                        <div className="divider before:bg-gray-300 after:bg-gray-300" />
+
+                        {!item.fases.length > 0 && (
+                          <form class="flex gap-2" onSubmit={(event) => {
+                            event.preventDefault();
+                            appendUserByRM2(item.codigo, event.target.rm.value);
+                            event.target.rm.value = "";
+                          }}>
+                            <input type="text" name="rm" class="bg-transparent border-b-2 grow focus:outline-none" placeholder="RM do aluno" required />
+
+                            <button class="size-8 bg-[#005261] text-white grid place-items-center rounded-lg">
+                              <Icon icon="fe:paper-plane" />
+                            </button>
+                          </form>
+                        )}
+
+                        <section class="bg-gray-200 p-4 rounded-lg">
+                          <div class="flex justify-between">
+                            <h1>Jogadores</h1>
+                            <p class="text-gray-500">{alunosCampeonato.length} aluno{alunosCampeonato.length > 1 || alunosCampeonato.length === 0 ? 's' : ''}</p>
+                          </div>
+
+                          <ul class="space-y-2 mt-2 w-full">
+                            {alunosCampeonato.length > 0 ? alunosCampeonato.map(((usuario, index) => {
+                              return (
+                                <li class="text-gray-500 flex items-center justify-between gap-2" key={index}>
+                                  <span class="line-clamp-1">{usuario.nome}</span>
+                                  {!item.fases.length > 0 &&
+                                    <button class="size-6 bg-error text-white shrink-0 rounded-lg grid place-items-center" onClick={() => removerUsuarioCampeonato(usuario)}>
+                                      <Icon icon="mdi:trash" />
+                                    </button>
+                                  }
+                                </li>
+                              );
+                            })) : (
+                              <li class="text-gray-500">Nenhum jogador cadastrado</li>
+                            )}
+                            {!item.fases.length > 0 &&
+                              <button className="py-1 px-3 bg-[#005261] text-white rounded-md" onClick={() => { adicionarTimeCampeonato(item.codigo) }}>
+                                Adicionar time
+                              </button>
+                            }
+                          </ul>
+
+                        </section>
+                        <section class="p-4 rounded-lg">
+                          <div class="flex justify-between">
+                            <h1>Time</h1>
+                            <p class="text-gray-500">{timeCampeonato.length} time{timeCampeonato.length > 1 || timeCampeonato.length === 0 ? 's' : ''}</p>
+                          </div>
+
+                          <ul class="space-y-2 mt-2 w-full">
+                            {timeCampeonato.length > 0 ? timeCampeonato.map(((usuario, index) => {
+                              return (
+                                <li class="text-gray-500 flex items-center justify-between gap-2" key={index}>
+                                  <span class="line-clamp-1">{usuario.nomes}</span>
+                                  {!item.fases.length > 0 &&
+                                    <button class="size-6 bg-error text-white shrink-0 rounded-lg grid place-items-center" onClick={() => removerTime(usuario, item.codigo)}>
+                                      <Icon icon="mdi:trash" />
+                                    </button>
+                                  }
+                                </li>
+                              );
+                            })) : (
+                              <li class="text-gray-500">Nenhum jogador cadastrado</li>
+                            )}
+                          </ul>
+
+                        </section>
+                      </div>
+                    </dialog>
+                  </>
+                )
+              })}
+            </div>
+            :
+            <p>Não tem campeonatos</p>
+          }
+        </div>
+      )}
+      {activeTab === 'doacoes' && (
+        <div class="p-6 mt-4 bg-gray-100 rounded-xl grid grid-cols-[repeat(auto-fill,minmax(600px,1fr))] gap-4">
+          {doacoes.map((item, index) => {
+            const hasExpired = new Date(item.dateLimite) < Date.now();
+            const modalId = `modal-doacao-${item.codigo}`;
+
+            return (
+              <>
+                <div class="bg-white p-4 rounded-lg shadow-lg space-y-2" key={index}>
+                  <section class="flex items-center gap-4">
+                    <div class="size-12 rounded-lg bg-[#005261]" />
+                    <h2 class="font-bold text-[#005261]">{item.nome}</h2>
+
+                    <div class="grow" />
+
+                    <button class="w-fit px-2 py-1 bg-gray-200 rounded-lg font-bold text-sm text-[#005261]" onClick={() => {
+                      handleObterUsuarios(item.codigo);
+                      document.getElementById(modalId).showModal()
+                    }}>Ver mais</button>
+                  </section>
+
+                  <p class={twMerge("space-x-1", hasExpired ? 'text-error' : 'text-success')}>
+                    {!hasExpired ? <span>Vence em</span> : <span>Venceu em</span>}
+
+                    <span>
+                      {new Date(item.dateLimite).toLocaleString('pt-br', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}
+                    </span>
+                  </p>
+                </div>
+
+                <dialog id={modalId} className="modal">
+                  <div className="modal-box bg-white space-y-4">
+                    <section class="flex items-center">
+                      <form method="dialog" onSubmit={() => setAlunosDoacao([])}>
+                        <button class="bg-gray-200 size-8 text-[#005261] rounded-full">✕</button>
+                      </form>
+
+                      <h2 class="text-[#005261] font-bold text-xl grow text-center">Doação</h2>
+                    </section>
+
+                    <section class="mt-4 flex gap-2 items-center w-full">
+                      <div class="size-12 rounded-lg bg-[#005261] shrink-0" />
+                      <div class="flex justify-between grow">
+                        <div>
+                          <h2 class="text-[#005261] font-bold text-xl">{item.nome}</h2>
+                          <p>Pontuação: <span class="text-success">{item.pontuacao}</span></p>
+                        </div>
+
+                        <div>
+                          <p class="text-gray-700">Data limite para doar</p>
+                          <p class="text-end text-gray-500">
+                            {new Date(item.dateLimite).toLocaleString('pt-br', {
+                              day: 'numeric',
+                              month: 'short'
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    </section>
+
+                    <div className="divider before:bg-gray-300 after:bg-gray-300" />
+
+                    {!hasExpired && (
+                      <form class="flex gap-2" onSubmit={(event) => {
+                        event.preventDefault();
+                        appendUserByRM(item.codigo, event.target.rm.value);
+                        event.target.rm.value = "";
+                      }}>
+                        <input type="text" name="rm" class="bg-transparent border-b-2 grow focus:outline-none" placeholder="RM do aluno" required />
+
+                        <button class="size-8 bg-[#005261] text-white grid place-items-center rounded-lg">
+                          <Icon icon="fe:paper-plane" />
+                        </button>
+                      </form>
+                    )}
+
+                    <section class="bg-gray-200 p-4 rounded-lg">
+                      <div class="flex justify-between">
+                        <h1>Alunos que doaram</h1>
+                        <p class="text-gray-500">{alunosDoacao.length} aluno{alunosDoacao.length > 1 || alunosDoacao.length === 0 ? 's' : ''}</p>
+                      </div>
+
+                      <ul class="space-y-2 mt-2 w-full">
+                        {alunosDoacao.length > 0 ? alunosDoacao.map(((usuario, index) => {
+                          return (
+                            <li class="text-gray-500 flex items-center justify-between gap-2" key={index}>
+                              <span class="line-clamp-1">{usuario.nome}</span>
+                              {!hasExpired &&
+                                <button class="size-6 bg-error text-white shrink-0 rounded-lg grid place-items-center" onClick={() => removerUsuarioDoacao(usuario)}>
+                                  <Icon icon="mdi:trash" />
+                                </button>
+                              }
+                            </li>
+                          );
+                        })) : (
+                          <li class="text-gray-500">Nenhum usuário doou</li>
+                        )}
+                      </ul>
+                    </section>
+
+                    <section class="flex justify-between">
+                      <h2 class="text-lg font-bold">Total de pontos</h2>
+
+                      <p class="text-success">{alunosDoacao.length * item.pontuacao}</p>
+                    </section>
+                  </div>
+                </dialog>
+              </>
+            )
+          })}
+        </div>
+      )}
+
     </div>
   )
 }
-

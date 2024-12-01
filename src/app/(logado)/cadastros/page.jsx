@@ -29,15 +29,18 @@ export default function Cadastros() {
                         <h2 className="z-10 text-white font-[500]">Doações</h2>
                     </div>
                 </Link>
-                
-                <div className="w-72 h-52 flex justify-center relative items-center p-6 gap-4 ">
-                    <img src="/images/bgCalendario.svg" className="absolute z-0 rounded-[40px] h-full w-full" />
-                    <h2 className="z-10 text-white font-[500]">Calendário</h2>
-                </div>
-                <div className="w-72 h-52 flex justify-center relative items-center p-6 gap-4 ">
-                    <img src="/images/bgOficinas.svg" className="absolute z-0 rounded-[40px] h-full w-full" />
-                    <h2 className="z-10 text-white font-[500]">Oficinas</h2>
-                </div>
+                <Link href={"/calendario"}>
+                    <div className="w-72 h-52 flex justify-center relative items-center p-6 gap-4 ">
+                        <img src="/images/bgCalendario.svg" className="absolute z-0 rounded-[40px] h-full w-full" />
+                        <h2 className="z-10 text-white font-[500]">Calendário</h2>
+                    </div>
+                </Link>
+                <Link href={"/oficinas"}>
+                    <div className="w-72 h-52 flex justify-center relative items-center p-6 gap-4 ">
+                        <img src="/images/bgOficinas.svg" className="absolute z-0 rounded-[40px] h-full w-full" />
+                        <h2 className="z-10 text-white font-[500]">Oficinas</h2>
+                    </div>
+                </Link>
             </div>
         </div>
     )

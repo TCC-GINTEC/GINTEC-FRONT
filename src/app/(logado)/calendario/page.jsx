@@ -4,12 +4,12 @@ import httpClient from "@/service/api";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-export default function Doacao() {
-    const [doacao, setDoacao] = useState([]);
+export default function Calendario() {
+    const [calendarios, setCalendarios] = useState([]);    
     const [item, setItem] = useState({});
 
     useEffect(() => {
-        handleGetdoacao();
+        handleGetCalendarios();        
     }, [])
 
     const modalRef = useRef(null);
@@ -28,6 +28,7 @@ export default function Doacao() {
         if (modalRef.current) {
             modalRef.current.classList.add("hidden");
             modalRef.current.classList.remove("flex");
+            setItem({})
         }
     };
     const closeModal2 = () => {
@@ -36,85 +37,68 @@ export default function Doacao() {
             modalRef2.current.classList.remove("flex");
         }
     };
-
-    const handleGetdoacao = async () => {
-        httpClient.get("Doacao/ObterDoacao").then((response) => {
-            setDoacao(response?.data ?? []);
-        })
-    }
-
-
+        
     const handleUpdateActivity = () => {
-        if (!item.nome) {
-            toast.warning("Preencha o nome da Doação.")
+        if (!item.dataGincana) {
+            toast.warning("Preencha o dia de Gincana.")
+            return;
         }
-        if (!item.pontuacao) {
-            toast.warning("Preencha a pontuação da Doação.")
-        }
-        var date = new Date(item.dateLimite);
-        console.log(date);
-        if (date == 'Invalid Date') {
-            toast.warning("Preencha a data limite da Doação.")
-        }
-        if (date < new Date()) {
-            toast.warning("A data limite da Doação não pode ser menor que a data atual.")
-        }
-        if (date < new Date() || date == 'Invalid Date' || !item.nome || !item.pontuacao)
-            return
-        httpClient.put("/Doacao/AtualizarDoacao/" + item.codigo, {
-            Nome: item.nome,
-            DataLimite: item.dateLimite,
-            Pontuacao: item.pontuacao
+        httpClient.put("/Calendario/" + item.codigo, {
+            dataGincana: item.dataGincana
         }).then((response) => {
-            toast.success("Doação atualizada com sucesso!")
-            handleGetdoacao();
+            if (response.status == 200) {
+
+                toast.success("Data atualizada com sucesso!")                
+                handleGetCalendarios();
+            }
+            else {
+                toast.warning("Algo deu errado!");
+            }
             closeModal();
         })
     }
     const handleAddActivity = () => {
-        if (!item.nome) {
-            toast.warning("Preencha o nome da Doação.")
+        if (!item.dataGincana) {
+            toast.warning("Preencha o dia de Gincana.")
         }
-        if (!item.pontuacao) {
-            toast.warning("Preencha a pontuação da Doação.")
-        }
-        var date = new Date(item.dateLimite);
-        console.log(date);
-        if (date == 'Invalid Date') {
-            toast.warning("Preencha a data limite da Doação.")
-        }
-        if (date < new Date()) {
-            toast.warning("A data limite da Doação não pode ser menor que a data atual.")
-        }
-        if (date < new Date() || date == 'Invalid Date' || !item.nome || !item.pontuacao)
-            return
-        httpClient.post("/Doacao", {
-            Nome: item.nome,
-            DataLimite: item.dateLimite,
-            Pontuacao: item.pontuacao
+        httpClient.post("/Calendario", {
+            DataGincana: item.dataGincana            
         }).then((response) => {
-            toast.success("Doação Adicionada com sucesso!")
-            handleGetdoacao();
-            closeModal();
+            toast.success("Data adicionada com sucesso!")            
+            handleGetCalendarios();
+            closeModal2();
         })
     }
     const handleDeleteActivity = () => {
-        httpClient.delete("/Doacao/DeletarDoacao/" + item.codigo).then((response) => {
-            handleGetdoacao();
+        httpClient.delete("/Calendario/" + item.codigo).then((response) => {
+            if (response.status == 204) {
+                toast.success("Data deletada com sucesso!")
+                handleGetCalendarios();
+            }            
             closeModal();
         })
     }
     const openModal2 = (item) => {
+        setItem({})
         if (modalRef2.current) {
             modalRef2.current.classList.remove("hidden");
             modalRef2.current.classList.add("flex");
+        }
+    };
+
+    const handleGetCalendarios = async () => {
+        try {
+            const response = await httpClient.get("/Calendario");
+            setCalendarios(response.data);
+        } catch (error) {
+            console.error("Error fetching calendars:", error);
         }
     };
     return (
 
         <div>
             <div className="flex items-center justify-between">
-                <h1 className="text-[32px] font-[500]">Doações</h1>
+                <h1 className="text-[32px] font-[500]">Dias de Gincana</h1>
                 <span className="flex flex-col items-center gap-1" onClick={() => { window.history.back() }}>
                     <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
                     <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
@@ -166,31 +150,19 @@ export default function Doacao() {
                         <div className="p-4 md:p-5 space-y-4">
                             <div>
                                 <div className="relative z-0 my-5">
-                                    <input onChange={(e) => { setItem({ ...item, nome: e.target.value }) }} value={item.nome} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" " />
-                                    <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                                        Nome
-                                    </label>
-                                </div>
-                                <div className="relative z-0 my-5">
 
                                     <input
                                         type="date"
-                                        onChange={(e) => { setItem({ ...item, dateLimite: e.target.value }) }}
-                                        value={item.dateLimite ? item.dateLimite.split('T')[0] : ''}
-                                        name="datelimite"
-                                        autoComplete="datelimite"
-                                        id="datelimite"
+                                        onChange={(e) => { setItem({ ...item, dataGincana: e.target.value }) }}
+                                        value={item.dataGincana ? item.dataGincana.split('T')[0] : ''}
+                                        name="dataGincana"
+                                        autoComplete="dataGincana"
+                                        id="dataGincana"
                                         className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer"
                                         placeholder=" "
                                     />
                                     <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                                         Data Limite
-                                    </label>
-                                </div>
-                                <div className="relative z-0 my-5">
-                                    <input type="number" onChange={(e) => { setItem({ ...item, pontuacao: e.target.value }) }} value={item.pontuacao} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" " />
-                                    <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                                        Pontuacao
                                     </label>
                                 </div>
                             </div>
@@ -256,31 +228,18 @@ export default function Doacao() {
                         <div className="p-4 md:p-5 space-y-4">
                             <div>
                                 <div className="relative z-0 my-5">
-                                    <input onChange={(e) => { setItem({ ...item, nome: e.target.value }) }} value={item.nome} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" " />
-                                    <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                                        Nome
-                                    </label>
-                                </div>
-                                <div className="relative z-0 my-5">
-
                                     <input
                                         type="date"
-                                        onChange={(e) => { setItem({ ...item, dateLimite: e.target.value }) }}
-                                        value={item.dateLimite ? item.dateLimite.split('T')[0] : ''}
-                                        name="datelimite"
-                                        autoComplete="datelimite"
-                                        id="datelimite"
+                                        onChange={(e) => { setItem({ ...item, dataGincana: e.target.value }) }}
+                                        value={item.dataGincana ? item.dataGincana.split('T')[0] : ''}
+                                        name="dataGincana"
+                                        autoComplete="dataGincana"
+                                        id="dataGincana"
                                         className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer"
                                         placeholder=" "
                                     />
                                     <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                                         Data Limite
-                                    </label>
-                                </div>
-                                <div className="relative z-0 my-5">
-                                    <input type="number" onChange={(e) => { setItem({ ...item, pontuacao: e.target.value }) }} value={item.pontuacao} name="email" autoComplete="email" id="email" className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" " />
-                                    <label htmlFor="email" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                                        Pontuacao
                                     </label>
                                 </div>
                             </div>
@@ -315,10 +274,11 @@ export default function Doacao() {
                 </div>
             </div>
             <div className="flex gap-4 flex-wrap">
-                {doacao.map((item, index) => {
+                {calendarios.map((item, index) => {
+                    var date = new Date(item.dataGincana)
                     return (
-                        <div className="border-2 border-[#8A29E6] h-16 w-52 flex items-center justify-center rounded-md" key={index} onClick={() => { openModal(item) }}>
-                            <h2 className="break-keep text-[#8A29E6] font-[600]">{item.nome}</h2>
+                        <div className="border-2 border-[#A0C340] h-16 w-52 flex items-center justify-center rounded-md" key={index} onClick={() => { openModal(item) }}>
+                            <h2 className="break-keep text-[#A0C340] font-[600]">{date.getDate().toString().padStart(2, "0")}/{(date.getMonth() + 1).toString().padStart(2, "0")}/{date.getFullYear()}</h2>
                         </div>
                     )
                 })}
