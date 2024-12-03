@@ -135,7 +135,7 @@ export default function Sala() {
         senha: userEdit.senha,
         salaCodigo: userEdit.salaCodigo,
         isPadrinho: userEdit.isPadrinho,
-        atividadeCodigo: userEdit.atividadeCodigo || null,
+        AtividadeCodigo: userEdit.atividadeCodigo || null,
         campeonatoCodigo: userEdit.campeonatocodigo || null,
         oficinacodigo: userEdit.oficinacodigo || null
       };
@@ -408,7 +408,8 @@ export default function Sala() {
                     <select onChange={(e) => setUserEdit({ ...userEdit, atividadeCodigo: e.target.value, campeonatocodigo: null, oficinacodigo: null })} value={userEdit?.atividadeCodigo || ''} className="border-b-[#b7b7b7] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#b7b7b7] focus:outline-none focus:ring-0 focus:border-[#b7b7b7] peer" placeholder=" ">
                       <option value={""}>Nenhuma Atividade</option>
                       {atividades.toSorted((a, b) => a.calendarioCodigo - b.calendarioCodigo).map((atividade, index) => {
-                        return (<option key={index} value={atividade.codigo}>{atividade.descricao} - {atividade.calendarioCodigo}° dia</option>)
+                        const date = new Date(atividade.calendario.dataGincana)
+                        return (<option key={index} value={atividade.codigo}>{atividade.descricao} - {date.getDate().toString().padStart(2, "0")}/{(date.getMonth() + 1).toString().padStart(2, "0")}</option>)
                       })}
                     </select>
                     <label htmlFor="status" className="absolute text-sm font-medium text-[#b7b7b7] dark:text-[#cacaca] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#b7b7b7] peer-focus:dark:text-[#b7b7b7] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -677,7 +678,7 @@ export default function Sala() {
 
                     <section class="mt-4 flex gap-2 items-center w-full">
                       <div class="size-12 rounded-lg bg-[#005261] shrink-0 flex justify-center items-center">
-                      <img src="/images/DoacaoIcon.svg" className="w-[60%]" />
+                        <img src="/images/DoacaoIcon.svg" className="w-[60%]" />
                       </div>
                       <div class="flex justify-between grow">
                         <div>
