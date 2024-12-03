@@ -676,7 +676,9 @@ export default function Sala() {
                     </section>
 
                     <section class="mt-4 flex gap-2 items-center w-full">
-                      <div class="size-12 rounded-lg bg-[#005261] shrink-0" />
+                      <div class="size-12 rounded-lg bg-[#005261] shrink-0 flex justify-center items-center">
+                      <img src="/images/DoacaoIcon.svg" className="w-[60%]" />
+                      </div>
                       <div class="flex justify-between grow">
                         <div>
                           <h2 class="text-[#005261] font-bold text-xl">{item.nome}</h2>
