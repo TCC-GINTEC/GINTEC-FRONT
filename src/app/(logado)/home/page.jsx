@@ -64,7 +64,7 @@ export default function Home() {
             {response.map((item, index) => (
               <div key={index} className="h-48 sm:h-60 flex flex-col items-center">
                 <div className="h-full w-3 bg-gray-200 flex items-end">
-                  <div style={{ height: `${item.pontuacao}%`, backgroundColor: getRandomColor() }} className="w-3"></div>
+                  <div title={item.pontuacao+ "%"} style={{ height: `${item.pontuacao}%`, backgroundColor: getRandomColor() }} className="w-3"></div>
                 </div>
                 <h3 className="text-xs sm:text-xs mt-3">{item.salaNome}</h3>
               </div>

@@ -6,7 +6,7 @@ export default function Scores({ users }) {
         className={`flex flex-wrap md:flex-nowrap max-w-full overflow-hidden items-center justify-between gap-4 px-4 py-4 ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
       >
         <div className="flex items-center gap-3 max-w-full overflow-hidden">
-          <h1 className="font-bold text-[#005261] text-lg">{index + 3}</h1>
+          <h1 className="font-bold text-[#005261] text-lg">{index + 4}</h1>
           {aluno.foto ? (
             <img
               src={aluno.foto}
