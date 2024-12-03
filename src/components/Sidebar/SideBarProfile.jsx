@@ -20,7 +20,7 @@ export default function SideBarProfile({ active, src, username }) {
                 ${active ? 'flex' : 'hidden'}
             `}>
                 <img
-                    className="h-11 w-11 rounded-xl"
+                    className="h-11 w-11 rounded-full object-cover"
                     src={src ? src : "https://cdn-icons-png.flaticon.com/512/3106/3106921.png"}
                     alt="User avatar"
                 />
@@ -43,7 +43,7 @@ export default function SideBarProfile({ active, src, username }) {
 
                 <button className="p-3 rounded-xl hover:bg-green">
                     <img
-                        className={`h-6 w-6 ${active ? 'hidden' : 'block'}`}
+                        className={`h-6 w-6 rounded-full object-cover ${active ? 'hidden' : 'block'}`}
                         src={src ? src : "https://cdn-icons-png.flaticon.com/512/3106/3106921.png"}
                         alt="User avatar"
                     />

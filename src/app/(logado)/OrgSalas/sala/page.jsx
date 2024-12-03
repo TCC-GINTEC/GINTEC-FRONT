@@ -164,6 +164,10 @@ export default function Sala() {
 
     if (usuario.status === 400) return toast("Erro ao adicionar usuário!");
 
+    if(usuario.salaCodigo != search){
+      toast.warning("Este jogador não pertence a esta sala!")
+      return;
+    }
     try {
       await httpClient.post("Doacao/FazerDoacao", { usuarioCodigo: usuario.codigo, doacaoCodigo: doacao });
       setAlunosDoacao([...alunosDoacao, usuario]);
@@ -200,7 +204,7 @@ export default function Sala() {
     }
 
     setAlunosDoacaoCodigo(cod);
-    setAlunosDoacao(ret);
+    setAlunosDoacao(ret.filter(x => x.salaCodigo == search));
   };
   const handleObterUsuarios2 = async (codigo) => {
     const { data } = await httpClient.get("Campeonato/ObterJogadores/" + codigo + "/" + search);
@@ -247,7 +251,7 @@ export default function Sala() {
     console.log(time)
     httpClient.delete("Campeonato/RemoverTime/" + campeonatocodigo + "/" + time.timeCodigo)
       .then(() => {
-        handleObterUsuarios2(campeonatocodigo, search)        
+        handleObterUsuarios2(campeonatocodigo, search)
       })
   }
 
@@ -262,7 +266,7 @@ export default function Sala() {
         className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
       >
         <div className="relative p-4 w-full max-w-2xl max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-gray-50 rounded-lg shadow dark:bg-gray-700">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 
@@ -442,7 +446,7 @@ export default function Sala() {
                 data-modal-hide="default-modal"
                 type="button"
                 onClick={handleAtualizarUsuario}
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white bg-[#005261]  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-[#005261] dark:focus:ring-blue-800"
               >
                 Atualizar
               </button>
@@ -458,8 +462,7 @@ export default function Sala() {
           </div>
         </div>
       </div>
-      <h1 className="text-[32px] font-[500]">{classroom.serie}° {classroom.descricao}</h1>
-      <p className="text-[#666666]">1° Fase</p>
+      <h1 className="text-[32px] font-[500]">{classroom.serie}° {classroom.descricao}</h1>      
 
       {/* Abas para alternar entre telas */}
       <div className="flex gap-3 border-b-4 pb-2">
@@ -504,22 +507,19 @@ export default function Sala() {
       {activeTab === 'campeonatos' && (
         <div>
           {championships.length > 0 ?
-            <div className="flex gap-4 p-2 flex-wrap">
-
+            <div className="p-6 mt-4 bg-gray-100 rounded-xl grid grid-cols-[repeat(auto-fill,minmax(300px,0.5fr))] gap-4">
               {championships.map((item, index) => {
                 const modalId = `modal-campeonato-${item.codigo}`;
                 return (
                   <>
-                    <div className="shadow-md flex w-60 items-center p-6 gap-4" key={index} onClick={() => {
+                    <div className="shadow-md rounded-lg flex items-center p-6 gap-4 bg-white" key={index} onClick={() => {
                       handleObterUsuarios2(item.codigo);
                       document.getElementById(modalId).showModal()
                     }}>
-                      {item.fotoSala ?
 
-                        <img src={item.fotoSala} width={50} height={50} className="rounded-full" />
-                        :
-                        <div className="rounded-full bg-[#005261] w-[50px] h-[50px]"></div>
-                      }
+                      <div class="size-12 rounded-lg bg-[#005261] flex justify-center items-center" >
+                        <img src={item.isQuadra ? "/images/campeonatoQuadra.svg" : "/images/campeonatoPatio.svg"} className="w-[60%]" />
+                      </div>
                       <h2>{item.descricao}</h2>
                     </div>
                     <dialog id={modalId} className="modal">
@@ -533,7 +533,9 @@ export default function Sala() {
                         </section>
 
                         <section class="mt-4 flex gap-2 items-center w-full">
-                          <div class="size-12 rounded-lg bg-[#005261] shrink-0" />
+                          <div class="size-12 rounded-lg bg-[#005261] shrink-0  flex justify-center items-center  " >
+                            <img src={item.isQuadra ? "/images/campeonatoQuadra.svg" : "/images/campeonatoPatio.svg"} className="w-[60%]" />
+                          </div>
                           <div class="flex justify-between grow">
                             <div>
                               <h2 class="text-[#005261] font-bold text-xl">{item.descricao}</h2>
@@ -632,7 +634,9 @@ export default function Sala() {
               <>
                 <div class="bg-white p-4 rounded-lg shadow-lg space-y-2" key={index}>
                   <section class="flex items-center gap-4">
-                    <div class="size-12 rounded-lg bg-[#005261]" />
+                    <div class="size-12 rounded-lg bg-[#005261] flex justify-center items-center" >
+                      <img src="/images/DoacaoIcon.svg" className="w-[60%]" />
+                    </div>
                     <h2 class="font-bold text-[#005261]">{item.nome}</h2>
 
                     <div class="grow" />

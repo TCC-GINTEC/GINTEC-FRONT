@@ -10,7 +10,6 @@ export default function Jogos() {
   const [salas, setSalas] = useState([]);
   const [salaCodigo, setSalaCodigo] = useState(0);
   const [calendarios, setCalendarios] = useState([]);
-  const [calendariosCheck, setCalendariosCheck] = useState("");
   const [calendarioCodigo, setCalendarioCodigo] = useState(0);
   const [item, setItem] = useState({});
   const [item2, setItem2] = useState({ pontuacaoExtra: false });
@@ -27,9 +26,8 @@ export default function Jogos() {
   const modalRef2 = useRef(null);
 
   useEffect(() => {
-    handleGetGames();
-    handleGetClassrooms();
     handleGetCalendarios();
+    handleGetClassrooms();
   }, []);
 
   const handleGetClassrooms = async () => {
@@ -42,27 +40,37 @@ export default function Jogos() {
     }
   };
 
-  const handleGetGames = async () => {
-    try {
-      const response = await httpClient.get("/Atividade");
-      const data = response?.data ?? [];
-      setGames(data);
-      setGamesfilter(calendariosCheck ? data.filter(x => x.calendarioCodigo == calendariosCheck) : data);
-    } catch (error) {
-      console.error("Error fetching games:", error);
-    }
-  };
-
   const handleGetCalendarios = async () => {
     try {
       const response = await httpClient.get("/Calendario");
-      setCalendarios(response.data);
-      setCalendarioCodigo(response.data[0]?.codigo ?? 0);
+      const data = response.data ?? [];
+      setCalendarios(data);
+  
+      if (data.length > 0) {
+        const firstCalendarioCodigo = data[0]?.codigo ?? 0;
+        setCalendarioCodigo(firstCalendarioCodigo);
+          
+        handleGetGames(firstCalendarioCodigo);
+      }
     } catch (error) {
       console.error("Error fetching calendars:", error);
     }
   };
-
+  
+  const handleGetGames = async (codigoFiltro) => {
+    try {
+      const response = await httpClient.get("/Atividade");
+      const data = response?.data ?? [];
+      
+      setGames(data);
+        
+      const filtro = codigoFiltro ?? calendarioCodigo;      
+      setGamesfilter(filtro ? data.filter((x) => x.calendarioCodigo == filtro) : data);
+    } catch (error) {
+      console.error("Error fetching games:", error);
+    }
+  };
+  
   const openModal = (item) => {
     if (modalRef.current) {
       setItem({ ...item, pontuacaoExtra: item.atividadePontuacaoExtra.length > 0 });
@@ -108,7 +116,7 @@ export default function Jogos() {
         atividadeCodigo: response.data.codigo,
         Pontuacao: pontuacaoExtraItems
       });
-
+      toast.success("Atividade atualizada com sucesso!")
       handleGetGames();
       closeModal();
     } catch (error) {
@@ -119,6 +127,7 @@ export default function Jogos() {
   const handleDeleteActivity = async () => {
     try {
       await httpClient.delete(`/Atividade/${item.codigo}`);
+      toast.success("Atividade deletada com sucesso!")
       handleGetGames();
       closeModal();
     } catch (error) {
@@ -143,7 +152,7 @@ export default function Jogos() {
         SalaCodigo: salaCodigo,
         CalendarioCodigo: calendarioCodigo
       });
-      toast.success("Atividade cadastrada com sucesso!");
+      toast.success("Atividade cadastrada com sucesso!");      
       handleGetGames();
       closeModal2();
     } catch (error) {
@@ -153,24 +162,24 @@ export default function Jogos() {
   return (
 
     <div>
-       <div className="flex items-center justify-between">
-           <h1 className="text-[32px] font-[500]">Jogos de Pátio</h1>
-           <span className="flex flex-col items-center gap-1" onClick={() => { window.history.back() }}>
-              <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
-              <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
-          </span>
-       </div>
-       <div>
-        </div>
+      <div className="flex items-center justify-between">
+        <h1 className="text-[32px] font-[500]">Jogos de Pátio</h1>
+        <span className="flex flex-col items-center gap-1" onClick={() => { window.history.back() }}>
+          <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
+          <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
+        </span>
+      </div>
+      <div>
+      </div>
       <div className="w-full flex justify-end pr-32 gap-4">
-        <select className="text-[15px] bg-gray-300 px-8 rounded-lg my-4" value={calendariosCheck} onChange={(e) => {
-          setCalendariosCheck(e.target.value)
+        <select className="text-[15px] bg-gray-300 px-8 rounded-lg my-4" value={calendarioCodigo} onChange={(e) => {
+          setCalendarioCodigo(e.target.value)
           setGamesfilter(games.filter(x => x.calendarioCodigo == e.target.value))
         }}>
           {calendarios.map((calendario, index) => {
             var date = new Date(calendario.dataGincana)
             return (
-              <option key={index} value={calendario.codigo}>{`${date.getDate()}/${date.getMonth() + 1}`}</option>
+              <option key={index} value={calendario.codigo}>{`${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}`}</option>
             )
           })}
         </select>
@@ -194,7 +203,7 @@ export default function Jogos() {
         className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
       >
         <div className="relative p-4 w-full max-w-2xl max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-gray-50 rounded-lg shadow dark:bg-gray-700">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 
@@ -308,7 +317,7 @@ export default function Jogos() {
                 data-modal-hide="default-modal"
                 type="button"
                 onClick={handleAddActivity}
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white bg-[#005261]  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-[#005261] dark:focus:ring-blue-800"
               >
                 Adicionar
               </button>
@@ -332,7 +341,7 @@ export default function Jogos() {
         className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
       >
         <div className="relative p-4 w-full max-w-2xl max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-gray-50 rounded-lg shadow dark:bg-gray-700">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 
@@ -446,7 +455,7 @@ export default function Jogos() {
                 data-modal-hide="default-modal"
                 type="button"
                 onClick={handleUpdateActivity}
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white bg-[#005261]  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-[#005261] dark:focus:ring-blue-800"
               >
                 Atualizar
               </button>

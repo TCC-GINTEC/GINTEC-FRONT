@@ -25,7 +25,7 @@ export default function Campeonatos() {
     };
     return (
         <div className="w-full max-w-72 md:max-w-full">
-            <h1 className="text-[32px] font-[500]">Campeonatos</h1>            
+            <h1 className="text-[32px] font-[500]">Campeonatos</h1>
             <div className="flex gap-4 justify-center mt-6 flex-wrap">
                 {dates.map((date, index) => {
                     const day = new Date(date.dataGincana).getDate();
@@ -48,7 +48,9 @@ export default function Campeonatos() {
                     return (
                         <Link href={"/campeonatos/campeonato?id=" + camp.codigo} key={index}>
                             <div className="shadow-md flex w-60 items-center p-6 gap-4" >
-                            <div className="rounded-full bg-[#005261] w-[50px] h-[50px]"></div>
+                                <div class="size-12 rounded-lg bg-[#005261] flex justify-center items-center" >
+                                    <img src={camp.isQuadra ? "/images/campeonatoQuadra.svg" : "/images/campeonatoPatio.svg"} className="w-[60%]" />
+                                </div>
                                 <h2>{camp.descricao}</h2>
                             </div>
                         </Link>

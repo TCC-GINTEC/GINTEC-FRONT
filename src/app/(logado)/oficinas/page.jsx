@@ -11,9 +11,9 @@ export default function Oficinas() {
     const [item, setItem] = useState({});
 
     useEffect(() => {
-        handleGetoficinas();
         handleGetCalendarios();
         handleGetClassrooms();
+        handleGetoficinas();
     }, [])
 
     const modalRef = useRef(null);
@@ -87,9 +87,14 @@ export default function Oficinas() {
             salaCodigo: item.salaCodigo,
             calendarioCodigo: item.calendarioCodigo
         }).then((response) => {
-            toast.success("Oficina adicionada com sucesso!")
-            handleGetoficinas();
-            closeModal();
+            if(response.status == 200){
+                toast.success("Oficina adicionada com sucesso!")
+                handleGetoficinas();
+                closeModal2();
+            }
+            else {
+                toast.warning("Algo deu errado.")
+            }
         })
     }
     const handleDeleteActivity = () => {
@@ -101,8 +106,8 @@ export default function Oficinas() {
             closeModal();
         })
     }
-    const openModal2 = (item) => {
-        setItem({})
+    const openModal2 = (item) => {        
+        setItem({descricao: "", salaCodigo: salas[0]?.codigo, calendarioCodigo: calendarios[0]?.codigo})
         if (modalRef2.current) {
             modalRef2.current.classList.remove("hidden");
             modalRef2.current.classList.add("flex");
@@ -129,8 +134,7 @@ export default function Oficinas() {
             </div>
             <div className="w-full flex justify-end pr-32 gap-4">
                 <button className="text-[30px] bg-gray-300 px-8 rounded-lg my-4" onClick={() => {
-                    openModal2()
-                    setItem({})
+                    openModal2()                    
                 }}>+</button>
             </div>
             <div
@@ -141,7 +145,7 @@ export default function Oficinas() {
                 className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
             >
                 <div className="relative p-4 w-full max-w-2xl max-h-full">
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div className="relative bg-gray-50 rounded-lg shadow dark:bg-gray-700">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 
@@ -206,7 +210,7 @@ export default function Oficinas() {
                                 data-modal-hide="default-modal"
                                 type="button"
                                 onClick={handleAddActivity}
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="text-white bg-[#005261]  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-[#005261] dark:focus:ring-blue-800"
                             >
                                 Adicionar
                             </button>
@@ -230,7 +234,7 @@ export default function Oficinas() {
                 className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
             >
                 <div className="relative p-4 w-full max-w-2xl max-h-full">
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div className="relative bg-gray-50 rounded-lg shadow dark:bg-gray-700">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 
@@ -295,7 +299,7 @@ export default function Oficinas() {
                                 data-modal-hide="default-modal"
                                 type="button"
                                 onClick={handleUpdateActivity}
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="text-white bg-[#005261]  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-[#005261] dark:focus:ring-blue-800"
                             >
                                 Atualizar
                             </button>
