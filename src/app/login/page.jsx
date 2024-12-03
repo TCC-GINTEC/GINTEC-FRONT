@@ -57,7 +57,7 @@ export default function Login() {
         <div className="h-screen">
             <div className='flex h-full bg-[#dfeff2]'>
                 <div className='sm:w-3/4 flex justify-start items-center'>
-                    <img src="/images/bgLogin.svg" className='object-fill h-full hidden sm:block' />
+                    <img src="/images/bgLogin.svg" className='object-cover h-full hidden sm:block' />
                 </div>
                 <section className=' bg-white h-full w-full sm:w-3/4 rounded-l-3xl'>
                     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
