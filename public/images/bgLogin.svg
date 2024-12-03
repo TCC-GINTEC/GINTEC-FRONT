@@ -11,32 +11,20 @@
 <path fill-rule="evenodd" clip-rule="evenodd" d="M223.293 441.102L232.213 388.502L225.238 362.148H221.434L208.107 441.102H223.293Z" fill="#005C6D"/>
 <path d="M260.618 441.102L274.051 362.148H258.919L249.999 414.802L252.978 427.952L255.957 441.102H260.618Z" fill="url(#paint4_linear_4958_610)"/>
 <path d="M232.213 388.502L245.805 441.102H255.957L252.978 427.952L249.999 414.802L236.301 362.148H225.238L232.213 388.502Z" fill="url(#paint5_linear_4958_610)"/>
-<g filter="url(#filter1_d_4958_610)">
-<ellipse cx="252.5" cy="457.441" rx="12.5" ry="13" fill="#FFC24C"/>
-</g>
+<ellipse cx="252.5" cy="458.441" rx="12.5" ry="13" fill="#FFC24C"/>
 <path d="M253.5 452.441L254.735 456.241H258.731L255.498 458.59L256.733 462.391L253.5 460.042L250.267 462.391L251.502 458.59L248.269 456.241H252.265L253.5 452.441Z" fill="white"/>
 </g>
 <ellipse cx="122" cy="848.5" rx="123" ry="113.5" fill="#005261"/>
 <ellipse cx="122" cy="847.5" rx="94" ry="84.5" fill="#E6EFF0"/>
 <ellipse cx="121.5" cy="854" rx="71.5" ry="66" fill="#005261"/>
 <defs>
-<filter id="filter0_d_4958_610" x="112" y="355" width="338.133" height="129.441" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_d_4958_610" x="112" y="355" width="338.133" height="130.441" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="4"/>
 <feGaussianBlur stdDeviation="5"/>
 <feComposite in2="hardAlpha" operator="out"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4958_610"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4958_610" result="shape"/>
-</filter>
-<filter id="filter1_d_4958_610" x="210" y="414.441" width="85" height="86" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset/>
-<feGaussianBlur stdDeviation="15"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.760784 0 0 0 0 0.298039 0 0 0 0.7 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4958_610"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4958_610" result="shape"/>
 </filter>
