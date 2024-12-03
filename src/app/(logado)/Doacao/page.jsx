@@ -88,14 +88,14 @@ export default function Doacao() {
         }
         if (date < new Date() || date == 'Invalid Date' || !item.nome || !item.pontuacao)
             return
-        httpClient.post("/Doacao", {
+        httpClient.post("/Doacao/InserirDoacao", {
             Nome: item.nome,
             DataLimite: item.dateLimite,
             Pontuacao: item.pontuacao
         }).then((response) => {
             toast.success("Doação Adicionada com sucesso!")
             handleGetdoacao();
-            closeModal();
+            closeModal2();
         })
     }
     const handleDeleteActivity = () => {

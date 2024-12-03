@@ -164,7 +164,7 @@ export default function Sala() {
 
     if (usuario.status === 400) return toast("Erro ao adicionar usuário!");
 
-    if(usuario.salaCodigo != search){
+    if (usuario.salaCodigo != search) {
       toast.warning("Este jogador não pertence a esta sala!")
       return;
     }
@@ -462,7 +462,13 @@ export default function Sala() {
           </div>
         </div>
       </div>
-      <h1 className="text-[32px] font-[500]">{classroom.serie}° {classroom.descricao}</h1>      
+      <div className="flex items-center justify-between">
+        <h1 className="text-[32px] font-[500]">{classroom.serie}° {classroom.descricao}</h1>
+        <span className="flex flex-col items-center gap-1" onClick={() => { window.history.back() }}>
+          <img className={`h-10 w-10 `} src="/images/voltarpagina.svg" />
+          <p className={`text-sm text-[#005261] font-semibold sm-w-full`}>página anterior</p>
+        </span>
+      </div>
 
       {/* Abas para alternar entre telas */}
       <div className="flex gap-3 border-b-4 pb-2">
